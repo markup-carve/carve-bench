@@ -72,3 +72,8 @@ node run.mjs
   render throughput, not CLI launch cost.
 - Each harness warms up before timing (JIT for JS, opcode cache for PHP).
 - `rel` in the results is relative to the fastest engine per document.
+- The PHP engine is benchmarked with `opcache.enable_cli=1` and `opcache.jit=tracing`
+  so it reflects production PHP performance. **Coverage/debug extensions (xdebug, pcov)
+  must be disabled** before benchmarking PHP - they override `zend_execute_ex`, which
+  disables JIT and inflates timings by roughly 2x. The harness warns on stderr if
+  either is detected or JIT is not active.
