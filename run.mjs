@@ -33,11 +33,24 @@ const engines = [
   },
   {
     name: 'carve-php',
-    run: (doc, iters) =>
-      execFileSync('php', [resolve(root, 'engines/php/bench.php'), doc, String(iters)], {
-        encoding: 'utf8',
-        env: process.env,
-      }),
+    run: (doc, iters) => {
+      // Enable opcache + tracing JIT so PHP is measured the way production runs it.
+      // Append extra ini flags via CARVE_PHP_INI (space-separated -d flags/values), e.g.
+      //   CARVE_PHP_INI="-d opcache.jit=off" node run.mjs
+      const iniFlags = [
+        '-d', 'opcache.enable_cli=1',
+        '-d', 'opcache.jit_buffer_size=128M',
+        '-d', 'opcache.jit=tracing',
+      ]
+      const extraIni = process.env.CARVE_PHP_INI
+        ? process.env.CARVE_PHP_INI.trim().split(/\s+/)
+        : []
+      return execFileSync(
+        'php',
+        [...iniFlags, ...extraIni, resolve(root, 'engines/php/bench.php'), doc, String(iters)],
+        { encoding: 'utf8', env: process.env },
+      )
+    },
   },
   {
     name: 'carve-rs',
@@ -64,7 +77,9 @@ for (const doc of docs) {
     try {
       const line = engine.run(resolve(corpusDir, doc), iters).trim().split('\n').pop()
       results[key][engine.name] = JSON.parse(line)
-      console.error(`${key.padEnd(8)} ${engine.name.padEnd(10)} ${results[key][engine.name].ms_per_op} ms/op`)
+      const r = results[key][engine.name]
+      const extra = r.jit !== undefined ? ` jit=${r.jit}` : ''
+      console.error(`${key.padEnd(8)} ${engine.name.padEnd(10)} ${r.ms_per_op} ms/op${extra}`)
     } catch (e) {
       console.error(`${key} ${engine.name}: FAILED - ${e.message.split('\n')[0]}`)
       results[key][engine.name] = null
