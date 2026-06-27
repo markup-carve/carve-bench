@@ -1,0 +1,20 @@
+[package]
+name = "carve-bench-rs"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# carve-rs engine. Defaults to the public git repo; override with a path for
+# local development:
+#   cargo build --release --config 'patch.crates-io.carve.path="../../../carve-rs"'
+# or set [patch] in a workspace. See README.
+carve = { git = "https://github.com/markup-carve/carve-rs" }
+
+[[bin]]
+name = "carve-bench-rs"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+lto = true

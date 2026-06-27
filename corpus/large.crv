@@ -1,0 +1,10583 @@
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+
+
+foo_bar_baz and snake_case stay literal
+
+//a/ and snake_/case/
+
+foo{*bar*}baz and my{_path_}name and a{/b/}c
+
+{/a/b/} and {/italic *bold*/}
+
+=marked= here, but ==doubled== is literal.
+
+re{~view~} it, then {~old~>new~}, and {=mark=} it.
+
+foo*bar*baz and a/b/c stay literal.
+
+/foo bar
+
+\/literal\/ and \*not bold\*
+
+*bold with /italic/ inside* and /italic with *bold* inside/
+
+/usr/local/
+
+/ not emphasis /
+
+(/x/) and a./b/
+
+x /a/b y
+
+/italic/  *bold*  /*bold italic*/
+_underline_  ~strikethrough~
+^super^  ,sub,  =highlight=
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+{#install .featured}
+## Setup
+
+## Why /Carve/?
+
+#notaheading
+
+# H1
+
+### H3
+
+content
+
+# Welcome
+## Getting started
+### Setup
+
+[a /b/ c]{.x} and [t](u)
+
+[[x](y)](z)
+
+[pre <http://h> post](/u)
+
+# H
+
+[see </#H>](/outer)
+
+[Site](https://example.com "Hover text")
+
+[A](/a 'plain') and [B](/b "Bob's")
+
+[t](/url "ti\"tle")
+
+Visit <https://example.com> or write <hello@example.com>.
+
+<https://example.com>{.ext}
+
+\[not a link\](https://example.com)
+
+[](https://example.com)
+
+[some text]{.highlight #note key=val}
+
+Read [Djot](https://djot.net) for details.
+
+![Apollo 11](apollo.jpg)
+
+  - a
+  - b
+
+- apples
+
+- oranges
+
+Die Frage ist x = 5
+* 3 + 17 wahr.
+
+Liste:
+- eins
+- zwei
+
+Text hier
+
+- nur eins
+
+- parent
+  - child
+
+Intro
+
+> Stay hungry
+^ Steve Jobs
+
+1. outer
+   1. inner
+lazy
+   2. sibling
+
+-
+not a list
+
+1. first
+2. second
+3. third
+
+- fruit
+  - apples
+  - oranges
+- vegetables
+
+1. setup
+   - clone
+   - install
+2. build
+
+1. outer
+   1. inner
+
+1. outer
+  1. inner
+
+- [ ] outer
+  - inner
+
+text
+  - item
+
+- apples
+- oranges
+- pears
+
+- [-] dropped
+- [_] paused
+- [>] deferred
+- [?] maybe
+
+- [ ] todo
+- [x] done
+
+> Stay hungry, stay foolish.
+^ Steve Jobs
+
+![Apollo 11](apollo.jpg){.hero}
+^ Figure 1: First moon landing
+
+{.gallery}
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+![Apollo 11](apollo.jpg)
+^ Figure 1: First moon landing
+
+|= Heading |
+| Row 1    |
+| Row 2    |
+
+| Name | Age |
+|:-----|----:|
+| Alice | 28  |
+
+|= Symbol |= Meaning  |
+| \|      | pipe char |
+
+|= A |= B |= C |
+| 1  |    | 3  |
+
+|= Style    |= Sample      |
+| italic    | /soft/        |
+| strong    | *firm*        |
+| code      | `literal`     |
+
+|=         |= Diameter (km) |= Size vs Earth |
+|= Mercury | 4,879.4         | 38%            |
+|= Venus   | 12,104          | 95%            |
+
+|= Mercury | 4,879 |
+|= Venus   | 12,104 |
+
+|= Fruit |= Price |
+| Apple  | $1     |
+| Pear   | $2     |
+^ Fruit prices
+
+|= Category |= Item    |= Price |
+| Fruit     | Apple    | $1     |
+| ^         | Banana   | $0.50  |
+| Total     | <        | $1.50  |
+
+> quoted
++
+- item
+> more
+
+> quoted
++
+- item
+
+  ## H
+
+   # H
+
+abc
+
+- - A
+
+    second
+  - B
+
+- - A
+  - B
+  - C
+
+| A | B | C |
+|---|---|---|
+| x | y | z |
+| ^ | < | d |
+
+| p | q | r | s |
+|---|---|---|---|
+| a | b | c | d |
+| p | ^ | < | e |
+
+A [danger]{srcdoc="<script>"} span.
+
+[safe](https://example.com){href="javascript:steal"}
+
+<vbscript:msgbox>
+
+[a](ms-office:ofe|u|http://evil/x.docm)
+
+[b](ms-msdt:/id)
+
+[c](shell:Startup)
+
+<ms-msdt:/id>
+
+[d](https://ok.com)
+
+[e](tel:+15551234)
+
+![logo](javascript:stealCookies)
+
+A [danger]{onclick="steal()"} span.
+
+A [danger]{style="x:expression(steal())"} span.
+
+[click here](javascript:stealCookies)
+
+[t](url
+more)
+
+[x](http://a/b(c))
+
+[x](u "")
+
+# H
+
+Body[^n]
+
+[^n]: see </#h>
+
+{title="from the attribute line"}
+```php "from the header"
+code
+```
+
+```js title="x"
+code
+```
+
+```php [Composer] "x"
+code
+```
+
+~~~yaml
+key: value
+~~~
+
+````markdown
+```python
+print("hi")
+```
+````
+
+```
+# not a heading
+/not italic/  *not bold*  #notatag
+```
+
+```
+	indented with a tab
+```
+
+```
+plain text
+```
+
+{.fancy #x}
+```php
+code
+```
+
+```php [NPM]
+npm install x
+```
+
+```php "src/Auth.php"
+$ok = true;
+```
+
+```php "src/Auth.php" [Composer]
+composer require x
+```
+
+``` "notes.txt"
+remember the milk
+```
+
+```js "*.config.js"
+export default {}
+```
+
+```python
+print("hi")
+```
+
+[a]{k=v.w}
+
+||
+
+{.c}{#i}
+# H
+
+| a | b |
+| - | - |
++ cont |
+
+- ::: note
+  1. para text
+  :::
+
+- ::: note
+  - one
+  - two
+  :::
+
+- ::: note
+
+  - para text
+  :::
+
+- ::: note
+  - para text
+
+- ::: note
+  - para text
+:::
+
+- ::: note
+  :::
+
+- ::: note
+  - para text
+  :::
+
+See [^a].
+
+- [^a]: note body
+
+See [^a].
+
+> [^a]: note body
+
+# A </#b>
+
+# B </#a>
+
+# Intro
+
+See </#intro>.
+
+# A </#a>
+
+# Café
+
+# A‮B​C
+
+# Café
+
+`a‮b`
+
+a‮b
+
+[click][a]
+
+[a]:  javascript:alert(1)
+
+The literal `` ` `` is one backtick.
+
+The string `*not bold*` is literal.
+
+Use `ls | grep foo` to filter.
+
+text
+```
+code
+
+*a ` b*
+
+Run `npm install` first.
+
+::: tip "Pro Tip"
+Save early, save often.
+:::
+
+::: hint "Heads up"
+Custom call-out.
+:::
+
+::: tip "Pro Tip" [Build]
+Save early, save often.
+:::
+
+::: [First]
+First panel.
+:::
+
+:::[First]
+First panel.
+:::
+
+::: warning
+Mind the gap.
+:::
+
+::: tip
+Quick steps:
+
+- read the docs
+- run the demo
+:::
+
+::: note
+Heads up — this is important.
+:::
+
+The HTML spec is essential reading.
+
+*[HTML]: HyperText Markup Language
+
+Hey @alice, see #release-1.0.
+
+:foo[bar]
+
+:_[x]
+
+:1[x]
+:a1[x]
+
+:foo[a [b] c]
+
+:foo[a]{.cls}
+
+Press :kbd[Ctrl+C] to copy.
+
+`code`{.cls}
+
+{.note}
+This paragraph gets the class.
+
+{.a}
+{.b}
+Merged.
+
+{.todo}
+- one
+- two
+
+[label]{key=c .a #b}
+
+{.large #intro}
+# Title
+
+A paragraph with [a styled link](url){.btn .primary}.
+
+---json
+{"title": "My Document"}
+---
+
+Content begins here.
+
+--- toml
+title = "My Document"
+---
+
+Content begins here.
+
+---
+title: My Document
+author: Jane Doe
+date: 2026-03-15
+---
+
+Content begins here.
+
+# Getting Started
+
+Jump to </#getting-started>.
+
+# Café Crème
+
+# Hello • World
+
+# 中文、标题
+
+# Don't repeat yourself
+
+# Step 1 -> done...
+
+# ١٢٣ heading
+
+# ²super
+
+# Ⅷ chapter
+
+# ( )
+
+# Café Notes
+
+# Über uns
+
+# 2024 Recap
+
+## Setup
+
+## Setup
+
+{#api-v2}
+# API
+
+See </#cafe-notes>, </#section-2024-recap>, </#setup-2>, and </#api-v2>.
+
+|= Name |=> Age |=~ City |
+| Alice  | 28     | NYC     |
+| Bob    | 34     | London  |
+
+|= Item     |=> Qty |
+| Apple      | 12     |
+| Subtotal   |< 12    |
+
+| a |> 9  |
+| b |> 10 |
+
+|= Name     |= Age |
+| Alice     |   28 |
+| Bob       |   34 |
+
+|=> Category |= Item   |= Price |
+| Fruit       | Apple    | $1      |
+| Total       | <        | $1.50   |
+
+|=<< Note |= Plain |
+| a         | b       |
+
+```
+line
+``
+still code
+```
+
+> quote text
+
+^ Source: Someone
+
+|= A |= B |
+| x \| y | z |
+
+|= A |= B |
+| `a|b` | z |
+
+*[HTML]: HyperText Markup Language
+
+HTML and XHTMLish.
+
+Write me@example.com or ping @markus.
+
+Issue #123 and #v2 here.
+
+A #tag here, but not in foo#bar.
+
+|= Tier |= User |
+| Gold   | Ann  |
+| ^      | Bo   |
+| ^      | Cy   |
+
+Read the [intro][x]{.ext} first.
+
+[x]: /intro
+
+> [ref]: /url
+
+See [it][ref].
+
+- [ref]: /url
+
+See [it][ref].
+
+[r][r]
+
+[r]: a b c
+
+[r][r]
+
+[r]: /url "Title"
+
+[x][y]
+
+[y]: /u "a\"b\"c"
+
+[r]:
+
+[r]:
+
+Read the [introduction][intro] first.
+
+[intro]: https://example.com/intro "Introduction"
+
+See [Other][]{.ext} for details.
+
+[Other]: /other
+
+See [Other Page][] for details.
+
+[Other Page]: /other-page
+
+A [missing][nope] ref stays literal.
+
+a="b"
+:"q"
+-"q"
+/"q"
+("q")
+
+}"q"
+)"q"
+]"q"
+."q"
+,"q"
+a"b
+""
+
+('q')
+['q']
+='q'
+:'q'
+-'q'
+/'q'
+
+{'q'}
+
+the '70s and '24' and 'word'
+
+a---- b----- c------
+
+He paused -- then ran --- fast... "Stop!" it's over.
+
+Flow: a -> b <- c <-> d => e; x != y, p <= q, r >= s, +-1.
+(c) 2024, (r), (tm). Dates like 1/2/2024 stay literal.
+
+Escaped \-> and \... stay; code `a -- b ...` stays.
+
+|= Feature |= Description        |
+| Complex  | A long description |
++          | that continues     |
++          | across lines.      |
+| Simple   | Single line.       |
+
+|= Category       |= Item   |
+| Fresh Fruits    | Apple   |
++ from local      |         |
++ farms           |         |
+| ^               | Banana  |
+
+$`a^2`{.boxed #eq1 data-k=v}
+
+Inline $`E = mc^2` and currency $5 stays literal.
+
+$$`\int_0^1 x\,dx`
+
+See the note[^m].
+[^m]: First line of the note
+   and a continuation line.
+
+text
+[^f]: note
+
+Text[^a]{.ref}.
+
+[^a]: note.
+
+See[^m] and again[^m].
+
+[^m]: One note, two refs.
+
+Carve has footnotes.[^fn]
+
+[^fn]: Defined anywhere; resolved by label.
+
+::: {.sidebar}
+not a div
+:::
+
+::: _box
+content
+:::
+
+::: 123
+not a div
+:::
+
+:::
+A plain box.
+:::
+
+{#s .sidebar}
+:::
+A div with attributes.
+:::
+
+:: color
+:: colour
+:  The visual property of objects.
+:  A pigment or paint.
+
+Also visible. %% this tail is a comment
+
+50%% off and a%%b stay literal.
+
+Run `a %% b` then done. %% gone
+
+# Title %% editor note
+
+foo %% note
+bar
+
+Visible.
+
+%% this line is a comment
+
+%%%
+a hidden
+block
+%%%
+
+Also visible.
+
+```=html
+<custom-el>Verbatim HTML</custom-el>
+```
+
+line one\
+line two
+
+say\ 'twas a fine\ "day"
+
+`a b`
+
+10\ kg
+
+Use `<br>`{=html} to break, and `\foo`{=latex} is dropped.
+
+Great :rocket: and :kbd[Ctrl] is an extension.
+
+1) one
+2) two
+
+3. third
+4. fourth
+
+iv. four
+v. five
+vi. six
+
+a. apple
+b. banana
+
+Pick option a. it is the best one here.
+
+See the note.[^n]
+
+[^n]: First paragraph of the note.
+
+    Second paragraph, indented under the definition.
+
+=x= and {=y=} both mark.
+
+a {+ins+} {-del-} {~old~>new~} b{# note #}
+
+a
+
+---
+
+b
+
+***
+
+c
+
+___
+
+# Getting Started
+
+See </#getting-started>.
+
+<http://a.com/<script>>
+
+<http://a.com/"q">
+
+<http://a.com/p?x=1>
+
+<http://a.com/>
+
+<a@b> <a@b.com> <x@y:z>
+
+<https://example.com> and <a@b.com>
+
+\*lit\* \[x\] \#h \@u
+
+** and // and ^^
+
+see https://example.com now
+
+:::: note
+Outer.
+
+::: tip
+Nested.
+:::
+::::
+
+:kbd[x]{.foo}
+
+[x]{title="a\"b"}
+
+{title="a\"b"}
+# H
+
+# H {???}
+
+[x]{.123} and [y]{12=v}
+
+[x]{.a!b}
+
+[x]{.ok .1}
+
+[x]{.a1 #b2 k3=v}
+
+[x]{title="a b"}
+
+[x]{data-x="{y}"}
+
+[t](u){k="{y}"}
+
+![a](u){k="{y}"}
+
+{k="{y}"}
+# H
+
+{k="{y}"}
+:::
+body
+:::
+
+:kbd[x]{k="{y}"}
+
+[x]{k='{y}'}
+
+[note]{.a .b #n key=val}
+
+\a and \« and a\\b
+
+\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~ done
+
+[x]{}
+
+[x]{ }
+
+[x]{???}
+
+[*x*]{???}
+
+A [styled run]{.hl} here.
+
+H{,2,}O and E=mc{^2^}
+
+(1) First
+(2) Second
+
+*a `x` b*
+
+~old~ =new=
+
+*a, b*!
+
+*a* and *b*
+
+- a
+
+- b
+
+- a
+
+  more
+- b
+
+- a
+  - b
+  - c
+- d
+
+**a** ~~b~~ ^^c^^
+
+[a [b] c](/u)
+
+[Text][REF]
+
+[ref]: /u
+
+==x== ,,y,, =z= ,w,
+
+![a](/i){???}
+
+![a](/i){ }
+
+*x*{.real}
+
+text
+1985. was the year
+
+text
+:::note
+body
+
+text
+![a](u)
+
+> p one
+> - item
+
+- a
+   - b
+
+para
+%% c
+
+a[r]
+[r]: http://x
+
+text
+
+# H
+
+Text
+```
+code
+
+Text
+:::
+stuff
+
+text
+```
+code
+```
+
+text
+---
+more
+
+text
+> q
+
+text
+- a
+- b
+
+text
+1. x
+2. y
+
+text
+| a | b |
+
+text
+:::note
+body
+:::
+
+text
+2. y
+3. z
+
+text
+# H
+
+> quoted
+- item
+
+> # h
+- item
+
+> quoted
+continued
+
+```c++
+int main() {}
+```
+
+## A
+## still A
+# B
+
+# Title
+- item
+
+# Title
+1. one
+
+# Title
+outside
+
+> text
+> ```
+lazy
+
+> ```
+code no marker
+> still
+
+> ```
+> a
+b
+> c
+
+- a
+# H
+
+- a
+  - b
+ c
+
+- a
+  - b
+    - c
+   d
+
+- a
+  - b
+
+ c
+
+- item
+  > q
+tail
+
+- item
+  ```
+  c
+  ```
+tail
+
+- item
+  | a | b |
+tail
+
+- item
+  :::note
+  body
+  :::
+tail
+
+- item
+lazy
+
+- item
+
+  second para
+- next
+
+- item
+
+  > note
+- next
+
+- item
++
+> note
+- next
+
+- +
+| a | b |
+| c | d |
+- next
+
++ one
++ two
+
+- Build the image
++
+```sh
+docker build -t app .
+```
+- Push it
+
+{#id}
+{key=val}
+{.foo .bar}
+{key=val2}
+{.baz}
+{#id2}
+Okay
+
+{#id
+ .foo}
+Text
+
+{.data}
+|= A |= B |
+| 1  | 2  |
+
+{.epigraph}
+> To be or not to be.
+
+Para
+{.class}
+
+Para
+{.class}
+
+Next
+
+{#id}
+
+Text
+
+![one](a.jpg)
+^ Figure #: one
+
+![two](b.jpg)
+^ Figure #: two
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+See </#fig-sun> for the colors.
+
+{#tbl-r}
+|= Item |= Qty |
+| Apple | 3 |
+^ Table #: Stock
+
+See </#tbl-r>.
+
+![a](a.jpg)
+^ Abbildung #: erstes
+
+![b](b.jpg)
+^ Figure #: first
+
+![chart](c.jpg)
+^ See #data for details
+
+![price](p.jpg)
+^ Costs \# units
+
+{#lst-greet}
+```python
+def greet():
+    return 1
+```
+^ Listing #: a greeting
+
+See </#lst-greet>.
+
+{#eq-emc}
+$$`E = mc^2`
+^ Equation #: mass-energy
+
+See </#eq-emc>.
+
+{#fig-sun}
+![A sunset](sun.jpg)
+^ Figure #: A sunset
+
+Text^[note]{.ref}.
+
+A note^[see *later*] inline. And a ref[^a].
+
+[^a]: reference body.
+
+3.{#x k=v} A numbered item with id and key-value.
+
+a.{.c} An alpha item.
+
+-{.c} [ ] A classed task item.
+
+-{} A bare item via the empty block.
+
+-{+a+} text
+
+- {.c} text
+
+para {.c} more
+
+-{.c} A classed item.
+-{#intro} An item with an id.
+
+::: |
+Roses are red,
+  Violets are blue.
+:::
+
+::: |
+Stanza one,
+still one.
+
+Stanza two.
+:::
+
+::: |
+*Bold* and /italic/,
+plain line.
+:::
+
+::: {.line-block}
+one
+two
+:::
+
+::: \
+one
+two
+:::
+
+:::: \
+  indented
+next
+
+::: note
+a
+b
+:::
+::::
+
+::: |
+Roses are red,
+Violets are blue.
+:::
+
+Ping @john-doe, @john_doe and @john.doe about #release-1.0 today.
+
+Reach @john. That is @john's idea, @john!
+
+| Value |
+| ^2^   |
+
+before
+
+%%%%
+hidden %%% inner fence stays hidden
+%%%%
+
+after
+
+See *[the docs](url) for more* info.
+
+The HTML spec is long.
+*[HTML]: HyperText Markup Language
+
+Check if (x < 5) holds, and 3<4 too.
+
+{.callout open}
+Details here.
+
+Press [Tab]{kbd} to indent.
+
+| < | b |
+|---|---|
+| c | d |
+
+|{.highlight} Total | 99 |
+|---|---|
+| a | b |
+
+| Name | Score |{.head}
+|------|-------|
+| Ann  | 9     |{.win}
+
+|= H |= G |
+| ^ | b |
+| ^ | c |
+

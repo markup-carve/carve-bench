@@ -1,0 +1,32 @@
+name: smoke
+
+# Verifies the harnesses build / parse - not a perf gate (CI timings are noisy).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check JS harnesses
+        run: |
+          node --check run.mjs
+          node --check engines/js/bench.mjs
+          node --check scripts/gen-corpus.mjs
+
+      - name: Lint PHP harness
+        run: php -l engines/php/bench.php
+
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build Rust harness (deps on carve-rs)
+        run: cargo build --release --manifest-path engines/rs/Cargo.toml
+
+      - name: Smoke-run the Rust harness on a corpus doc
+        run: ./engines/rs/target/release/carve-bench-rs corpus/small.crv 5
