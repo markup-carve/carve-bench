@@ -5,11 +5,12 @@ edition = "2021"
 publish = false
 
 [dependencies]
-# carve-rs engine. Defaults to the public git repo; override with a path for
-# local development:
-#   cargo build --release --config 'patch.crates-io.carve.path="../../../carve-rs"'
+# carve-rs engine, published as the `carve-lang` crate (aliased here as `carve`,
+# so the harness keeps `use carve`). Defaults to the public git repo; override
+# with a path for local development:
+#   cargo build --release --config 'patch."https://github.com/markup-carve/carve-rs".carve-lang.path="../../../carve-rs"'
 # or set [patch] in a workspace. See README.
-carve = { git = "https://github.com/markup-carve/carve-rs" }
+carve = { package = "carve-lang", git = "https://github.com/markup-carve/carve-rs" }
 
 [[bin]]
 name = "carve-bench-rs"

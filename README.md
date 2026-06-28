@@ -62,7 +62,7 @@ export CARVE_JS=../carve-js/dist/index.js
 export CARVE_PHP_AUTOLOAD=../carve-php/vendor/autoload.php
 # engines/rs deps on carve-rs by git; to build against a local checkout instead:
 (cd engines/rs && cargo build --release \
-  --config 'patch."https://github.com/markup-carve/carve-rs".carve.path="../../../carve-rs"')
+  --config 'patch."https://github.com/markup-carve/carve-rs".carve-lang.path="../../../carve-rs"')
 node run.mjs
 ```
 
