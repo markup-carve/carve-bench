@@ -24,7 +24,7 @@ if (!$jit) {
 
 require $autoload;
 
-use Carve\CarveConverter;
+use MarkupCarve\Carve\CarveConverter;
 
 $src = file_get_contents($docPath);
 $bytes = strlen($src);
