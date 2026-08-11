@@ -19,8 +19,8 @@ it yourself; treat them as relative, not absolute.
 
 ## Documents
 
-`corpus/` holds three sizes built from the spec corpus: `small` (~1 KB),
-`medium` (~13 KB, the whole corpus concatenated) and `large` (~100 KB, the
+`corpus/` holds three sizes built from the 0.2 spec corpus: `small` (~1 KB),
+`medium` (~29 KB, the whole corpus concatenated) and `large` (~228 KB, the
 corpus repeated). Regenerate from a local carve checkout:
 
 ```bash
