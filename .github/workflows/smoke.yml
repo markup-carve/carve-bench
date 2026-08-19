@@ -10,23 +10,44 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
+      - name: Install JS comparison engines
+        working-directory: engines/js
+        run: npm ci
       - name: Syntax-check JS harnesses
         run: |
           node --check run.mjs
+          node --check compare.mjs
           node --check engines/js/bench.mjs
+          node --check engines/js/compare.mjs
           node --check scripts/gen-corpus.mjs
+          node --check scripts/gen-comparison-corpus.mjs
+          node scripts/gen-comparison-corpus.mjs
+          git diff --exit-code -- corpus/comparison
 
-      - name: Lint PHP harness
-        run: php -l engines/php/bench.php
+      - name: Install and lint PHP harnesses
+        working-directory: engines/php
+        run: |
+          composer install --no-interaction --prefer-dist
+          composer validate --strict
+          php -l bench.php
+          php -l compare.php
+          php -l profile.php
 
       - uses: dtolnay/rust-toolchain@stable
       - name: Build Rust harness (deps on carve-rs)
         run: cargo build --release --manifest-path engines/rs/Cargo.toml
 
       - name: Smoke-run the Rust harness on a corpus doc
-        run: ./engines/rs/target/release/carve-bench-rs corpus/small.crv 5
+        run: |
+          ./engines/rs/target/release/carve-bench-rs corpus/small.crv 5
+          ./engines/rs/target/release/carve-bench-rs-compare pulldown-cmark corpus/comparison/markdown.md 5 1
+
+      - name: Smoke-run JS and PHP comparison harnesses
+        run: |
+          node engines/js/compare.mjs markdown-it corpus/comparison/markdown.md 5 1
+          php engines/php/compare.php league/commonmark-gfm corpus/comparison/markdown.md 5 1

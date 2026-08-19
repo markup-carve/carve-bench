@@ -2,12 +2,12 @@
 // Usage: node bench.mjs <doc-path> <iters>
 // Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes }.
 // The carve-js module is resolved from CARVE_JS (a path to its index.js or a
-// bare package specifier); defaults to the published `carve-js` package.
+// bare package specifier); defaults to the published scoped package.
 import { readFileSync } from 'node:fs'
 
 const docPath = process.argv[2]
 const iters = Number.parseInt(process.argv[3] ?? '200', 10)
-const spec = process.env.CARVE_JS ?? 'carve-js'
+const spec = process.env.CARVE_JS ?? '@markup-carve/carve'
 
 const { carveToHtml } = await import(spec)
 const src = readFileSync(docPath, 'utf8')

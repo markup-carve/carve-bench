@@ -11,10 +11,17 @@ publish = false
 #   cargo build --release --config 'patch."https://github.com/markup-carve/carve-rs".carve-lang.path="../../../carve-rs"'
 # or set [patch] in a workspace. See README.
 carve = { package = "carve-lang", git = "https://github.com/markup-carve/carve-rs" }
+comrak = { version = "0.54.0", default-features = false }
+jotdown = "0.10.0"
+pulldown-cmark = { version = "0.13.4", default-features = false, features = ["html"] }
 
 [[bin]]
 name = "carve-bench-rs"
 path = "src/main.rs"
+
+[[bin]]
+name = "carve-bench-rs-compare"
+path = "src/compare.rs"
 
 [profile.release]
 opt-level = 3
