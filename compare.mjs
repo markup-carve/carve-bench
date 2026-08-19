@@ -7,6 +7,7 @@ import { writeFileSync } from 'node:fs'
 const root = dirname(fileURLToPath(import.meta.url))
 const rs = process.env.CARVE_RS_COMPARE_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs-compare')
 const phpArgs = ['-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
+if (process.env.CARVE_PHP_MBSTRING) phpArgs.push('-d', `extension=${process.env.CARVE_PHP_MBSTRING}`)
 const cases = [
   ['JavaScript', 'carve-js', 'carve.crv', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
   ['JavaScript', 'djot.js', 'djot.dj', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
@@ -20,6 +21,7 @@ const cases = [
   ['Rust', 'pulldown-cmark', 'markdown.md', 200, [rs, []]],
 ]
 const rows = []
+const workloadFeaturePoints = 18
 for (const [language, engine, file, iterations, [command, prefix]] of cases) {
   const doc = resolve(root, 'corpus/comparison', file)
   const output = execFileSync(command, [...prefix, engine, doc, String(iterations), '5'], {
@@ -41,14 +43,23 @@ const lines = [
   '0.1.32, league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and',
   'pulldown-cmark 0.13.4. The checked snapshot used the machine, runtimes, and',
   'Carve engine heads recorded in `RESULTS.md`.', '',
+  `Every configured engine earns the same ${workloadFeaturePoints} workload feature points; see`,
+  '`FEATURES.md` for the auditable scoring rubric and why it is context rather',
+  'than a throughput normalization.', '',
+  '![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)', '',
 ]
 for (const language of ['Rust', 'JavaScript', 'PHP']) {
   const group = rows.filter((row) => row.language === language)
   const carve = group.find((row) => row.engine.startsWith('carve-'))
-  lines.push(`## ${language}`, '', '| Engine | MB/s | ms/op | vs Carve | trials × iterations |', '|---|---:|---:|---:|---:|')
+  lines.push(`## ${language}`, '', '| Engine | Feature points | MB/s | ms/op | vs Carve | trials × iterations |', '|---|---:|---:|---:|---:|---:|')
   for (const row of group) {
-    lines.push(`| ${row.engine} | ${row.mb_per_s.toFixed(2)} | ${row.ms_per_op.toFixed(4)} | ${(row.mb_per_s / carve.mb_per_s).toFixed(2)}x | ${row.trials} × ${row.iterations} |`)
+    lines.push(`| ${row.engine} | ${workloadFeaturePoints} | ${row.mb_per_s.toFixed(2)} | ${row.ms_per_op.toFixed(4)} | ${(row.mb_per_s / carve.mb_per_s).toFixed(2)}x | ${row.trials} × ${row.iterations} |`)
   }
   lines.push('')
 }
+lines.push(
+  'Language groups should be run in isolation. Sustained host load can reduce',
+  'absolute throughput substantially even when within-language ordering stays',
+  'similar; contaminated groups should be rerun rather than published.', '',
+)
 writeFileSync(resolve(root, 'COMPARISON.md'), lines.join('\n'))

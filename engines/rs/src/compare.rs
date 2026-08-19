@@ -13,10 +13,18 @@ fn main() {
         match engine.as_str() {
             "carve-rs" => carve::to_html(&source),
             "jotdown" => jotdown::html::render_to_string(jotdown::Parser::new(&source)),
-            "comrak" => comrak::markdown_to_html(&source, &comrak::Options::default()),
+            "comrak" => {
+                let mut options = comrak::Options::default();
+                options.extension.table = true;
+                comrak::markdown_to_html(&source, &options)
+            }
             "pulldown-cmark" => {
                 let mut html = String::new();
-                pulldown_cmark::html::push_html(&mut html, pulldown_cmark::Parser::new(&source));
+                let options = pulldown_cmark::Options::ENABLE_TABLES;
+                pulldown_cmark::html::push_html(
+                    &mut html,
+                    pulldown_cmark::Parser::new_ext(&source, options),
+                );
                 html
             }
             _ => panic!("unknown engine: {engine}"),

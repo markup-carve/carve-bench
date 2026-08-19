@@ -11,35 +11,37 @@ Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php
 pulldown-cmark 0.13.4. The checked snapshot used the machine, runtimes, and
 Carve engine heads recorded in `RESULTS.md`.
 
+Every configured engine earns the same 18 workload feature points; see
+`FEATURES.md` for the auditable scoring rubric and why it is context rather
+than a throughput normalization.
+
 ![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)
 
 ## Rust
 
-| Engine | MB/s | ms/op | vs Carve | trials × iterations |
-|---|---:|---:|---:|---:|
-| carve-rs | 7.19 | 6.5357 | 1.00x | 5 × 200 |
-| jotdown | 35.98 | 1.3129 | 5.00x | 5 × 200 |
-| comrak | 43.93 | 1.0754 | 6.11x | 5 × 200 |
-| pulldown-cmark | 115.55 | 0.4089 | 16.07x | 5 × 200 |
+| Engine | Feature points | MB/s | ms/op | vs Carve | trials × iterations |
+|---|---:|---:|---:|---:|---:|
+| carve-rs | 18 | 5.30 | 8.8659 | 1.00x | 5 × 200 |
+| jotdown | 18 | 34.39 | 1.3738 | 6.49x | 5 × 200 |
+| comrak | 18 | 31.36 | 1.5063 | 5.92x | 5 × 200 |
+| pulldown-cmark | 18 | 94.94 | 0.4976 | 17.91x | 5 × 200 |
 
 ## JavaScript
 
-| Engine | MB/s | ms/op | vs Carve | trials × iterations |
-|---|---:|---:|---:|---:|
-| carve-js | 1.79 | 26.2054 | 1.00x | 5 × 100 |
-| djot.js | 5.57 | 8.4796 | 3.11x | 5 × 100 |
-| markdown-it | 5.19 | 9.1106 | 2.89x | 5 × 100 |
+| Engine | Feature points | MB/s | ms/op | vs Carve | trials × iterations |
+|---|---:|---:|---:|---:|---:|
+| carve-js | 18 | 2.14 | 21.9211 | 1.00x | 5 × 100 |
+| djot.js | 18 | 5.94 | 7.9518 | 2.77x | 5 × 100 |
+| markdown-it | 18 | 5.96 | 7.9328 | 2.78x | 5 × 100 |
 
 ## PHP
 
-| Engine | MB/s | ms/op | vs Carve | trials × iterations |
-|---|---:|---:|---:|---:|
-| carve-php | 0.39 | 121.2551 | 1.00x | 5 × 20 |
-| djot-php | 4.08 | 11.5875 | 10.52x | 5 × 20 |
-| league/commonmark-gfm | 1.46 | 32.2726 | 3.78x | 5 × 20 |
+| Engine | Feature points | MB/s | ms/op | vs Carve | trials × iterations |
+|---|---:|---:|---:|---:|---:|
+| carve-php | 18 | 1.21 | 38.8709 | 1.00x | 5 × 50 |
+| djot-php | 18 | 3.82 | 12.3675 | 3.16x | 5 × 50 |
+| league/commonmark-gfm | 18 | 1.56 | 30.2136 | 1.29x | 5 × 50 |
 
-PHP was rerun as an isolated language group with a clean INI (`php -n` plus
-the required extensions) and tracing JIT verified active. The harness now
-records `carve_source` after a loader-order bug was found: the comparison
-dependencies' autoloader previously took precedence over `CARVE_PHP_AUTOLOAD`,
-silently loading its vendored Carve instead of the requested checkout.
+Language groups should be run in isolation. Sustained host load can reduce
+absolute throughput substantially even when within-language ordering stays
+similar; contaminated groups should be rerun rather than published.

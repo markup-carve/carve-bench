@@ -17,7 +17,8 @@ tracks carve-rs plus a thin FFI/IPC layer.
 See [RESULTS.md](./RESULTS.md) for the three Carve implementations on the full
 spec corpus and [COMPARISON.md](./COMPARISON.md) for the same-language
 Carve/Djot/CommonMark comparison described by the spec documentation. Measured
-hotspots and optimization candidates are in [FINDINGS.md](./FINDINGS.md).
+hotspots and optimization candidates are in [FINDINGS.md](./FINDINGS.md). The
+comparison's auditable workload scoring is in [FEATURES.md](./FEATURES.md).
 Numbers are machine- and version-specific - run them yourself; treat them as
 relative, not absolute.
 
@@ -63,8 +64,10 @@ node scripts/gen-charts.mjs
 
 `compare.mjs` implements the documented 48 KiB, warm, min-of-five method. It
 uses equivalent native syntax for each markup family rather than feeding Carve
-syntax to a Markdown parser. Environment overrides use the same variables as
-the cross-Carve run, plus `CARVE_RS_COMPARE_BIN` for the comparison binary.
+syntax to a Markdown parser. Competitor-facing Carve measurements always use
+Tier 1/core; Tier 2 and Tier 3 are separate internal diagnostics. Environment
+overrides use the same variables as the cross-Carve run, plus
+`CARVE_RS_COMPARE_BIN` for the comparison binary.
 
 ### Engine resolution
 
@@ -103,6 +106,10 @@ Here `tier3` means Tier 1 + every Tier-2 extension + the reproducible
 zero-configuration Tier-3 bundle listed in `FINDINGS.md`; the specification has
 no canonical all-Tier-3 profile because app extensions can require host data or
 callbacks.
+
+Feature points in `COMPARISON.md` cover only syntax actually exercised by this
+corpus and enabled in the exact harness configuration. They are context, not a
+speed-normalization divisor; see `FEATURES.md`.
 
 ## Method notes
 

@@ -10,11 +10,12 @@ benchmark plus the existing regression gates.
   medium input from 12.6 to 40.2 KiB and the large input from 100.6 to 321.4
   KiB, so the old and new `ms/op` values are not directly comparable.
 - On the full mixed-feature corpus, throughput declines from small to large:
-  carve-js 1.07 → 0.92 MB/s, carve-rs 5.01 → 3.13 MB/s, and carve-php
-  0.41 → 0.15 MB/s. PHP has the strongest size sensitivity and should get the
+  carve-js 1.29 → 0.83 MB/s, carve-rs 5.78 → 2.58 MB/s, and carve-php
+  0.94 → 0.15 MB/s. PHP has the strongest size sensitivity and should get the
   first scaling investigation.
-- On equivalent ~48 KiB documents, the current same-language gaps are 2.9–3.1x
-  for JS, 3.8–10.5x for PHP, and 5.0–16.1x for Rust. Pull/event parsers have a
+- On equivalent ~48 KiB documents, the current same-language gaps are about 2.7x
+  for JS, 1.3–3.2x for PHP in the isolated low-load run, and 5.9–17.9x for Rust
+  after enabling peer table parsing. Pull/event parsers have a
   structural advantage over Carve's owned AST; the ratios are not all removable
   overhead.
 
@@ -44,19 +45,18 @@ Actionable experiments, in order:
 
 ## carve-php
 
-An isolated clean-INI phase run measured carve-php at 102.20 ms parse + 26.50 ms
-render on the 48 KiB input; djot-php measured 15.66 + 3.18 ms. About 79% of
-Carve's time is parsing, so renderer-only tuning cannot close the observed gap.
+Earlier clean-INI phase profiling showed parsing dominates Carve conversion, so
+renderer-only tuning cannot close the observed gap.
 The full corpus fall from 0.41 to 0.15 MB/s also indicates that large
 mixed-feature documents—not fixed startup—are the priority.
 
-The initially checked PHP and release-comparison figures are invalid. Composer
+The initially checked PHP and release-comparison figures were invalid. Composer
 registered the comparison dependency autoloader after `CARVE_PHP_AUTOLOAD`, so
 its vendored carve-php won class resolution and every purported checkout loaded
 the same code. The fixed harness reverses that precedence and reports the
-resolved source directory. Current main then measured 0.39 MB/s (121.26 ms/op).
-No release-regression conclusion should be drawn until the release matrix is
-rerun with this corrected harness.
+resolved source directory. Merged main at `7d7eb1d` measured 1.21 MB/s
+(38.87 ms/op) in the isolated low-load comparison run: about 22% behind
+league/commonmark GFM and 3.2x behind djot-php.
 
 ### Extension-tier cost
 
@@ -67,9 +67,11 @@ document through each:
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 opt-in | 107.90 | 0.44 | baseline |
-| Tier 1 + Tier 2 | 8 | 144.68 | 0.32 | +34% |
-| Tier 1 + Tier 2 + zero-config Tier 3 bundle | 20 | 183.90 | 0.26 | +70% |
+| Tier 1 core | 0 opt-in | 43.04 | 1.09 | baseline |
+| Tier 2 stack | 8 | 51.77 | 0.91 | +20% |
+| Tier 3 stack | 20 | 80.81 | 0.58 | +88% |
+
+![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
 These are best warmed trials from a clean-INI, tracing-JIT run. The Tier-2 set
 is Autolink, Citations, CodeCallouts, SemanticSpan, ListTable, Details, Spoiler,
@@ -77,17 +79,16 @@ and Tabs. The documented Tier-3 bundle adds twelve composable zero-config
 extensions; it deliberately excludes host-dependent render callbacks and
 external bibliography data. Because the input contains core content, this
 isolates registration and whole-document hook overhead rather than claiming to
-measure every extension's active workload. The large Tier-2 tax makes extension
-dispatch and unconditional post-parse walks a concrete PHP profiling target.
+measure every extension's active workload. The Tier-2 registration tax is now
+much smaller after carve-php #1490/#1491. Tier 3 remains expensive because this
+corpus contains 121 headings, so heading numbering performs real work rather
+than merely paying an inactive-hook tax.
 
-An implementation draft at `markup-carve/carve-php#1489` fixes measured
-unnecessary work: explicit references no longer force the collapsed-heading
-scratch parse; absent definition families skip their full prepasses; the link
-definition scan stops after its last possible candidate; and hot inline/event
-dispatch paths are gated. With this corrected loader, that branch measured
-38.01 ms/op (1.24 MB/s), about 3.2x the current-main throughput. It is still
-below league/commonmark and djot-php; list/table-heavy parsing remains the main
-measured parser bottleneck.
+Merged carve-php #1489–#1491 remove measured unnecessary work: absent definition
+families skip full prepasses, hot inline/event dispatch paths are gated, broad
+bare-email matching is inactive on text without `@`, inactive Index/Citations
+avoid deep clones, and table separators are decoded once. List/table-heavy
+parsing remains the main measured parser bottleneck.
 
 Actionable experiments, in order:
 
@@ -102,8 +103,9 @@ Actionable experiments, in order:
    real wins. Target fixtures should include the 321 KiB mixed corpus, where the
    scaling loss is clearest.
 4. Audit object/array allocation per AST node and renderer dispatch. A compact
-   internal parse representation converted once at the public AST boundary may
-   help, but it is a medium/high-cost architectural change.
+   internal representation is not a safe incremental change: public extensions
+   observe mutable concrete Nodes and parent pointers prevent structural
+   sharing. Treat it as a separate architecture proposal.
 5. Keep JIT and non-JIT numbers separate. This run excluded pcov and verified
    tracing JIT; silently comparing a coverage-loaded process would invalidate
    the result.
@@ -113,8 +115,9 @@ Actionable experiments, in order:
 Hardware sampling was unavailable (`perf_event_paranoid=4`), so the current
 evidence is throughput/scaling plus architecture. carve-rs builds a complete
 owned AST; jotdown and pulldown-cmark stream events directly to HTML. That
-explains a substantial part of the 5–16x gap and sets expectations for local
-micro-optimizations.
+explains a substantial part of the 5.9–17.9x gap and sets expectations for local
+micro-optimizations. The peer harness now enables pipe tables for Comrak and
+pulldown-cmark; the earlier default-option results gave those peers less work.
 
 Actionable experiments, in order:
 

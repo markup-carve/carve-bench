@@ -62,10 +62,15 @@ mkdirSync(resolve(root, 'charts'), { recursive: true })
 writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Same-language render throughput',
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
-  sections(resolve(root, 'COMPARISON.md'), 1),
+  sections(resolve(root, 'COMPARISON.md'), 2),
 ))
 writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
   'Carve engines on the full spec corpus',
   'Each document-size panel is normalized visually to its fastest engine; labels show absolute MB/s.',
   sections(resolve(root, 'RESULTS.md'), 2),
+))
+writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
+  'carve-php extension profile throughput',
+  'Internal diagnostic only; competitor comparisons use Tier 1/core.',
+  sections(resolve(root, 'FINDINGS.md'), 3).filter((group) => group.name === 'carve-php'),
 ))
