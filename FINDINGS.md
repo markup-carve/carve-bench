@@ -85,7 +85,7 @@ unnecessary work: explicit references no longer force the collapsed-heading
 scratch parse; absent definition families skip their full prepasses; the link
 definition scan stops after its last possible candidate; and hot inline/event
 dispatch paths are gated. With this corrected loader, that branch measured
-40.09 ms/op (1.17 MB/s), about 3.0x the current-main throughput. It is still
+38.01 ms/op (1.24 MB/s), about 3.2x the current-main throughput. It is still
 below league/commonmark and djot-php; list/table-heavy parsing remains the main
 measured parser bottleneck.
 
