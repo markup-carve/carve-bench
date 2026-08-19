@@ -14,7 +14,7 @@ benchmark plus the existing regression gates.
   0.41 → 0.15 MB/s. PHP has the strongest size sensitivity and should get the
   first scaling investigation.
 - On equivalent ~48 KiB documents, the current same-language gaps are 2.9–3.1x
-  for JS, 3.1–6.6x for PHP, and 5.0–16.1x for Rust. Pull/event parsers have a
+  for JS, 3.8–10.5x for PHP, and 5.0–16.1x for Rust. Pull/event parsers have a
   structural advantage over Carve's owned AST; the ratios are not all removable
   overhead.
 
@@ -44,19 +44,19 @@ Actionable experiments, in order:
 
 ## carve-php
 
-An isolated clean-INI phase run measured carve-php at 74.95 ms parse + 21.03 ms
-render on the 48 KiB input; djot-php measured 10.87 + 2.76 ms. About 78% of
+An isolated clean-INI phase run measured carve-php at 102.20 ms parse + 26.50 ms
+render on the 48 KiB input; djot-php measured 15.66 + 3.18 ms. About 79% of
 Carve's time is parsing, so renderer-only tuning cannot close the observed gap.
 The full corpus fall from 0.41 to 0.15 MB/s also indicates that large
 mixed-feature documents—not fixed startup—are the priority.
 
-The initially checked comparison result (0.36 MB/s, 129.01 ms/op) was not a
-release regression. It came from a sequential all-language run under sustained
-host load. Repeating PHP in isolation with tracing JIT verified active produced
-0.53 MB/s (89.44 ms/op). A release bisect on the identical 49,270-byte input
-also found 0.1.5 at 90.21 ms/op and current main at 91.44 ms/op in a controlled
-run: a 1.3% difference, within run-to-run noise. Current main was about 5.9%
-faster than 0.1.0 in that same run.
+The initially checked PHP and release-comparison figures are invalid. Composer
+registered the comparison dependency autoloader after `CARVE_PHP_AUTOLOAD`, so
+its vendored carve-php won class resolution and every purported checkout loaded
+the same code. The fixed harness reverses that precedence and reports the
+resolved source directory. Current main then measured 0.39 MB/s (121.26 ms/op).
+No release-regression conclusion should be drawn until the release matrix is
+rerun with this corrected harness.
 
 ### Extension-tier cost
 
@@ -67,9 +67,9 @@ document through each:
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 opt-in | 88.43 | 0.53 | baseline |
-| Tier 1 + Tier 2 | 8 | 127.72 | 0.37 | +44% |
-| Tier 1 + Tier 2 + zero-config Tier 3 bundle | 20 | 142.64 | 0.33 | +61% |
+| Tier 1 core/default | 0 opt-in | 107.90 | 0.44 | baseline |
+| Tier 1 + Tier 2 | 8 | 144.68 | 0.32 | +34% |
+| Tier 1 + Tier 2 + zero-config Tier 3 bundle | 20 | 183.90 | 0.26 | +70% |
 
 These are best warmed trials from a clean-INI, tracing-JIT run. The Tier-2 set
 is Autolink, Citations, CodeCallouts, SemanticSpan, ListTable, Details, Spoiler,
@@ -79,6 +79,15 @@ external bibliography data. Because the input contains core content, this
 isolates registration and whole-document hook overhead rather than claiming to
 measure every extension's active workload. The large Tier-2 tax makes extension
 dispatch and unconditional post-parse walks a concrete PHP profiling target.
+
+An implementation draft at `markup-carve/carve-php#1489` fixes measured
+unnecessary work: explicit references no longer force the collapsed-heading
+scratch parse; absent definition families skip their full prepasses; the link
+definition scan stops after its last possible candidate; and hot inline/event
+dispatch paths are gated. With this corrected loader, that branch measured
+40.09 ms/op (1.17 MB/s), about 3.0x the current-main throughput. It is still
+below league/commonmark and djot-php; list/table-heavy parsing remains the main
+measured parser bottleneck.
 
 Actionable experiments, in order:
 

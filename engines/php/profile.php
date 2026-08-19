@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/autoload.php';
+require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 
 use Djot\DjotConverter;
 use MarkupCarve\Carve\CarveConverter;
@@ -23,4 +23,4 @@ $parseMs = (hrtime(true) - $start) / 1e6 / $iterations;
 $start = hrtime(true);
 for ($i = 0; $i < $iterations; $i++) { $converter->render($document); }
 $renderMs = (hrtime(true) - $start) / 1e6 / $iterations;
-echo json_encode(['engine' => $engine, 'parse_ms' => $parseMs, 'render_ms' => $renderMs, 'total_ms' => $parseMs + $renderMs]) . "\n";
+echo json_encode(['engine' => $engine, 'parse_ms' => $parseMs, 'render_ms' => $renderMs, 'total_ms' => $parseMs + $renderMs, 'carve_source' => dirname((new ReflectionClass(CarveConverter::class))->getFileName(), 2)]) . "\n";

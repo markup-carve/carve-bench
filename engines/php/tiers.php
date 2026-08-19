@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/autoload.php';
+require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 
 use MarkupCarve\Carve\CarveConverter;
 use MarkupCarve\Carve\Extension\AsciiHeadingIdsExtension;
@@ -74,4 +74,5 @@ echo json_encode([
     'jit' => (@opcache_get_status(false)['jit']['enabled'] ?? false) === true,
     'tier2_extensions' => count($profile === 'tier1' ? [] : $tier2),
     'tier3_extensions' => count($profile === 'tier3' ? $tier3 : []),
+    'carve_source' => dirname((new ReflectionClass(CarveConverter::class))->getFileName(), 2),
 ]) . "\n";

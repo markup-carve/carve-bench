@@ -34,11 +34,12 @@ Carve engine heads recorded in `RESULTS.md`.
 
 | Engine | MB/s | ms/op | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|
-| carve-php | 0.53 | 89.4418 | 1.00x | 5 × 10 |
-| djot-php | 3.44 | 13.7328 | 6.55x | 5 × 10 |
-| league/commonmark-gfm | 1.62 | 29.2329 | 3.08x | 5 × 10 |
+| carve-php | 0.39 | 121.2551 | 1.00x | 5 × 20 |
+| djot-php | 4.08 | 11.5875 | 10.52x | 5 × 20 |
+| league/commonmark-gfm | 1.46 | 32.2726 | 3.78x | 5 × 20 |
 
 PHP was rerun as an isolated language group with a clean INI (`php -n` plus
-`mbstring`) after the original sequential all-language run encountered sustained
-host load. Tracing JIT was verified active. The original 0.36 MB/s Carve result
-was a benchmark-environment artifact, not a release regression.
+the required extensions) and tracing JIT verified active. The harness now
+records `carve_source` after a loader-order bug was found: the comparison
+dependencies' autoloader previously took precedence over `CARVE_PHP_AUTOLOAD`,
+silently loading its vendored Carve instead of the requested checkout.

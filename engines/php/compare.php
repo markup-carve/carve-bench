@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/autoload.php';
+require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 
 use Djot\DjotConverter;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
@@ -46,4 +46,5 @@ echo json_encode([
     'ms_per_op' => $min,
     'mb_per_s' => $bytes / 1048576 / ($min / 1000),
     'jit' => (@opcache_get_status(false)['jit']['enabled'] ?? false) === true,
+    'carve_source' => dirname((new ReflectionClass(CarveConverter::class))->getFileName(), 2),
 ]) . "\n";

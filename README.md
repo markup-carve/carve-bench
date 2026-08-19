@@ -118,3 +118,6 @@ callbacks.
   must be disabled** before benchmarking PHP - they override `zend_execute_ex`, which
   disables JIT and inflates timings by roughly 2x. The harness warns on stderr if
   either is detected or JIT is not active.
+- PHP JSON results include `carve_source`. When `CARVE_PHP_AUTOLOAD` selects a
+  checkout, verify this path before accepting a comparison; this guards against
+  Composer autoloader precedence silently benchmarking the vendored release.
