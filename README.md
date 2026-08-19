@@ -58,6 +58,7 @@ node scripts/gen-comparison-corpus.mjs
 (cd engines/php && composer install)
 (cd engines/rs && cargo build --release)
 node compare.mjs
+node scripts/gen-charts.mjs
 ```
 
 `compare.mjs` implements the documented 48 KiB, warm, min-of-five method. It

@@ -11,6 +11,8 @@ Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php
 pulldown-cmark 0.13.4. The checked snapshot used the machine, runtimes, and
 Carve engine heads recorded in `RESULTS.md`.
 
+![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)
+
 ## Rust
 
 | Engine | MB/s | ms/op | vs Carve | trials × iterations |

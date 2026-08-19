@@ -15,6 +15,8 @@ reported `jit=true`.
 The increased medium/large sizes make absolute comparison with the previous
 snapshot invalid; compare throughput and current-engine ratios instead.
 
+![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
+
 ## small (1.2 KB)
 
 | Engine | ms/op | MB/s | rel |

@@ -26,8 +26,11 @@ jobs:
           node --check engines/js/compare.mjs
           node --check scripts/gen-corpus.mjs
           node --check scripts/gen-comparison-corpus.mjs
+          node --check scripts/gen-charts.mjs
           node scripts/gen-comparison-corpus.mjs
+          node scripts/gen-charts.mjs
           git diff --exit-code -- corpus/comparison
+          git diff --exit-code -- charts
 
       - name: Install and lint PHP harnesses
         working-directory: engines/php
