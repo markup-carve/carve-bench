@@ -13,13 +13,19 @@ benchmark plus the existing regression gates.
   carve-js 1.29 → 0.83 MB/s, carve-rs 5.78 → 2.58 MB/s, and carve-php
   0.94 → 0.15 MB/s. PHP has the strongest size sensitivity and should get the
   first scaling investigation.
-- On equivalent ~48 KiB documents, the current same-language gaps are about 2.7x
-  for JS, 1.3–3.2x for PHP in the isolated low-load run, and 5.9–17.9x for Rust
-  after enabling peer table parsing. Pull/event parsers have a
+- On equivalent ~48 KiB documents after the optimization pass, the current
+  same-language gaps are 2.3–2.5x for JS, 1.2–2.9x for PHP, and 4.1–12.1x for
+  Rust after enabling peer table parsing. Pull/event parsers have a
   structural advantage over Carve's owned AST; the ratios are not all removable
   overhead.
 
 ## carve-js
+
+Merged carve-js #1235 scans ordinary ASCII prose as a run when no inline
+extension matcher is active. Five independent interleaved baseline/candidate
+pairs all favored the change; the median Tier-1 improvement was about 19.6%.
+The complete CI matrix passed (Node 20/22 corpus, scaling, browser parity, and
+mutation-XSS). The refreshed competitor run measures 1.94 MB/s.
 
 A Node CPU profile over the comparison document collected 1,389 samples. The
 largest directly attributable buckets were garbage collection (128 samples,
@@ -54,9 +60,13 @@ The initially checked PHP and release-comparison figures were invalid. Composer
 registered the comparison dependency autoloader after `CARVE_PHP_AUTOLOAD`, so
 its vendored carve-php won class resolution and every purported checkout loaded
 the same code. The fixed harness reverses that precedence and reports the
-resolved source directory. Merged main at `7d7eb1d` measured 1.21 MB/s
-(38.87 ms/op) in the isolated low-load comparison run: about 22% behind
-league/commonmark GFM and 3.2x behind djot-php.
+resolved source directory. The refreshed clean-INI comparison at `5325a97c`
+measures 0.89 MB/s: about 18% behind league/commonmark GFM and 2.9x behind
+djot-php on this host. A cached list-marker experiment improved a list-only
+synthetic document by about 18% but was between -0.6% and +3.2% on interleaved
+mixed Tier-1 runs, so it was rejected rather than publishing benchmark-specific
+complexity. Escaped-text render caching and conditional line-offset
+construction likewise produced no stable representative gain.
 
 ### Extension-tier cost
 
@@ -111,6 +121,15 @@ Actionable experiments, in order:
    the result.
 
 ## carve-rs
+
+Merged carve-rs #1146 removes unchanged-line allocation in the link-definition
+prepass, gates absent footnote and colon-ladder scans, reserves small inline
+buffers, and scans ordinary ASCII prose as runs. Five independent interleaved
+baseline/candidate pairs all favored it; median Tier-1 throughput rose from
+6.15 to 6.98 MB/s (+13.5%). Allocation instrumentation attributed 3,784 fewer
+allocations and roughly 708 KiB less requested memory per parse to the prepass
+changes alone. Full Rust CI, including the focused performance gate, passed.
+The rebuilt comparison harness measures 7.16 MB/s.
 
 Hardware sampling was unavailable (`perf_event_paranoid=4`), so the current
 evidence is throughput/scaling plus architecture. carve-rs builds a complete
