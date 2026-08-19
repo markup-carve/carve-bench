@@ -5,33 +5,35 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Methodology:** measured with `opcache.enable_cli=1` + `opcache.jit=tracing` and
-NO coverage/debug extension loaded (pcov absent, confirmed via `php -m`); PHP
-`jit=true` was verified in each run's JSON output. Previous numbers were polluted
-by pcov which disables JIT and inflated PHP timings by ~3-6x.
+**Run:** 2026-08-19 on Linux 7.0 x86_64, AMD Ryzen 9 PRO 7940HS (8C/16T),
+Node.js 22.22.2, PHP 8.5.9 NTS, rustc 1.97.1. PHP used CLI opcache with tracing
+JIT, with pcov excluded, and reported `jit=true` for every document.
 
-**Machine:** Linux x86\_64 - PHP 8.5.7 (NTS) - Node.js v22.22.2 - Rust/carve-rs 0.1.0
+**Engine heads:** carve-js `c09af042`, carve-php `7d7eb1d`, carve-rs
+`f753909f`. The corpus snapshot is from carve `d4e90cfd` (1,301 documents).
+
+![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
 
 ## small (1.2 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 0.6444 | 1.87 | 4.80x |
-| carve-php | 1.1865 | 1.01 | 8.84x |
-| carve-rs | 0.1342 | 8.96 | 1.00x |
+| carve-js | 0.9112 | 1.29 | 4.48x |
+| carve-php | 1.2468 | 0.94 | 6.13x |
+| carve-rs | 0.2034 | 5.78 | 1.00x |
 
-## medium (12.6 KB)
-
-| Engine | ms/op | MB/s | rel |
-|---|---:|---:|---:|
-| carve-js | 9.7625 | 1.26 | 6.41x |
-| carve-php | 10.0969 | 1.22 | 6.63x |
-| carve-rs | 1.5233 | 8.06 | 1.00x |
-
-## large (100.6 KB)
+## medium (40.2 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 72.3597 | 1.36 | 5.53x |
-| carve-php | 98.4652 | 1.00 | 7.53x |
-| carve-rs | 13.0814 | 7.51 | 1.00x |
+| carve-js | 33.7186 | 1.16 | 2.96x |
+| carve-php | 165.8647 | 0.24 | 14.58x |
+| carve-rs | 11.3785 | 3.45 | 1.00x |
+
+## large (321.4 KB)
+
+| Engine | ms/op | MB/s | rel |
+|---|---:|---:|---:|
+| carve-js | 378.6352 | 0.83 | 3.12x |
+| carve-php | 2097.8009 | 0.15 | 17.26x |
+| carve-rs | 121.5318 | 2.58 | 1.00x |
