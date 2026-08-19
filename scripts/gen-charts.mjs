@@ -23,7 +23,7 @@ function sections(path, valueColumn) {
   return groups.filter((group) => group.rows.length)
 }
 
-function chart(title, subtitle, groups) {
+function chart(title, subtitle, groups, unit = 'MB/s') {
   const width = 1000
   const left = 245
   const barWidth = 650
@@ -50,7 +50,7 @@ function chart(title, subtitle, groups) {
       out.push(`<text class="label" x="${left - 12}" y="${cy + 17}" text-anchor="end">${escape(row.name)}</text>`)
       out.push(`<rect class="track" x="${left}" y="${cy + 4}" width="${barWidth}" height="20" rx="4"/>`)
       out.push(`<rect x="${left}" y="${cy + 4}" width="${bar.toFixed(1)}" height="20" rx="4" fill="${colors[index % colors.length]}"/>`)
-      out.push(`<text class="value" x="${left + Math.min(bar + 8, barWidth - 70)}" y="${cy + 19}">${row.value.toFixed(2)} MB/s</text>`)
+      out.push(`<text class="value" x="${left + Math.min(bar + 8, barWidth - 70)}" y="${cy + 19}">${row.value.toFixed(2)} ${unit}</text>`)
     })
     y += group.rows.length * rowHeight + panelGap
   }
@@ -62,7 +62,13 @@ mkdirSync(resolve(root, 'charts'), { recursive: true })
 writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Same-language render throughput',
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
+  sections(resolve(root, 'COMPARISON.md'), 3),
+))
+writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
+  'Enabled core capability breadth',
+  'One point per grouped syntax family; this is scope context, not speed normalization.',
   sections(resolve(root, 'COMPARISON.md'), 2),
+  'points',
 ))
 writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
   'Carve engines on the full spec corpus',

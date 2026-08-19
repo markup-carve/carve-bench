@@ -107,9 +107,10 @@ zero-configuration Tier-3 bundle listed in `FINDINGS.md`; the specification has
 no canonical all-Tier-3 profile because app extensions can require host data or
 callbacks.
 
-Feature points in `COMPARISON.md` cover only syntax actually exercised by this
-corpus and enabled in the exact harness configuration. They are context, not a
-speed-normalization divisor; see `FEATURES.md`.
+`COMPARISON.md` reports both portable-workload points and the substantially
+broader core capability points enabled in each exact configuration. The latter
+make parser scope visible but are not a speed-normalization divisor; see
+`FEATURES.md`.
 
 ## Method notes
 

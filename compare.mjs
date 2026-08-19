@@ -6,8 +6,7 @@ import { writeFileSync } from 'node:fs'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const rs = process.env.CARVE_RS_COMPARE_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs-compare')
-const phpArgs = ['-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
-if (process.env.CARVE_PHP_MBSTRING) phpArgs.push('-d', `extension=${process.env.CARVE_PHP_MBSTRING}`)
+const phpArgs = ['-n', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`, '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
 const cases = [
   ['JavaScript', 'carve-js', 'carve.crv', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
   ['JavaScript', 'djot.js', 'djot.dj', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
@@ -22,6 +21,12 @@ const cases = [
 ]
 const rows = []
 const workloadFeaturePoints = 18
+const capabilityPoints = new Map([
+  ['carve-js', 43], ['carve-php', 43], ['carve-rs', 43],
+  ['djot.js', 32], ['djot-php', 32], ['jotdown', 32],
+  ['markdown-it', 17], ['league/commonmark-gfm', 18],
+  ['comrak', 16], ['pulldown-cmark', 16],
+])
 for (const [language, engine, file, iterations, [command, prefix]] of cases) {
   const doc = resolve(root, 'corpus/comparison', file)
   const output = execFileSync(command, [...prefix, engine, doc, String(iterations), '5'], {
@@ -41,19 +46,22 @@ const lines = [
   'rendering cost for representative documents—not semantic equivalence.', '',
   'Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php',
   '0.1.32, league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and',
-  'pulldown-cmark 0.13.4. The checked snapshot used the machine, runtimes, and',
-  'Carve engine heads recorded in `RESULTS.md`.', '',
-  `Every configured engine earns the same ${workloadFeaturePoints} workload feature points; see`,
-  '`FEATURES.md` for the auditable scoring rubric and why it is context rather',
-  'than a throughput normalization.', '',
+  'pulldown-cmark 0.13.4. The checked snapshot used Carve engine heads',
+  'carve-js `528b845a`, carve-php `5325a97c`, and carve-rs `e867367a` on',
+  'Linux 7.0, Node.js 22.22.2, PHP 8.5.9 tracing JIT, and rustc 1.97.1.', '',
+  `Every configured engine earns the same ${workloadFeaturePoints} workload points. Core capability`,
+  'points separately expose the much wider syntax surface an engine recognizes',
+  'by default. See `FEATURES.md` for the auditable matrix and limitations.', '',
   '![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)', '',
+  '![Bar chart of enabled core capability points](./charts/capabilities.svg)', '',
 ]
 for (const language of ['Rust', 'JavaScript', 'PHP']) {
   const group = rows.filter((row) => row.language === language)
   const carve = group.find((row) => row.engine.startsWith('carve-'))
-  lines.push(`## ${language}`, '', '| Engine | Feature points | MB/s | ms/op | vs Carve | trials × iterations |', '|---|---:|---:|---:|---:|---:|')
+  lines.push(`## ${language}`, '', '| Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |', '|---|---:|---:|---:|---:|---:|---:|')
   for (const row of group) {
-    lines.push(`| ${row.engine} | ${workloadFeaturePoints} | ${row.mb_per_s.toFixed(2)} | ${row.ms_per_op.toFixed(4)} | ${(row.mb_per_s / carve.mb_per_s).toFixed(2)}x | ${row.trials} × ${row.iterations} |`)
+    const breadth = capabilityPoints.get(row.engine)
+    lines.push(`| ${row.engine} | ${workloadFeaturePoints} | ${breadth} | ${row.mb_per_s.toFixed(2)} | ${(row.mb_per_s * breadth).toFixed(1)} | ${(row.mb_per_s / carve.mb_per_s).toFixed(2)}x | ${row.trials} × ${row.iterations} |`)
   }
   lines.push('')
 }
