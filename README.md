@@ -88,6 +88,22 @@ export CARVE_PHP_AUTOLOAD=../carve-php/vendor/autoload.php
 node run.mjs
 ```
 
+For the PHP extension-stack measurement, use a clean INI so a loaded coverage
+extension cannot disable JIT silently:
+
+```bash
+for profile in tier1 tier2 tier3; do
+  php -n -d extension=mbstring -d opcache.enable_cli=1 \
+    -d opcache.jit=tracing -d opcache.jit_buffer_size=128M \
+    engines/php/tiers.php "$profile" corpus/comparison/carve.crv 5 5
+done
+```
+
+Here `tier3` means Tier 1 + every Tier-2 extension + the reproducible
+zero-configuration Tier-3 bundle listed in `FINDINGS.md`; the specification has
+no canonical all-Tier-3 profile because app extensions can require host data or
+callbacks.
+
 ## Method notes
 
 - Timing is **in-process** (no per-render process startup), so it measures

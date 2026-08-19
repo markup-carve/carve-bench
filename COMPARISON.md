@@ -34,6 +34,11 @@ Carve engine heads recorded in `RESULTS.md`.
 
 | Engine | MB/s | ms/op | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|
-| carve-php | 0.36 | 129.0069 | 1.00x | 5 × 50 |
-| djot-php | 3.00 | 15.7414 | 8.24x | 5 × 50 |
-| league/commonmark-gfm | 1.37 | 34.5595 | 3.75x | 5 × 50 |
+| carve-php | 0.53 | 89.4418 | 1.00x | 5 × 10 |
+| djot-php | 3.44 | 13.7328 | 6.55x | 5 × 10 |
+| league/commonmark-gfm | 1.62 | 29.2329 | 3.08x | 5 × 10 |
+
+PHP was rerun as an isolated language group with a clean INI (`php -n` plus
+`mbstring`) after the original sequential all-language run encountered sustained
+host load. Tracing JIT was verified active. The original 0.36 MB/s Carve result
+was a benchmark-environment artifact, not a release regression.

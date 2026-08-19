@@ -40,6 +40,7 @@ jobs:
           php -l bench.php
           php -l compare.php
           php -l profile.php
+          php -l tiers.php
 
       - uses: dtolnay/rust-toolchain@stable
       - name: Build Rust harness (deps on carve-rs)
@@ -54,3 +55,4 @@ jobs:
         run: |
           node engines/js/compare.mjs markdown-it corpus/comparison/markdown.md 5 1
           php engines/php/compare.php league/commonmark-gfm corpus/comparison/markdown.md 5 1
+          CARVE_PHP_AUTOLOAD="$PWD/engines/php/vendor/autoload.php" php engines/php/tiers.php tier1 corpus/small.crv 1 1

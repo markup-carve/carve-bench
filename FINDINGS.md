@@ -14,7 +14,7 @@ benchmark plus the existing regression gates.
   0.41 → 0.15 MB/s. PHP has the strongest size sensitivity and should get the
   first scaling investigation.
 - On equivalent ~48 KiB documents, the current same-language gaps are 2.9–3.1x
-  for JS, 3.8–8.2x for PHP, and 5.0–16.1x for Rust. Pull/event parsers have a
+  for JS, 3.1–6.6x for PHP, and 5.0–16.1x for Rust. Pull/event parsers have a
   structural advantage over Carve's owned AST; the ratios are not all removable
   overhead.
 
@@ -44,11 +44,41 @@ Actionable experiments, in order:
 
 ## carve-php
 
-The phase harness measured carve-php at 111.86 ms parse + 23.53 ms render on
-the 48 KiB input; djot-php measured 12.27 + 3.17 ms. About 83% of Carve's time
-is parsing, so renderer-only tuning cannot close the observed gap. The full
-corpus fall from 0.41 to 0.15 MB/s also indicates that large mixed-feature
-documents—not fixed startup—are the priority.
+An isolated clean-INI phase run measured carve-php at 74.95 ms parse + 21.03 ms
+render on the 48 KiB input; djot-php measured 10.87 + 2.76 ms. About 78% of
+Carve's time is parsing, so renderer-only tuning cannot close the observed gap.
+The full corpus fall from 0.41 to 0.15 MB/s also indicates that large
+mixed-feature documents—not fixed startup—are the priority.
+
+The initially checked comparison result (0.36 MB/s, 129.01 ms/op) was not a
+release regression. It came from a sequential all-language run under sustained
+host load. Repeating PHP in isolation with tracing JIT verified active produced
+0.53 MB/s (89.44 ms/op). A release bisect on the identical 49,270-byte input
+also found 0.1.5 at 90.21 ms/op and current main at 91.44 ms/op in a controlled
+run: a 1.3% difference, within run-to-run noise. Current main was about 5.9%
+faster than 0.1.0 in that same run.
+
+### Extension-tier cost
+
+There is no normative Tier-3 “full” profile: Tier 3 is app-specific and may
+include host callbacks or external services. To make the term reproducible,
+`engines/php/tiers.php` defines three explicit stacks and runs the *same* core
+document through each:
+
+| Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
+|---|---:|---:|---:|---:|
+| Tier 1 core/default | 0 opt-in | 88.43 | 0.53 | baseline |
+| Tier 1 + Tier 2 | 8 | 127.72 | 0.37 | +44% |
+| Tier 1 + Tier 2 + zero-config Tier 3 bundle | 20 | 142.64 | 0.33 | +61% |
+
+These are best warmed trials from a clean-INI, tracing-JIT run. The Tier-2 set
+is Autolink, Citations, CodeCallouts, SemanticSpan, ListTable, Details, Spoiler,
+and Tabs. The documented Tier-3 bundle adds twelve composable zero-config
+extensions; it deliberately excludes host-dependent render callbacks and
+external bibliography data. Because the input contains core content, this
+isolates registration and whole-document hook overhead rather than claiming to
+measure every extension's active workload. The large Tier-2 tax makes extension
+dispatch and unconditional post-parse walks a concrete PHP profiling target.
 
 Actionable experiments, in order:
 
