@@ -19,6 +19,8 @@ spec corpus and [COMPARISON.md](./COMPARISON.md) for the same-language
 Carve/Djot/CommonMark comparison described by the spec documentation. Measured
 hotspots and optimization candidates are in [FINDINGS.md](./FINDINGS.md). The
 comparison's auditable workload scoring is in [FEATURES.md](./FEATURES.md).
+The follow-up architecture prototypes and costed recommendations are in
+[ARCHITECTURE.md](./ARCHITECTURE.md).
 Numbers are machine- and version-specific - run them yourself; treat them as
 relative, not absolute.
 
