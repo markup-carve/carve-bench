@@ -98,7 +98,7 @@ They remained statistically flat: roughly +1–2% on the comparison input and
 -1–2% on the large corpus. Both are reasonable code cleanups, but neither is a
 performance PR.
 
-### Remaining duplicated work
+### Proven parse-artifact handoff
 
 The HTML parse/render path builds document semantic indexes repeatedly:
 
@@ -108,16 +108,27 @@ The HTML parse/render path builds document semantic indexes repeatedly:
 - render separately walks the document for the generated-id namespace and
   footnote collection.
 
-The next clean step mirrors the successful JS approach: an internal
-`ParsedArtifact { document, crossref_index, document_ids, footnotes }` returned
-only to `to_html`. Public `parse()` still returns the owned mutable `Document`,
-and public tree-taking renderers still rebuild indexes defensively. Extensions
-would either update/finalize the artifact through one indexed visitor or force
-the conservative fallback.
+PR [carve-rs#1152](https://github.com/markup-carve/carve-rs/pull/1152) implements
+the smallest safe sidecar: the final parse cross-reference builder returns its
+index and `to_html` passes it into the owned renderer. Public `parse()` still
+returns the owned mutable `Document`, and public tree-taking renderers still
+rebuild defensively.
 
-**Cost:** medium (2–3 PRs). First make the final parse cross-reference builder
-return its index and pass it into the owned renderer; then unify the id and
-footnote walks behind the same typed visitor. Measure each step independently.
+| workload | main | prototype | outcome |
+|---|---:|---:|---:|
+| small, 1.2 KiB | 3.60 MB/s | 3.88 | +7.8% |
+| medium, 40.2 KiB | 1.52–1.54 | 1.45–1.54 | flat/noisy |
+| comparison, 48.1 KiB | 9.23–9.89 | 9.87–9.96 | roughly +1–8%, noisy |
+| large, 321.4 KiB | 1.80 | 1.84–1.87 | +2–4% |
+
+HTML was byte-identical across all four inputs. Focused cross-reference,
+generated-heading-ID, implicit-reference, and footnote tests passed. The gain
+is workload-dependent, but it removes provably redundant document work without
+changing the public AST or generic render contract.
+
+**Recommendation:** merge #1152 after CI. Further sidecars for document ids or
+footnotes need independent measurements; do not assume that bundling all parse
+artifacts is automatically faster.
 
 A streaming renderer remains the only credible route to the raw speed of
 Jotdown/pulldown-cmark, but it is a separate high-cost product choice: it would
@@ -129,6 +140,7 @@ The sidecar artifact should be exhausted first.
 1. Merge the proven JS conversion-context change after CI.
 2. Design PHP's block-layout definition event index; do not optimize the three
    existing state machines independently again.
-3. Add Rust's internal parsed artifact one semantic index at a time.
+3. Merge Rust's first parsed-artifact handoff after CI, then measure any further
+   semantic index independently.
 4. Keep the four-size benchmark and output-parity checks as acceptance gates;
    a comparison-only win is insufficient.
