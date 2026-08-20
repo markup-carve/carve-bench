@@ -13,7 +13,7 @@ ideas Carve can realistically adopt.
 Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php
 0.1.32, league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and
 pulldown-cmark 0.13.4. The checked snapshot used Carve engine heads
-carve-js `21876359`, carve-php `5325a97c`, and carve-rs `619f7d7f` on
+carve-js `e4ca018b`, carve-php `3592b1e2`, carve-rs `52c9fe35` on
 Linux 7.0, Node.js 22.22.2, PHP 8.5.9 tracing JIT, and rustc 1.97.1.
 
 Every configured engine earns the same 18 workload points. Core capability
@@ -28,26 +28,26 @@ by default. See `FEATURES.md` for the auditable matrix and limitations.
 
 | Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|---:|---:|
-| carve-rs | 18 | 43 | 10.33 | 444.2 | 1.00x | 5 × 200 |
-| jotdown | 18 | 32 | 40.73 | 1303.4 | 3.94x | 5 × 200 |
-| comrak | 18 | 16 | 38.45 | 615.2 | 3.72x | 5 × 200 |
-| pulldown-cmark | 18 | 16 | 111.34 | 1781.4 | 10.78x | 5 × 200 |
+| carve-rs | 18 | 43 | 76.31 | 3281.3 | 1.00x | 5 × 200 |
+| jotdown | 18 | 32 | 35.51 | 1136.3 | 0.47x | 5 × 200 |
+| comrak | 18 | 16 | 30.48 | 487.7 | 0.40x | 5 × 200 |
+| pulldown-cmark | 18 | 16 | 95.67 | 1530.7 | 1.25x | 5 × 200 |
 
 ## JavaScript
 
 | Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|---:|---:|
-| carve-js | 18 | 43 | 2.09 | 89.8 | 1.00x | 5 × 100 |
-| djot.js | 18 | 32 | 4.43 | 141.9 | 2.12x | 5 × 100 |
-| markdown-it | 18 | 17 | 4.80 | 81.7 | 2.30x | 5 × 100 |
+| carve-js | 18 | 43 | 8.99 | 386.7 | 1.00x | 5 × 100 |
+| djot.js | 18 | 32 | 3.17 | 101.4 | 0.35x | 5 × 100 |
+| markdown-it | 18 | 17 | 3.40 | 57.8 | 0.38x | 5 × 100 |
 
 ## PHP
 
 | Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|---:|---:|
-| carve-php | 18 | 43 | 1.09 | 47.1 | 1.00x | 5 × 50 |
-| djot-php | 18 | 32 | 3.04 | 97.2 | 2.77x | 5 × 50 |
-| league/commonmark-gfm | 18 | 18 | 1.48 | 26.6 | 1.35x | 5 × 50 |
+| carve-php | 18 | 43 | 12.63 | 543.2 | 1.00x | 5 × 50 |
+| djot-php | 18 | 32 | 1.63 | 52.1 | 0.13x | 5 × 50 |
+| league/commonmark-gfm | 18 | 18 | 0.99 | 17.8 | 0.08x | 5 × 50 |
 
 Language groups should be run in isolation. Sustained host load can reduce
 absolute throughput substantially even when within-language ordering stays

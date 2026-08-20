@@ -14,30 +14,27 @@ the primary comparison.
 
 | Competitor | vs carve-js | Main structural advantage |
 |---|---:|---|
-| djot.js | 2.12x | event-first block scan, narrower semantics, fewer document-wide products |
-| markdown-it | 2.30x | compact token pipeline and direct token rendering, much narrower core |
+| djot.js | 0.35x | event-first block scan, narrower semantics, fewer document-wide products |
+| markdown-it | 0.38x | compact token pipeline and direct token rendering, much narrower core |
 
 ### djot.js
 
 Djot's block reader emits a positional event stream. Its AST builder consumes
 that stream with compact container stacks; source-line indexing is constructed
-only when source positions are requested. It still builds an AST, so the whole
-2.12x gap is not explained by streaming alone.
+only when source positions are requested. It still builds an AST, so the former
+2.12x gap was not explained by streaming alone.
 
 Carve recognizes 43 core capability families versus Djot's 32 and also pays for
 semantic products required by its contract: link-definition resolution,
 document-wide ID collection, source metadata, generated cross-references, and
 the no-adjacent-text invariant. The sampled carve-js profile directly attributes
 9.2% to GC, 5.1% to document-ID collection, and 4.7% to link-definition
-collection. The remaining difference is distributed through block/list/table
-parsing, inline delimiter handling, coalescing, and rendering rather than one
-2x hotspot.
+collection. carve-js #1247 now bypasses those products for the conservative
+default-core subset and measures 8.99 MB/s, 2.6–2.8x faster than both peers.
 
-**What Carve can realistically copy:** reduce transient node/string allocation,
-make reusable parse artifacts carry definitions and IDs into rendering, and
-replace more per-character inline dispatch with run scanning. A separate event
-renderer could go further, but would duplicate semantics currently centralized
-in the public AST.
+**What Carve copied:** #1247 adds the compact borrowed renderer while keeping
+the AST authoritative for unsupported/configured documents. Remaining work is
+to widen it under exact parity and reduce transient allocation on the AST path.
 
 ### markdown-it
 
@@ -48,24 +45,24 @@ typed semantic tree or its document metadata products. Its default core scores
 less table, footnote, caption, attribute, editorial, cross-reference, and
 structural-comment machinery.
 
-The 2.30x lead is therefore a combination of a cheaper intermediate form and a
-smaller language. It is not evidence that a single Carve rule is twice too slow.
+The former lead was therefore a combination of a cheaper intermediate form and
+a smaller language. The exact-shadow facade removes that advantage on the
+portable core workload without weakening Carve's fallback capability.
 
-**What Carve can realistically copy:** a compact internal token/event fast path
-for source-to-HTML, provided it is validated against the AST renderer. This is a
-high-cost product choice because extensions, alternate renderers, transforms,
-positions, and security behavior currently share the AST.
+**What Carve copied:** the compact path is validated against the AST renderer
+across the pinned corpus. Extensions, alternate renderers, transforms,
+positions, and ambiguous documents continue to share the authoritative AST.
 
 ## PHP
 
 | Competitor | vs carve-php | Main structural advantage |
 |---|---:|---|
-| djot-php | 2.77x | same broad parser family, but fewer grammar/state/post-parse obligations |
-| league/commonmark-gfm | 1.35x | single line-oriented block stack and narrower GFM surface |
+| djot-php | 0.13x | same broad parser family, but fewer grammar/state/post-parse obligations |
+| league/commonmark-gfm | 0.08x | single line-oriented block stack and narrower GFM surface |
 
-League CommonMark is not 2x faster in the checked run. That exception matters:
-its extensible object/event architecture consumes much of the advantage from
-its narrower 18-point core.
+The refreshed facade run reverses both old leads: carve-php reaches 12.63 MB/s,
+versus djot-php 1.63 and League CommonMark 0.99. Configured and large documents
+still use the owned AST pipeline and retain the architecture described below.
 
 ### djot-php
 
@@ -80,13 +77,13 @@ Internal carve-php timing showed roughly 985 ms in the three definition scans
 on the 321 KiB mixed corpus. PR #1498 safely shares their structural work and
 improves that corpus by about 10%, proving one concrete part of the gap. Parsing
 and AST construction still dominate after that change; renderer-only tuning
-cannot recover the remaining factor.
+could not recover the remaining factor. carve-php #1506 instead applies a
+bounded borrowed source-to-HTML facade to the stateless default-core subset.
 
-**What Carve can realistically copy:** finish a semantics-aware shared layout
-product, avoid prefix substrings and repeated regex/state walks, and reduce
-Node/array allocation while preserving the public mutable AST. A compact
-source-to-HTML representation is the higher-ceiling but compatibility-heavy
-option.
+**What Carve copied:** a compact source-to-HTML representation with whole-
+document fallback, a 64 KiB speculation bound, typed acceptance counters, and
+exact shadow parity. For the remaining AST path: finish a semantics-aware block
+skeleton, avoid repeated scans, and reduce Node/array allocation.
 
 ### league/commonmark-gfm
 
@@ -105,9 +102,9 @@ first idea; a complete `BlockLayout` product remains unimplemented.
 
 | Competitor | vs carve-rs | Main structural advantage |
 |---|---:|---|
-| jotdown | 3.94x | borrowed event iterator rendered directly to HTML |
-| comrak | 3.72x | arena-allocated AST and narrower grammar |
-| pulldown-cmark | 10.78x | highly optimized borrowed pull parser with direct event rendering |
+| jotdown | 0.47x | borrowed event iterator rendered directly to HTML |
+| comrak | 0.40x | arena-allocated AST and narrower grammar |
+| pulldown-cmark | 1.25x | highly optimized borrowed pull parser with direct event rendering |
 
 ### jotdown
 
@@ -117,14 +114,14 @@ renderer. It therefore avoids allocating Carve's complete owned public AST,
 parent/child ownership, and later metadata/render traversals. Its default
 surface is also smaller: 32 capability points versus 43.
 
-**What Carve can realistically copy:** a separately specified streaming
-source-to-HTML path or a borrowed internal event layer. The public owned AST
-should remain the compatibility path for extensions, transforms, positions,
-and alternate renderers.
+carve-rs #1175 now implements that separately specified borrowed source-to-HTML
+path with exact shadow parity and reaches 76.31 MB/s, more than twice jotdown on
+this workload. The public owned AST remains the compatibility path for
+extensions, transforms, positions, and alternate renderers.
 
 ### comrak
 
-Comrak does build an AST, so its 3.72x lead is important counter-evidence to
+Comrak does build an AST, so its former lead was important counter-evidence to
 “streaming explains everything.” Its nodes and delimiters are arena allocated,
 which makes construction and teardown cheap, and the benchmark enables only
 tables beyond its CommonMark defaults. It recognizes 16 scored core families,
@@ -140,8 +137,8 @@ risk than a streaming renderer but cannot by itself erase the whole gap.
 pulldown-cmark is the architectural opposite of Carve's convenience path: an
 optimized pull parser yields mostly borrowed events and `push_html` consumes
 them immediately. No persistent general-purpose AST is built. Only table
-support is enabled, for a 16-point core surface. This combination explains why
-its lead is much larger than either jotdown or Comrak.
+support is enabled, for a 16-point core surface. This combination leaves it as
+the only faster Rust peer in the refreshed run, at 1.25x carve-rs.
 
 **What Carve can realistically copy:** only a dedicated streaming fast path is
 likely to approach this class of throughput. Incremental owned-AST tuning can
@@ -150,7 +147,9 @@ pull parser without measurement.
 
 ## Cross-language conclusion
 
-The repeated 2x+ result has three causes, in descending confidence:
+The former repeated 2x+ result had three causes, in descending confidence. The
+new exact-shadow facades directly validate the first cause by reversing most of
+the gaps without removing capability:
 
 1. **Intermediate representation:** direct token/event rendering beats a rich
    mutable owned AST, especially in Rust.

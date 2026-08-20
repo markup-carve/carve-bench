@@ -134,6 +134,50 @@ prototype missed: exact semantics and a repeatable speedup.
 should be justified by broader parser goals; it is no longer required to obtain
 the measured definition-scan gain.
 
+### Borrowed default-core facade
+
+[carve-php #1506](https://github.com/markup-carve/carve-php/pull/1506)
+implements the higher-ceiling option without replacing the public parser. A
+default source-to-HTML converter probes a conservative stateless subset and
+renders accepted documents from borrowed source slices. Any ambiguity or
+observable configuration falls back for the whole document before output.
+
+| 48 KiB Tier-1/core | current main | #1506 |
+|---|---:|---:|
+| time / render, process order A | 72.70 ms | 3.81 ms |
+| time / render, process order B | 72.95 ms | 3.74 ms |
+| throughput | 0.64–0.65 MB/s | 12.35–12.56 MB/s |
+
+That is a 19.2–19.5x improvement in the alternating-checkout comparison. The
+clean same-language run puts the PR at 12.63 MB/s, ahead of djot-php (1.63) and
+league/commonmark GFM (0.99). The absolute host was under sustained load; the
+same-window ratio is the acceptance evidence.
+
+The design pins typed acceptance counters and probes all 1,325 corpus sources;
+47 are accepted with zero HTML mismatches. Full default and scaling suites pass.
+Speculation is capped at 64 KiB after a late-failing 50 KiB prototype exposed a
+17% fallback regression; an early loose-list gate returns that adversarial case
+to the base range.
+
+**Boundary:** this closes competitor-facing default-core throughput, not the
+owned AST path. The 40 KiB and 321 KiB mixed corpora still measure 0.22 and 0.17
+MB/s, and any extension/configuration deliberately uses that path.
+
+### Remaining PHP options
+
+1. Evolve #1498's typed layout events into a materialized block skeleton, then
+   build public nodes and parse inlines from that single structural answer.
+   Highest native-PHP gain for configured/large documents; 3–5 focused PRs.
+2. Add a compact internal arena and lazily materialize public nodes. Higher
+   allocation ceiling, but public mutable nodes and parent pointers make this a
+   major lifetime/API project.
+3. Widen the borrowed facade one event family per PR under exact shadow parity.
+   Low incremental risk, but it never accelerates extension/configured paths.
+4. Offer carve-rs through an optional native extension/FFI accelerator. Highest
+   absolute ceiling; adds ABI, packaging, deployment, and crash-isolation cost.
+5. Keep application output caching outside the engine. Best repeated-document
+   result, but no first-render or parser improvement.
+
 ## carve-rs: sidecar parse artifacts before streaming
 
 ### Prototypes tested
@@ -189,10 +233,9 @@ The sidecar artifact should be exhausted first.
 
 ## Recommended order
 
-1. Merge the proven JS conversion-context change after CI.
-2. Merge PHP's authoritative definition-layout event handoff (#1498) after CI;
-   do not revive the semantically incorrect scratch block parse.
-3. Merge Rust's first parsed-artifact handoff after CI, then measure any further
-   semantic index independently.
+1. Merge PHP's borrowed default-core facade after CI.
+2. Profile PHP's remaining configured/>64 KiB path and prototype the materialized
+   block skeleton from #1498's typed events.
+3. Widen JS, PHP and Rust facades one event family at a time under exact parity.
 4. Keep the four-size benchmark and output-parity checks as acceptance gates;
    a comparison-only win is insufficient.

@@ -21,6 +21,14 @@ benchmark plus the existing regression gates.
 
 ## carve-js
 
+Merged carve-js #1247 adds a conservative borrowed HTML facade for the same
+default-core workload. The refreshed comparison measures **8.99 MB/s**, ahead
+of djot.js (3.17) and markdown-it (3.40). Its 51 accepted corpus sources have
+exact authoritative HTML parity; configured, extension-driven, ambiguous and
+non-HTML paths retain the AST pipeline. The full mixed corpus still measures
+0.72 MB/s at 40 KiB and 0.68 MB/s at 321 KiB, so the allocation/profile work
+below remains relevant to that fallback path.
+
 Merged carve-js #1235 scans ordinary ASCII prose as a run when no inline
 extension matcher is active. Five independent interleaved baseline/candidate
 pairs all favored the change; the median Tier-1 improvement was about 19.6%.
@@ -58,18 +66,47 @@ Actionable experiments, in order:
 
 ## carve-php
 
+### Borrowed default-core facade
+
+[carve-php #1506](https://github.com/markup-carve/carve-php/pull/1506)
+adds the same conservative whole-document strategy already proven in JS and
+Rust. A default source-to-HTML converter can render a stateless Tier-1 subset
+from borrowed source slices; configured or ambiguous documents fall back before
+publishing output. The public AST, extensions, alternate renderers and
+transforms remain authoritative.
+
+On the 48 KiB comparison document, two process orders measured current main at
+72.70–72.95 ms/op and the PR at 3.74–3.81 ms/op: **19.2–19.5x faster** under
+the same sustained host load. The clean competitor rerun measures 12.63 MB/s,
+versus 1.63 for djot-php and 0.99 for league/commonmark GFM. The exact absolute
+numbers are machine/load dependent; the alternating main/candidate ratio is the
+stronger engine-change evidence.
+
+The facade is intentionally bounded to 64 KiB. A deliberately late-failing
+50 KiB loose-list document initially regressed by about 17%; bounded speculation
+and an early ambiguity gate returned it to the base range. All 1,325 pinned
+corpus sources are shadow-probed: 47 are accepted and all 47 produce byte-exact
+authoritative HTML. The full default suite (16,466 tests / 215,079 assertions)
+and scaling suite (119 tests / 44,713 assertions) pass.
+
+This changes the interpretation of the remaining PHP bottleneck. Competitor-
+facing default core is no longer behind. The owned AST path is still slow for
+large mixed documents and for every configured/extension stack: the refreshed
+full corpus measures 0.22 MB/s at 40 KiB and 0.17 MB/s at 321 KiB.
+
 Earlier clean-INI phase profiling showed parsing dominates Carve conversion, so
 renderer-only tuning cannot close the observed gap.
-The full corpus fall from 0.99 to 0.20 MB/s also indicates that large
+The refreshed full corpus falls from 0.62 to 0.17 MB/s, which indicates that large
 mixed-feature documents—not fixed startup—are the priority.
 
-The initially checked PHP and release-comparison figures were invalid. Composer
+The earlier pre-facade PHP and release-comparison figures were invalid at first.
+Composer
 registered the comparison dependency autoloader after `CARVE_PHP_AUTOLOAD`, so
 its vendored carve-php won class resolution and every purported checkout loaded
 the same code. The fixed harness reverses that precedence and reports the
-resolved source directory. The refreshed clean-INI comparison at `5325a97c`
-measures 1.09 MB/s: about 26% behind league/commonmark GFM and 2.8x behind
-djot-php on this host. A cached list-marker experiment improved a list-only
+resolved source directory. The corrected clean-INI comparison at `5325a97c`
+eventually measured 1.09 MB/s: about 26% behind league/commonmark GFM and 2.8x
+behind djot-php on this host. A cached list-marker experiment improved a list-only
 synthetic document by about 18% but was between -0.6% and +3.2% on interleaved
 mixed Tier-1 runs, so it was rejected rather than publishing benchmark-specific
 complexity. Escaped-text render caching and conditional line-offset
@@ -84,22 +121,26 @@ document through each:
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core | 0 opt-in | 40.51 | 1.16 | baseline |
-| Tier 2 stack | 8 | 48.17 | 0.98 | +19% |
-| Tier 3 stack | 20 | 63.79 | 0.74 | +57% |
+| Tier 1 core | 0 opt-in | 3.42 | 13.74 | baseline |
+| Tier 2 stack | 8 | 59.04 | 0.80 | +1,627% |
+| Tier 3 stack | 20 | 85.92 | 0.55 | +2,413% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
-These are best warmed trials from a clean-INI, tracing-JIT run. The Tier-2 set
-is Autolink, Citations, CodeCallouts, SemanticSpan, ListTable, Details, Spoiler,
-and Tabs. The documented Tier-3 bundle adds twelve composable zero-config
+These are best of seven warmed trials from a clean-INI, tracing-JIT run. The
+large percentages are no longer an estimate of registration overhead alone:
+Tier 1 takes #1506's borrowed facade, while registering any opt-in extension
+correctly selects the authoritative AST pipeline. The table therefore measures
+the complete cost of configured conversion as well as active hooks. The Tier-2
+set is Autolink, Citations, CodeCallouts, SemanticSpan, ListTable, Details,
+Spoiler, and Tabs. The documented Tier-3 bundle adds twelve composable zero-config
 extensions; it deliberately excludes host-dependent render callbacks and
 external bibliography data. Because the input contains core content, this
 isolates registration and whole-document hook overhead rather than claiming to
-measure every extension's active workload. The Tier-2 registration tax is now
-much smaller after carve-php #1490/#1491. Tier 3 remains expensive because this
-corpus contains 121 headings, so heading numbering performs real work rather
-than merely paying an inactive-hook tax.
+measure every extension's active workload. Within the authoritative path, the
+Tier-2 registration tax was reduced by carve-php #1490/#1491. Tier 3 remains
+expensive because this corpus contains 121 headings, so heading numbering
+performs real work rather than merely paying an inactive-hook tax.
 
 Merged carve-php #1489–#1491 remove measured unnecessary work: absent definition
 families skip full prepasses, hot inline/event dispatch paths are gated, broad
@@ -107,7 +148,7 @@ bare-email matching is inactive on text without `@`, inactive Index/Citations
 avoid deep clones, and table separators are decoded once. List/table-heavy
 parsing remains the main measured parser bottleneck.
 
-Actionable experiments, in order:
+Actionable work for the remaining authoritative path, in order:
 
 1. Add a sampling profiler job or optional php-spx/XHProf recipe. The current
    environment exposes no time profiler, and line coverage is not a substitute;
@@ -123,11 +164,20 @@ Actionable experiments, in order:
    internal representation is not a safe incremental change: public extensions
    observe mutable concrete Nodes and parent pointers prevent structural
    sharing. Treat it as a separate architecture proposal.
-5. Keep JIT and non-JIT numbers separate. This run excluded pcov and verified
+5. Widen the facade one event family at a time only when the pinned acceptance
+   count changes under exact corpus shadow parity. Do not remove the 64 KiB
+   speculation bound without a late-fallback benchmark.
+6. Keep JIT and non-JIT numbers separate. This run excluded pcov and verified
    tracing JIT; silently comparing a coverage-loaded process would invalidate
    the result.
 
 ## carve-rs
+
+Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
+shadow parity. The refreshed comparison measures **76.31 MB/s**, ahead of
+jotdown (35.51) and comrak (30.48); pulldown-cmark remains 1.25x faster at 95.67
+MB/s. The full mixed corpus is a separate result because it falls back to the
+owned AST: 3.96 MB/s at 40 KiB and 3.95 MB/s at 321 KiB.
 
 Merged carve-rs #1146 removes unchanged-line allocation in the link-definition
 prepass, gates absent footnote and colon-ladder scans, reserves small inline
@@ -165,9 +215,10 @@ Actionable experiments, in order:
 
 ## Recommended order
 
-1. Profile PHP with time attribution and fix any remaining superlinear scans.
-2. Reduce JS transient allocation and remeasure the two whole-document passes.
-3. Add Rust phase/allocation benchmarks before choosing between local ownership
-   improvements and a deliberately separate streaming renderer.
+1. Merge PHP's exact-shadow borrowed facade after CI.
+2. Profile PHP's remaining configured/>64 KiB AST path and evolve #1498's typed
+   layout events toward a materialized block skeleton.
+3. Widen all three facades only under exact-shadow parity and explicit fallback
+   cost measurements.
 4. Re-run `compare.mjs` and the full corpus after every accepted engine change;
    require conformance CI alongside performance evidence.
