@@ -62,25 +62,121 @@ so moving coalescing into every AST producer is not a good first architectural
 trade. Fusing one cross-reference traversal was also inconsistent (-3.8% small,
 +5.7% medium, -9.5% large).
 
-### Clean design
+### Full structural prototype
 
-Split parsing into two explicit stages:
+The `perf/block-layout-definition-events` branch in carve-php implements the
+complete first experiment. A private discovery mode runs the existing block
+grammar, emits all three definition kinds, and keeps placeholder paragraphs
+instead of building inline AST/source maps. A single definition kind retains
+its specialized scanner; the shared walk is selected only when it replaces at
+least two scans.
 
-1. A block/layout stage produces a lightweight block skeleton and definition
-   events with already-resolved container/fence context.
-2. A semantic/inline stage builds the public node objects after the complete
-   definition index is known.
+Clean tracing-JIT measurements against PHP main `91918cb1` found:
 
-This replaces three subtly different container recognizers with the block
-parser's single structural answer. It should preserve the public mutable AST,
-extension hooks, parent pointers, and source positions; no compact parallel AST
-is required.
+| workload | result |
+|---|---:|
+| no markers | unchanged by construction |
+| reference-only core | unchanged by adaptive path |
+| 40 KiB mixed | approximately 7–10% faster |
+| 321 KiB mixed | approximately 10–17% faster |
 
-**Cost:** high (approximately 3–5 focused PRs). Start with a read-only
-`BlockLayout`/definition-event index used by the existing collectors, prove
-parity, then remove duplicated state machines one at a time. The theoretical
-large-input ceiling is substantial, but no partial prototype met the merge bar,
-so no PHP implementation PR is recommended yet.
+All 16,230 PHPUnit cases pass (53 skipped), as do PHPCS and PHPStan. However,
+the concatenated medium/large benchmark inputs fail byte parity on every output
+form. Block consumers deliberately remove some definition-shaped lines that
+the activation prepasses keep inert. Treating every consumed line as an active
+definition changes abbreviation scope, footnote numbering, references, and the
+public AST across long-lived malformed/container boundaries. The full suite
+also rose from roughly 113 to 151 seconds because small mixed-marker documents
+do not amortize the layout walk.
+
+**Verdict: do not merge the prototype.** It proves the large-input ceiling and
+also proves that consumption and definition activation are separate grammar
+decisions.
+
+### Semantics-preserving replacement
+
+[carve-php #1498](https://github.com/markup-carve/carve-php/pull/1498)
+uses the existing reference-definition prepass as the authoritative structural
+walk instead of trying to infer activation from block consumption. It emits
+typed immutable layout events, maintains abbreviation scope during that walk,
+and lets the footnote and abbreviation collectors consume only their candidate
+events. Their kind-specific grammar remains authoritative. The old paths remain
+as fallbacks for isolated/internal collector calls.
+
+This smaller design preserves the distinction the structural prototype lost:
+the shared walk answers where a candidate is visible, while each definition
+grammar still answers whether it activates. It also avoids building a scratch
+AST or changing public nodes, extension hooks, parent pointers, or source
+positions.
+
+Clean PHP 8.5 tracing-JIT measurements used one pinned CPU, 20 warmups and seven
+trials per process. Both base/candidate orders were measured against main
+`91918cb1`:
+
+| workload | first order | reverse order |
+|---|---:|---:|
+| 48 KiB comparison/core | 10.0% faster | 2.5% faster |
+| 40 KiB mixed | 9.4% faster | 4.8% faster |
+| 321 KiB mixed | 11.4% faster | 9.8% faster |
+
+Large-corpus throughput rises from 0.195–0.202 MB/s to 0.220–0.224 MB/s. The
+final branch passes 16,231 tests / 213,311 assertions, PHPStan and PHPCS. HTML,
+Markdown, plain text and AST JSON are byte-identical to main for all four
+benchmark corpora (16 comparisons).
+
+**Cost:** one additional typed event list proportional to definition-shaped
+candidates, plus abbreviation state maintained by the reference walk when
+abbreviation syntax is present. The fallback scanners remain, so this is not a
+maximum code deletion. In return, it meets both acceptance conditions the full
+prototype missed: exact semantics and a repeatable speedup.
+
+**Recommendation:** merge #1498 after CI. Any later block-skeleton redesign
+should be justified by broader parser goals; it is no longer required to obtain
+the measured definition-scan gain.
+
+### Borrowed default-core facade
+
+[carve-php #1506](https://github.com/markup-carve/carve-php/pull/1506)
+implements the higher-ceiling option without replacing the public parser. A
+default source-to-HTML converter probes a conservative stateless subset and
+renders accepted documents from borrowed source slices. Any ambiguity or
+observable configuration falls back for the whole document before output.
+
+| 48 KiB Tier-1/core | current main | #1506 |
+|---|---:|---:|
+| time / render, process order A | 72.70 ms | 3.81 ms |
+| time / render, process order B | 72.95 ms | 3.74 ms |
+| throughput | 0.64–0.65 MB/s | 12.35–12.56 MB/s |
+
+That is a 19.2–19.5x improvement in the alternating-checkout comparison. The
+clean same-language run puts the PR at 12.63 MB/s, ahead of djot-php (1.63) and
+league/commonmark GFM (0.99). The absolute host was under sustained load; the
+same-window ratio is the acceptance evidence.
+
+The design pins typed acceptance counters and probes all 1,325 corpus sources;
+47 are accepted with zero HTML mismatches. Full default and scaling suites pass.
+Speculation is capped at 64 KiB after a late-failing 50 KiB prototype exposed a
+17% fallback regression; an early loose-list gate returns that adversarial case
+to the base range.
+
+**Boundary:** this closes competitor-facing default-core throughput, not the
+owned AST path. The 40 KiB and 321 KiB mixed corpora still measure 0.22 and 0.17
+MB/s, and any extension/configuration deliberately uses that path.
+
+### Remaining PHP options
+
+1. Evolve #1498's typed layout events into a materialized block skeleton, then
+   build public nodes and parse inlines from that single structural answer.
+   Highest native-PHP gain for configured/large documents; 3–5 focused PRs.
+2. Add a compact internal arena and lazily materialize public nodes. Higher
+   allocation ceiling, but public mutable nodes and parent pointers make this a
+   major lifetime/API project.
+3. Widen the borrowed facade one event family per PR under exact shadow parity.
+   Low incremental risk, but it never accelerates extension/configured paths.
+4. Offer carve-rs through an optional native extension/FFI accelerator. Highest
+   absolute ceiling; adds ABI, packaging, deployment, and crash-isolation cost.
+5. Keep application output caching outside the engine. Best repeated-document
+   result, but no first-render or parser improvement.
 
 ## carve-rs: sidecar parse artifacts before streaming
 
@@ -137,10 +233,9 @@ The sidecar artifact should be exhausted first.
 
 ## Recommended order
 
-1. Merge the proven JS conversion-context change after CI.
-2. Design PHP's block-layout definition event index; do not optimize the three
-   existing state machines independently again.
-3. Merge Rust's first parsed-artifact handoff after CI, then measure any further
-   semantic index independently.
+1. Merge PHP's borrowed default-core facade after CI.
+2. Profile PHP's remaining configured/>64 KiB path and prototype the materialized
+   block skeleton from #1498's typed events.
+3. Widen JS, PHP and Rust facades one event family at a time under exact parity.
 4. Keep the four-size benchmark and output-parity checks as acceptance gates;
    a comparison-only win is insufficient.
