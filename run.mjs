@@ -97,6 +97,10 @@ lines.push(
   'with `node run.mjs`; see README for setup.',
   '',
 )
+if (process.env.CARVE_RUN_META) lines.push(`**Run:** ${process.env.CARVE_RUN_META}`, '')
+if (process.env.CARVE_ENGINE_HEADS) lines.push(`**Engine heads:** ${process.env.CARVE_ENGINE_HEADS}`, '')
+if (process.env.CARVE_CORPUS_SNAPSHOT) lines.push(`**Corpus snapshot:** ${process.env.CARVE_CORPUS_SNAPSHOT}`, '')
+lines.push('![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)', '')
 for (const doc of docs) {
   const key = basename(doc, '.crv')
   const row = results[key]

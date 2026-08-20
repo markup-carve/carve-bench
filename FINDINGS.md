@@ -10,11 +10,11 @@ benchmark plus the existing regression gates.
   medium input from 12.6 to 40.2 KiB and the large input from 100.6 to 321.4
   KiB, so the old and new `ms/op` values are not directly comparable.
 - On the full mixed-feature corpus, throughput declines from small to large:
-  carve-js 1.29 → 0.83 MB/s, carve-rs 5.78 → 2.58 MB/s, and carve-php
-  0.94 → 0.15 MB/s. PHP has the strongest size sensitivity and should get the
+  carve-js 1.16 → 0.88 MB/s, carve-rs 7.85 → 3.79 MB/s, and carve-php
+  0.99 → 0.20 MB/s. PHP has the strongest size sensitivity and should get the
   first scaling investigation.
 - On equivalent ~48 KiB documents after the optimization pass, the current
-  same-language gaps are 2.3–2.5x for JS, 1.2–2.9x for PHP, and 4.1–12.1x for
+  same-language gaps are 2.1–2.3x for JS, 1.35–2.8x for PHP, and 3.7–10.8x for
   Rust after enabling peer table parsing. Pull/event parsers have a
   structural advantage over Carve's owned AST; the ratios are not all removable
   overhead.
@@ -25,7 +25,14 @@ Merged carve-js #1235 scans ordinary ASCII prose as a run when no inline
 extension matcher is active. Five independent interleaved baseline/candidate
 pairs all favored the change; the median Tier-1 improvement was about 19.6%.
 The complete CI matrix passed (Node 20/22 corpus, scaling, browser parity, and
-mutation-XSS). The refreshed competitor run measures 1.94 MB/s.
+mutation-XSS). The refreshed competitor run measures 2.09 MB/s.
+
+The later document-ID walker experiment (#1237) initially measured 9–10%
+faster on the 48 KiB comparison input and passed the existing scaling gate, but
+the 321 KiB corpus exposed a severe `for...in` regression. A safer
+`Object.keys` variant removed the regression but was statistically flat, so
+#1238 reverted the optimization. This is why performance candidates must now
+be checked at all three corpus sizes, not only against the comparison input.
 
 A Node CPU profile over the comparison document collected 1,389 samples. The
 largest directly attributable buckets were garbage collection (128 samples,
@@ -53,7 +60,7 @@ Actionable experiments, in order:
 
 Earlier clean-INI phase profiling showed parsing dominates Carve conversion, so
 renderer-only tuning cannot close the observed gap.
-The full corpus fall from 0.41 to 0.15 MB/s also indicates that large
+The full corpus fall from 0.99 to 0.20 MB/s also indicates that large
 mixed-feature documents—not fixed startup—are the priority.
 
 The initially checked PHP and release-comparison figures were invalid. Composer
@@ -61,7 +68,7 @@ registered the comparison dependency autoloader after `CARVE_PHP_AUTOLOAD`, so
 its vendored carve-php won class resolution and every purported checkout loaded
 the same code. The fixed harness reverses that precedence and reports the
 resolved source directory. The refreshed clean-INI comparison at `5325a97c`
-measures 0.89 MB/s: about 18% behind league/commonmark GFM and 2.9x behind
+measures 1.09 MB/s: about 26% behind league/commonmark GFM and 2.8x behind
 djot-php on this host. A cached list-marker experiment improved a list-only
 synthetic document by about 18% but was between -0.6% and +3.2% on interleaved
 mixed Tier-1 runs, so it was rejected rather than publishing benchmark-specific
@@ -77,9 +84,9 @@ document through each:
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core | 0 opt-in | 43.04 | 1.09 | baseline |
-| Tier 2 stack | 8 | 51.77 | 0.91 | +20% |
-| Tier 3 stack | 20 | 80.81 | 0.58 | +88% |
+| Tier 1 core | 0 opt-in | 40.51 | 1.16 | baseline |
+| Tier 2 stack | 8 | 48.17 | 0.98 | +19% |
+| Tier 3 stack | 20 | 63.79 | 0.74 | +57% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
@@ -129,7 +136,11 @@ baseline/candidate pairs all favored it; median Tier-1 throughput rose from
 6.15 to 6.98 MB/s (+13.5%). Allocation instrumentation attributed 3,784 fewer
 allocations and roughly 708 KiB less requested memory per parse to the prepass
 changes alone. Full Rust CI, including the focused performance gate, passed.
-The rebuilt comparison harness measures 7.16 MB/s.
+The rebuilt comparison harness measures 10.33 MB/s. In addition, carve-rs
+#1150 lets the source-to-HTML convenience path surrender its freshly parsed
+document to the renderer instead of defensively cloning the complete AST. The
+gain stayed positive from 1.2 KiB through 321 KiB (+81%, +7.9%, +16–17% on the
+comparison input, and +3.5% respectively), with byte-identical HTML.
 
 Hardware sampling was unavailable (`perf_event_paranoid=4`), so the current
 evidence is throughput/scaling plus architecture. carve-rs builds a complete

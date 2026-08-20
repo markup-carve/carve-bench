@@ -49,6 +49,20 @@ node run.mjs              # full run
 node run.mjs --quick      # few iterations, to smoke-test the harness
 ```
 
+For a publication run, use a clean PHP INI so a globally loaded coverage or
+debug extension cannot disable JIT, and record the selected revisions in the
+generated report:
+
+```bash
+CARVE_PHP_INI='-n -d extension=ctype -d extension=mbstring' \
+CARVE_RUN_META='YYYY-MM-DD on HOST; Node X, PHP Y tracing JIT, rustc Z.' \
+CARVE_ENGINE_HEADS='carve-js `REV`, carve-php `REV`, carve-rs `REV`.' \
+CARVE_CORPUS_SNAPSHOT='carve `REV` (N documents).' \
+node run.mjs
+```
+
+Accept the PHP rows only when every harness line reports `jit=true`.
+
 For the same-language comparison, install the locked dependencies in each
 engine directory, build both Rust binaries, generate the comparison corpus,
 then run:

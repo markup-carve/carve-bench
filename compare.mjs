@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { writeFileSync } from 'node:fs'
 
 const root = dirname(fileURLToPath(import.meta.url))
+const engineHeads = process.env.CARVE_ENGINE_HEADS ?? 'unrecorded local checkouts'
 const rs = process.env.CARVE_RS_COMPARE_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs-compare')
 const phpArgs = ['-n', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`, '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
 const cases = [
@@ -47,7 +48,7 @@ const lines = [
   'Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php',
   '0.1.32, league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and',
   'pulldown-cmark 0.13.4. The checked snapshot used Carve engine heads',
-  'carve-js `528b845a`, carve-php `5325a97c`, and carve-rs `e867367a` on',
+  `${engineHeads} on`,
   'Linux 7.0, Node.js 22.22.2, PHP 8.5.9 tracing JIT, and rustc 1.97.1.', '',
   `Every configured engine earns the same ${workloadFeaturePoints} workload points. Core capability`,
   'points separately expose the much wider syntax surface an engine recognizes',
