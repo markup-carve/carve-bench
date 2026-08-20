@@ -93,27 +93,46 @@ do not amortize the layout walk.
 also proves that consumption and definition activation are separate grammar
 decisions.
 
-### Revised clean design
+### Semantics-preserving replacement
 
-Split parsing into two explicit stages:
+[carve-php #1498](https://github.com/markup-carve/carve-php/pull/1498)
+uses the existing reference-definition prepass as the authoritative structural
+walk instead of trying to infer activation from block consumption. It emits
+typed immutable layout events, maintains abbreviation scope during that walk,
+and lets the footnote and abbreviation collectors consume only their candidate
+events. Their kind-specific grammar remains authoritative. The old paths remain
+as fallbacks for isolated/internal collector calls.
 
-1. A block/layout stage produces a lightweight block skeleton and typed events
-   carrying separate `consumed` and `activeDefinition` decisions, plus source
-   line, ancestry, content column, opacity and lazy-continuation state.
-2. A semantic/inline stage builds the public node objects after the complete
-   definition index is known.
+This smaller design preserves the distinction the structural prototype lost:
+the shared walk answers where a candidate is visible, while each definition
+grammar still answers whether it activates. It also avoids building a scratch
+AST or changing public nodes, extension hooks, parent pointers, or source
+positions.
 
-This replaces three subtly different container recognizers with the block
-parser's single structural answer. It should preserve the public mutable AST,
-extension hooks, parent pointers, and source positions; no compact parallel AST
-is required.
+Clean PHP 8.5 tracing-JIT measurements used one pinned CPU, 20 warmups and seven
+trials per process. Both base/candidate orders were measured against main
+`91918cb1`:
 
-**Cost:** high (approximately 3–5 focused PRs). First extract typed layout
-events while the old collectors remain authoritative. Compare activation sets
-in shadow mode on both standalone and concatenated corpora. Replace one scanner
-at a time only after exact event parity. The theoretical large-input upside is
-now measured, but the complete prototype did not meet the semantic merge bar,
-so no PHP implementation PR is recommended yet.
+| workload | first order | reverse order |
+|---|---:|---:|
+| 48 KiB comparison/core | 10.0% faster | 2.5% faster |
+| 40 KiB mixed | 9.4% faster | 4.8% faster |
+| 321 KiB mixed | 11.4% faster | 9.8% faster |
+
+Large-corpus throughput rises from 0.195–0.202 MB/s to 0.220–0.224 MB/s. The
+final branch passes 16,231 tests / 213,311 assertions, PHPStan and PHPCS. HTML,
+Markdown, plain text and AST JSON are byte-identical to main for all four
+benchmark corpora (16 comparisons).
+
+**Cost:** one additional typed event list proportional to definition-shaped
+candidates, plus abbreviation state maintained by the reference walk when
+abbreviation syntax is present. The fallback scanners remain, so this is not a
+maximum code deletion. In return, it meets both acceptance conditions the full
+prototype missed: exact semantics and a repeatable speedup.
+
+**Recommendation:** merge #1498 after CI. Any later block-skeleton redesign
+should be justified by broader parser goals; it is no longer required to obtain
+the measured definition-scan gain.
 
 ## carve-rs: sidecar parse artifacts before streaming
 
@@ -171,8 +190,8 @@ The sidecar artifact should be exhausted first.
 ## Recommended order
 
 1. Merge the proven JS conversion-context change after CI.
-2. Design PHP's block-layout definition event index; do not optimize the three
-   existing state machines independently again.
+2. Merge PHP's authoritative definition-layout event handoff (#1498) after CI;
+   do not revive the semantically incorrect scratch block parse.
 3. Merge Rust's first parsed-artifact handoff after CI, then measure any further
    semantic index independently.
 4. Keep the four-size benchmark and output-parity checks as acceptance gates;
