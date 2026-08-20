@@ -6,6 +6,10 @@ logical content in native Carve, Djot, or Markdown syntax and are 48.1–48.4 Ki
 The libraries do not have identical feature sets or output, so this compares
 rendering cost for representative documents—not semantic equivalence.
 
+See [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md) for a
+source-checked explanation of the per-library gaps and which architectural
+ideas Carve can realistically adopt.
+
 Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php
 0.1.32, league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and
 pulldown-cmark 0.13.4. The checked snapshot used Carve engine heads
