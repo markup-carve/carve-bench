@@ -62,12 +62,44 @@ so moving coalescing into every AST producer is not a good first architectural
 trade. Fusing one cross-reference traversal was also inconsistent (-3.8% small,
 +5.7% medium, -9.5% large).
 
-### Clean design
+### Full structural prototype
+
+The `perf/block-layout-definition-events` branch in carve-php implements the
+complete first experiment. A private discovery mode runs the existing block
+grammar, emits all three definition kinds, and keeps placeholder paragraphs
+instead of building inline AST/source maps. A single definition kind retains
+its specialized scanner; the shared walk is selected only when it replaces at
+least two scans.
+
+Clean tracing-JIT measurements against PHP main `91918cb1` found:
+
+| workload | result |
+|---|---:|
+| no markers | unchanged by construction |
+| reference-only core | unchanged by adaptive path |
+| 40 KiB mixed | approximately 7–10% faster |
+| 321 KiB mixed | approximately 10–17% faster |
+
+All 16,230 PHPUnit cases pass (53 skipped), as do PHPCS and PHPStan. However,
+the concatenated medium/large benchmark inputs fail byte parity on every output
+form. Block consumers deliberately remove some definition-shaped lines that
+the activation prepasses keep inert. Treating every consumed line as an active
+definition changes abbreviation scope, footnote numbering, references, and the
+public AST across long-lived malformed/container boundaries. The full suite
+also rose from roughly 113 to 151 seconds because small mixed-marker documents
+do not amortize the layout walk.
+
+**Verdict: do not merge the prototype.** It proves the large-input ceiling and
+also proves that consumption and definition activation are separate grammar
+decisions.
+
+### Revised clean design
 
 Split parsing into two explicit stages:
 
-1. A block/layout stage produces a lightweight block skeleton and definition
-   events with already-resolved container/fence context.
+1. A block/layout stage produces a lightweight block skeleton and typed events
+   carrying separate `consumed` and `activeDefinition` decisions, plus source
+   line, ancestry, content column, opacity and lazy-continuation state.
 2. A semantic/inline stage builds the public node objects after the complete
    definition index is known.
 
@@ -76,10 +108,11 @@ parser's single structural answer. It should preserve the public mutable AST,
 extension hooks, parent pointers, and source positions; no compact parallel AST
 is required.
 
-**Cost:** high (approximately 3–5 focused PRs). Start with a read-only
-`BlockLayout`/definition-event index used by the existing collectors, prove
-parity, then remove duplicated state machines one at a time. The theoretical
-large-input ceiling is substantial, but no partial prototype met the merge bar,
+**Cost:** high (approximately 3–5 focused PRs). First extract typed layout
+events while the old collectors remain authoritative. Compare activation sets
+in shadow mode on both standalone and concatenated corpora. Replace one scanner
+at a time only after exact event parity. The theoretical large-input upside is
+now measured, but the complete prototype did not meet the semantic merge bar,
 so no PHP implementation PR is recommended yet.
 
 ## carve-rs: sidecar parse artifacts before streaming
