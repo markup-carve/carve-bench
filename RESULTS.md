@@ -1,4 +1,13 @@
-# Benchmark results
+# Benchmark results: authoritative/full parser
+
+This is **Track B**, the Carve-owned authoritative/full-parser view. The mixed
+corpus falls outside the conservative borrowed facades and therefore exercises
+normal AST construction, extension-capable parsing, and rendering. It answers
+how the three Carve implementations scale on their full language—not how their
+fastest core-only convenience API compares with another library.
+
+For **Track A**, the fastest public Tier-1 source-to-HTML comparison against
+same-language libraries, see [`COMPARISON.md`](./COMPARISON.md).
 
 Parse + render to HTML, in-process, averaged over many iterations. Lower
 ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
@@ -36,3 +45,31 @@ with `node run.mjs`; see README for setup.
 | carve-js | 461.1391 | 0.68 | 5.80x |
 | carve-php | 1848.9070 | 0.17 | 23.25x |
 | carve-rs | 79.5384 | 3.95 | 1.00x |
+
+## PHP authoritative extension tiers
+
+These are internal Carve measurements over the same core document. Tier 1 is
+the default public conversion route and therefore takes the conservative fast
+facade; registering an extension selects the authoritative AST path. Tier 2
+and Tier 3 quantify configured/full-parser cost and are not competitor rows.
+
+| Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
+|---|---:|---:|---:|---:|
+| Tier 1 core/default | 0 | 3.42 | 13.74 | baseline |
+| Tier 2 stack | 8 | 59.04 | 0.80 | +1,627% |
+| Tier 3 stack | 20 | 85.92 | 0.55 | +2,413% |
+
+![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
+
+The exact extension bundles and interpretation are documented in
+[`FINDINGS.md`](./FINDINGS.md#extension-tier-cost). There is no normative Tier
+3 profile; it is a reproducible internal stress stack.
+
+## Why Track B has no competitor rows
+
+The 1,325-document corpus uses Carve syntax and capabilities that the peer
+libraries do not accept equivalently. Feeding it to Djot/CommonMark parsers
+would benchmark error recovery or literal-text handling, not the same work.
+Track A therefore uses equivalent native-language fixtures for competitors,
+while Track B and the tier table remain honest Carve-internal architecture
+measurements.

@@ -73,7 +73,8 @@ writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
 writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
   'Carve engines on the full spec corpus',
   'Each document-size panel is normalized visually to its fastest engine; labels show absolute MB/s.',
-  sections(resolve(root, 'RESULTS.md'), 2),
+  sections(resolve(root, 'RESULTS.md'), 2)
+    .filter((group) => /^(small|medium|large) \(/.test(group.name)),
 ))
 writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   'carve-php extension profile throughput',

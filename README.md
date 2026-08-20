@@ -14,10 +14,20 @@ tracks carve-rs plus a thin FFI/IPC layer.
 
 ## Results
 
-See [RESULTS.md](./RESULTS.md) for the three Carve implementations on the full
-spec corpus and [COMPARISON.md](./COMPARISON.md) for the same-language
-Carve/Djot/CommonMark comparison described by the spec documentation. Measured
-hotspots and optimization candidates are in [FINDINGS.md](./FINDINGS.md). The
+The published numbers are deliberately split into two tracks:
+
+| Track | Question | Route | Peers |
+|---|---|---|---|
+| A: [fastest public Tier-1 source-to-HTML](./COMPARISON.md) | How fast is the normal core conversion API? | Borrowed facade where accepted | Same-language Djot/CommonMark libraries |
+| B: [authoritative/full parser](./RESULTS.md) | How does full AST construction and configured parsing scale? | Mixed corpus fallback plus PHP Tier 1/2/3 | Carve implementations and internal tiers |
+
+Track A and Track B are not interchangeable. A Track-A library may avoid an
+owned public AST; Track B intentionally measures the cost that facade hides.
+Competitors are absent from the full Carve corpus because they do not implement
+equivalent syntax there, so such rows would measure literal/error recovery
+rather than equal work.
+
+Measured hotspots and optimization candidates are in [FINDINGS.md](./FINDINGS.md). The
 comparison's auditable workload scoring is in [FEATURES.md](./FEATURES.md).
 The follow-up architecture prototypes and costed recommendations are in
 [ARCHITECTURE.md](./ARCHITECTURE.md).

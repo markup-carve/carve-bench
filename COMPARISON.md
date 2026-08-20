@@ -1,10 +1,23 @@
-# Same-language comparison
+# Benchmark results: fastest public Tier-1 source-to-HTML
+
+This is **Track A**, the competitor-facing view. Each engine uses its normal
+fastest public source-to-HTML route with default/core configuration. For Carve,
+that deliberately includes the conservative borrowed facade where it accepts
+the input. It answers the common conversion-API question; it is not a claim
+that every row builds an equivalent owned AST or supports equivalent syntax.
+
+For **Track B**, normal authoritative/full-parser scaling on the mixed Carve
+corpus plus the PHP Tier 1/2/3 diagnostic, see [`RESULTS.md`](./RESULTS.md).
 
 Parse + render to HTML, in-process. Each result is the fastest of five warmed
 trials; every trial runs the iteration count shown. Inputs carry equivalent
 logical content in native Carve, Djot, or Markdown syntax and are 48.1–48.4 KiB.
 The libraries do not have identical feature sets or output, so this compares
 rendering cost for representative documents—not semantic equivalence.
+
+Do not compare a Track-A Carve number directly with a Track-B number: the first
+may render borrowed source slices, while the second materializes the public AST
+and runs the full semantic pipeline.
 
 See [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md) for a
 source-checked explanation of the per-library gaps and which architectural
