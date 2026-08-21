@@ -2,7 +2,7 @@
 import { execFileSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const engineHeads = process.env.CARVE_ENGINE_HEADS ?? 'unrecorded local checkouts'
@@ -58,10 +58,11 @@ const lines = [
   'and runs the full semantic pipeline.', '',
   'See [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md) for the',
   'source-checked reading of each peer\'s architecture and why pulldown-cmark',
-  'is the one peer still ahead.', '',
+  'and djot-php remain ahead in their language groups.', '',
   'Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php',
-  '0.1.32, league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and',
-  'pulldown-cmark 0.13.4. The checked snapshot used Carve engine heads',
+  'dev-master (`fab953f6`), league/commonmark 2.10.0, jotdown 0.10.0,',
+  'comrak 0.54.0, and pulldown-cmark 0.13.4. The checked snapshot used Carve',
+  'engine heads',
   `${engineHeads.replace(/\.\s*$/, '')} on`,
   'Linux 7.0, Node.js 22.22.2, PHP 8.5.9 tracing JIT, and rustc 1.97.1.', '',
   `Every configured engine earns the same ${workloadFeaturePoints} workload points. Core capability`,
@@ -125,3 +126,14 @@ lines.push(
   'similar; contaminated groups should be rerun rather than published.', '',
 )
 writeFileSync(resolve(root, 'COMPARISON.md'), lines.join('\n'))
+
+// Keep the README's two headline tables generated from the same measured rows.
+const comparison = lines.join('\n')
+const headline = comparison.match(/\| Language \| Carve \| MB\/s \| Fastest peer \| MB\/s \| Carve vs peer \|[\s\S]*?\n\n/)
+const carveTable = comparison.match(/\| Engine \| Language \| ms\/op \| MB\/s \| rel \|[\s\S]*?\n\n/)
+if (!headline || !carveTable) throw new Error('generated comparison summary tables not found')
+const readmePath = resolve(root, 'README.md')
+const readme = readFileSync(readmePath, 'utf8')
+  .replace(/\| Language \| Carve \| MB\/s \| Fastest peer \| MB\/s \| Carve vs peer \|[\s\S]*?\n\n/, headline[0])
+  .replace(/\| Engine \| Language \| ms\/op \| MB\/s \| rel \|[\s\S]*?\n\n/, carveTable[0])
+writeFileSync(readmePath, readme)

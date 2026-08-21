@@ -19,9 +19,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 113.80 | pulldown-cmark | 126.62 | 0.90x |
-| JavaScript | carve-js | 11.81 | markdown-it | 5.05 | 2.34x |
-| PHP | carve-php | 18.41 | djot-php | 4.07 | 4.52x |
+| Rust | carve-rs | 104.46 | pulldown-cmark | 115.62 | 0.90x |
+| JavaScript | carve-js | 9.98 | djot.js | 5.78 | 1.73x |
+| PHP | carve-php | 15.69 | djot-php | 17.82 | 0.88x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -30,9 +30,9 @@ document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 3.9791 | 11.81 | 9.64x |
-| carve-php | PHP | 2.5528 | 18.41 | 6.18x |
-| carve-rs | Rust | 0.4129 | 113.80 | 1.00x |
+| carve-js | JavaScript | 4.7084 | 9.98 | 10.47x |
+| carve-php | PHP | 2.9938 | 15.69 | 6.66x |
+| carve-rs | Rust | 0.4498 | 104.46 | 1.00x |
 
 Every peer row, the capability breadth behind each row, and the method are in
 [COMPARISON.md](./COMPARISON.md).
