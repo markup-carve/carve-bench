@@ -7,7 +7,7 @@ import { writeFileSync } from 'node:fs'
 const root = dirname(fileURLToPath(import.meta.url))
 const engineHeads = process.env.CARVE_ENGINE_HEADS ?? 'unrecorded local checkouts'
 const rs = process.env.CARVE_RS_COMPARE_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs-compare')
-const phpArgs = ['-n', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`, '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
+const phpArgs = ['-n', '-d', 'extension=ctype', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`, '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
 const cases = [
   ['JavaScript', 'carve-js', 'carve.crv', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
   ['JavaScript', 'djot.js', 'djot.dj', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
@@ -39,9 +39,10 @@ for (const [language, engine, file, iterations, [command, prefix]] of cases) {
 }
 
 const lines = [
-  '# Benchmark results: fastest public Tier-1 source-to-HTML', '',
-  'This is **Track A**, the competitor-facing view. Each engine uses its normal',
-  'fastest public source-to-HTML route with default/core configuration. For Carve,',
+  '# Benchmark results: core source-to-HTML vs same-language peers', '',
+  'This is **Track A**, the competitor-facing view, and the primary number: every',
+  'engine uses its normal fastest public source-to-HTML route in its default core',
+  'configuration, with no opt-in extensions registered. For Carve,',
   'that deliberately includes the conservative borrowed facade where it accepts',
   'the input. It answers the common conversion-API question; it is not a claim',
   'that every row builds an equivalent owned AST or supports equivalent syntax.', '',
@@ -67,8 +68,47 @@ const lines = [
   'points separately expose the much wider syntax surface an engine recognizes',
   'by default. See `FEATURES.md` for the auditable matrix and limitations.', '',
   '![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)', '',
+  '![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)', '',
   '![Bar chart of enabled core capability points](./charts/capabilities.svg)', '',
 ]
+
+// Headline: the core route against the fastest same-language peer.
+lines.push('## Headline: core route vs the fastest same-language peer', '')
+lines.push('| Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |', '|---|---|---:|---|---:|---:|')
+for (const language of ['Rust', 'JavaScript', 'PHP']) {
+  const group = rows.filter((row) => row.language === language)
+  const carve = group.find((row) => row.engine.startsWith('carve-'))
+  const peers = group.filter((row) => row !== carve)
+  const best = peers.reduce((a, b) => (b.mb_per_s > a.mb_per_s ? b : a))
+  lines.push(
+    `| ${language} | ${carve.engine} | ${carve.mb_per_s.toFixed(2)} | ${best.engine} |` +
+      ` ${best.mb_per_s.toFixed(2)} | ${(carve.mb_per_s / best.mb_per_s).toFixed(2)}x |`,
+  )
+}
+lines.push('')
+lines.push(
+  'Every row above is the default core route with no opt-in extensions registered.',
+  'The per-language tables below add each remaining peer and the capability breadth',
+  'each engine recognizes in that same configuration.', '',
+)
+
+// The three Carve engines against each other on the identical document.
+const carveRows = rows.filter((row) => row.engine.startsWith('carve-'))
+const fastestCarve = carveRows.reduce((a, b) => (b.mb_per_s > a.mb_per_s ? b : a))
+lines.push('## The three Carve engines on the same document', '')
+lines.push('| Engine | Language | ms/op | MB/s | rel |', '|---|---|---:|---:|---:|')
+for (const row of carveRows) {
+  lines.push(
+    `| ${row.engine} | ${row.language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} |` +
+      ` ${(fastestCarve.mb_per_s / row.mb_per_s).toFixed(2)}x |`,
+  )
+}
+lines.push('')
+lines.push(
+  'Same input, same core route, so this is the direct cross-language cost of the',
+  'implementation rather than of the language surface. Full-corpus scaling for the',
+  'same three engines is in [`RESULTS.md`](./RESULTS.md).', '',
+)
 for (const language of ['Rust', 'JavaScript', 'PHP']) {
   const group = rows.filter((row) => row.language === language)
   const carve = group.find((row) => row.engine.startsWith('carve-'))

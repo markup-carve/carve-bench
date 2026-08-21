@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 $docPath = $argv[1] ?? null;
 $iters = (int)($argv[2] ?? 200);
+require_once __DIR__ . '/carve-src.php';
 $autoload = getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 
 // Warn on stderr when the environment makes results untrustworthy.
@@ -22,7 +23,8 @@ if (!$jit) {
     fwrite(STDERR, "[carve-bench] WARNING: JIT is not active - pass -d opcache.enable_cli=1 -d opcache.jit=tracing for representative results.\n");
 }
 
-require $autoload;
+$loader = require $autoload;
+carve_bench_apply_src($loader);
 
 use MarkupCarve\Carve\CarveConverter;
 
