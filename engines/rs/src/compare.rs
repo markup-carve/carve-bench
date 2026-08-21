@@ -50,5 +50,12 @@ fn main() {
         }
         write!(&mut encoded, "{sample:.6}").unwrap();
     }
-    println!("{{\"engine\":\"{engine}\",\"bytes\":{},\"iterations\":{iterations},\"trials\":{trials},\"samples\":[{encoded}],\"ms_per_op\":{min:.6},\"mb_per_s\":{throughput:.2}}}", source.len());
+    // Only the Carve row carries `carve_source`; on a peer row it would name an
+    // engine that did not produce the number.
+    let carve_source = if engine == "carve-rs" {
+        format!(",\"carve_source\":\"{}\"", env!("CARVE_ENGINE_SOURCE"))
+    } else {
+        String::new()
+    };
+    println!("{{\"engine\":\"{engine}\",\"bytes\":{},\"iterations\":{iterations},\"trials\":{trials},\"samples\":[{encoded}],\"ms_per_op\":{min:.6},\"mb_per_s\":{throughput:.2}{carve_source}}}", source.len());
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/carve-src.php';
 require_once __DIR__ . '/vendor/autoload.php';
 require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 
@@ -60,6 +61,6 @@ $parser->ns = [];
 $start = hrtime(true);
 for ($i = 0; $i < $iterations; $i++) { $parser->parse($source); }
 $total = hrtime(true) - $start;
-$result = ['total_ms' => $total / 1e6 / $iterations, 'carve_source' => dirname((new ReflectionClass(BlockParser::class))->getFileName(), 2)];
+$result = ['total_ms' => $total / 1e6 / $iterations, 'carve_source' => carve_bench_describe_src(BlockParser::class)];
 foreach ($parser->ns as $name => $ns) { $result[$name . '_ms'] = $ns / 1e6 / $iterations; }
 echo json_encode($result) . "\n";

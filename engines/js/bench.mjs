@@ -1,14 +1,18 @@
 // carve-js render benchmark harness.
 // Usage: node bench.mjs <doc-path> <iters>
-// Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes }.
+// Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes, carve_source }.
 // The carve-js module is resolved from CARVE_JS (a path to its index.js or a
 // bare package specifier); defaults to the published scoped package.
+// `carve_source` reports where that resolved to, so a report can say what it
+// measured instead of being told.
 import { readFileSync } from 'node:fs'
+import { describeCarveSource } from './carve-src.mjs'
 
 const docPath = process.argv[2]
 const iters = Number.parseInt(process.argv[3] ?? '200', 10)
 const spec = process.env.CARVE_JS ?? '@markup-carve/carve'
 
+const resolved = safeResolve(spec)
 const { carveToHtml } = await import(spec)
 const src = readFileSync(docPath, 'utf8')
 const bytes = Buffer.byteLength(src)
@@ -29,5 +33,16 @@ process.stdout.write(
     mb_per_s: Number(mbPerS.toFixed(2)),
     iters,
     bytes,
+    carve_source: describeCarveSource(spec, resolved),
   }) + '\n',
 )
+
+// import.meta.resolve throws on a specifier it cannot map; the import below
+// reports that far better than this would, so leave it to fail there.
+function safeResolve(specifier) {
+  try {
+    return import.meta.resolve(specifier)
+  } catch {
+    return null
+  }
+}

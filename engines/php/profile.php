@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/carve-src.php';
 require_once __DIR__ . '/vendor/autoload.php';
 require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
 
@@ -23,4 +24,4 @@ $parseMs = (hrtime(true) - $start) / 1e6 / $iterations;
 $start = hrtime(true);
 for ($i = 0; $i < $iterations; $i++) { $converter->render($document); }
 $renderMs = (hrtime(true) - $start) / 1e6 / $iterations;
-echo json_encode(['engine' => $engine, 'parse_ms' => $parseMs, 'render_ms' => $renderMs, 'total_ms' => $parseMs + $renderMs, 'carve_source' => dirname((new ReflectionClass(CarveConverter::class))->getFileName(), 2)]) . "\n";
+echo json_encode(['engine' => $engine, 'parse_ms' => $parseMs, 'render_ms' => $renderMs, 'total_ms' => $parseMs + $renderMs, 'carve_source' => carve_bench_describe_src(CarveConverter::class)]) . "\n";

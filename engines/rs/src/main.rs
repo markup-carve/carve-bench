@@ -1,6 +1,8 @@
 //! carve-rs render benchmark harness.
 //! Usage: carve-bench-rs <doc-path> <iters>
-//! Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes }.
+//! Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes, carve_source }.
+//! `carve_source` is the engine revision this binary was built against, baked in
+//! by `build.rs`, so a report can say what it measured instead of being told.
 
 use std::time::Instant;
 
@@ -26,7 +28,11 @@ fn main() {
     let ms_per_op = elapsed_ms / f64::from(iters);
     let mb_per_s = (bytes as f64) / 1024.0 / 1024.0 / (ms_per_op / 1000.0);
     println!(
-        "{{\"engine\":\"carve-rs\",\"ms_per_op\":{:.4},\"mb_per_s\":{:.2},\"iters\":{},\"bytes\":{}}}",
-        ms_per_op, mb_per_s, iters, bytes
+        "{{\"engine\":\"carve-rs\",\"ms_per_op\":{:.4},\"mb_per_s\":{:.2},\"iters\":{},\"bytes\":{},\"carve_source\":\"{}\"}}",
+        ms_per_op,
+        mb_per_s,
+        iters,
+        bytes,
+        env!("CARVE_ENGINE_SOURCE")
     );
 }
