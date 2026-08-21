@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/carve-src.php';
 require_once __DIR__ . '/vendor/autoload.php';
-require_once getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
+$loader = require getenv('CARVE_PHP_AUTOLOAD') ?: __DIR__ . '/vendor/autoload.php';
+carve_bench_apply_src($loader);
 
 use Djot\DjotConverter;
 use League\CommonMark\GithubFlavoredMarkdownConverter;

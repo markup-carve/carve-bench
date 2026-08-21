@@ -59,24 +59,47 @@ function chart(title, subtitle, groups, unit = 'MB/s') {
 }
 
 mkdirSync(resolve(root, 'charts'), { recursive: true })
+
+// One absolute scale across every language, so the core route can be read
+// against both the same-language peers and the other Carve engines.
+// COMPARISON.md also carries summary tables whose columns mean something else,
+// so charts read only the three per-language peer tables.
+const LANGUAGES = new Set(['Rust', 'JavaScript', 'PHP'])
+const languageSections = (path, valueColumn) =>
+  sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
+const comparisonGroups = languageSections(resolve(root, 'COMPARISON.md'), 3)
+const allEngines = comparisonGroups.flatMap((group) => group.rows)
 writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Same-language render throughput',
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
-  sections(resolve(root, 'COMPARISON.md'), 3),
+  comparisonGroups,
+))
+writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
+  'Core route throughput, all engines on one scale',
+  'Default configuration, no opt-in extensions. Carve engines are listed with their same-language peers.',
+  [
+    { name: 'Every measured engine', rows: [...allEngines].sort((a, b) => b.value - a.value) },
+    {
+      name: 'Carve engines only',
+      rows: allEngines.filter((row) => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
+    },
+  ],
 ))
 writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
   'Enabled core capability breadth',
   'One point per grouped syntax family; this is scope context, not speed normalization.',
-  sections(resolve(root, 'COMPARISON.md'), 2),
+  languageSections(resolve(root, 'COMPARISON.md'), 2),
   'points',
 ))
 writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
   'Carve engines on the full spec corpus',
   'Each document-size panel is normalized visually to its fastest engine; labels show absolute MB/s.',
-  sections(resolve(root, 'RESULTS.md'), 2),
+  sections(resolve(root, 'RESULTS.md'), 2)
+    .filter((group) => /^(small|medium|large) \(/.test(group.name)),
 ))
 writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   'carve-php extension profile throughput',
   'Internal diagnostic only; competitor comparisons use Tier 1/core.',
-  sections(resolve(root, 'FINDINGS.md'), 3).filter((group) => group.name === 'carve-php'),
+  sections(resolve(root, 'RESULTS.md'), 3)
+    .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))

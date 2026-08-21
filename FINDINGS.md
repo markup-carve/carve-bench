@@ -121,26 +121,35 @@ document through each:
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core | 0 opt-in | 3.42 | 13.74 | baseline |
-| Tier 2 stack | 8 | 59.04 | 0.80 | +1,627% |
-| Tier 3 stack | 20 | 85.92 | 0.55 | +2,413% |
+| Tier 1 core | 0 opt-in | 2.53 | 18.59 | baseline |
+| Tier 2 stack | 8 | 2.77 | 16.93 | +10% |
+| Tier 3 stack | 20 | 3.25 | 14.47 | +29% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
-These are best of seven warmed trials from a clean-INI, tracing-JIT run. The
-large percentages are no longer an estimate of registration overhead alone:
-Tier 1 takes #1506's borrowed facade, while registering any opt-in extension
-correctly selects the authoritative AST pipeline. The table therefore measures
-the complete cost of configured conversion as well as active hooks. The Tier-2
+These are best of five warmed trials from a clean-INI, tracing-JIT run at
+carve-php `8abc2204`, and `run.mjs` re-measures them on every publication run
+rather than carrying transcribed constants.
+
+The tier tax collapsed here. The 2026-08-19 snapshot of this table read +1,627%
+for Tier 2 and +2,413% for Tier 3, because registering any opt-in extension
+dropped the whole conversion out of the borrowed facade and into a separate
+allocating pipeline. carve-php #1515 (“Make configured HTML conversion
+allocation-light”) removed that cliff: configured conversion now shares the
+cheap path, so what remains is registration and inactive-hook overhead. The
+comparison document renders byte-identically with and without the stacks
+registered, which is why the residual cost is small - it is not evidence that
+an extension doing real work is free. The Tier-2
 set is Autolink, Citations, CodeCallouts, SemanticSpan, ListTable, Details,
 Spoiler, and Tabs. The documented Tier-3 bundle adds twelve composable zero-config
 extensions; it deliberately excludes host-dependent render callbacks and
 external bibliography data. Because the input contains core content, this
 isolates registration and whole-document hook overhead rather than claiming to
 measure every extension's active workload. Within the authoritative path, the
-Tier-2 registration tax was reduced by carve-php #1490/#1491. Tier 3 remains
-expensive because this corpus contains 121 headings, so heading numbering
-performs real work rather than merely paying an inactive-hook tax.
+Tier-2 registration tax was reduced by carve-php #1490/#1491 and then by #1515.
+Tier 3 stays the most expensive profile because this corpus contains 121
+headings, so heading numbering performs real work rather than merely paying an
+inactive-hook tax.
 
 Merged carve-php #1489–#1491 remove measured unnecessary work: absent definition
 families skip full prepasses, hot inline/event dispatch paths are gated, broad
