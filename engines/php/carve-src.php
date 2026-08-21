@@ -44,7 +44,7 @@ function carve_bench_describe_src(string $class): string
     if ($file === false) {
         return 'carve-php (unresolved)';
     }
-    $root = dirname($file, 2);
+    $root = carve_bench_package_root($file);
     $installed = 'Composer\\InstalledVersions';
     $vendored = str_contains($root, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR);
 
@@ -59,6 +59,34 @@ function carve_bench_describe_src(string $class): string
     }
 
     return sprintf('markup-carve/carve-php (local checkout %s%s)', $root, carve_bench_head_of($root));
+}
+
+/**
+ * The package root a class file belongs to.
+ *
+ * A fixed dirname() depth is wrong for any class that does not sit directly in
+ * src/ - reflecting Parser\\BlockParser two levels up lands on src/ rather than
+ * the package - so walk up to the composer.json instead, and fall back to the
+ * parent of src/ for a bare source tree that has none.
+ */
+function carve_bench_package_root(string $file): string
+{
+    $dir = dirname($file);
+    for ($step = 0; $step < 8; $step++) {
+        if (is_file($dir . '/composer.json')) {
+            return $dir;
+        }
+        if (basename($dir) === 'src') {
+            return dirname($dir);
+        }
+        $parent = dirname($dir);
+        if ($parent === $dir) {
+            break;
+        }
+        $dir = $parent;
+    }
+
+    return dirname($file);
 }
 
 /**
