@@ -1,4 +1,4 @@
-# Performance findings — 2026-08-19
+# Performance findings — 2026-08-19, numbers refreshed 2026-08-21
 
 These are measured leads, not promises. Any engine change must preserve its
 conformance and security contracts and should prove the gain with a focused
@@ -6,27 +6,26 @@ benchmark plus the existing regression gates.
 
 ## What changed
 
-- The current spec corpus contains 1,301 documents. Regeneration grew the
+- The current spec corpus contains 1,325 documents. Regeneration grew the
   medium input from 12.6 to 40.2 KiB and the large input from 100.6 to 321.4
   KiB, so the old and new `ms/op` values are not directly comparable.
 - On the full mixed-feature corpus, throughput declines from small to large:
-  carve-js 1.16 → 0.88 MB/s, carve-rs 7.85 → 3.79 MB/s, and carve-php
-  0.99 → 0.20 MB/s. PHP has the strongest size sensitivity and should get the
-  first scaling investigation.
-- On equivalent ~48 KiB documents after the optimization pass, the current
-  same-language gaps are 2.1–2.3x for JS, 1.35–2.8x for PHP, and 3.7–10.8x for
-  Rust after enabling peer table parsing. Pull/event parsers have a
-  structural advantage over Carve's owned AST; the ratios are not all removable
-  overhead.
+  carve-js 1.15 → 1.02 MB/s, carve-rs 13.15 → 4.97 MB/s, and carve-php
+  1.10 → 0.27 MB/s. PHP still has the strongest size sensitivity, and that
+  authoritative path is where the remaining work is.
+- On equivalent ~48 KiB documents the borrowed facades have reversed every
+  same-language gap except one: carve-rs 113.80 MB/s against pulldown-cmark's
+  126.62. Pull/event parsers keep a structural advantage over an owned AST;
+  see [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md).
 
 ## carve-js
 
 Merged carve-js #1247 adds a conservative borrowed HTML facade for the same
-default-core workload. The refreshed comparison measures **8.99 MB/s**, ahead
-of djot.js (3.17) and markdown-it (3.40). Its 51 accepted corpus sources have
+default-core workload. The comparison measures **11.81 MB/s**, ahead of
+markdown-it (5.05) and djot.js (4.75). Its 51 accepted corpus sources have
 exact authoritative HTML parity; configured, extension-driven, ambiguous and
 non-HTML paths retain the AST pipeline. The full mixed corpus still measures
-0.72 MB/s at 40 KiB and 0.68 MB/s at 321 KiB, so the allocation/profile work
+1.03 MB/s at 40 KiB and 1.02 MB/s at 321 KiB, so the allocation/profile work
 below remains relevant to that fallback path.
 
 Merged carve-js #1235 scans ordinary ASCII prose as a run when no inline
@@ -68,7 +67,7 @@ Actionable experiments, in order:
 
 ### Borrowed default-core facade
 
-[carve-php #1506](https://github.com/markup-carve/carve-php/pull/1506)
+Merged [carve-php #1506](https://github.com/markup-carve/carve-php/pull/1506)
 adds the same conservative whole-document strategy already proven in JS and
 Rust. A default source-to-HTML converter can render a stateless Tier-1 subset
 from borrowed source slices; configured or ambiguous documents fall back before
@@ -77,8 +76,8 @@ transforms remain authoritative.
 
 On the 48 KiB comparison document, two process orders measured current main at
 72.70–72.95 ms/op and the PR at 3.74–3.81 ms/op: **19.2–19.5x faster** under
-the same sustained host load. The clean competitor rerun measures 12.63 MB/s,
-versus 1.63 for djot-php and 0.99 for league/commonmark GFM. The exact absolute
+the same sustained host load. The clean competitor rerun measures 18.41 MB/s,
+versus 4.07 for djot-php and 1.59 for league/commonmark GFM. The exact absolute
 numbers are machine/load dependent; the alternating main/candidate ratio is the
 stronger engine-change evidence.
 
@@ -91,13 +90,16 @@ and scaling suite (119 tests / 44,713 assertions) pass.
 
 This changes the interpretation of the remaining PHP bottleneck. Competitor-
 facing default core is no longer behind. The owned AST path is still slow for
-large mixed documents and for every configured/extension stack: the refreshed
-full corpus measures 0.22 MB/s at 40 KiB and 0.17 MB/s at 321 KiB.
+large mixed documents: the full corpus measures 0.48 MB/s at 40 KiB and 0.27
+MB/s at 321 KiB. Configured stacks are no longer the same story - carve-php
+#1515 made configured conversion allocation-light, so the tier table below
+reads +10%/+29% rather than the four-figure percentages it once did.
 
 Earlier clean-INI phase profiling showed parsing dominates Carve conversion, so
 renderer-only tuning cannot close the observed gap.
-The refreshed full corpus falls from 0.62 to 0.17 MB/s, which indicates that large
-mixed-feature documents—not fixed startup—are the priority.
+The full corpus falls from 1.10 MB/s on the small input to 0.27 on the large
+one, which indicates that large mixed-feature documents - not fixed startup -
+are the priority.
 
 The earlier pre-facade PHP and release-comparison figures were invalid at first.
 Composer
@@ -183,10 +185,10 @@ Actionable work for the remaining authoritative path, in order:
 ## carve-rs
 
 Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
-shadow parity. The refreshed comparison measures **76.31 MB/s**, ahead of
-jotdown (35.51) and comrak (30.48); pulldown-cmark remains 1.25x faster at 95.67
-MB/s. The full mixed corpus is a separate result because it falls back to the
-owned AST: 3.96 MB/s at 40 KiB and 3.95 MB/s at 321 KiB.
+shadow parity. The comparison measures **113.80 MB/s**, ahead of
+jotdown (45.57) and comrak (40.91); pulldown-cmark remains 1.11x faster at
+126.62 MB/s. The full mixed corpus is a separate result because it falls back
+to the owned AST: 6.23 MB/s at 40 KiB and 4.97 MB/s at 321 KiB.
 
 Merged carve-rs #1146 removes unchanged-line allocation in the link-definition
 prepass, gates absent footnote and colon-ladder scans, reserves small inline
@@ -224,10 +226,14 @@ Actionable experiments, in order:
 
 ## Recommended order
 
-1. Merge PHP's exact-shadow borrowed facade after CI.
-2. Profile PHP's remaining configured/>64 KiB AST path and evolve #1498's typed
-   layout events toward a materialized block skeleton.
-3. Widen all three facades only under exact-shadow parity and explicit fallback
-   cost measurements.
-4. Re-run `compare.mjs` and the full corpus after every accepted engine change;
+PHP's exact-shadow borrowed facade (#1506) and the allocation-light configured
+path (#1515) have both merged. What is left:
+
+1. Profile PHP's remaining >64 KiB AST path and evolve #1498's typed layout
+   events toward a materialized block skeleton. At 0.27 MB/s on the 321 KiB
+   corpus this is the largest gap in any engine.
+2. Widen all three facades only under exact-shadow parity and explicit fallback
+   cost measurements. In Rust that is also the only route at pulldown-cmark's
+   remaining 1.11x lead.
+3. Re-run `compare.mjs` and the full corpus after every accepted engine change;
    require conformance CI alongside performance evidence.

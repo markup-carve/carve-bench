@@ -23,6 +23,22 @@ function sections(path, valueColumn) {
   return groups.filter((group) => group.rows.length)
 }
 
+// Color says who a bar belongs to, in every panel and every chart: the Carve
+// engines take shades of one purple, the Djot peers green, the CommonMark peers
+// orange. Carve-internal panels (tier profiles, the full corpus) stay inside the
+// purple ramp so they never borrow a competitor's color.
+const CARVE_PURPLE = ['#4c31a8', '#7357d9', '#a08ceb']
+const FAMILY_COLORS = [
+  [/^carve-rs\b/, CARVE_PURPLE[0]],
+  [/^carve-php\b/, CARVE_PURPLE[1]],
+  [/^carve-js\b/, CARVE_PURPLE[2]],
+  [/^(djot\.js|djot-php|jotdown)\b/, '#24a37a'],
+  [/^(markdown-it|comrak|pulldown-cmark|league\/commonmark)/, '#e58b25'],
+]
+const barColor = (name, index) =>
+  FAMILY_COLORS.find(([pattern]) => pattern.test(name))?.[1] ??
+  (/^Tier /.test(name) ? CARVE_PURPLE[index % CARVE_PURPLE.length] : undefined)
+
 function chart(title, subtitle, groups, unit = 'MB/s') {
   const width = 1000
   const left = 245
@@ -31,6 +47,7 @@ function chart(title, subtitle, groups, unit = 'MB/s') {
   const panelGap = 55
   const height = 105 + groups.reduce((sum, group) => sum + 35 + group.rows.length * rowHeight + panelGap, 0)
   const colors = ['#7357d9', '#24a37a', '#e58b25', '#3f88c5']
+
   const out = [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc">`,
     `<title id="title">${escape(title)}</title>`, `<desc id="desc">${escape(subtitle)}</desc>`,
@@ -49,7 +66,7 @@ function chart(title, subtitle, groups, unit = 'MB/s') {
       const cy = y + index * rowHeight
       out.push(`<text class="label" x="${left - 12}" y="${cy + 17}" text-anchor="end">${escape(row.name)}</text>`)
       out.push(`<rect class="track" x="${left}" y="${cy + 4}" width="${barWidth}" height="20" rx="4"/>`)
-      out.push(`<rect x="${left}" y="${cy + 4}" width="${bar.toFixed(1)}" height="20" rx="4" fill="${colors[index % colors.length]}"/>`)
+      out.push(`<rect x="${left}" y="${cy + 4}" width="${bar.toFixed(1)}" height="20" rx="4" fill="${barColor(row.name, index) ?? colors[index % colors.length]}"/>`)
       out.push(`<text class="value" x="${left + Math.min(bar + 8, barWidth - 70)}" y="${cy + 19}">${row.value.toFixed(2)} ${unit}</text>`)
     })
     y += group.rows.length * rowHeight + panelGap
@@ -68,7 +85,11 @@ const LANGUAGES = new Set(['Rust', 'JavaScript', 'PHP'])
 const languageSections = (path, valueColumn) =>
   sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
 const comparisonGroups = languageSections(resolve(root, 'COMPARISON.md'), 3)
-const allEngines = comparisonGroups.flatMap((group) => group.rows)
+// Rows from every language share one scale here, so each label carries its
+// language.
+const allEngines = comparisonGroups.flatMap((group) =>
+  group.rows.map((row) => ({ ...row, name: `${row.name} (${group.name})` })),
+)
 writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Same-language render throughput',
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
@@ -76,7 +97,7 @@ writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
 ))
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core route throughput, all engines on one scale',
-  'Default configuration, no opt-in extensions. Carve engines are listed with their same-language peers.',
+  'Default configuration, no opt-in extensions. Carve purple, Djot peers green, CommonMark peers orange.',
   [
     { name: 'Every measured engine', rows: [...allEngines].sort((a, b) => b.value - a.value) },
     {

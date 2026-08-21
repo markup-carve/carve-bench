@@ -1,5 +1,12 @@
 # Architecture performance investigation — 2026-08-20
 
+**Status 2026-08-21: every prototype recommended below has merged** - carve-js
+#1239, carve-php #1498 and #1506, carve-rs #1152, plus carve-php #1515, which
+landed after this report and made configured conversion allocation-light. The
+document is kept as the reasoning and the measurement method behind those
+changes, and for the costed options that are still open. Current numbers live
+in `COMPARISON.md` and `RESULTS.md`.
+
 This report separates clean pipeline changes from local micro-optimizations.
 Every prototype was measured against current `main`, on the checked small,
 medium, comparison, and large corpora where practical. A result is recommended
@@ -34,7 +41,7 @@ all four inputs. The complete local suite passed (12,002 tests). Unlike reverted
 #1237, this removes the redundant traversal rather than changing generic object
 enumeration, and the large corpus improves.
 
-**Recommendation:** merge #1239 after CI.
+**Recommendation:** merge #1239 after CI. *(Merged.)*
 
 ## carve-php: make definitions a block-phase product
 
@@ -130,9 +137,9 @@ abbreviation syntax is present. The fallback scanners remain, so this is not a
 maximum code deletion. In return, it meets both acceptance conditions the full
 prototype missed: exact semantics and a repeatable speedup.
 
-**Recommendation:** merge #1498 after CI. Any later block-skeleton redesign
-should be justified by broader parser goals; it is no longer required to obtain
-the measured definition-scan gain.
+**Recommendation:** merge #1498 after CI. *(Merged.)* Any later block-skeleton
+redesign should be justified by broader parser goals; it is no longer required
+to obtain the measured definition-scan gain.
 
 ### Borrowed default-core facade
 
@@ -149,9 +156,10 @@ observable configuration falls back for the whole document before output.
 | throughput | 0.64–0.65 MB/s | 12.35–12.56 MB/s |
 
 That is a 19.2–19.5x improvement in the alternating-checkout comparison. The
-clean same-language run puts the PR at 12.63 MB/s, ahead of djot-php (1.63) and
-league/commonmark GFM (0.99). The absolute host was under sustained load; the
-same-window ratio is the acceptance evidence.
+absolute host was under sustained load; the same-window ratio is the acceptance
+evidence. *(Merged. The clean same-language run at carve-php `8abc2204` now
+measures 18.41 MB/s, ahead of djot-php at 4.07 and league/commonmark GFM at
+1.59.)*
 
 The design pins typed acceptance counters and probes all 1,325 corpus sources;
 47 are accepted with zero HTML mismatches. Full default and scaling suites pass.
@@ -160,8 +168,11 @@ Speculation is capped at 64 KiB after a late-failing 50 KiB prototype exposed a
 to the base range.
 
 **Boundary:** this closes competitor-facing default-core throughput, not the
-owned AST path. The 40 KiB and 321 KiB mixed corpora still measure 0.22 and 0.17
-MB/s, and any extension/configuration deliberately uses that path.
+owned AST path. The 40 KiB and 321 KiB mixed corpora measure 0.48 and 0.27 MB/s,
+and any document the facade rejects deliberately uses that path. Registering an
+extension no longer does: carve-php #1515 keeps configured conversion on the
+cheap path, which took the Tier 2/Tier 3 tax from +1,627%/+2,413% down to
++10%/+29%.
 
 ### Remaining PHP options
 
@@ -222,20 +233,22 @@ generated-heading-ID, implicit-reference, and footnote tests passed. The gain
 is workload-dependent, but it removes provably redundant document work without
 changing the public AST or generic render contract.
 
-**Recommendation:** merge #1152 after CI. Further sidecars for document ids or
-footnotes need independent measurements; do not assume that bundling all parse
-artifacts is automatically faster.
+**Recommendation:** merge #1152 after CI. *(Merged.)* Further sidecars for
+document ids or footnotes need independent measurements; do not assume that
+bundling all parse artifacts is automatically faster.
 
 A streaming renderer remains the only credible route to the raw speed of
 Jotdown/pulldown-cmark, but it is a separate high-cost product choice: it would
 duplicate resolution, positions, extension, profile, and security behavior.
 The sidecar artifact should be exhausted first.
 
-## Recommended order
+## Remaining order, after everything above merged
 
-1. Merge PHP's borrowed default-core facade after CI.
-2. Profile PHP's remaining configured/>64 KiB path and prototype the materialized
-   block skeleton from #1498's typed events.
-3. Widen JS, PHP and Rust facades one event family at a time under exact parity.
-4. Keep the four-size benchmark and output-parity checks as acceptance gates;
+1. Profile PHP's remaining >64 KiB path and prototype the materialized block
+   skeleton from #1498's typed events. The full corpus at 0.27 MB/s is the
+   largest single gap left in any engine.
+2. Widen the JS, PHP and Rust facades one event family at a time under exact
+   parity. In Rust this is also the only credible route at pulldown-cmark's
+   1.11x lead.
+3. Keep the four-size benchmark and output-parity checks as acceptance gates;
    a comparison-only win is insufficient.
