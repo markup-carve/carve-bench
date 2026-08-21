@@ -6,6 +6,12 @@
 //   CARVE_PHP_AUTOLOAD    path to carve-php vendor/autoload.php (default: engines/php/vendor/autoload.php)
 //   CARVE_RS_BIN          path to the built rust harness        (default: engines/rs/target/release/carve-bench-rs)
 //
+// Whatever those resolve to, each harness reports it back as `carve_source`
+// and the generated report names it. The engine line is DERIVED from the run,
+// not supplied to it: a benchmark whose provenance is typed on the command
+// line cannot disagree with what it measured, which is the one thing
+// provenance is for.
+//
 // Usage: node run.mjs [--quick]
 import { execFileSync } from 'node:child_process'
 import { readdirSync, writeFileSync, existsSync } from 'node:fs'
@@ -138,7 +144,7 @@ lines.push(
   '',
 )
 if (process.env.CARVE_RUN_META) lines.push(`**Run:** ${process.env.CARVE_RUN_META}`, '')
-if (process.env.CARVE_ENGINE_HEADS) lines.push(`**Engine heads:** ${process.env.CARVE_ENGINE_HEADS}`, '')
+lines.push(`**Engines measured:** ${describeEngines()}`, '')
 if (process.env.CARVE_CORPUS_SNAPSHOT) lines.push(`**Corpus snapshot:** ${process.env.CARVE_CORPUS_SNAPSHOT}`, '')
 lines.push('![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)', '')
 for (const doc of docs) {
@@ -198,4 +204,32 @@ lines.push(
 const out = resolve(root, 'RESULTS.md')
 writeFileSync(out, lines.join('\n'))
 console.error(`\nwrote ${out}`)
+
+// The engine each row was actually produced by, read back out of the harness
+// output. An engine that reported nothing is named as such rather than left
+// out, and an engine that reported two different sources within one run - the
+// tier rows resolving a different carve-php than the corpus rows, say - has
+// both printed, because such a run is not internally comparable and the report
+// is where that has to show.
+function describeEngines() {
+  const sources = new Map(engines.map((engine) => [engine.name, new Set()]))
+  for (const row of Object.values(results)) {
+    for (const [name, result] of Object.entries(row)) {
+      if (result?.carve_source) sources.get(name)?.add(result.carve_source)
+    }
+  }
+  for (const tier of tiers) {
+    if (tier?.carve_source) sources.get('carve-php')?.add(tier.carve_source)
+  }
+  return engines
+    .map((engine) => {
+      const seen = [...(sources.get(engine.name) ?? [])]
+      if (seen.length === 0) return `${engine.name} \`unreported\``
+      if (seen.length > 1) {
+        return `${engine.name} **MISMATCH** ${seen.map((source) => `\`${source}\``).join(' and ')}`
+      }
+      return `${engine.name} \`${seen[0]}\``
+    })
+    .join(', ')
+}
 if (!existsSync(RS_BIN)) console.error(`note: ${RS_BIN} missing - build it: (cd engines/rs && cargo build --release)`)

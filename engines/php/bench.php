@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 // carve-php render benchmark harness.
 // Usage: php bench.php <doc-path> <iters>
-// Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes }.
+// Emits one JSON line: { engine, ms_per_op, mb_per_s, iters, bytes, carve_source }.
 // The carve-php autoloader is resolved from CARVE_PHP_AUTOLOAD; defaults to a
 // local Composer install (vendor/autoload.php).
 
@@ -54,4 +54,5 @@ echo json_encode([
     'iters' => $iters,
     'bytes' => $bytes,
     'jit' => $jit,
+    'carve_source' => carve_bench_describe_src(CarveConverter::class),
 ]) . "\n";

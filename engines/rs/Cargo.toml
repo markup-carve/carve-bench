@@ -6,11 +6,14 @@ publish = false
 
 [dependencies]
 # carve-rs engine, published as the `carve-lang` crate (aliased here as `carve`,
-# so the harness keeps `use carve`). Defaults to the public git repo; override
-# with a path for local development:
-#   cargo build --release --config 'patch."https://github.com/markup-carve/carve-rs".carve-lang.path="../../../carve-rs"'
+# so the harness keeps `use carve`). The requirement is EXACT (`=`), not the
+# caret Cargo would infer from a bare version: the JS and PHP lanes name one
+# published release each and cannot walk to another, and comparability is this
+# repo's product, so the Rust lane must not move under `cargo update` either.
+# Override with a path for local development:
+#   cargo build --release --config 'patch.crates-io.carve-lang.path="../../../carve-rs"'
 # or set [patch] in a workspace. See README.
-carve = { package = "carve-lang", git = "https://github.com/markup-carve/carve-rs" }
+carve = { package = "carve-lang", version = "=0.1.3" }
 comrak = { version = "0.54.0", default-features = false }
 jotdown = "0.10.0"
 pulldown-cmark = { version = "0.13.4", default-features = false, features = ["html"] }

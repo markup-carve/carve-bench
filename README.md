@@ -58,8 +58,10 @@ packages.** The npm and Packagist releases lag the engine heads the tables name:
 measured on 2026-08-21, npm `@markup-carve/carve` 0.1.4 rendered the comparison
 document at 1.99 MB/s against 11.81 MB/s for carve-js `main`, and Packagist
 `markup-carve/carve-php` 0.1.5 does not contain the borrowed facade at all. Set
-`CARVE_JS` / `CARVE_PHP_AUTOLOAD` / the cargo `patch` at the heads listed in
-`COMPARISON.md` before comparing against a published number.
+`CARVE_JS` / `CARVE_PHP_SRC` / the cargo `patch` at the heads listed in
+`COMPARISON.md` before comparing against a published number. Every generated
+report names the engine each row was produced by, so a run against the
+published packages cannot be mistaken for a run against the heads.
 
 Measured hotspots and optimization candidates are in [FINDINGS.md](./FINDINGS.md). The
 comparison's auditable workload scoring is in [FEATURES.md](./FEATURES.md).
@@ -96,16 +98,18 @@ node run.mjs --quick      # few iterations, to smoke-test the harness
 ```
 
 For a publication run, use a clean PHP INI so a globally loaded coverage or
-debug extension cannot disable JIT, and record the selected revisions in the
-generated report:
+debug extension cannot disable JIT:
 
 ```bash
 CARVE_PHP_INI='-n -d extension=ctype -d extension=mbstring' \
 CARVE_RUN_META='YYYY-MM-DD on HOST; Node X, PHP Y tracing JIT, rustc Z.' \
-CARVE_ENGINE_HEADS='carve-js `REV`, carve-php `REV`, carve-rs `REV`.' \
 CARVE_CORPUS_SNAPSHOT='carve `REV` (N documents).' \
 node run.mjs
 ```
+
+The engine line is not among those: each harness reports the engine it
+resolved and the report is written from what came back, so it cannot name a
+revision the run did not use. See "Engine pinning and provenance".
 
 Accept the PHP rows only when every harness line reports `jit=true`.
 
@@ -145,6 +149,9 @@ a published package or a local checkout:
 | carve-php | `CARVE_PHP_SRC`      | unset - a checkout's `src/`, prepended       |
 | carve-rs  | `CARVE_RS_BIN`       | `engines/rs/target/release/carve-bench-rs`  |
 
+Every harness reports what it resolved as `carve_source` in its JSON line, and
+`run.mjs` / `compare.mjs` write the report's engine line from those values.
+
 Prefer `CARVE_PHP_SRC` for a checkout. `CARVE_PHP_AUTOLOAD` alone cannot beat the
 benchmark's own vendored carve-php: Composer prepends that loader, so it resolves
 `MarkupCarve\Carve\*` first and the checkout never runs. `CARVE_PHP_SRC` rewrites
@@ -154,12 +161,38 @@ Example, all three from local checkouts beside this repo:
 
 ```bash
 export CARVE_JS=../carve-js/dist/index.js
-export CARVE_PHP_AUTOLOAD=../carve-php/vendor/autoload.php
-# engines/rs deps on carve-rs by git; to build against a local checkout instead:
+export CARVE_PHP_SRC=../carve-php/src
+# engines/rs deps on the published carve-lang crate; for a local checkout instead:
 (cd engines/rs && cargo build --release \
-  --config 'patch."https://github.com/markup-carve/carve-rs".carve-lang.path="../../../carve-rs"')
+  --config 'patch.crates-io.carve-lang.path="../../../carve-rs"')
 node run.mjs
 ```
+
+### Engine pinning and provenance
+
+Comparability is what this repo produces, so every lane names one exact
+published release of its engine and none of them can move without a tracked
+manifest line changing:
+
+| Lane | Manifest | Requirement |
+|---|---|---|
+| carve-js | `engines/js/package.json` | `0.1.4` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.5` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.3` - the `=` matters, a bare version is a caret range in Cargo |
+
+To move a lane onto a newer engine release, edit that requirement and refresh
+the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
+`cargo update -p carve-lang`), then re-run the benchmarks: a table mixing
+engine revisions is not a comparison. Measuring an unreleased engine is an
+override at run time, not an edit to these manifests.
+
+The report says which of the two happened. Each harness resolves its engine,
+reports it as `carve_source`, and the generated documents name it - a
+published release by version and package checksum or reference, a checkout by
+path and revision. An engine that reports nothing is written as `unreported`
+rather than omitted, and one that resolves two different sources within a
+single run is written as a `MISMATCH`, because neither run is comparable and
+the report is where that has to be visible.
 
 For the PHP extension-stack measurement, use a clean INI so a loaded coverage
 extension cannot disable JIT silently:
@@ -196,6 +229,7 @@ make parser scope visible but are not a speed-normalization divisor; see
   must be disabled** before benchmarking PHP - they override `zend_execute_ex`, which
   disables JIT and inflates timings by roughly 2x. The harness warns on stderr if
   either is detected or JIT is not active.
-- PHP JSON results include `carve_source`. When `CARVE_PHP_AUTOLOAD` selects a
-  checkout, verify this path before accepting a comparison; this guards against
-  Composer autoloader precedence silently benchmarking the vendored release.
+- Every harness's JSON includes `carve_source`, the engine it actually
+  resolved. Verify it before accepting a comparison. In PHP this also guards
+  against Composer autoloader precedence silently benchmarking the vendored
+  release instead of the checkout `CARVE_PHP_SRC` names.

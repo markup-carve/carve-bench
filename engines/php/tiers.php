@@ -75,5 +75,5 @@ echo json_encode([
     'jit' => (@opcache_get_status(false)['jit']['enabled'] ?? false) === true,
     'tier2_extensions' => count($profile === 'tier1' ? [] : $tier2),
     'tier3_extensions' => count($profile === 'tier3' ? $tier3 : []),
-    'carve_source' => dirname((new ReflectionClass(CarveConverter::class))->getFileName(), 2),
+    'carve_source' => carve_bench_describe_src(CarveConverter::class),
 ]) . "\n";

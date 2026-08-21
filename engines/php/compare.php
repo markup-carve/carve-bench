@@ -39,7 +39,7 @@ for ($trial = 0; $trial < $trials; $trial++) {
 }
 $min = min($samples);
 $bytes = strlen($source);
-echo json_encode([
+$result = [
     'engine' => $engine,
     'bytes' => $bytes,
     'iterations' => $iterations,
@@ -48,5 +48,10 @@ echo json_encode([
     'ms_per_op' => $min,
     'mb_per_s' => $bytes / 1048576 / ($min / 1000),
     'jit' => (@opcache_get_status(false)['jit']['enabled'] ?? false) === true,
-    'carve_source' => dirname((new ReflectionClass(CarveConverter::class))->getFileName(), 2),
-]) . "\n";
+];
+// Only the Carve row carries this; on a peer row it would name an engine that
+// did not produce the number.
+if ($engine === 'carve-php') {
+    $result['carve_source'] = carve_bench_describe_src(CarveConverter::class);
+}
+echo json_encode($result) . "\n";
