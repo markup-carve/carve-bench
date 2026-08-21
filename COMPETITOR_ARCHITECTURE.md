@@ -6,16 +6,16 @@ claims were checked against the dependency source locked in this repo.
 
 Measured 2026-08-21 at carve-js `5695480e`, carve-php `8abc2204`, carve-rs
 `78a88c34`. On the core route Carve leads every same-language peer except
-pulldown-cmark.
+pulldown-cmark and the newly allocation-light djot-php `dev-master`.
 
 | Language | Peer | vs Carve | Peer's structural advantage |
 |---|---|---:|---|
 | Rust | pulldown-cmark | **1.11x ahead** | borrowed pull parser, events consumed straight into `push_html`, no persistent AST, 16-point core |
-| Rust | jotdown | 0.40x | borrowed event iterator rendered directly, 32-point core |
+| Rust | jotdown | 0.41x | borrowed event iterator rendered directly, 32-point core |
 | Rust | comrak | 0.36x | arena-allocated AST, 16-point core |
-| JavaScript | markdown-it | 0.43x | compact token pipeline rendered directly, 17-point core |
-| JavaScript | djot.js | 0.40x | event-first block scan, fewer document-wide products, 32-point core |
-| PHP | djot-php | 0.22x | same mutable-AST family, fewer grammar/state/post-parse obligations, 32-point core |
+| JavaScript | markdown-it | 0.57x | compact token pipeline rendered directly, 17-point core |
+| JavaScript | djot.js | 0.58x | event-first block scan, fewer document-wide products, 32-point core |
+| PHP | djot-php | **1.14x ahead** | conservative borrowed HTML layout with syntax-gated authoritative fallback, 32-point core |
 | PHP | league/commonmark-gfm | 0.09x | one line-oriented block stack, 18-point core |
 
 Capability points are scope context, not a speed normalization: one point has
@@ -42,9 +42,13 @@ contract requires.
 - **league/commonmark-gfm** advances a cursor line by line over one active
   block-parser stack and parses inlines after block closure, with no definition
   or metadata prepasses - though its object and dispatch overhead is real.
-- **djot-php** is the closest control: a similar mutable Node AST, separate
-  block and inline parsing, and definition prepasses, over a materially smaller
-  grammar and post-parse surface.
+- **djot-php** remains the closest control when its authoritative parser is
+  selected, but its default HTML facade now first proves a conservative core
+  subset and renders borrowed source slices directly. Syntax-family gates avoid
+  inactive definition/heading scans; plain inline runs use C-level scans; and
+  quote, dash, listener, and statistics work only runs when its trigger exists.
+  Ambiguous tables, nested blocks, implicit references, extensions, and custom
+  renderers still fall back before output, preserving the owned AST as oracle.
 
 Carve answers this with a borrowed source-to-HTML facade in each engine, over a
 conservative stateless subset; anything ambiguous or unsupported falls back to
@@ -56,7 +60,7 @@ percent.
 
 ## The peer still ahead: pulldown-cmark
 
-At 126.62 MB/s against carve-rs's 113.80, pulldown-cmark keeps an 11% lead, and
+At 115.62 MB/s against carve-rs's 104.46, pulldown-cmark keeps an 11% lead, and
 it is structural: a facade must first prove a document is inside its subset and
 stay able to fall back, while a pull parser owes nothing to a tree it never
 builds. Widening that path one event family at a time under exact shadow parity

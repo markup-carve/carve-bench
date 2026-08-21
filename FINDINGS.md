@@ -14,15 +14,16 @@ benchmark plus the existing regression gates.
   1.10 → 0.27 MB/s. PHP still has the strongest size sensitivity, and that
   authoritative path is where the remaining work is.
 - On equivalent ~48 KiB documents the borrowed facades have reversed every
-  same-language gap except one: carve-rs 113.80 MB/s against pulldown-cmark's
-  126.62. Pull/event parsers keep a structural advantage over an owned AST;
-  see [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md).
+  same-language gap except two: carve-rs reaches 104.46 MB/s against
+  pulldown-cmark's 115.62, while carve-php reaches 15.69 MB/s against the new
+  djot-php borrowed facade's 17.82. See
+  [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md).
 
 ## carve-js
 
 Merged carve-js #1247 adds a conservative borrowed HTML facade for the same
-default-core workload. The comparison measures **11.81 MB/s**, ahead of
-markdown-it (5.05) and djot.js (4.75). Its 51 accepted corpus sources have
+default-core workload. The comparison measures **9.98 MB/s**, ahead of
+markdown-it (5.69) and djot.js (5.78). Its 51 accepted corpus sources have
 exact authoritative HTML parity; configured, extension-driven, ambiguous and
 non-HTML paths retain the AST pipeline. The full mixed corpus still measures
 1.03 MB/s at 40 KiB and 1.02 MB/s at 321 KiB, so the allocation/profile work
@@ -76,10 +77,10 @@ transforms remain authoritative.
 
 On the 48 KiB comparison document, two process orders measured current main at
 72.70–72.95 ms/op and the PR at 3.74–3.81 ms/op: **19.2–19.5x faster** under
-the same sustained host load. The clean competitor rerun measures 18.41 MB/s,
-versus 4.07 for djot-php and 1.59 for league/commonmark GFM. The exact absolute
-numbers are machine/load dependent; the alternating main/candidate ratio is the
-stronger engine-change evidence.
+the same sustained host load. The refreshed competitor run measures 15.69 MB/s
+for carve-php, 17.82 MB/s for djot-php `dev-master` (`fab953f6`), and 1.43 MB/s
+for league/commonmark GFM. The exact absolute numbers are machine/load dependent;
+the alternating main/candidate ratio is the stronger engine-change evidence.
 
 The facade is intentionally bounded to 64 KiB. A deliberately late-failing
 50 KiB loose-list document initially regressed by about 17%; bounded speculation
@@ -185,9 +186,9 @@ Actionable work for the remaining authoritative path, in order:
 ## carve-rs
 
 Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
-shadow parity. The comparison measures **113.80 MB/s**, ahead of
-jotdown (45.57) and comrak (40.91); pulldown-cmark remains 1.11x faster at
-126.62 MB/s. The full mixed corpus is a separate result because it falls back
+shadow parity. The comparison measures **104.46 MB/s**, ahead of
+jotdown (42.54) and comrak (37.93); pulldown-cmark remains 1.11x faster at
+115.62 MB/s. The full mixed corpus is a separate result because it falls back
 to the owned AST: 6.23 MB/s at 40 KiB and 4.97 MB/s at 321 KiB.
 
 Merged carve-rs #1146 removes unchanged-line allocation in the link-definition

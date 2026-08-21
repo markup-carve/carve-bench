@@ -157,9 +157,9 @@ observable configuration falls back for the whole document before output.
 
 That is a 19.2–19.5x improvement in the alternating-checkout comparison. The
 absolute host was under sustained load; the same-window ratio is the acceptance
-evidence. *(Merged. The clean same-language run at carve-php `8abc2204` now
-measures 18.41 MB/s, ahead of djot-php at 4.07 and league/commonmark GFM at
-1.59.)*
+evidence. *(Merged. The refreshed same-language run at carve-php `8abc2204`
+measures 15.69 MB/s; djot-php `dev-master` (`fab953f6`) now reaches 17.82 MB/s,
+and league/commonmark GFM reaches 1.43 MB/s.)*
 
 The design pins typed acceptance counters and probes all 1,325 corpus sources;
 47 are accepted with zero HTML mismatches. Full default and scaling suites pass.
