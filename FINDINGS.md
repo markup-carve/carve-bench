@@ -1,4 +1,4 @@
-# Performance findings — 2026-08-19, numbers refreshed 2026-08-21
+# Performance findings (2026-08-19, numbers refreshed 2026-08-21)
 
 These are measured leads, not promises. Any engine change must preserve its
 conformance and security contracts and should prove the gain with a focused
@@ -168,7 +168,7 @@ Actionable work for the remaining authoritative path, in order:
 2. Benchmark the mandatory post-parse `TextRunCoalescer` separately and test
    coalescing while appending children. Cost: every AST-producing extension and
    decoder must retain the published no-adjacent-text invariant.
-3. Continue replacing prefix `substr`/regex copies with offset-based scans—the
+3. Continue replacing prefix `substr`/regex copies with offset-based scans; the
    recent heading, list-marker, and prepass fixes establish that this produces
    real wins. Target fixtures should include the 321 KiB mixed corpus, where the
    scaling loss is clearest.
