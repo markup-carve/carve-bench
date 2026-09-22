@@ -14,9 +14,10 @@ benchmark plus the existing regression gates.
   1.10 → 0.27 MB/s. PHP still has the strongest size sensitivity, and that
   authoritative path is where the remaining work is.
 - On equivalent ~48 KiB documents the borrowed facades have reversed every
-  same-language gap except two: carve-rs reaches 104.46 MB/s against
-  pulldown-cmark's 115.62, while carve-php reaches 15.69 MB/s against the new
-  djot-php borrowed facade's 17.82. See
+  same-language gap except one. Measured 2026-09-23 against the published
+  releases, carve-rs and pulldown-cmark tie at 94.81 against 96.35 MB/s, with
+  the ordering swapping between runs, while carve-php reaches 13.59 MB/s
+  against the djot-php borrowed facade's 15.25. See
   [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md).
 
 ## carve-js
@@ -187,8 +188,8 @@ Actionable work for the remaining authoritative path, in order:
 
 Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
 shadow parity. The comparison measures **104.46 MB/s**, ahead of
-jotdown (42.54) and comrak (37.93); pulldown-cmark remains 1.11x faster at
-115.62 MB/s. The full mixed corpus is a separate result because it falls back
+jotdown (42.54) and comrak (37.93); pulldown-cmark was 1.11x faster at
+115.62 MB/s at the time, a lead the 2026-09-23 run no longer reproduces. The full mixed corpus is a separate result because it falls back
 to the owned AST: 6.23 MB/s at 40 KiB and 4.97 MB/s at 321 KiB.
 
 Merged carve-rs #1146 removes unchanged-line allocation in the link-definition

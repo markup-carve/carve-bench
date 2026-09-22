@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { release } from 'node:os'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const rs = process.env.CARVE_RS_COMPARE_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs-compare')
@@ -41,6 +42,23 @@ for (const [language, engine, file, iterations, [command, prefix]] of cases) {
 // than typed on the command line. A harness that reported nothing is named as
 // such, so an unprovenanced run says so in the report instead of reading like
 // any other.
+// The host line is read back from the running toolchain rather than written
+// out by hand, because a hand-written one keeps naming the interpreter of the
+// run that first published the table.
+function describeHost() {
+  const ask = (command, args) => {
+    try {
+      return execFileSync(command, args, { encoding: 'utf8' }).trim().split('\n')[0]
+    } catch {
+      return 'unreported'
+    }
+  }
+  const php = ask('php', ['-n', '-v']).match(/^PHP (\S+)/)?.[1] ?? 'unreported'
+  const rustc = ask('rustc', ['-V']).match(/^rustc (\S+)/)?.[1] ?? 'unreported'
+  const note = process.env.CARVE_COMPARE_NOTE ? ` ${process.env.CARVE_COMPARE_NOTE.trim()}` : ''
+  return `Linux ${release().split('-')[0]}, Node.js ${process.versions.node}, PHP ${php} tracing JIT, and rustc ${rustc}.${note}`
+}
+
 function describeEngines() {
   return rows
     .filter((row) => row.engine.startsWith('carve-'))
@@ -67,14 +85,14 @@ const lines = [
   'may render borrowed source slices, while the second materializes the public AST',
   'and runs the full semantic pipeline.', '',
   'See [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md) for the',
-  'source-checked reading of each peer\'s architecture and why pulldown-cmark',
-  'and djot-php remain ahead in their language groups.', '',
+  'source-checked reading of each peer\'s architecture and where each one\'s',
+  'cost sits against Carve\'s in the same language.', '',
   'Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php',
   'dev-master (`fab953f6`), league/commonmark 2.10.0, jotdown 0.10.0,',
   'comrak 0.54.0, and pulldown-cmark 0.13.4. The Carve engines this run',
   'actually loaded, as each harness reported them back, were',
   `${describeEngines()}, on`,
-  'Linux 7.0, Node.js 22.22.2, PHP 8.5.9 tracing JIT, and rustc 1.97.1.', '',
+  `${describeHost()}`, '',
   `Every configured engine earns the same ${workloadFeaturePoints} workload points. Core capability`,
   'points separately expose the much wider syntax surface an engine recognizes',
   'by default. See `FEATURES.md` for the auditable matrix and limitations.', '',
