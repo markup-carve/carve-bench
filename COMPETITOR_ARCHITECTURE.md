@@ -58,12 +58,14 @@ carve-php, #1515 keeps configured conversion on the cheap path, which is why
 the Tier 2/3 rows in `RESULTS.md` cost +10%/+29% rather than several hundred
 percent.
 
-## The peer still ahead: pulldown-cmark
+## The closest peer: pulldown-cmark
 
-At 115.62 MB/s against carve-rs's 104.46, pulldown-cmark keeps an 11% lead, and
-it is structural: a facade must first prove a document is inside its subset and
-stay able to fall back, while a pull parser owes nothing to a tree it never
-builds. Widening that path one event family at a time under exact shadow parity
+The two now measure as a tie. Three runs on 2026-09-23 put carve-rs at
+93.99-94.90 MB/s and pulldown-cmark at 92.58-96.35, so neither ordering holds
+across runs, where the earlier tables had pulldown-cmark 11% ahead. The
+asymmetry behind that lead is still structural: a facade must first prove a
+document is inside its subset and stay able to fall back, while a pull parser
+owes nothing to a tree it never builds. Widening that path one event family at a time under exact shadow parity
 is the only route at it. Incremental owned-AST tuning is not, and should not be
 advertised as if it might.
 
