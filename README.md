@@ -179,15 +179,22 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.4` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.5` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.3` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.7` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.9` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.6` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
 `cargo update -p carve-lang`), then re-run the benchmarks: a table mixing
 engine revisions is not a comparison. Measuring an unreleased engine is an
 override at run time, not an edit to these manifests.
+
+The table above is prose and drifts silently, so it is checked rather than
+trusted. `node scripts/check-engine-pins.mjs` compares all four places that name
+a release - the manifest, the lockfile, the installed tree, and this table - and
+fails on any disagreement. The smoke workflow runs it with `--require-installed`
+after the three install steps, so it reads what is on disk: a requirement bumped
+without a reinstall does not pass.
 
 The report says which of the two happened. Each harness resolves its engine,
 reports it as `carve_source`, and the generated documents name it - a

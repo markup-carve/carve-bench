@@ -46,6 +46,11 @@ jobs:
       - name: Build Rust harness (deps on carve-rs)
         run: cargo build --release --manifest-path engines/rs/Cargo.toml
 
+      # After all three installs, so this reads the trees on disk rather than
+      # the manifests that asked for them.
+      - name: Check every place naming an engine release agrees
+        run: node scripts/check-engine-pins.mjs --require-installed
+
       - name: Smoke-run the Rust harness on a corpus doc
         run: |
           ./engines/rs/target/release/carve-bench-rs corpus/small.crv 5
