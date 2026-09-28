@@ -32,6 +32,12 @@ jobs:
           git diff --exit-code -- corpus/comparison
           git diff --exit-code -- charts
 
+      - name: Check HTML import comparison scripts
+        run: |
+          node --check engines/js/html-import-worker.mjs
+          python3 -m py_compile scripts/html-import-comparison.py scripts/plot-import-comparison.py
+          python3 scripts/test-html-import-comparison.py
+
       - name: Install and lint PHP harnesses
         working-directory: engines/php
         run: |
@@ -45,6 +51,24 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Build Rust harness (deps on carve-rs)
         run: cargo build --release --manifest-path engines/rs/Cargo.toml
+
+      - name: Build HTML import worker and check its protocol
+        run: |
+          cargo build --locked --manifest-path engines/html-import-rs/Cargo.toml
+          python3 - <<'PY'
+          import json, subprocess, tomllib
+          from pathlib import Path
+          root = Path('engines/html-import-rs')
+          requests = [{'id': 1, 'op': 'version'}, {'id': 2, 'html': '<p>hello</p>', 'mode': 'safe'}]
+          output = subprocess.check_output([str(root / 'target/debug/carve-html-import-worker')],
+              input=''.join(json.dumps(row) + '\n' for row in requests), text=True)
+          version, converted = map(json.loads, output.splitlines())
+          lock = (root / 'Cargo.lock').read_text()
+          package = next(row for row in tomllib.loads(lock)['package'] if row['name'] == 'carve-lang')
+          assert version['id'] == 1 and version['ok'] and version['lockfile'] == lock
+          assert version['revision'] == package['source'].split('#')[-1]
+          assert converted['id'] == 2 and converted['ok'] and converted['markdown'].strip() == 'hello'
+          PY
 
       # After all three installs, so this reads the trees on disk rather than
       # the manifests that asked for them.
