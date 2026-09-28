@@ -91,7 +91,7 @@ every document and writes `RESULTS.md`.
 
 ```bash
 # 1. Build the Rust harness (release):
-(cd engines/rs && cargo build --release)
+node scripts/build-rs-engine.mjs
 
 # 2. Make the JS and PHP engines resolvable (see "Engine resolution").
 
@@ -124,7 +124,7 @@ then run:
 node scripts/gen-comparison-corpus.mjs
 (cd engines/js && npm ci)
 (cd engines/php && composer install)
-(cd engines/rs && cargo build --release)
+node scripts/build-rs-engine.mjs
 CARVE_JS=../carve-js/dist/index.js CARVE_PHP_SRC=../carve-php/src node compare.mjs
 node scripts/gen-charts.mjs
 ```
@@ -150,10 +150,18 @@ a published package or a local checkout:
 | carve-js  | `CARVE_JS`           | `@markup-carve/carve` (the npm package)      |
 | carve-php | `CARVE_PHP_AUTOLOAD` | `engines/php/vendor/autoload.php`           |
 | carve-php | `CARVE_PHP_SRC`      | unset - a checkout's `src/`, prepended       |
-| carve-rs  | `CARVE_RS_BIN`       | `engines/rs/target/release/carve-bench-rs`  |
+| carve-rs  | `CARVE_RS_SRC`       | unset - a carve-rs checkout to measure       |
+| carve-rs  | `CARVE_RS_BIN`       | the harness built for whichever of the two above |
 
 Every harness reports what it resolved as `carve_source` in its JSON line, and
 `run.mjs` / `compare.mjs` write the report's engine line from those values.
+
+**Naming a checkout is a claim, and the run checks it.** When `CARVE_JS`,
+`CARVE_PHP_SRC` or `CARVE_RS_SRC` names a tree, `run.mjs` and `compare.mjs`
+compare the reported `carve_source` against it and exit without writing a report
+if the run measured anything else - the published release, a different checkout,
+or a lane that reported nothing at all. `node scripts/test-measured-sources.mjs`
+is that check being made to fire on each of those readings.
 
 Prefer `CARVE_PHP_SRC` for a checkout. `CARVE_PHP_AUTOLOAD` alone cannot beat the
 benchmark's own vendored carve-php: Composer prepends that loader, so it resolves
@@ -165,11 +173,26 @@ Example, all three from local checkouts beside this repo:
 ```bash
 export CARVE_JS=../carve-js/dist/index.js
 export CARVE_PHP_SRC=../carve-php/src
-# engines/rs deps on the published carve-lang crate; for a local checkout instead:
-(cd engines/rs && cargo build --release \
-  --config 'patch.crates-io.carve-lang.path="../../../carve-rs"')
+export CARVE_RS_SRC=../carve-rs
+# The Rust lane is compiled, so the checkout needs a build of its own:
+node scripts/build-rs-engine.mjs --carve-rs "$CARVE_RS_SRC"
 node run.mjs
 ```
+
+The Rust harness for a checkout is built from a generated manifest under
+`engines/rs/target/local-override/`, whose carve dependency is a path with no
+version requirement; `run.mjs` and `compare.mjs` pick that binary up from
+`CARVE_RS_SRC`, so there is no second path to keep in step. Pass `--debug` to
+check provenance without paying for an optimized build.
+
+A path dependency rather than a `[patch]`, because cargo refuses a patch whose
+version does not satisfy the requirement, or that disagrees with the lockfile,
+and it refuses by warning and exiting 0. Any override that has to match the
+pinned version therefore stops applying the moment carve-rs releases past the
+pin, and builds the published crate instead while reading like a checkout run. A
+path dependency has no version to match. `build-rs-engine.mjs` also reads the
+resolution before it compiles and the built binary afterward, so a patch left in
+a cargo config cannot substitute an engine either.
 
 ### Engine pinning and provenance
 
@@ -187,7 +210,10 @@ To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
 `cargo update -p carve-lang`), then re-run the benchmarks: a table mixing
 engine revisions is not a comparison. Measuring an unreleased engine is an
-override at run time, not an edit to these manifests.
+override at run time, not an edit to these manifests - and the Rust pin stays
+exact for that reason rather than being widened to let an override through. A
+range would let a checkout satisfy it, but the lockfile pins the release as well,
+so widening the requirement moves the silent fallback rather than removing it.
 
 The table above is prose and drifts silently, so it is checked rather than
 trusted. `node scripts/check-engine-pins.mjs` compares all four places that name
@@ -202,7 +228,9 @@ published release by version and package checksum or reference, a checkout by
 path and revision. An engine that reports nothing is written as `unreported`
 rather than omitted, and one that resolves two different sources within a
 single run is written as a `MISMATCH`, because neither run is comparable and
-the report is where that has to be visible.
+the report is where that has to be visible. An override is stricter than that:
+when one named the tree, a run that measured another writes no report at all,
+rather than a correct engine line a reader has to catch.
 
 For the PHP extension-stack measurement, use a clean INI so a loaded coverage
 extension cannot disable JIT silently:
@@ -240,6 +268,8 @@ make parser scope visible but are not a speed-normalization divisor; see
   disables JIT and inflates timings by roughly 2x. The harness warns on stderr if
   either is detected or JIT is not active.
 - Every harness's JSON includes `carve_source`, the engine it actually
-  resolved. Verify it before accepting a comparison. In PHP this also guards
-  against Composer autoloader precedence silently benchmarking the vendored
-  release instead of the checkout `CARVE_PHP_SRC` names.
+  resolved. A run that named a tree verifies it for you; verify it by eye for a
+  run that did not. In PHP this also guards against Composer autoloader
+  precedence silently benchmarking the vendored release instead of the checkout
+  `CARVE_PHP_SRC` names, and in Rust against a build that resolved the published
+  crate while an override asked for a checkout.

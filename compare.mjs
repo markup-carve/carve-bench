@@ -1,12 +1,19 @@
 // Same-language Carve/Djot/CommonMark comparison from docs/performance.md.
+//
+// Engine overrides are the same as run.mjs (see its header), including that
+// naming a checkout is checked against what the harnesses report.
 import { execFileSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { release } from 'node:os'
+import { assertMeasuredSources } from './scripts/measured-sources.mjs'
 
 const root = dirname(fileURLToPath(import.meta.url))
-const rs = process.env.CARVE_RS_COMPARE_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs-compare')
+const rs = process.env.CARVE_RS_COMPARE_BIN
+  ?? resolve(root, process.env.CARVE_RS_SRC
+    ? 'engines/rs/target/local-override/target/release/carve-bench-rs-compare'
+    : 'engines/rs/target/release/carve-bench-rs-compare')
 const phpArgs = ['-n', '-d', 'extension=ctype', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`, '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
 const cases = [
   ['JavaScript', 'carve-js', 'carve.crv', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
@@ -37,6 +44,16 @@ for (const [language, engine, file, iterations, [command, prefix]] of cases) {
   rows.push({ language, ...result })
   console.error(`${language.padEnd(10)} ${engine.padEnd(24)} ${result.mb_per_s.toFixed(2)} MB/s`)
 }
+
+// Before anything is written: if an override named a tree, that is the tree the
+// rows have to have come from.
+const measured = new Map()
+for (const row of rows) {
+  if (!row.carve_source) continue
+  if (!measured.has(row.engine)) measured.set(row.engine, new Set())
+  measured.get(row.engine).add(row.carve_source)
+}
+assertMeasuredSources(measured, process.env, root)
 
 // The Carve engine behind each row, read back out of the harness output rather
 // than typed on the command line. A harness that reported nothing is named as
