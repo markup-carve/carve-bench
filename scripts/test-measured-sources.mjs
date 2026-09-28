@@ -17,6 +17,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { overrideProblems, requestedOverrides } from './measured-sources.mjs'
 
 // A stand-in for a checkout beside this repo. The subpaths exist because the JS
@@ -29,6 +30,9 @@ writeFileSync(join(tree, 'dist/index.js'), '')
 // The same tree reached by another name, which a harness reports canonically.
 const linked = join(other, 'linked')
 symlinkSync(tree, linked)
+// A directory name carrying characters the source line also uses as separators.
+const atTree = join(other, 'carve-rs@next, (v2)')
+mkdirSync(atTree, { recursive: true })
 
 const RELEASES = {
   'carve-rs': 'carve-lang 0.1.6 (crates.io, checksum 87fdad4ca9cefc50)',
@@ -103,6 +107,18 @@ const cases = [
     env: { CARVE_PHP_SRC: join(linked, 'src') },
     sources: { 'carve-php': [checkoutOf('carve-php', tree)] },
     fires: null,
+  },
+  {
+    name: 'carve-rs: a checkout directory whose own name carries an at sign',
+    env: { CARVE_RS_SRC: atTree },
+    sources: { 'carve-rs': [checkoutOf('carve-rs', atTree)] },
+    fires: null,
+  },
+  {
+    name: 'carve-js: a file URL is an override, and is checked like one',
+    env: { CARVE_JS: pathToFileURL(join(tree, 'dist/index.js')).href },
+    sources: { 'carve-js': [RELEASES['carve-js']] },
+    fires: 'measured `',
   },
   {
     name: 'no override set: a release run is not an unmet claim',

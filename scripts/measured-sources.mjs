@@ -14,6 +14,7 @@
 
 import { existsSync, realpathSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 // The wording all three harnesses use for a tree that is not a published
 // release (`engines/js/carve-src.mjs`, `engines/php/carve-src.php`,
@@ -36,13 +37,12 @@ const CHECKOUT = 'local checkout'
  */
 export function requestedOverrides(env = process.env, root = process.cwd(), cwd = process.cwd()) {
   const asked = []
-  const add = (engine, variable, value, base, exact = false) =>
-    asked.push({ engine, variable, value, tree: resolve(base, value), exact })
-  if (env.CARVE_JS && looksLikePath(env.CARVE_JS)) {
-    add('carve-js', 'CARVE_JS', env.CARVE_JS, join(root, 'engines/js'))
-  }
-  if (env.CARVE_PHP_SRC) add('carve-php', 'CARVE_PHP_SRC', env.CARVE_PHP_SRC, cwd)
-  if (env.CARVE_RS_SRC) add('carve-rs', 'CARVE_RS_SRC', env.CARVE_RS_SRC, cwd, true)
+  const add = (engine, variable, value, tree, exact = false) =>
+    asked.push({ engine, variable, value, tree, exact })
+  const js = env.CARVE_JS ? jsTree(env.CARVE_JS, join(root, 'engines/js')) : null
+  if (js) add('carve-js', 'CARVE_JS', env.CARVE_JS, js)
+  if (env.CARVE_PHP_SRC) add('carve-php', 'CARVE_PHP_SRC', env.CARVE_PHP_SRC, resolve(cwd, env.CARVE_PHP_SRC))
+  if (env.CARVE_RS_SRC) add('carve-rs', 'CARVE_RS_SRC', env.CARVE_RS_SRC, resolve(cwd, env.CARVE_RS_SRC), true)
   return asked
 }
 
@@ -73,7 +73,7 @@ export function overrideProblems(sources, env = process.env, root = process.cwd(
         problems.push(`${variable} asked for ${tree}, but ${engine} measured \`${source}\``)
         continue
       }
-      const measured = source.match(/local checkout ([^,@)]+)/)?.[1]?.trim()
+      const measured = measuredTree(source)
       if (!measured) {
         problems.push(
           `${variable} asked for ${tree}, but ${engine} reported \`${source}\`, ` +
@@ -102,6 +102,42 @@ export function assertMeasuredSources(sources, env = process.env, root = process
       '`node scripts/build-rs-engine.mjs --carve-rs <path>`; see README, "Engine resolution".',
   )
   process.exit(1)
+}
+
+/**
+ * The directory a `carve_source` line says it measured, or null when it names no
+ * directory at all.
+ *
+ * Every producer writes `<package> [<version>] (<origin>)`, so the origin is the
+ * parenthesized tail and a path is whatever follows `local checkout ` inside it,
+ * minus the revision the harnesses append. Nothing in a path is treated as a
+ * delimiter: `@`, `,` and `)` are all legal in a directory name, and truncating
+ * at one would fail a run that measured exactly what it was asked to.
+ */
+function measuredTree(source) {
+  const opens = source.indexOf(' (')
+  const origin = opens >= 0 && source.endsWith(')') ? source.slice(opens + 2, -1) : source
+  if (!origin.startsWith(`${CHECKOUT} `)) return null
+  const tree = origin.slice(CHECKOUT.length + 1).replace(/ @ [0-9a-f]{7,40}$/, '').trim()
+  return tree || null
+}
+
+/**
+ * The checkout a `CARVE_JS` value names, or null when it names a package.
+ *
+ * It is an import specifier, so a bare name is the registry and a relative path
+ * is relative to the harness that imports it. A `file:` URL is equally valid
+ * there, and reading it as a package specifier would leave that lane unchecked.
+ */
+function jsTree(spec, base) {
+  if (spec.startsWith('file:')) {
+    try {
+      return fileURLToPath(spec)
+    } catch {
+      return null
+    }
+  }
+  return looksLikePath(spec) ? resolve(base, spec) : null
 }
 
 function looksLikePath(spec) {

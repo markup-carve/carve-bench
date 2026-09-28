@@ -1,24 +1,14 @@
 // Builds the Rust harness and states which carve-rs tree it compiled against.
 //
-// The Rust lane pins one published `carve-lang` release exactly, because a table
-// mixing engine revisions is not a comparison. Measuring an unreleased engine is
-// therefore an override, and the override this repo used to document was a
-// `[patch]` to a checkout:
+// A checkout is built as a PATH DEPENDENCY, from a generated manifest with no
+// version requirement and its own lockfile. Do not simplify this back to a
+// `[patch]` on the pinned lane: cargo refuses a patch whose version does not
+// satisfy the requirement, or that disagrees with the lockfile, and it refuses by
+// warning, building the registry release, and exiting 0 (carve-bench#19). Nor is
+// the fix a wider requirement or a newer pin - the lock pins the release as well,
+// and the next carve-rs release breaks a bumped pin again.
 //
-//   cargo build --release --config 'patch.crates-io.carve-lang.path=../../../carve-rs'
-//
-// Cargo refuses a patch whose version does not satisfy the requirement, and also
-// one that disagrees with the lockfile. It refuses it by WARNING, building the
-// registry release, and exiting 0 - so once carve-rs `main` moved past the pin,
-// that command measured the published release while reading like a checkout run
-// (carve-bench#19). Neither relaxing the requirement nor bumping the pin closes
-// that: the lock pins the release too, and the next carve-rs release re-breaks a
-// bumped pin.
-//
-// So a checkout is built as a PATH DEPENDENCY instead, from a generated manifest
-// with no version requirement at all and its own lockfile. There is no
-// requirement left to mismatch, so there is no fallback to fall back to. Both
-// modes then resolve before they compile, refuse anything but the tree that was
+// Both modes resolve before they compile, refuse anything but the tree that was
 // asked for, and read the built binary back to confirm it agrees.
 //
 // Usage:
