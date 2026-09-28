@@ -114,15 +114,22 @@ function looksLikePath(spec) {
 // allowance goes: a lane reporting the root itself gets `same` instead, so a
 // nested worktree cannot pass for the tree above it.
 function related(a, b) {
-  return same(a, b) || a.startsWith(b + sep) || b.startsWith(a + sep)
+  const [x, y] = [canonical(a), canonical(b)]
+  return x === y || x.startsWith(y + sep) || y.startsWith(x + sep)
 }
 
-// Spelling one side through a symlink is not a different tree.
 function same(a, b) {
-  if (a === b) return true
+  return canonical(a) === canonical(b)
+}
+
+// Spelling one side through a symlink is not a different tree, and only one side
+// is usually spelled that way: a harness reports the package root it resolved,
+// which is canonical, while the override names a path the operator typed. A
+// measured tree that is no longer on this machine keeps the name it was given.
+function canonical(path) {
   try {
-    return realpathSync(a) === realpathSync(b)
+    return realpathSync(path)
   } catch {
-    return false
+    return path
   }
 }

@@ -54,7 +54,10 @@ const resolveOnly = args.includes('--resolve-only')
 const profile = debug ? 'debug' : 'release'
 const flag = args.indexOf('--carve-rs')
 if (flag >= 0 && !args[flag + 1]) die('--carve-rs needs the path to a carve-rs checkout')
-const checkout = flag >= 0 ? resolve(root, args[flag + 1]) : envCheckout()
+// Resolved against the caller's directory, the way run.mjs reads CARVE_RS_SRC.
+// Two bases for one variable would let a build and the run that consumes it
+// choose different trees from the same environment.
+const checkout = flag >= 0 ? resolve(args[flag + 1]) : envCheckout()
 
 const built = checkout ? buildCheckout(checkout) : buildPinnedRelease()
 console.log(`\n${resolveOnly ? 'resolves to' : 'measured tree'}: ${built.source}`)
@@ -212,7 +215,7 @@ function verify(targetDir, expected) {
 
 function envCheckout() {
   const asked = process.env.CARVE_RS_SRC
-  return asked ? resolve(root, asked) : null
+  return asked ? resolve(asked) : null
 }
 
 function revisionOf(tree) {

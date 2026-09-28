@@ -14,7 +14,7 @@
 // Usage: node scripts/test-measured-sources.mjs [--binary <path> --tree <path>]
 
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { overrideProblems, requestedOverrides } from './measured-sources.mjs'
@@ -26,6 +26,9 @@ const other = mkdtempSync(join(tmpdir(), 'carve-bench-other-'))
 mkdirSync(join(tree, 'src'), { recursive: true })
 mkdirSync(join(tree, 'dist'), { recursive: true })
 writeFileSync(join(tree, 'dist/index.js'), '')
+// The same tree reached by another name, which a harness reports canonically.
+const linked = join(other, 'linked')
+symlinkSync(tree, linked)
 
 const RELEASES = {
   'carve-rs': 'carve-lang 0.1.6 (crates.io, checksum 87fdad4ca9cefc50)',
@@ -89,6 +92,18 @@ const cases = [
     sources: { [engine]: [checkoutOf(engine, tree)] },
     fires: null,
   })),
+  {
+    name: 'carve-rs: the tree named through a symlink to it',
+    env: { CARVE_RS_SRC: linked },
+    sources: { 'carve-rs': [checkoutOf('carve-rs', tree)] },
+    fires: null,
+  },
+  {
+    name: 'carve-php: src/ named through a symlink, package root reported',
+    env: { CARVE_PHP_SRC: join(linked, 'src') },
+    sources: { 'carve-php': [checkoutOf('carve-php', tree)] },
+    fires: null,
+  },
   {
     name: 'no override set: a release run is not an unmet claim',
     env: {},
