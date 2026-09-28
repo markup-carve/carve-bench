@@ -25,15 +25,26 @@ class Worker:
         self.serial = 0
 
     def close(self):
-        if self.process is not None and self.process.poll() is None:
-            self.process.terminate()
-            try:
-                self.process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self.process.kill()
-                self.process.wait()
+        process, self.process = self.process, None
+        if process is not None:
+            if process.poll() is None:
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait()
+            process.stdin.close()
+            process.stdout.close()
 
     def request(self, request, timeout=120):
+        try:
+            return self._request(request, timeout)
+        except Exception:
+            self.close()
+            raise
+
+    def _request(self, request, timeout=120):
         if self.process is None:
             self.process = subprocess.Popen(self.argv, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=0)
             atexit.register(self.close)
@@ -116,12 +127,21 @@ def main():
     import report
 
     root = Path(__file__).resolve().parent.parent
+    benchmark_head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
+    benchmark_state = subprocess.check_output(["git", "-C", str(root), "status", "--porcelain", "--untracked-files=no"], text=True)
+    if benchmark_state and not args.fidelity_only:
+        raise RuntimeError("commit benchmark source changes before timing")
     js = Worker(["node", str(root / "engines/js/html-import-worker.mjs"), str(args.js.resolve())])
     rs = Worker([str(args.rs.resolve())])
     js_head = subprocess.check_output(["git", "-C", str(args.js.parent), "rev-parse", "HEAD"], text=True).strip()
     js_state = subprocess.check_output(["git", "-C", str(args.js.parent), "status", "--porcelain", "--untracked-files=no"], text=True)
     if js_head != args.js_revision or js_state:
         raise RuntimeError("JS revision does not match a clean source checkout")
+    js_root = Path(subprocess.check_output(["git", "-C", str(args.js.parent), "rev-parse", "--show-toplevel"], text=True).strip())
+    if args.js.resolve() != (js_root / "dist/index.js").resolve():
+        raise RuntimeError("--js must name the checkout's dist/index.js")
+    with (args.out / "js-build.log").open("w", encoding="utf-8") as log:
+        subprocess.run(["npm", "run", "build"], cwd=js_root, stdout=log, stderr=subprocess.STDOUT, check=True)
     upstream_state = subprocess.check_output(["git", "-C", str(args.upstream), "status", "--porcelain", "--untracked-files=all", "--", "harness", "corpus", ":!**/__pycache__/**"], text=True)
     if upstream_state:
         raise RuntimeError("upstream harness or corpus differs from its recorded revision")
@@ -130,6 +150,10 @@ def main():
     engine_package = next(package for package in tomllib.loads(lock_text)["package"] if package["name"] == "carve-lang")
     if rs_version["lockfile"] != lock_text or rs_version["revision"] != engine_package["source"].split("#")[-1] or rs_version["revision"] != args.rs_revision:
         raise RuntimeError("Rust worker revision or embedded lockfile does not match this benchmark")
+    worker_sources = {"main.rs": root / "engines/html-import-rs/src/main.rs", "build.rs": root / "engines/html-import-rs/build.rs",
+        "Cargo.toml": root / "engines/html-import-rs/Cargo.toml"}
+    if rs_version.get("sources") != {name: path.read_text(encoding="utf-8") for name, path in worker_sources.items()}:
+        raise RuntimeError("Rust worker source does not match this benchmark")
     chosen = [adapter for adapter in ALL if not adapter.name.startswith("carve")]
     for name, language, worker, revision in [
         ("carve-js (dev main)", "JavaScript", js, args.js_revision),
@@ -149,6 +173,8 @@ def main():
     if len(pages) != 10:
         raise RuntimeError(f"expected ten corpus pages, got {len(pages)}")
     manifest = {
+        "benchmark_revision": benchmark_head, "benchmark_status": benchmark_state,
+        "rust_worker_sources": {name: digest(path) for name, path in worker_sources.items()},
         "command": sys.argv, "platform": platform.platform(), "cpu_count": os.cpu_count(),
         "node": subprocess.check_output(["node", "--version"], text=True).strip(),
         "python": sys.version, "rustc": rs_version["rustc"],
@@ -159,7 +185,7 @@ def main():
         "seed": args.seed, "reps": args.reps, "fidelity_only": args.fidelity_only,
         "js_sha256": digest(args.js), "rs_sha256": digest(args.rs),
         "js_modules": {str(path.relative_to(args.js.parent)): digest(path)
-            for path in sorted(args.js.parent.rglob("*.js"))},
+            for path in sorted(args.js.parent.rglob("*")) if path.is_file()},
         "runner_sha256": digest(__file__),
         "js_worker_sha256": digest(root / "engines/js/html-import-worker.mjs"),
         "rs_lock_sha256": digest(root / "engines/html-import-rs/Cargo.lock"),

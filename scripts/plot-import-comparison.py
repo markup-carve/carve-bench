@@ -2,6 +2,7 @@
 """Plot complete HTML import comparison results as SVG and PNG."""
 import argparse
 import json
+import statistics
 from pathlib import Path
 
 import matplotlib
@@ -40,19 +41,25 @@ def plot(kind):
     fig, ax = plt.subplots(figsize=(12.5, 7.8))
     fig.patch.set_facecolor('white')
     values = [row['total_ms'] if speed else row['passed'] / row['total'] for _, row in ordered]
+    bounds = [(sum(statistics.quantiles(page['tools'][name]['samples_ms'], n=4, method='inclusive')[0] for page in timings['pages'].values()),
+        sum(statistics.quantiles(page['tools'][name]['samples_ms'], n=4, method='inclusive')[2] for page in timings['pages'].values()))
+        for name, _ in ordered] if speed else []
     ax.barh(range(len(ordered)), values, color=[color(name) for name, _ in ordered], height=.64)
+    if speed:
+        ax.errorbar(values, range(len(ordered)), xerr=[[value - low for value, (low, _) in zip(values, bounds)],
+            [high - value for value, (_, high) in zip(values, bounds)]], fmt='none', ecolor='#243444', capsize=3, linewidth=1)
     ax.set_yticks(range(len(ordered)), [labels.get(name, name) + (' · CLI' if speed and timings['tools'][name].get('invocation', '').startswith('CLI') else '') for name, _ in ordered])
     ax.invert_yaxis()
     for i, ((name, row), value) in enumerate(zip(ordered, values)):
         label = f"{value:,.1f} ms" if speed else f"{row['passed']}/{row['total']} · {value:.1%}"
-        ax.text(value + (max(values) * .012 if speed else .012), i, label, va='center', fontsize=10,
+        ax.text((max(value, bounds[i][1]) if speed else value) + (max(values) * .012 if speed else .012), i, label, va='center', fontsize=10,
             weight='bold' if name.startswith('carve-') else 'normal', color='#243444')
     ax.set_axisbelow(True)
     ax.xaxis.grid(True, color='#e5eaf0', linewidth=.7)
     ax.tick_params(axis='both', length=0, labelcolor='#344454')
     for spine in ax.spines.values(): spine.set_visible(False)
     if speed:
-        ax.set_xlim(0, max(values) * 1.23)
+        ax.set_xlim(0, max(high for _, high in bounds) * 1.23)
         ax.set_xlabel('Sum of per-page median conversion times · lower is faster', labelpad=14)
     else:
         ax.set_xlim(0, 1.23)
@@ -65,6 +72,8 @@ def plot(kind):
     revisions = ' · '.join(f"{'Rust' if 'rs ' in name else 'JS'} {timings['tools'][name]['version'][:8]}"
         for name, _ in rows if name.startswith('carve-'))
     method = f"{timings['reps']} repetitions · same host · CLI startup and worker IPC included · extractors retain their own behavior" if speed else 'Original probes and scorer unchanged · counts are not a universal fidelity score'
+    if speed:
+        fig.text(.04, .066, 'Whiskers sum the per-page interquartile ranges; they are not confidence intervals', fontsize=9, color='#526474')
     fig.text(.04, .045, method, fontsize=9, color='#526474')
     fig.text(.04, .021, f'{revisions} · Inputs, versions and run metadata retained with the results', fontsize=9, color='#526474')
     fig.subplots_adjust(left=.295, right=.98, top=.865, bottom=.15)

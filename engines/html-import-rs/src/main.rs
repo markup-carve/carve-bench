@@ -26,6 +26,8 @@ fn main() -> io::Result<()> {
                 "revision": env!("CARVE_ENGINE_REVISION"),
                 "rustc": env!("CARVE_BUILD_RUSTC"),
                 "lockfile": include_str!("../Cargo.lock"),
+                "sources": {"main.rs": include_str!("main.rs"), "build.rs": include_str!("../build.rs"),
+                    "Cargo.toml": include_str!("../Cargo.toml")},
             }),
             Ok(request) => match convert(&request) {
                 Ok(markdown) => {

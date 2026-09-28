@@ -37,6 +37,18 @@ jobs:
           node --check engines/js/html-import-worker.mjs
           python3 -m py_compile scripts/html-import-comparison.py scripts/plot-import-comparison.py
           python3 scripts/test-html-import-comparison.py
+          python3 - <<'PYCODE'
+          import json, subprocess
+          from pathlib import Path
+          module = Path('engines/js/node_modules/@markup-carve/carve/dist/index.js').resolve()
+          requests = [{'id': 1, 'html': '<p>hello</p>'}, {'id': 2, 'html': '<p>world</p>'}, {'id': 3}]
+          output = subprocess.check_output(['node', 'engines/js/html-import-worker.mjs', str(module)],
+              input=''.join(json.dumps(row) + '\n' for row in requests), text=True)
+          first, second, error = map(json.loads, output.splitlines())
+          assert first['id'] == 1 and first['ok'] and first['markdown'].strip() == 'hello'
+          assert second['id'] == 2 and second['ok'] and second['markdown'].strip() == 'world'
+          assert error['id'] == 3 and not error['ok']
+          PYCODE
 
       - name: Install and lint PHP harnesses
         working-directory: engines/php
@@ -67,6 +79,8 @@ jobs:
           package = next(row for row in tomllib.loads(lock)['package'] if row['name'] == 'carve-lang')
           assert version['id'] == 1 and version['ok'] and version['lockfile'] == lock
           assert version['revision'] == package['source'].split('#')[-1]
+          assert version['sources'] == {'main.rs': (root / 'src/main.rs').read_text(),
+              'build.rs': (root / 'build.rs').read_text(), 'Cargo.toml': (root / 'Cargo.toml').read_text()}
           assert converted['id'] == 2 and converted['ok'] and converted['markdown'].strip() == 'hello'
           PY
 
