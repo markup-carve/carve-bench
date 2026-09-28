@@ -27,10 +27,16 @@ jobs:
           node --check scripts/gen-corpus.mjs
           node --check scripts/gen-comparison-corpus.mjs
           node --check scripts/gen-charts.mjs
+          node --check scripts/build-rs-engine.mjs
+          node --check scripts/measured-sources.mjs
           node scripts/gen-comparison-corpus.mjs
           node scripts/gen-charts.mjs
           git diff --exit-code -- corpus/comparison
           git diff --exit-code -- charts
+
+      # The override check, made to fire on each reading it claims to catch.
+      - name: Check that an unhonored override is detected
+        run: node scripts/test-measured-sources.mjs
 
       - name: Install and lint PHP harnesses
         working-directory: engines/php
@@ -44,7 +50,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
       - name: Build Rust harness (deps on carve-rs)
-        run: cargo build --release --manifest-path engines/rs/Cargo.toml
+        run: node scripts/build-rs-engine.mjs
 
       # After all three installs, so this reads the trees on disk rather than
       # the manifests that asked for them.
@@ -61,3 +67,47 @@ jobs:
           node engines/js/compare.mjs markdown-it corpus/comparison/markdown.md 5 1
           php engines/php/compare.php league/commonmark-gfm corpus/comparison/markdown.md 5 1
           CARVE_PHP_AUTOLOAD="$PWD/engines/php/vendor/autoload.php" php engines/php/tiers.php tier1 corpus/small.crv 1 1
+
+      # carve-bench#19's reading, end to end: an override names a tree and the
+      # harness measured the published release. `$PWD` is a directory that exists
+      # and is not a carve-rs checkout, which is all the check needs to be asked
+      # for one. The run has to stop and leave no report behind.
+      - name: A run that asked for a checkout does not report the release
+        run: |
+          if CARVE_RS_SRC="$PWD" CARVE_RS_BIN=engines/rs/target/release/carve-bench-rs \
+               node run.mjs --quick
+          then
+            echo "run.mjs reported the release while an override asked for a checkout"
+            exit 1
+          fi
+          git diff --exit-code -- RESULTS.md
+
+  # The documented carve-rs override, against carve-rs main. Its own job because
+  # it compiles carve-rs, and because this is the drift that broke the override
+  # in the first place: main moves past this lane's pin, and every version-matched
+  # override mechanism then quietly resolves the published release instead.
+  rs-override:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+        with:
+          repository: markup-carve/carve-rs
+          path: carve-rs
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: The override resolves to the checkout, not the pinned release
+        run: node scripts/build-rs-engine.mjs --carve-rs carve-rs --resolve-only
+
+      # Unoptimized: this job is about which tree was compiled, not how fast it is.
+      - name: The built harness names the checkout it measured
+        run: node scripts/build-rs-engine.mjs --carve-rs carve-rs --debug
+
+      - name: A run would accept what that harness reports
+        run: |
+          node scripts/test-measured-sources.mjs \
+            --binary engines/rs/target/local-override/target/debug/carve-bench-rs \
+            --tree carve-rs

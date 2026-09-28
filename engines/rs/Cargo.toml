@@ -10,9 +10,13 @@ publish = false
 # caret Cargo would infer from a bare version: the JS and PHP lanes name one
 # published release each and cannot walk to another, and comparability is this
 # repo's product, so the Rust lane must not move under `cargo update` either.
-# Override with a path for local development:
-#   cargo build --release --config 'patch.crates-io.carve-lang.path="../../../carve-rs"'
-# or set [patch] in a workspace. See README.
+# Build this lane through `node scripts/build-rs-engine.mjs`, which resolves the
+# engine before it compiles and reads the built binary back afterward. To measure
+# a checkout instead, pass `--carve-rs <path>`: it builds from a generated
+# manifest whose carve dependency is a path, because a `[patch]` to a checkout is
+# refused whenever its version does not satisfy the line below - and cargo
+# refuses it by warning and exiting 0, which measured the release for a while
+# (carve-bench#19).
 carve = { package = "carve-lang", version = "=0.1.6" }
 comrak = { version = "0.54.0", default-features = false }
 jotdown = "0.10.0"

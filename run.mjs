@@ -4,6 +4,8 @@
 // Engine resolution (override via env):
 //   CARVE_JS              path/specifier for carve-js          (default: carve-js)
 //   CARVE_PHP_AUTOLOAD    path to carve-php vendor/autoload.php (default: engines/php/vendor/autoload.php)
+//   CARVE_PHP_SRC         path to a carve-php checkout's src/   (default: unset)
+//   CARVE_RS_SRC          path to a carve-rs checkout           (default: unset)
 //   CARVE_RS_BIN          path to the built rust harness        (default: engines/rs/target/release/carve-bench-rs)
 //
 // Whatever those resolve to, each harness reports it back as `carve_source`
@@ -12,11 +14,16 @@
 // line cannot disagree with what it measured, which is the one thing
 // provenance is for.
 //
+// Naming a checkout is also a claim the run has to honor: when an override says
+// which tree to measure, the reported sources are checked against it and a run
+// that measured something else writes no report at all.
+//
 // Usage: node run.mjs [--quick]
 import { execFileSync } from 'node:child_process'
 import { readdirSync, writeFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, basename } from 'node:path'
+import { assertMeasuredSources } from './scripts/measured-sources.mjs'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const quick = process.argv.includes('--quick')
@@ -26,7 +33,13 @@ const ITERS = quick
   ? { small: 20, medium: 10, large: 3 }
   : { small: 2000, medium: 500, large: 50 }
 
-const RS_BIN = process.env.CARVE_RS_BIN ?? resolve(root, 'engines/rs/target/release/carve-bench-rs')
+// A checkout run measures the binary `scripts/build-rs-engine.mjs --carve-rs`
+// produced, so naming the tree is enough: the pinned release's binary sits
+// elsewhere and cannot be picked up by accident.
+const RS_BIN = process.env.CARVE_RS_BIN
+  ?? resolve(root, process.env.CARVE_RS_SRC
+    ? 'engines/rs/target/local-override/target/release/carve-bench-rs'
+    : 'engines/rs/target/release/carve-bench-rs')
 
 const engines = [
   {
@@ -124,6 +137,10 @@ if (existsSync(TIER_DOC)) {
   }
 }
 
+// Before anything is written: if an override named a tree, that is the tree the
+// rows have to have come from.
+assertMeasuredSources(collectSources(), process.env, root)
+
 // Render RESULTS.md
 const lines = []
 lines.push(
@@ -211,7 +228,7 @@ console.error(`\nwrote ${out}`)
 // tier rows resolving a different carve-php than the corpus rows, say - has
 // both printed, because such a run is not internally comparable and the report
 // is where that has to show.
-function describeEngines() {
+function collectSources() {
   const sources = new Map(engines.map((engine) => [engine.name, new Set()]))
   for (const row of Object.values(results)) {
     for (const [name, result] of Object.entries(row)) {
@@ -221,6 +238,11 @@ function describeEngines() {
   for (const tier of tiers) {
     if (tier?.carve_source) sources.get('carve-php')?.add(tier.carve_source)
   }
+  return sources
+}
+
+function describeEngines() {
+  const sources = collectSources()
   return engines
     .map((engine) => {
       const seen = [...(sources.get(engine.name) ?? [])]
