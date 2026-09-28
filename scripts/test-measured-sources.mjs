@@ -70,6 +70,12 @@ const cases = [
     fires: 'does not exist',
   },
   {
+    name: 'carve-rs: a worktree nested inside the checkout that was asked for',
+    env: { CARVE_RS_SRC: tree },
+    sources: { 'carve-rs': [checkoutOf('carve-rs', join(tree, 'worktrees/experiment'))] },
+    fires: 'measured the checkout at',
+  },
+  {
     name: 'carve-php: one row from the checkout and one from the vendored release',
     env: { CARVE_PHP_SRC: join(tree, 'src') },
     sources: { 'carve-php': [checkoutOf('carve-php', tree), RELEASES['carve-php']] },
@@ -115,6 +121,23 @@ for (const [spec, expected] of [['@markup-carve/carve', 0], [tree, 1], ['../carv
   const ok = asked === expected
   console.log(`${ok ? 'ok  ' : 'FAIL'} CARVE_JS=${spec} asks for ${expected} checkout(s)`)
   if (!ok) failed += 1
+}
+
+// A relative override has to be read from the same place its consumer reads it:
+// CARVE_JS from `engines/js/`, the other two from the directory the run started
+// in. Reading one against the other looks for a tree the harness never loaded.
+for (const [env, expected] of [
+  [{ CARVE_JS: '../../../carve-js' }, join(tree, 'carve-js')],
+  [{ CARVE_PHP_SRC: '../carve-php/src' }, join(tree, '../carve-php/src')],
+  [{ CARVE_RS_SRC: '../carve-rs' }, join(tree, '../carve-rs')],
+]) {
+  const [asked] = requestedOverrides(env, join(tree, 'root'), tree)
+  const ok = asked?.tree === expected
+  console.log(`${ok ? 'ok  ' : 'FAIL'} ${asked?.variable} resolves to ${expected}`)
+  if (!ok) {
+    failed += 1
+    console.log(`       got ${asked?.tree}`)
+  }
 }
 
 // A real harness, when one is offered: what it reports for a checkout has to be

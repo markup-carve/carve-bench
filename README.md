@@ -125,7 +125,7 @@ node scripts/gen-comparison-corpus.mjs
 (cd engines/js && npm ci)
 (cd engines/php && composer install)
 node scripts/build-rs-engine.mjs
-CARVE_JS=../carve-js/dist/index.js CARVE_PHP_SRC=../carve-php/src node compare.mjs
+CARVE_JS=../../../carve-js/dist/index.js CARVE_PHP_SRC=../carve-php/src node compare.mjs
 node scripts/gen-charts.mjs
 ```
 
@@ -156,6 +156,12 @@ a published package or a local checkout:
 Every harness reports what it resolved as `carve_source` in its JSON line, and
 `run.mjs` / `compare.mjs` write the report's engine line from those values.
 
+A relative path is resolved by whatever consumes it, and that differs per lane.
+`CARVE_JS` is an import specifier inside `engines/js/`, so a checkout beside this
+repo is `../../../carve-js/dist/index.js`; `CARVE_PHP_SRC` and `CARVE_RS_SRC` are
+read where you started the run, so the same checkout is `../carve-php/src` and
+`../carve-rs`. An absolute path sidesteps the asymmetry.
+
 **Naming a checkout is a claim, and the run checks it.** When `CARVE_JS`,
 `CARVE_PHP_SRC` or `CARVE_RS_SRC` names a tree, `run.mjs` and `compare.mjs`
 compare the reported `carve_source` against it and exit without writing a report
@@ -171,7 +177,7 @@ the PSR-4 prefix instead and works against a bare worktree with no `vendor/`.
 Example, all three from local checkouts beside this repo:
 
 ```bash
-export CARVE_JS=../carve-js/dist/index.js
+export CARVE_JS=../../../carve-js/dist/index.js
 export CARVE_PHP_SRC=../carve-php/src
 export CARVE_RS_SRC=../carve-rs
 # The Rust lane is compiled, so the checkout needs a build of its own:
