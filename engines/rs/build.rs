@@ -6,22 +6,27 @@
 //! into `Cargo.lock` before compiling anything, so the lock beside this
 //! manifest is the record of what will actually be linked.
 //!
-//! A `[patch]` to a local checkout leaves the package in the lock with no
-//! `source` key; that is reported as an override rather than as a release, so
-//! a checkout run cannot be mistaken for a published one.
+//! A path dependency on a local checkout leaves the package in the lock with no
+//! `source` key; that is reported as a checkout rather than as a release, so a
+//! checkout run cannot be mistaken for a published one. Which checkout is not
+//! in the lock, so `CARVE_BENCH_RS_OVERRIDE` carries it - a build that does not
+//! set it says the tree was not recorded rather than implying any tree.
 
 use std::path::Path;
 
 const ENGINE: &str = "carve-lang";
+const OVERRIDE: &str = "CARVE_BENCH_RS_OVERRIDE";
 
 fn main() {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR");
     let lock_path = Path::new(&manifest_dir).join("Cargo.lock");
     println!("cargo:rerun-if-changed={}", lock_path.display());
+    println!("cargo:rerun-if-env-changed={OVERRIDE}");
 
+    let overridden = std::env::var(OVERRIDE).ok().filter(|tree| !tree.is_empty());
     let resolved = std::fs::read_to_string(&lock_path)
         .ok()
-        .and_then(|lock| describe(&lock))
+        .and_then(|lock| describe(&lock, overridden.as_deref()))
         .unwrap_or_else(|| format!("{ENGINE} unresolved (no lock entry)"));
 
     // The harnesses embed this in a hand-written JSON line, so keep it free of
@@ -31,13 +36,18 @@ fn main() {
 }
 
 /// Find the `[[package]]` block for the engine and render it as one line.
-fn describe(lock: &str) -> Option<String> {
+fn describe(lock: &str, overridden: Option<&str>) -> Option<String> {
     let block = lock
         .split("[[package]]")
         .find(|block| field(block, "name").as_deref() == Some(ENGINE))?;
     let version = field(block, "version").unwrap_or_else(|| "unknown".to_owned());
     let origin = match field(block, "source") {
-        None => "local path override".to_owned(),
+        // Same wording as the JS and PHP harnesses report for a checkout, so one
+        // reader can check all three lanes against the tree that was asked for.
+        None => match overridden {
+            Some(tree) => format!("local checkout {tree}"),
+            None => "local checkout, tree not recorded".to_owned(),
+        },
         Some(source) if source.starts_with("registry+") => match field(block, "checksum") {
             Some(sum) => format!("crates.io, checksum {}", &sum[..sum.len().min(16)]),
             None => "crates.io".to_owned(),
