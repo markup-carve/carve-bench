@@ -39,6 +39,7 @@ test('dark mode exposes readable charts and downloads under the project path', a
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('./')
   await expect(page.locator('.bars li')).toHaveCount(10)
+  await page.addStyleTag({ content: 'body { font-family: monospace }' })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
   for (const link of await page.locator('a[download]').all()) expect((await request.get(await link.getAttribute('href'))).ok()).toBeTruthy()
   await page.locator('figure').first().scrollIntoViewIfNeeded()
