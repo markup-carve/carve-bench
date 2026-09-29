@@ -14,6 +14,10 @@ tracks carve-rs plus a thin FFI/IPC layer.
 
 ## Results
 
+The [benchmark site](https://markup-carve.github.io/carve-bench/) presents the
+same reports with language filters and downloadable charts. See the
+[site build instructions](site/README.md) to reproduce it locally.
+
 Measured 2026-09-30 Europe/Berlin against engine `main` checkouts; exact commits are listed below.
 
 The headline question is the core route: the default conversion API with **no
