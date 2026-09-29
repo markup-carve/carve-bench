@@ -6,7 +6,7 @@ benchmark plus the existing regression gates.
 
 This document retains the historical profiling and release measurements from
 August and September 2026. Its corpus sizes, test counts, and throughput values
-refer to those snapshots. The 2026-09-29 development snapshot uses 2,134 corpus
+refer to those snapshots. The 2026-09-30 Europe/Berlin development snapshot uses 2,134 corpus
 documents; current timings are in [COMPARISON.md](./COMPARISON.md) and
 [RESULTS.md](./RESULTS.md).
 
@@ -135,7 +135,7 @@ document through each:
 | Tier 2 stack | 8 | 2.77 | 16.93 | +10% |
 | Tier 3 stack | 20 | 3.25 | 14.47 | +29% |
 
-![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
+Current tier measurements and their chart are in [RESULTS.md](./RESULTS.md).
 
 These are best of five warmed trials from a clean-INI, tracing-JIT run at
 carve-php `8abc2204`, and `run.mjs` re-measures them on every publication run
@@ -196,7 +196,7 @@ Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
 shadow parity. The comparison measures **104.46 MB/s**, ahead of
 jotdown (42.54) and comrak (37.93); pulldown-cmark was 1.11x faster at
 115.62 MB/s at the time. The 2026-09-23 release run was close; the
-2026-09-29 development run has pulldown-cmark ahead again. The full mixed
+2026-09-30 Europe/Berlin development run has pulldown-cmark ahead again. The full mixed
 corpus is a separate result because it falls back
 to the owned AST: 6.23 MB/s at 40 KiB and 4.97 MB/s at 321 KiB.
 

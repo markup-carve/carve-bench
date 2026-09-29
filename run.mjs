@@ -191,15 +191,17 @@ if (tier1) {
     'route; Tier 2 and Tier 3 register opt-in extensions on top of it. Since',
     'carve-php #1515 made configured conversion allocation-light, registering an',
     'extension no longer forces a wholly separate slow path, so these rows read as',
-    'the registration and hook tax on a document whose content does not trigger',
-    'the registered extensions. They are internal diagnostics, not competitor rows.', '',
+    'registration and hook costs on a document whose content does not trigger',
+    'the registered extensions. Shared host noise can affect ratios, including',
+    'apparent negative overhead. These are internal diagnostics, not competitor rows.', '',
     '| Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |',
     '|---|---:|---:|---:|---:|',
   )
   for (const tier of tiers) {
+    const delta = Math.round((tier.ms_per_op / tier1.ms_per_op - 1) * 100)
     const cost = tier === tier1
       ? 'baseline'
-      : `+${Math.round((tier.ms_per_op / tier1.ms_per_op - 1) * 100).toLocaleString('en-US')}%`
+      : `${delta >= 0 ? '+' : ''}${delta.toLocaleString('en-US')}%`
     lines.push(
       `| ${TIER_LABELS[tier.profile]} | ${tier.tier2_extensions + tier.tier3_extensions} |` +
         ` ${tier.ms_per_op.toFixed(2)} | ${tier.mb_per_s.toFixed(2)} | ${cost} |`,

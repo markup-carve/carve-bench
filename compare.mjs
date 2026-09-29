@@ -73,7 +73,7 @@ function describeHost() {
   const php = ask('php', ['-n', '-v']).match(/^PHP (\S+)/)?.[1] ?? 'unreported'
   const rustc = ask('rustc', ['-V']).match(/^rustc (\S+)/)?.[1] ?? 'unreported'
   const note = process.env.CARVE_COMPARE_NOTE ? ` ${process.env.CARVE_COMPARE_NOTE.trim()}` : ''
-  return `${new Date().toISOString().slice(0, 10)} on Linux ${release().split('-')[0]}, Node.js ${process.versions.node}, PHP ${php} tracing JIT, and rustc ${rustc}.${note}`
+  return `${new Date().toISOString().slice(0, 10)} UTC on Linux ${release().split('-')[0]}, Node.js ${process.versions.node}, PHP ${php} tracing JIT, and rustc ${rustc}.${note}`
 }
 
 function describeEngines() {
