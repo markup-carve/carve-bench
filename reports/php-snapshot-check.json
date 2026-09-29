@@ -1,0 +1,325 @@
+{
+  "generatedAt": "2026-09-29T23:18:33.458482+00:00",
+  "sourceTreeHashes": {
+    "previous": "dc03a9129eabc25dc1b01a7a314ff7a20870af06",
+    "current": "dc03a9129eabc25dc1b01a7a314ff7a20870af06"
+  },
+  "identicalSource": true,
+  "command": [
+    "php",
+    "-n",
+    "-d",
+    "extension=ctype",
+    "-d",
+    "extension=mbstring",
+    "-d",
+    "opcache.enable_cli=1",
+    "-d",
+    "opcache.jit=tracing",
+    "-d",
+    "opcache.jit_buffer_size=128M",
+    "engines/php/compare.php",
+    "carve-php",
+    "corpus/comparison/carve.crv",
+    "50",
+    "5"
+  ],
+  "method": "Six fresh-process pairs; reverse execution order in alternate pairs; each process warms 20 conversions then records five trials of 50 conversions. Ratios compare the minimum trial times. Shared host; no performance-regression threshold.",
+  "pairs": [
+    {
+      "pair": 0,
+      "order": [
+        "previous",
+        "current"
+      ],
+      "observations": {
+        "previous": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            7.34190938,
+            6.8226061200000006,
+            9.9614025,
+            8.519724660000001,
+            6.08987678
+          ],
+          "ms_per_op": 6.08987678,
+          "mb_per_s": 7.715678866220991,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-php-previous @ 04563673d)"
+        },
+        "current": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.86105134,
+            8.2502725,
+            6.6473144,
+            5.37183538,
+            5.375543840000001
+          ],
+          "ms_per_op": 5.37183538,
+          "mb_per_s": 8.747016661060812,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)"
+        }
+      },
+      "current_over_previous_time": 0.8820926225702715,
+      "hostLoad": [
+        12.03662109375,
+        11.80517578125,
+        11.02685546875
+      ]
+    },
+    {
+      "pair": 1,
+      "order": [
+        "current",
+        "previous"
+      ],
+      "observations": {
+        "current": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.344192359999999,
+            5.05559172,
+            5.98402384,
+            5.53310098,
+            5.42949114
+          ],
+          "ms_per_op": 5.05559172,
+          "mb_per_s": 9.294170924335626,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)"
+        },
+        "previous": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.4328371,
+            5.89678214,
+            6.6169962799999995,
+            6.26873786,
+            5.61916202
+          ],
+          "ms_per_op": 5.4328371,
+          "mb_per_s": 8.648802219624057,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-php-previous @ 04563673d)"
+        }
+      },
+      "current_over_previous_time": 0.9305619931066955,
+      "hostLoad": [
+        12.03662109375,
+        11.80517578125,
+        11.02685546875
+      ]
+    },
+    {
+      "pair": 2,
+      "order": [
+        "previous",
+        "current"
+      ],
+      "observations": {
+        "previous": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.72488228,
+            5.44625404,
+            5.76299264,
+            5.690833659999999,
+            5.54742024
+          ],
+          "ms_per_op": 5.44625404,
+          "mb_per_s": 8.62749574739557,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-php-previous @ 04563673d)"
+        },
+        "current": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.2863939,
+            5.14520992,
+            5.22591336,
+            5.35733936,
+            5.24744176
+          ],
+          "ms_per_op": 5.14520992,
+          "mb_per_s": 9.132286981467985,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)"
+        }
+      },
+      "current_over_previous_time": 0.944724554200193,
+      "hostLoad": [
+        11.6328125,
+        11.72509765625,
+        11.0048828125
+      ]
+    },
+    {
+      "pair": 3,
+      "order": [
+        "current",
+        "previous"
+      ],
+      "observations": {
+        "current": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.43645578,
+            5.753797919999999,
+            5.36036052,
+            5.498237420000001,
+            6.1633885
+          ],
+          "ms_per_op": 5.36036052,
+          "mb_per_s": 8.765741295575383,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)"
+        },
+        "previous": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.79940416,
+            5.95147106,
+            5.43947654,
+            5.31338348,
+            5.40265162
+          ],
+          "ms_per_op": 5.31338348,
+          "mb_per_s": 8.84324155148989,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-php-previous @ 04563673d)"
+        }
+      },
+      "current_over_previous_time": 1.008841266619815,
+      "hostLoad": [
+        11.181640625,
+        11.6298828125,
+        10.9775390625
+      ]
+    },
+    {
+      "pair": 4,
+      "order": [
+        "previous",
+        "current"
+      ],
+      "observations": {
+        "previous": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.843520539999999,
+            5.92850854,
+            6.62483018,
+            5.58872968,
+            6.1404217800000005
+          ],
+          "ms_per_op": 5.58872968,
+          "mb_per_s": 8.407551672697101,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-php-previous @ 04563673d)"
+        },
+        "current": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.76532446,
+            5.88522172,
+            5.74136806,
+            5.271756020000001,
+            5.222992779999999
+          ],
+          "ms_per_op": 5.222992779999999,
+          "mb_per_s": 8.996285376702348,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)"
+        }
+      },
+      "current_over_previous_time": 0.9345581337904322,
+      "hostLoad": [
+        11.181640625,
+        11.6298828125,
+        10.9775390625
+      ]
+    },
+    {
+      "pair": 5,
+      "order": [
+        "current",
+        "previous"
+      ],
+      "observations": {
+        "current": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.22421772,
+            5.17294712,
+            5.084919719999999,
+            5.30876086,
+            5.5305304799999995
+          ],
+          "ms_per_op": 5.084919719999999,
+          "mb_per_s": 9.240565467439858,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)"
+        },
+        "previous": {
+          "engine": "carve-php",
+          "bytes": 49270,
+          "iterations": 50,
+          "trials": 5,
+          "samples": [
+            5.496919299999999,
+            5.03286062,
+            5.279665280000001,
+            5.15523098,
+            5.43948854
+          ],
+          "ms_per_op": 5.03286062,
+          "mb_per_s": 9.33614838897246,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /tmp/bench-php-previous @ 04563673d)"
+        }
+      },
+      "current_over_previous_time": 1.010343839007407,
+      "hostLoad": [
+        10.7666015625,
+        11.5361328125,
+        10.95068359375
+      ]
+    }
+  ],
+  "medianCurrentOverPreviousTime": 0.9396413439953126
+}
