@@ -60,6 +60,10 @@ on 2026-09-30 Europe/Berlin. `COMPARISON.md` and `RESULTS.md` record the exact c
 by the harnesses. The default dependency manifests still pin published releases;
 use checkout overrides to reproduce this development snapshot.
 
+The [PHP snapshot check](docs/php-snapshot-check.md) compares the previous and
+current development commits in alternating runs. Their PHP source trees are
+identical; separate snapshot timings do not establish a code regression.
+
 To reproduce the current snapshot, check out these commits:
 
 | Repository | Commit |
