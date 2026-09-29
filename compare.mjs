@@ -73,7 +73,7 @@ function describeHost() {
   const php = ask('php', ['-n', '-v']).match(/^PHP (\S+)/)?.[1] ?? 'unreported'
   const rustc = ask('rustc', ['-V']).match(/^rustc (\S+)/)?.[1] ?? 'unreported'
   const note = process.env.CARVE_COMPARE_NOTE ? ` ${process.env.CARVE_COMPARE_NOTE.trim()}` : ''
-  return `Linux ${release().split('-')[0]}, Node.js ${process.versions.node}, PHP ${php} tracing JIT, and rustc ${rustc}.${note}`
+  return `${new Date().toISOString().slice(0, 10)} on Linux ${release().split('-')[0]}, Node.js ${process.versions.node}, PHP ${php} tracing JIT, and rustc ${rustc}.${note}`
 }
 
 function describeEngines() {
@@ -97,7 +97,7 @@ const lines = [
   'trials; every trial runs the iteration count shown. Inputs carry equivalent',
   'logical content in native Carve, Djot, or Markdown syntax and are 48.1–48.4 KiB.',
   'The libraries do not have identical feature sets or output, so this compares',
-  'rendering cost for representative documents—not semantic equivalence.', '',
+  'rendering cost for representative documents, not semantic equivalence.', '',
   'Do not compare a Track-A Carve number directly with a Track-B number: the first',
   'may render borrowed source slices, while the second materializes the public AST',
   'and runs the full semantic pipeline.', '',
@@ -108,7 +108,7 @@ const lines = [
   'dev-master (`fab953f6`), league/commonmark 2.10.0, jotdown 0.10.0,',
   'comrak 0.54.0, and pulldown-cmark 0.13.4. The Carve engines this run',
   'actually loaded, as each harness reported them back, were',
-  `${describeEngines()}, on`,
+  `${describeEngines()}, measured`,
   `${describeHost()}`, '',
   `Every configured engine earns the same ${workloadFeaturePoints} workload points. Core capability`,
   'points separately expose the much wider syntax surface an engine recognizes',

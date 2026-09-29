@@ -4,6 +4,11 @@ An architectural reading of the locked competitor libraries, kept because it
 explains the shape of `COMPARISON.md` rather than repeating it. Implementation
 claims were checked against the dependency source locked in this repo.
 
+The measurements below are historical snapshots from August and September
+2026. Their corpus sizes, tier costs, and throughput values refer to those
+runs. Current development measurements are in [COMPARISON.md](./COMPARISON.md)
+and [RESULTS.md](./RESULTS.md).
+
 Measured 2026-08-21 at carve-js `5695480e`, carve-php `8abc2204`, carve-rs
 `78a88c34`. On the core route Carve leads every same-language peer except
 pulldown-cmark and the newly allocation-light djot-php `dev-master`.
@@ -55,12 +60,12 @@ conservative stateless subset; anything ambiguous or unsupported falls back to
 the owned AST before any output is published. That is what the Track A rows
 measure. Registering an extension is not automatically such a fallback: in
 carve-php, #1515 keeps configured conversion on the cheap path, which is why
-the Tier 2/3 rows in `RESULTS.md` cost +10%/+29% rather than several hundred
+the Tier 2/3 rows in the earlier `RESULTS.md` cost +10%/+29% rather than several hundred
 percent.
 
 ## The closest peer: pulldown-cmark
 
-The two now measure as a tie. Three runs on 2026-09-23 put carve-rs at
+The two were close in the release snapshot. Three runs on 2026-09-23 put carve-rs at
 93.99-94.90 MB/s and pulldown-cmark at 92.58-96.35, so neither ordering holds
 across runs, where the earlier tables had pulldown-cmark 11% ahead. The
 asymmetry behind that lead is still structural: a facade must first prove a
@@ -73,7 +78,7 @@ advertised as if it might.
 
 Outside the facade - the full 1,325-document corpus, which is the authoritative
 path - carve-php runs at 0.27 MB/s and carve-js at 1.02 against carve-rs's 4.97
-(`RESULTS.md`). No competitor row exists there, because those libraries do not
+(`RESULTS.md` at the time). No competitor row exists there, because those libraries do not
 accept the syntax, but the peer architecture above is still the reading of why
 the owned path costs what it does:
 

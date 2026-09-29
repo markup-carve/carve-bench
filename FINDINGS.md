@@ -4,9 +4,15 @@ These are measured leads, not promises. Any engine change must preserve its
 conformance and security contracts and should prove the gain with a focused
 benchmark plus the existing regression gates.
 
+This document retains the historical profiling and release measurements from
+August and September 2026. Its corpus sizes, test counts, and throughput values
+refer to those snapshots. The 2026-09-29 development snapshot uses 2,134 corpus
+documents; current timings are in [COMPARISON.md](./COMPARISON.md) and
+[RESULTS.md](./RESULTS.md).
+
 ## What changed
 
-- The current spec corpus contains 1,325 documents. Regeneration grew the
+- The earlier spec corpus contained 1,325 documents. Regeneration grew the
   medium input from 12.6 to 40.2 KiB and the large input from 100.6 to 321.4
   KiB, so the old and new `ms/op` values are not directly comparable.
 - On the full mixed-feature corpus, throughput declines from small to large:
@@ -15,7 +21,7 @@ benchmark plus the existing regression gates.
   authoritative path is where the remaining work is.
 - On equivalent ~48 KiB documents the borrowed facades have reversed every
   same-language gap except one. Measured 2026-09-23 against the published
-  releases, carve-rs and pulldown-cmark tie at 94.81 against 96.35 MB/s, with
+  releases, carve-rs and pulldown-cmark were close at 94.81 against 96.35 MB/s, with
   the ordering swapping between runs, while carve-php reaches 13.59 MB/s
   against the djot-php borrowed facade's 15.25. See
   [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md).
@@ -49,7 +55,7 @@ largest directly attributable buckets were garbage collection (128 samples,
 block/list/table parsing, smart-token scanning, emphasis matching, text-run
 coalescing, and rendering.
 
-Actionable experiments, in order:
+Experiments, in order:
 
 1. Measure allocation count/bytes by node kind and text run. GC is the largest
    single sampled bucket, so reducing short-lived slices, arrays, and copied
@@ -76,7 +82,7 @@ from borrowed source slices; configured or ambiguous documents fall back before
 publishing output. The public AST, extensions, alternate renderers and
 transforms remain authoritative.
 
-On the 48 KiB comparison document, two process orders measured current main at
+On the 48 KiB comparison document, two process orders measured the then-current main at
 72.70–72.95 ms/op and the PR at 3.74–3.81 ms/op: **19.2–19.5x faster** under
 the same sustained host load. The refreshed competitor run measures 15.69 MB/s
 for carve-php, 17.82 MB/s for djot-php `dev-master` (`fab953f6`), and 1.43 MB/s
@@ -189,7 +195,9 @@ Actionable work for the remaining authoritative path, in order:
 Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
 shadow parity. The comparison measures **104.46 MB/s**, ahead of
 jotdown (42.54) and comrak (37.93); pulldown-cmark was 1.11x faster at
-115.62 MB/s at the time, a lead the 2026-09-23 run no longer reproduces. The full mixed corpus is a separate result because it falls back
+115.62 MB/s at the time. The 2026-09-23 release run was close; the
+2026-09-29 development run has pulldown-cmark ahead again. The full mixed
+corpus is a separate result because it falls back
 to the owned AST: 6.23 MB/s at 40 KiB and 4.97 MB/s at 321 KiB.
 
 Merged carve-rs #1146 removes unchanged-line allocation in the link-definition
@@ -212,7 +220,7 @@ explains a substantial part of the 5.9–17.9x gap and sets expectations for loc
 micro-optimizations. The peer harness now enables pipe tables for Comrak and
 pulldown-cmark; the earlier default-option results gave those peers less work.
 
-Actionable experiments, in order:
+Experiments, in order:
 
 1. Add Criterion phase benchmarks and an allocation-counting build for the
    48 KiB and 321 KiB inputs. Split parse, metadata resolution, and render.

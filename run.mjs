@@ -148,7 +148,7 @@ lines.push(
   'This is **Track B**, the Carve-owned authoritative/full-parser view. The mixed',
   'corpus falls outside the conservative borrowed facades and therefore exercises',
   'normal AST construction, extension-capable parsing, and rendering. It answers',
-  'how the three Carve implementations scale on their full language—not how their',
+  'how the three Carve implementations scale on their full language, not how their',
   'fastest core-only convenience API compares with another library.', '',
   'For **Track A**, the primary core source-to-HTML comparison against the',
   'same-language libraries, see [`COMPARISON.md`](./COMPARISON.md).', '',
