@@ -1,0 +1,30 @@
+name: pin freshness
+
+# Every other check in this repo compares the repo against itself, so a set of
+# pins can agree perfectly and still name an engine the registries superseded
+# weeks ago. This job is the one that leaves the repo and asks.
+#
+# It is scheduled rather than run per push: a pin goes stale because an engine
+# released, which is an event in another repository that no push here follows.
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'engines/js/package.json'
+      - 'engines/php/composer.json'
+      - 'engines/rs/Cargo.toml'
+      - 'scripts/check-pin-freshness.mjs'
+      - '.github/workflows/pin-freshness.yml'
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Compare each pin with its registry
+        run: node scripts/check-pin-freshness.mjs
