@@ -114,7 +114,9 @@ writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
 ))
 writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
   'Carve engines on the full spec corpus',
-  'Each document-size panel is normalized visually to its fastest engine; labels show absolute MB/s.',
+  readFileSync(resolve(root, 'RESULTS.md'), 'utf8').includes('Small-input timings are unstable.')
+    ? 'Small-input timings are unstable. Each panel is normalized visually; labels show absolute MB/s.'
+    : 'Each document-size panel is normalized visually to its fastest engine; labels show absolute MB/s.',
   sections(resolve(root, 'RESULTS.md'), 2)
     .filter((group) => /^(small|medium|large) \(/.test(group.name)),
 ))
