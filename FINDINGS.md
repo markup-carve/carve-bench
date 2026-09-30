@@ -151,8 +151,11 @@ As measured on 2026-08-21 at carve-php `8abc2204`:
 | Tier 3 stack | 20 | 3.25 | 14.47 | +29% |
 
 `run.mjs` re-measures these on every publication run, so [RESULTS.md](./RESULTS.md)
-carries the current table and this one is kept for the comparison below. On the
-0.1.10 release the shape holds: +17% for Tier 2 and +29% for Tier 3.
+carries the current table and this one is kept for the comparison below. Two
+runs of the 0.1.10 release minutes apart on a shared host read +17%/+29% and
+then -3%/+6%, which is the honest width of this diagnostic there: the collapse
+from four-figure percentages is the durable result, the exact residual is not.
+A Tier-2 stack cannot really be cheaper than no stack at all.
 
 These are best of five warmed trials from a clean-INI, tracing-JIT run at
 carve-php `8abc2204`, and `run.mjs` re-measures them on every publication run
@@ -257,7 +260,7 @@ PHP's exact-shadow borrowed facade (#1506) and the allocation-light configured
 path (#1515) have both merged. What is left:
 
 1. Profile PHP's remaining >64 KiB AST path and evolve #1498's typed layout
-   events toward a materialized block skeleton. At 0.28 MB/s on the 508 KiB
+   events toward a materialized block skeleton. At 0.30 MB/s on the 508 KiB
    corpus this is still the largest gap in any engine, and the one that has
    moved least: 0.27 MB/s at 321 KiB a month earlier, on a smaller input.
 2. Widen all three facades only under exact-shadow parity and explicit fallback
