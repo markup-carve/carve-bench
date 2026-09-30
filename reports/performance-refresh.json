@@ -49,7 +49,7 @@
   "php": "8.5.11",
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
   "phpJit": true,
-  "method": "Final full-corpus rerun after a small-input diagnostic. The fastest-of-five core comparison is retained from the initial run and was not repeated. Fixed inputs; local shared host. Small-input rows remain unstable; no paired speed-change claim.",
+  "method": "Final full-corpus rerun. The recorded alternating diagnostic followed this rerun. The fastest-of-five core comparison is retained from the initial run and was not repeated. Fixed inputs; local shared host. Small-input rows remain unstable; no paired speed-change claim.",
   "tables": {
     "headline": {
       "headers": [
@@ -501,7 +501,7 @@
         ]
       }
     ],
-    "run": "2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Repeated after the small-corpus diagnostic; timings do not establish a speed change. Small-input timings are unstable.",
+    "run": "2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Full-corpus rerun; timings do not establish a speed change. Small-input timings are unstable.",
     "corpus": "carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); byte-exact regeneration verified.",
     "engines": "carve-js `@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)`, carve-php `markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)`, carve-rs `carve-lang 0.1.7 (local checkout /tmp/carve-rs-perf-20260930 @ 9f3f334c7)`",
     "host": "2026-09-30 UTC on Linux 7.0.0, Node.js 24.19.0, PHP 8.5.11 tracing JIT, and rustc 1.97.1. Development checkouts; fixed comparison inputs retained. This core comparison was not repeated with the full-corpus rerun. The shared host had 16 logical CPUs; load at its initial summary was 5.69, 10.42, 12.16. Timings do not establish a speed change.",
@@ -517,5 +517,11 @@
     5.69384765625,
     10.421875,
     12.158203125
-  ]
+  ],
+  "environment": {
+    "CARVE_RUN_META": "2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Full-corpus rerun; timings do not establish a speed change. Small-input timings are unstable.",
+    "CARVE_CORPUS_SNAPSHOT": "carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); byte-exact regeneration verified.",
+    "CARVE_COMPARE_NOTE": "2026-09-30 UTC on Linux 7.0.0, Node.js 24.19.0, PHP 8.5.11 tracing JIT, and rustc 1.97.1. Development checkouts; fixed comparison inputs retained. This core comparison was not repeated with the full-corpus rerun. The shared host had 16 logical CPUs; load at its initial summary was 5.69, 10.42, 12.16. Timings do not establish a speed change.",
+    "CARVE_SMALL_INPUT_UNSTABLE": "1"
+  }
 }

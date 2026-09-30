@@ -81,10 +81,10 @@ export function build(root, destination) {
   cpSync(resolve(root, 'charts'), resolve(destination, 'charts'), { recursive: true })
   mkdirSync(resolve(destination, 'reports'), { recursive: true })
   for (const file of ['COMPARISON.md', 'RESULTS.md', 'README.md', 'FEATURES.md', 'FINDINGS.md']) {
-    cpSync(resolve(root, file), resolve(destination, 'reports', file))
-    cpSync(resolve(root, file), resolve(destination, file))
+    writeFileSync(resolve(destination, 'reports', file), read(file).replaceAll('(reports/', '('))
+    if (['COMPARISON.md', 'RESULTS.md'].includes(file)) cpSync(resolve(root, file), resolve(destination, file))
   }
-  for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'small-corpus-initial.txt']) {
+  for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   writeFileSync(resolve(destination, 'evidence.json'), JSON.stringify(data, null, 2) + '\n')

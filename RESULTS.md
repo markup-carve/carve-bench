@@ -14,7 +14,7 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Repeated after the small-corpus diagnostic; timings do not establish a speed change. Small-input timings are unstable.
+**Run:** 2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Full-corpus rerun; timings do not establish a speed change. Small-input timings are unstable.
 
 **Engines measured:** carve-js `@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)`, carve-php `markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)`, carve-rs `carve-lang 0.1.7 (local checkout /tmp/carve-rs-perf-20260930 @ 9f3f334c7)`
 
@@ -24,7 +24,7 @@ with `node run.mjs`; see README for setup.
 
 ## small (1.2 KB)
 
-Small-input timings are unstable. The [alternating diagnostic](reports/performance-refresh.md#small-input-diagnostic) did not reproduce these rows at the same iteration count.
+Small-input timings are unstable. The [alternating diagnostic](reports/performance-refresh.md#small-input-diagnostic) did not reproduce the recorded rows at the same iteration count.
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|

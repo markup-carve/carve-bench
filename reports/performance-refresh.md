@@ -62,13 +62,14 @@ JS uses `6d02fa7062dd03024e7c092016459602e9a7aeec`, PHP
 The fixed mixed inputs reproduce byte for byte from the 2,134-document spec
 corpus at `9db91206d1a4a8a8cf795c48210bca49d66f14d6`.
 
-Both benchmark commands completed, and the full-corpus run was repeated after
-the small-input diagnostic. Every PHP corpus and tier row reported
+Both benchmark commands completed, and the full-corpus run was repeated.
+The recorded alternating diagnostic followed that rerun. Every PHP corpus and tier row reported
 tracing JIT active, with a clean INI and no coverage extensions. Harness
 provenance checks verified the requested checkouts. These local shared-host
 measurements are not a paired comparison with the preceding snapshot.
 
-Reproduce with the checkout overrides in the README, then run `node run.mjs`,
+Reproduce with the checkout overrides in the README, then run
+`CARVE_SMALL_INPUT_UNSTABLE=1 node run.mjs`,
 `node compare.mjs` and `node scripts/gen-charts.mjs`. Use the recorded commits
 and input hashes before comparing another run.
 

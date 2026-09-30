@@ -52,7 +52,7 @@ test('dark mode exposes readable charts and downloads under the project path', a
 test('small-input caveat and diagnostic artifacts are published', async ({ page, request }) => {
   await page.goto('./')
   await expect(page.locator('#full')).toContainText('Small-input timings are unstable.')
-  for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'small-corpus-initial.txt']) {
+  for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json']) {
     expect((await request.get(`reports/${file}`)).ok()).toBeTruthy()
   }
 })
