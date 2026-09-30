@@ -1,0 +1,531 @@
+{
+  "recordedAt": "2026-09-30T01:50:38.044362+00:00",
+  "benchmarkBase": "eb84fcfa6ed2a7619a92b5347e81e8706b4de59b",
+  "precedingEvidence": "https://github.com/markup-carve/carve-bench/tree/eb84fcfa6ed2a7619a92b5347e81e8706b4de59b",
+  "engines": {
+    "carve-js": "6d02fa7062dd03024e7c092016459602e9a7aeec",
+    "carve-php": "7033d04b1d942263508eadf9b699a77ee656bfda",
+    "carve-rs": "9f3f334c7d5c91c57e4e6269b32599af1062fdde"
+  },
+  "inputs": {
+    "corpus/comparison/carve.crv": {
+      "bytes": 49270,
+      "sha256": "9e17569764af6cbdf23c9a5e70439b4dfc87fbe24dbcb022eb4c4577533119d5"
+    },
+    "corpus/large.crv": {
+      "bytes": 520855,
+      "sha256": "3b97269724132551ee49466b474f75c9df9f95e228d73153d81e0d25c971c755"
+    },
+    "corpus/medium.crv": {
+      "bytes": 65105,
+      "sha256": "f18f37182e583e7ae5e145518f129e708ec04f70028b3983980bc71d8972c9b0"
+    },
+    "corpus/small.crv": {
+      "bytes": 1233,
+      "sha256": "e59b53242d55149997deab060fe0fb326b9dfaa5548b4c1f600a4c1daff4dec3"
+    },
+    "corpus/comparison/djot.dj": {
+      "bytes": 49540,
+      "sha256": "cf044c271de393e7f68923ec1213c284d559f03191e9f2fdff4567d9f41c1a51"
+    },
+    "corpus/comparison/markdown.md": {
+      "bytes": 49540,
+      "sha256": "cf044c271de393e7f68923ec1213c284d559f03191e9f2fdff4567d9f41c1a51"
+    }
+  },
+  "corpus": {
+    "specCommit": "9db91206d1a4a8a8cf795c48210bca49d66f14d6",
+    "documents": 2134,
+    "byteExactRegenerationVerified": true
+  },
+  "loadAtSummary": [
+    2.2451171875,
+    4.17431640625,
+    6.81787109375
+  ],
+  "logicalCpus": 16,
+  "host": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "node": "v24.19.0",
+  "php": "8.5.11",
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "phpJit": true,
+  "method": "Final full-corpus rerun. The recorded alternating diagnostic followed this rerun. The fastest-of-five core comparison is retained from the initial run and was not repeated. Fixed inputs; local shared host. Small-input rows remain unstable; no paired speed-change claim.",
+  "tables": {
+    "headline": {
+      "headers": [
+        "Language",
+        "Carve",
+        "MB/s",
+        "Fastest peer",
+        "MB/s",
+        "Carve vs peer"
+      ],
+      "rows": [
+        [
+          "Rust",
+          "carve-rs",
+          "89.26",
+          "pulldown-cmark",
+          "102.44",
+          "0.87x"
+        ],
+        [
+          "JavaScript",
+          "carve-js",
+          "12.92",
+          "djot.js",
+          "6.26",
+          "2.06x"
+        ],
+        [
+          "PHP",
+          "carve-php",
+          "10.31",
+          "djot-php",
+          "15.65",
+          "0.66x"
+        ]
+      ]
+    },
+    "peers": [
+      {
+        "language": "JavaScript",
+        "engine": "carve-js",
+        "throughput": 12.92
+      },
+      {
+        "language": "JavaScript",
+        "engine": "djot.js",
+        "throughput": 6.26
+      },
+      {
+        "language": "JavaScript",
+        "engine": "markdown-it",
+        "throughput": 6.07
+      },
+      {
+        "language": "PHP",
+        "engine": "carve-php",
+        "throughput": 10.31
+      },
+      {
+        "language": "PHP",
+        "engine": "djot-php",
+        "throughput": 15.65
+      },
+      {
+        "language": "PHP",
+        "engine": "league/commonmark-gfm",
+        "throughput": 1.31
+      },
+      {
+        "language": "Rust",
+        "engine": "carve-rs",
+        "throughput": 89.26
+      },
+      {
+        "language": "Rust",
+        "engine": "jotdown",
+        "throughput": 37.12
+      },
+      {
+        "language": "Rust",
+        "engine": "comrak",
+        "throughput": 34.69
+      },
+      {
+        "language": "Rust",
+        "engine": "pulldown-cmark",
+        "throughput": 102.44
+      }
+    ],
+    "core": [
+      {
+        "title": "Headline: core route vs the fastest same-language peer",
+        "tables": [
+          {
+            "headers": [
+              "Language",
+              "Carve",
+              "MB/s",
+              "Fastest peer",
+              "MB/s",
+              "Carve vs peer"
+            ],
+            "rows": [
+              [
+                "Rust",
+                "carve-rs",
+                "89.26",
+                "pulldown-cmark",
+                "102.44",
+                "0.87x"
+              ],
+              [
+                "JavaScript",
+                "carve-js",
+                "12.92",
+                "djot.js",
+                "6.26",
+                "2.06x"
+              ],
+              [
+                "PHP",
+                "carve-php",
+                "10.31",
+                "djot-php",
+                "15.65",
+                "0.66x"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "The three Carve engines on the same document",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "Language",
+              "ms/op",
+              "MB/s",
+              "rel"
+            ],
+            "rows": [
+              [
+                "carve-js",
+                "JavaScript",
+                "3.6374",
+                "12.92",
+                "6.91x"
+              ],
+              [
+                "carve-php",
+                "PHP",
+                "4.5574",
+                "10.31",
+                "8.66x"
+              ],
+              [
+                "carve-rs",
+                "Rust",
+                "0.5264",
+                "89.26",
+                "1.00x"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Rust",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "Workload points",
+              "Core capability points",
+              "MB/s",
+              "Breadth index",
+              "vs Carve",
+              "trials \u00d7 iterations"
+            ],
+            "rows": [
+              [
+                "carve-rs",
+                "18",
+                "43",
+                "89.26",
+                "3838.2",
+                "1.00x",
+                "5 \u00d7 200"
+              ],
+              [
+                "jotdown",
+                "18",
+                "32",
+                "37.12",
+                "1187.8",
+                "0.42x",
+                "5 \u00d7 200"
+              ],
+              [
+                "comrak",
+                "18",
+                "16",
+                "34.69",
+                "555.0",
+                "0.39x",
+                "5 \u00d7 200"
+              ],
+              [
+                "pulldown-cmark",
+                "18",
+                "16",
+                "102.44",
+                "1639.0",
+                "1.15x",
+                "5 \u00d7 200"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "JavaScript",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "Workload points",
+              "Core capability points",
+              "MB/s",
+              "Breadth index",
+              "vs Carve",
+              "trials \u00d7 iterations"
+            ],
+            "rows": [
+              [
+                "carve-js",
+                "18",
+                "43",
+                "12.92",
+                "555.5",
+                "1.00x",
+                "5 \u00d7 100"
+              ],
+              [
+                "djot.js",
+                "18",
+                "32",
+                "6.26",
+                "200.2",
+                "0.48x",
+                "5 \u00d7 100"
+              ],
+              [
+                "markdown-it",
+                "18",
+                "17",
+                "6.07",
+                "103.2",
+                "0.47x",
+                "5 \u00d7 100"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "PHP",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "Workload points",
+              "Core capability points",
+              "MB/s",
+              "Breadth index",
+              "vs Carve",
+              "trials \u00d7 iterations"
+            ],
+            "rows": [
+              [
+                "carve-php",
+                "18",
+                "43",
+                "10.31",
+                "443.3",
+                "1.00x",
+                "5 \u00d7 50"
+              ],
+              [
+                "djot-php",
+                "18",
+                "32",
+                "15.65",
+                "500.8",
+                "1.52x",
+                "5 \u00d7 50"
+              ],
+              [
+                "league/commonmark-gfm",
+                "18",
+                "18",
+                "1.31",
+                "23.6",
+                "0.13x",
+                "5 \u00d7 50"
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "full": [
+      {
+        "title": "small (1.2 KB)",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "ms/op",
+              "MB/s",
+              "rel"
+            ],
+            "rows": [
+              [
+                "carve-js",
+                "2.3572",
+                "0.50",
+                "13.38x"
+              ],
+              [
+                "carve-php",
+                "4.3822",
+                "0.27",
+                "24.87x"
+              ],
+              [
+                "carve-rs",
+                "0.1762",
+                "6.68",
+                "1.00x"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "medium (63.6 KB)",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "ms/op",
+              "MB/s",
+              "rel"
+            ],
+            "rows": [
+              [
+                "carve-js",
+                "56.9590",
+                "1.09",
+                "3.76x"
+              ],
+              [
+                "carve-php",
+                "139.8118",
+                "0.44",
+                "9.24x"
+              ],
+              [
+                "carve-rs",
+                "15.1353",
+                "4.10",
+                "1.00x"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "large (508.6 KB)",
+        "tables": [
+          {
+            "headers": [
+              "Engine",
+              "ms/op",
+              "MB/s",
+              "rel"
+            ],
+            "rows": [
+              [
+                "carve-js",
+                "439.0450",
+                "1.13",
+                "3.09x"
+              ],
+              [
+                "carve-php",
+                "1264.6116",
+                "0.39",
+                "8.89x"
+              ],
+              [
+                "carve-rs",
+                "142.2185",
+                "3.49",
+                "1.00x"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "title": "PHP authoritative extension tiers",
+        "tables": [
+          {
+            "headers": [
+              "Profile",
+              "Registered extensions",
+              "ms/op",
+              "MB/s",
+              "cost vs Tier 1"
+            ],
+            "rows": [
+              [
+                "Tier 1 core/default",
+                "0",
+                "3.97",
+                "11.85",
+                "baseline"
+              ],
+              [
+                "Tier 2 stack",
+                "8",
+                "4.21",
+                "11.17",
+                "+6%"
+              ],
+              [
+                "Tier 3 stack",
+                "20",
+                "5.11",
+                "9.20",
+                "+29%"
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "run": "2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Full-corpus rerun; timings do not establish a speed change. Small-input timings are unstable.",
+    "corpus": "carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); byte-exact regeneration verified.",
+    "engines": "carve-js `@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)`, carve-php `markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)`, carve-rs `carve-lang 0.1.7 (local checkout /tmp/carve-rs-perf-20260930 @ 9f3f334c7)`",
+    "host": "2026-09-30 UTC on Linux 7.0.0, Node.js 24.19.0, PHP 8.5.11 tracing JIT, and rustc 1.97.1. Development checkouts; fixed comparison inputs retained. This core comparison was not repeated with the full-corpus rerun. The shared host had 16 logical CPUs; load at its initial summary was 5.69, 10.42, 12.16. Timings do not establish a speed change.",
+    "peerVersions": "djot.js 0.3.2, markdown-it 15.0.0, djot-php dev-master (`fab953f6`), league/commonmark 2.10.0, jotdown 0.10.0, comrak 0.54.0, and pulldown-cmark 0.13.4.",
+    "smallInputNote": "Small-input timings are unstable.",
+    "baseRevision": "eb84fcfa6ed2a7619a92b5347e81e8706b4de59b"
+  },
+  "harnessTranscript": "small    carve-js   2.3572 ms/op\nsmall    carve-php  4.3822 ms/op jit=true\nsmall    carve-rs   0.1762 ms/op\nmedium   carve-js   56.959 ms/op\nmedium   carve-php  139.8118 ms/op jit=true\nmedium   carve-rs   15.1353 ms/op\nlarge    carve-js   439.045 ms/op\nlarge    carve-php  1264.6116 ms/op jit=true\nlarge    carve-rs   142.2185 ms/op\ntier1    carve-php  3.97 ms/op jit=true\ntier2    carve-php  4.21 ms/op jit=true\ntier3    carve-php  5.11 ms/op jit=true\n\nwrote /tmp/carve-bench-20260930/RESULTS.md\n",
+  "comparisonTranscript": "JavaScript carve-js                 12.92 MB/s\nJavaScript djot.js                  6.26 MB/s\nJavaScript markdown-it              6.07 MB/s\nPHP        carve-php                10.31 MB/s\nPHP        djot-php                 15.65 MB/s\nPHP        league/commonmark-gfm    1.31 MB/s\nRust       carve-rs                 89.26 MB/s\nRust       jotdown                  37.12 MB/s\nRust       comrak                   34.69 MB/s\nRust       pulldown-cmark           102.44 MB/s\n",
+  "initialRun": "full-corpus-initial.json",
+  "smallCorpusDiagnostic": "small-corpus-check.json",
+  "coreComparisonLoadAtSummary": [
+    5.69384765625,
+    10.421875,
+    12.158203125
+  ],
+  "environment": {
+    "CARVE_RUN_META": "2026-09-30 Europe/Berlin; Node 24.19.0, PHP 8.5.11 tracing JIT, rustc 1.97.1; 16 logical CPUs, local shared host. Full-corpus rerun; timings do not establish a speed change. Small-input timings are unstable.",
+    "CARVE_CORPUS_SNAPSHOT": "carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); byte-exact regeneration verified.",
+    "CARVE_COMPARE_NOTE": "Development checkouts; fixed comparison inputs retained. This core comparison was not repeated with the full-corpus rerun. The shared host had 16 logical CPUs; load at its initial summary was 5.69, 10.42, 12.16. Timings do not establish a speed change.",
+    "CARVE_SMALL_INPUT_UNSTABLE": "1",
+    "CARVE_PHP_INI": "-n -d extension=ctype -d extension=mbstring",
+    "CARVE_JS": "/tmp/carve-js-perf-20260930/dist/index.js",
+    "CARVE_PHP_SRC": "/tmp/carve-php-perf-20260930/src",
+    "CARVE_RS_SRC": "/tmp/carve-rs-perf-20260930"
+  }
+}

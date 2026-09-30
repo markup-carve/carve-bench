@@ -169,6 +169,9 @@ for (const doc of docs) {
   const row = results[key]
   const bytes = Object.values(row).find(Boolean)?.bytes ?? 0
   lines.push(`## ${key} (${(bytes / 1024).toFixed(1)} KB)`, '')
+  if (key === 'small' && process.env.CARVE_SMALL_INPUT_UNSTABLE === '1') {
+    lines.push('Small-input timings are unstable. Read the [recorded diagnostic](reports/performance-refresh.md#small-input-diagnostic) before comparing small-document speed.', '')
+  }
   lines.push('| Engine | ms/op | MB/s | rel |', '|---|---:|---:|---:|')
   const best = Math.min(...Object.values(row).filter(Boolean).map((r) => r.ms_per_op))
   for (const engine of engines) {

@@ -28,8 +28,8 @@ Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php
 dev-master (`fab953f6`), league/commonmark 2.10.0, jotdown 0.10.0,
 comrak 0.54.0, and pulldown-cmark 0.13.4. The Carve engines this run
 actually loaded, as each harness reported them back, were
-carve-js `@markup-carve/carve 0.1.8 (local checkout /tmp/bench-latest-carve-js @ 45bbec34e)`, carve-php `markup-carve/carve-php (local checkout /tmp/bench-latest-carve-php @ 6d94607ea)`, carve-rs `carve-lang 0.1.7 (local checkout /tmp/bench-latest-carve-rs @ 9f3f334c7)`, measured
-2026-09-29 UTC on Linux 7.0.0, Node.js 22.22.2, PHP 8.5.11 tracing JIT, and rustc 1.97.1. Refreshed 2026-09-30 Europe/Berlin; shared host, load around 6-16 of 16 logical CPUs. Timings do not establish a speed change.
+carve-js `@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)`, carve-php `markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)`, carve-rs `carve-lang 0.1.7 (local checkout /tmp/carve-rs-perf-20260930 @ 9f3f334c7)`, measured
+2026-09-30 UTC on Linux 7.0.0, Node.js 24.19.0, PHP 8.5.11 tracing JIT, and rustc 1.97.1. Development checkouts; fixed comparison inputs retained. This core comparison was not repeated with the full-corpus rerun. The shared host had 16 logical CPUs; load at its initial summary was 5.69, 10.42, 12.16. Timings do not establish a speed change.
 
 Every configured engine earns the same 18 workload points. Core capability
 points separately expose the much wider syntax surface an engine recognizes
@@ -45,9 +45,9 @@ by default. See `FEATURES.md` for the auditable matrix and limitations.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 84.64 | pulldown-cmark | 96.96 | 0.87x |
-| JavaScript | carve-js | 9.97 | djot.js | 4.86 | 2.05x |
-| PHP | carve-php | 8.48 | djot-php | 14.69 | 0.58x |
+| Rust | carve-rs | 89.26 | pulldown-cmark | 102.44 | 0.87x |
+| JavaScript | carve-js | 12.92 | djot.js | 6.26 | 2.06x |
+| PHP | carve-php | 10.31 | djot-php | 15.65 | 0.66x |
 
 Every row above is the default core route with no opt-in extensions registered.
 The per-language tables below add each remaining peer and the capability breadth
@@ -57,9 +57,9 @@ each engine recognizes in that same configuration.
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.7125 | 9.97 | 8.49x |
-| carve-php | PHP | 5.5380 | 8.48 | 9.98x |
-| carve-rs | Rust | 0.5551 | 84.64 | 1.00x |
+| carve-js | JavaScript | 3.6374 | 12.92 | 6.91x |
+| carve-php | PHP | 4.5574 | 10.31 | 8.66x |
+| carve-rs | Rust | 0.5264 | 89.26 | 1.00x |
 
 Same input, same core route, so this is the direct cross-language cost of the
 implementation rather than of the language surface. Full-corpus scaling for the
@@ -69,26 +69,26 @@ same three engines is in [`RESULTS.md`](./RESULTS.md).
 
 | Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|---:|---:|
-| carve-rs | 18 | 43 | 84.64 | 3639.5 | 1.00x | 5 × 200 |
-| jotdown | 18 | 32 | 37.50 | 1200.0 | 0.44x | 5 × 200 |
-| comrak | 18 | 16 | 31.30 | 500.8 | 0.37x | 5 × 200 |
-| pulldown-cmark | 18 | 16 | 96.96 | 1551.4 | 1.15x | 5 × 200 |
+| carve-rs | 18 | 43 | 89.26 | 3838.2 | 1.00x | 5 × 200 |
+| jotdown | 18 | 32 | 37.12 | 1187.8 | 0.42x | 5 × 200 |
+| comrak | 18 | 16 | 34.69 | 555.0 | 0.39x | 5 × 200 |
+| pulldown-cmark | 18 | 16 | 102.44 | 1639.0 | 1.15x | 5 × 200 |
 
 ## JavaScript
 
 | Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|---:|---:|
-| carve-js | 18 | 43 | 9.97 | 428.7 | 1.00x | 5 × 100 |
-| djot.js | 18 | 32 | 4.86 | 155.4 | 0.49x | 5 × 100 |
-| markdown-it | 18 | 17 | 4.62 | 78.5 | 0.46x | 5 × 100 |
+| carve-js | 18 | 43 | 12.92 | 555.5 | 1.00x | 5 × 100 |
+| djot.js | 18 | 32 | 6.26 | 200.2 | 0.48x | 5 × 100 |
+| markdown-it | 18 | 17 | 6.07 | 103.2 | 0.47x | 5 × 100 |
 
 ## PHP
 
 | Engine | Workload points | Core capability points | MB/s | Breadth index | vs Carve | trials × iterations |
 |---|---:|---:|---:|---:|---:|---:|
-| carve-php | 18 | 43 | 8.48 | 364.8 | 1.00x | 5 × 50 |
-| djot-php | 18 | 32 | 14.69 | 470.1 | 1.73x | 5 × 50 |
-| league/commonmark-gfm | 18 | 18 | 1.02 | 18.4 | 0.12x | 5 × 50 |
+| carve-php | 18 | 43 | 10.31 | 443.3 | 1.00x | 5 × 50 |
+| djot-php | 18 | 32 | 15.65 | 500.8 | 1.52x | 5 × 50 |
+| league/commonmark-gfm | 18 | 18 | 1.31 | 23.6 | 0.13x | 5 × 50 |
 
 Language groups should be run in isolation. Sustained host load can reduce
 absolute throughput substantially even when within-language ordering stays

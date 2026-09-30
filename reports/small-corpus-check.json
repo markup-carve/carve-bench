@@ -1,0 +1,734 @@
+{
+  "generatedAt": "2026-09-30T02:01:55.990Z",
+  "node": "v24.19.0",
+  "phpRuntime": {
+    "php": "8.5.11",
+    "opcache": "8.5.11"
+  },
+  "sources": {
+    "js": {
+      "baseline": {
+        "checkout": "/tmp/carve-js-perf-baseline-20260930",
+        "commit": "45bbec34edd9d446ba9e78e8031e33c916473923",
+        "buildCommand": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "modulesSha256": "bfe3c8ad6dfa5f6a434dcdab075fe5f1401a9c2c6cf56dda515008ff8c386d80"
+      },
+      "current": {
+        "checkout": "/tmp/carve-js-perf-20260930",
+        "commit": "6d02fa7062dd03024e7c092016459602e9a7aeec",
+        "buildCommand": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "modulesSha256": "99dbc5463e67c2b7a53764307dead773e1bae31939abc9163678f595d160f5bf"
+      }
+    },
+    "php": {
+      "baseline": {
+        "checkout": "/tmp/carve-php-perf-baseline-20260930",
+        "commit": "6d94607eaa9d51c9ed782342161beca77b05aaf9"
+      },
+      "current": {
+        "checkout": "/tmp/carve-php-perf-20260930",
+        "commit": "7033d04b1d942263508eadf9b699a77ee656bfda"
+      }
+    }
+  },
+  "inputSha256": "e59b53242d55149997deab060fe0fb326b9dfaa5548b4c1f600a4c1daff4dec3",
+  "method": "Rebuild both JS checkouts before timing and verify their module digests afterward. Serial fresh processes, baseline/current then current/baseline, at 20 and 2000 timed calls. Each harness warms up to 20 calls. Mean in-process wall time; builds and process startup excluded. PHP tracing JIT verified. Local shared host; two pairs per iteration count are diagnostic observations, not a performance threshold.",
+  "rows": [
+    {
+      "engine": "js",
+      "variant": "baseline",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 20,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-baseline-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "loadAfter": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.8512,
+        "mb_per_s": 1.38,
+        "iters": 20,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.8 (local checkout /tmp/carve-js-perf-baseline-20260930 @ 45bbec34e)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "current",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 20,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "loadAfter": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.8582,
+        "mb_per_s": 1.37,
+        "iters": 20,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "current",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 20,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "loadAfter": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.8707,
+        "mb_per_s": 1.35,
+        "iters": 20,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "baseline",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 20,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-baseline-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "loadAfter": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.8267,
+        "mb_per_s": 1.42,
+        "iters": 20,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.8 (local checkout /tmp/carve-js-perf-baseline-20260930 @ 45bbec34e)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "baseline",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 2000,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-baseline-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "loadAfter": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.5655,
+        "mb_per_s": 2.08,
+        "iters": 2000,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.8 (local checkout /tmp/carve-js-perf-baseline-20260930 @ 45bbec34e)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "current",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 2000,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.12,
+        3.41,
+        5.19
+      ],
+      "loadAfter": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.561,
+        "mb_per_s": 2.1,
+        "iters": 2000,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "current",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 2000,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "loadAfter": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.5811,
+        "mb_per_s": 2.02,
+        "iters": 2000,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.9 (local checkout /tmp/carve-js-perf-20260930 @ 6d02fa706)"
+      }
+    },
+    {
+      "engine": "js",
+      "variant": "baseline",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 2000,
+      "command": "/home/mark/.nvm/versions/node/v24.19.0/bin/node",
+      "args": [
+        "/tmp/carve-bench-20260930/engines/js/bench.mjs",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_JS": "/tmp/carve-js-perf-baseline-20260930/dist/index.js"
+      },
+      "loadBefore": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "loadAfter": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "result": {
+        "engine": "carve-js",
+        "ms_per_op": 0.5821,
+        "mb_per_s": 2.02,
+        "iters": 2000,
+        "bytes": 1233,
+        "carve_source": "@markup-carve/carve 0.1.8 (local checkout /tmp/carve-js-perf-baseline-20260930 @ 45bbec34e)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "baseline",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 20,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-baseline-20260930/src"
+      },
+      "loadBefore": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "loadAfter": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.7069,
+        "mb_per_s": 0.69,
+        "iters": 20,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-baseline-20260930 @ 6d94607ea)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "current",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 20,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-20260930/src"
+      },
+      "loadBefore": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "loadAfter": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.7148,
+        "mb_per_s": 0.69,
+        "iters": 20,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "current",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 20,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-20260930/src"
+      },
+      "loadBefore": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "loadAfter": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.7834,
+        "mb_per_s": 0.66,
+        "iters": 20,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "baseline",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 20,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "20"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-baseline-20260930/src"
+      },
+      "loadBefore": [
+        3.11,
+        3.4,
+        5.18
+      ],
+      "loadAfter": [
+        2.94,
+        3.36,
+        5.16
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.771,
+        "mb_per_s": 0.66,
+        "iters": 20,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-baseline-20260930 @ 6d94607ea)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "baseline",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 2000,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-baseline-20260930/src"
+      },
+      "loadBefore": [
+        2.94,
+        3.36,
+        5.16
+      ],
+      "loadAfter": [
+        2.94,
+        3.36,
+        5.16
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.3674,
+        "mb_per_s": 0.86,
+        "iters": 2000,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-baseline-20260930 @ 6d94607ea)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "current",
+      "round": 0,
+      "order": [
+        "baseline",
+        "current"
+      ],
+      "iterations": 2000,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-20260930/src"
+      },
+      "loadBefore": [
+        2.94,
+        3.36,
+        5.16
+      ],
+      "loadAfter": [
+        2.95,
+        3.36,
+        5.15
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.3209,
+        "mb_per_s": 0.89,
+        "iters": 2000,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "current",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 2000,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-20260930/src"
+      },
+      "loadBefore": [
+        2.95,
+        3.36,
+        5.15
+      ],
+      "loadAfter": [
+        2.95,
+        3.36,
+        5.15
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.299,
+        "mb_per_s": 0.91,
+        "iters": 2000,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-20260930 @ 7033d04b1)"
+      }
+    },
+    {
+      "engine": "php",
+      "variant": "baseline",
+      "round": 1,
+      "order": [
+        "current",
+        "baseline"
+      ],
+      "iterations": 2000,
+      "command": "php",
+      "args": [
+        "-n",
+        "-d",
+        "extension=ctype",
+        "-d",
+        "extension=mbstring",
+        "-d",
+        "opcache.enable_cli=1",
+        "-d",
+        "opcache.jit_buffer_size=128M",
+        "-d",
+        "opcache.jit=tracing",
+        "/tmp/carve-bench-20260930/engines/php/bench.php",
+        "/tmp/carve-bench-20260930/corpus/small.crv",
+        "2000"
+      ],
+      "override": {
+        "CARVE_PHP_SRC": "/tmp/carve-php-perf-baseline-20260930/src"
+      },
+      "loadBefore": [
+        2.95,
+        3.36,
+        5.15
+      ],
+      "loadAfter": [
+        2.87,
+        3.33,
+        5.13
+      ],
+      "result": {
+        "engine": "carve-php",
+        "ms_per_op": 1.3813,
+        "mb_per_s": 0.85,
+        "iters": 2000,
+        "bytes": 1233,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-php-perf-baseline-20260930 @ 6d94607ea)"
+      }
+    }
+  ]
+}

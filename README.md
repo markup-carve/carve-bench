@@ -18,16 +18,18 @@ The [benchmark site](https://markup-carve.github.io/carve-bench/) presents the
 same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
-Measured 2026-09-30 Europe/Berlin against engine `main` checkouts; exact commits are listed below.
+Measured 2026-09-30 Europe/Berlin after the PHP parser and renderer changes.
+Exact development commits and fixed input hashes are in
+[the refresh report](reports/performance-refresh.md).
 
 The headline question is the core route: the default conversion API with **no
 opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 84.64 | pulldown-cmark | 96.96 | 0.87x |
-| JavaScript | carve-js | 9.97 | djot.js | 4.86 | 2.05x |
-| PHP | carve-php | 8.48 | djot-php | 14.69 | 0.58x |
+| Rust | carve-rs | 89.26 | pulldown-cmark | 102.44 | 0.87x |
+| JavaScript | carve-js | 12.92 | djot.js | 6.26 | 2.06x |
+| PHP | carve-php | 10.31 | djot-php | 15.65 | 0.66x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -36,9 +38,9 @@ document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.7125 | 9.97 | 8.49x |
-| carve-php | PHP | 5.5380 | 8.48 | 9.98x |
-| carve-rs | Rust | 0.5551 | 84.64 | 1.00x |
+| carve-js | JavaScript | 3.6374 | 12.92 | 6.91x |
+| carve-php | PHP | 4.5574 | 10.31 | 8.66x |
+| carve-rs | Rust | 0.5264 | 89.26 | 1.00x |
 
 Every peer row, the capability breadth behind each row, and the method are in
 [COMPARISON.md](./COMPARISON.md).
@@ -64,17 +66,17 @@ on 2026-09-30 Europe/Berlin. `COMPARISON.md` and `RESULTS.md` record the exact c
 by the harnesses. The default dependency manifests still pin published releases;
 use checkout overrides to reproduce this development snapshot.
 
-The [PHP snapshot check](docs/php-snapshot-check.md) compares the previous and
-current development commits in alternating runs. Their PHP source trees are
-identical; separate snapshot timings do not establish a code regression.
+The historical [PHP snapshot check](docs/php-snapshot-check.md) compares two
+pre-improvement commits with identical PHP source trees. It does not cover the
+parser and renderer changes measured here.
 
 To reproduce the current snapshot, check out these commits:
 
 | Repository | Commit |
 |---|---|
 | carve | `9db91206d1a4a8a8cf795c48210bca49d66f14d6` |
-| carve-js | `45bbec34edd9d446ba9e78e8031e33c916473923` |
-| carve-php | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
+| carve-js | `6d02fa7062dd03024e7c092016459602e9a7aeec` |
+| carve-php | `7033d04b1d942263508eadf9b699a77ee656bfda` |
 | carve-rs | `9f3f334c7d5c91c57e4e6269b32599af1062fdde` |
 
 Build carve-js with `npm ci`, install the benchmark's locked JS/PHP dependencies,
@@ -126,6 +128,10 @@ CARVE_RUN_META='YYYY-MM-DD on HOST; Node X, PHP Y tracing JIT, rustc Z.' \
 CARVE_CORPUS_SNAPSHOT='carve `REV` (N documents).' \
 node run.mjs
 ```
+
+Set `CARVE_SMALL_INPUT_UNSTABLE=1` when reproducing the September 30 snapshot
+to retain its small-input warning. For a new snapshot, assess instability from
+its own repeated runs and diagnostics before setting the flag.
 
 The engine line is not among those: each harness reports the engine it
 resolved and the report is written from what came back, so it cannot name a

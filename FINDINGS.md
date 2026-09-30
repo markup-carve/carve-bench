@@ -10,6 +10,9 @@ refer to those snapshots. The 2026-09-30 Europe/Berlin development snapshot uses
 documents; current timings are in [COMPARISON.md](./COMPARISON.md) and
 [RESULTS.md](./RESULTS.md).
 
+The [post-improvement investigation](reports/performance-refresh.md) records the
+current development engines, fixed input hashes and remaining AST costs.
+
 ## What changed
 
 - The earlier spec corpus contained 1,325 documents. Regeneration grew the
