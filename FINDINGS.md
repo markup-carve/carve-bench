@@ -1,4 +1,4 @@
-# Performance findings (2026-08-19, numbers refreshed 2026-08-21)
+# Performance findings (2026-08-19, historical; numbers current as of their dated runs)
 
 These are measured leads, not promises. Any engine change must preserve its
 conformance and security contracts and should prove the gain with a focused
@@ -6,12 +6,13 @@ benchmark plus the existing regression gates.
 
 This document retains the historical profiling and release measurements from
 August and September 2026. Its corpus sizes, test counts, and throughput values
-refer to those snapshots. The 2026-09-30 Europe/Berlin development snapshot uses 2,134 corpus
-documents; current timings are in [COMPARISON.md](./COMPARISON.md) and
-[RESULTS.md](./RESULTS.md).
+refer to those snapshots. The current corpus holds 2,134 documents, and the
+published tables measure the pinned releases; current timings are in
+[COMPARISON.md](./COMPARISON.md) and [RESULTS.md](./RESULTS.md).
 
 The [post-improvement investigation](reports/performance-refresh.md) records the
-current development engines, fixed input hashes and remaining AST costs.
+development engines it measured, its fixed input hashes and the remaining AST
+costs.
 
 ## What changed
 
@@ -22,17 +23,26 @@ current development engines, fixed input hashes and remaining AST costs.
   carve-js 1.15 → 1.02 MB/s, carve-rs 13.15 → 4.97 MB/s, and carve-php
   1.10 → 0.27 MB/s. PHP still has the strongest size sensitivity, and that
   authoritative path is where the remaining work is.
-- On equivalent ~48 KiB documents the borrowed facades have reversed every
+- On equivalent ~48 KiB documents the borrowed facades reversed every
   same-language gap except one. Measured 2026-09-23 against the published
   releases, carve-rs and pulldown-cmark were close at 94.81 against 96.35 MB/s, with
-  the ordering swapping between runs, while carve-php reaches 13.59 MB/s
+  the ordering swapping between runs, while carve-php reached 13.59 MB/s
   against the djot-php borrowed facade's 15.25. See
   [`COMPETITOR_ARCHITECTURE.md`](./COMPETITOR_ARCHITECTURE.md).
+- The 2026-09-30 release run does not reproduce that Rust tie. On the pinned
+  releases carve-rs measures 99.90 MB/s against pulldown-cmark's 119.17 (0.84x)
+  and carve-php 11.18 against djot-php's 15.27 (0.73x), while carve-js leads
+  markdown-it 11.55 to 6.29. pulldown-cmark itself moved 102.44 to 119.17
+  between two runs on the same pin, so the shared host is part of the spread -
+  but the ordering is stable across both, and the 09-23 near-tie is not the
+  number to plan against. Current values live in
+  [`COMPARISON.md`](./COMPARISON.md) and [`RESULTS.md`](./RESULTS.md); this file
+  keeps the dated measurements that motivated each change.
 
 ## carve-js
 
 Merged carve-js #1247 adds a conservative borrowed HTML facade for the same
-default-core workload. The comparison measures **9.98 MB/s**, ahead of
+default-core workload. The comparison measured **9.98 MB/s** at the time, ahead of
 markdown-it (5.69) and djot.js (5.78). Its 51 accepted corpus sources have
 exact authoritative HTML parity; configured, extension-driven, ambiguous and
 non-HTML paths retain the AST pipeline. The full mixed corpus still measures
@@ -43,7 +53,7 @@ Merged carve-js #1235 scans ordinary ASCII prose as a run when no inline
 extension matcher is active. Five independent interleaved baseline/candidate
 pairs all favored the change; the median Tier-1 improvement was about 19.6%.
 The complete CI matrix passed (Node 20/22 corpus, scaling, browser parity, and
-mutation-XSS). The refreshed competitor run measures 2.09 MB/s.
+mutation-XSS). The competitor run of the day measured 2.09 MB/s.
 
 The later document-ID walker experiment (#1237) initially measured 9–10%
 faster on the 48 KiB comparison input and passed the existing scaling gate, but
@@ -87,7 +97,7 @@ transforms remain authoritative.
 
 On the 48 KiB comparison document, two process orders measured the then-current main at
 72.70–72.95 ms/op and the PR at 3.74–3.81 ms/op: **19.2–19.5x faster** under
-the same sustained host load. The refreshed competitor run measures 15.69 MB/s
+the same sustained host load. The competitor run of the day measured 15.69 MB/s
 for carve-php, 17.82 MB/s for djot-php `dev-master` (`fab953f6`), and 1.43 MB/s
 for league/commonmark GFM. The exact absolute numbers are machine/load dependent;
 the alternating main/candidate ratio is the stronger engine-change evidence.
@@ -132,13 +142,17 @@ include host callbacks or external services. To make the term reproducible,
 `engines/php/tiers.php` defines three explicit stacks and runs the *same* core
 document through each:
 
+As measured on 2026-08-21 at carve-php `8abc2204`:
+
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
 | Tier 1 core | 0 opt-in | 2.53 | 18.59 | baseline |
 | Tier 2 stack | 8 | 2.77 | 16.93 | +10% |
 | Tier 3 stack | 20 | 3.25 | 14.47 | +29% |
 
-Current tier measurements and their chart are in [RESULTS.md](./RESULTS.md).
+`run.mjs` re-measures these on every publication run, so [RESULTS.md](./RESULTS.md)
+carries the current table and this one is kept for the comparison below. On the
+0.1.10 release the shape holds: +17% for Tier 2 and +29% for Tier 3.
 
 These are best of five warmed trials from a clean-INI, tracing-JIT run at
 carve-php `8abc2204`, and `run.mjs` re-measures them on every publication run
@@ -196,7 +210,7 @@ Actionable work for the remaining authoritative path, in order:
 ## carve-rs
 
 Merged carve-rs #1175 adds the typed borrowed layout facade with permanent exact
-shadow parity. The comparison measures **104.46 MB/s**, ahead of
+shadow parity. The comparison measured **104.46 MB/s** at the time, ahead of
 jotdown (42.54) and comrak (37.93); pulldown-cmark was 1.11x faster at
 115.62 MB/s at the time. The 2026-09-23 release run was close; the
 2026-09-30 Europe/Berlin development run has pulldown-cmark ahead again. The full mixed
@@ -210,7 +224,7 @@ baseline/candidate pairs all favored it; median Tier-1 throughput rose from
 6.15 to 6.98 MB/s (+13.5%). Allocation instrumentation attributed 3,784 fewer
 allocations and roughly 708 KiB less requested memory per parse to the prepass
 changes alone. Full Rust CI, including the focused performance gate, passed.
-The rebuilt comparison harness measures 10.33 MB/s. In addition, carve-rs
+The rebuilt comparison harness measured 10.33 MB/s. In addition, carve-rs
 #1150 lets the source-to-HTML convenience path surrender its freshly parsed
 document to the renderer instead of defensively cloning the complete AST. The
 gain stayed positive from 1.2 KiB through 321 KiB (+81%, +7.9%, +16–17% on the
@@ -243,10 +257,12 @@ PHP's exact-shadow borrowed facade (#1506) and the allocation-light configured
 path (#1515) have both merged. What is left:
 
 1. Profile PHP's remaining >64 KiB AST path and evolve #1498's typed layout
-   events toward a materialized block skeleton. At 0.27 MB/s on the 321 KiB
-   corpus this is the largest gap in any engine.
+   events toward a materialized block skeleton. At 0.28 MB/s on the 508 KiB
+   corpus this is still the largest gap in any engine, and the one that has
+   moved least: 0.27 MB/s at 321 KiB a month earlier, on a smaller input.
 2. Widen all three facades only under exact-shadow parity and explicit fallback
    cost measurements. In Rust that is also the only route at pulldown-cmark's
-   remaining 1.11x lead.
+   lead, which the 2026-09-30 release run puts at 1.19x rather than the 1.02x
+   the 09-23 run reported.
 3. Re-run `compare.mjs` and the full corpus after every accepted engine change;
    require conformance CI alongside performance evidence.
