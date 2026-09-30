@@ -68,10 +68,12 @@ tracing JIT active, with a clean INI and no coverage extensions. Harness
 provenance checks verified the requested checkouts. These local shared-host
 measurements are not a paired comparison with the preceding snapshot.
 
-Reproduce with the checkout overrides in the README, then run
-`CARVE_SMALL_INPUT_UNSTABLE=1 node run.mjs`,
+Reproduce with the checkout overrides in the README and the recorded
+`environment` values in the JSON, including the clean PHP INI and run metadata.
+Then run `node run.mjs`,
 `node compare.mjs` and `node scripts/gen-charts.mjs`. Use the recorded commits
-and input hashes before comparing another run.
+and input hashes before comparing another run. The instability flag retains
+the warning when reproducing this snapshot.
 
 ## Small-input diagnostic
 

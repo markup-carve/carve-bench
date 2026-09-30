@@ -129,6 +129,10 @@ CARVE_CORPUS_SNAPSHOT='carve `REV` (N documents).' \
 node run.mjs
 ```
 
+Set `CARVE_SMALL_INPUT_UNSTABLE=1` when reproducing the September 30 snapshot
+to retain its small-input warning. For a new snapshot, assess instability from
+its own repeated runs and diagnostics before setting the flag.
+
 The engine line is not among those: each harness reports the engine it
 resolved and the report is written from what came back, so it cannot name a
 revision the run did not use. See "Engine pinning and provenance".

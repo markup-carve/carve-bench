@@ -24,7 +24,7 @@ with `node run.mjs`; see README for setup.
 
 ## small (1.2 KB)
 
-Small-input timings are unstable. The [alternating diagnostic](reports/performance-refresh.md#small-input-diagnostic) did not reproduce the recorded rows at the same iteration count.
+Small-input timings are unstable. Read the [recorded diagnostic](reports/performance-refresh.md#small-input-diagnostic) before comparing small-document speed.
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
