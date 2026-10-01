@@ -24,8 +24,10 @@ test('history measurement identities agree with the current workers', async () =
   const history = JSON.parse(readFileSync(new URL('reports/engine-history.json', root), 'utf8'))
   assert.equal(history.schema, 1)
   assert.deepEqual(Object.keys(history.engines).sort(), ['js', 'php', 'rs'])
-  for (const name of ['run.py', 'worker.mjs', 'worker.php', 'worker.rs']) {
-    assert.equal(history.harness_sha256[name], createHash('sha256').update(readFileSync(new URL(`scripts/history/${name}`, root))).digest('hex'))
+  assert.ok(history.measurement_signature)
+  for (const [engine, snapshot] of Object.entries(history.engines)) {
+    const name = { js: 'worker.mjs', php: 'worker.php', rs: 'worker.rs' }[engine]
+    assert.equal((snapshot.measurement_session ?? history).harness_sha256[name], createHash('sha256').update(readFileSync(new URL(`scripts/history/${name}`, root))).digest('hex'))
   }
   for (const engine of Object.values(history.engines)) {
     assert.equal(engine.revisions.filter(revision => revision.label !== 'dev-main').length, history.tags_per_engine)

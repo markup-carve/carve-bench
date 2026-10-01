@@ -350,7 +350,9 @@ iteration count.
 Results are `reports/engine-history.{json,csv,md,html}` and three standalone SVGs.
 Open the HTML for engine, case, size and unit selectors. The default static
 charts show time relative to the oldest tag on a logarithmic scale; lower is
-faster. Hollow points differ from the oldest output, and lines stop at output
+faster. Every workload starts at its own 1× baseline, so starting points are
+ratios, not equal elapsed times. Legend entries show baseline milliseconds.
+Hollow points differ from the oldest output, and lines stop at output
 changes. Shared-host load and sample ranges remain visible in the raw JSON.
 The site copies these committed results without rerunning benchmarks during
 deployment. Refresh them through a PR after running on a suitable host.

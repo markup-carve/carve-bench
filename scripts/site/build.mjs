@@ -93,9 +93,11 @@ export function build(root, destination) {
   if (existsSync(historyPath)) {
     const history = JSON.parse(read('reports/engine-history.json'))
     assert.equal(history.schema, 1, 'Unknown engine history schema')
-    for (const file of ['run.py', 'worker.mjs', 'worker.php', 'worker.rs']) {
+    assert.ok(history.measurement_signature, 'Missing history timing signature')
+    for (const [engine, snapshot] of Object.entries(history.engines)) {
+      const file = { js: 'worker.mjs', php: 'worker.php', rs: 'worker.rs' }[engine]
       const hash = createHash('sha256').update(read(`scripts/history/${file}`)).digest('hex')
-      assert.equal(history.harness_sha256[file], hash, `Engine history used a different ${file}; refresh measurements`)
+      assert.equal((snapshot.measurement_session ?? history).harness_sha256[file], hash, `Engine history used a different ${file}; refresh measurements`)
     }
     const publishedHistory = resolve(destination, 'reports/engine-history.json')
     cpSync(historyPath, publishedHistory)

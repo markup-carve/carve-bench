@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Create portable history graphs from recorded samples."""
 import csv
+import hashlib
 import html
 import json
 import math
 from pathlib import Path
 import sys
+import run
 
 COLORS = ['#2563eb', '#c026d3', '#059669', '#d97706', '#dc2626', '#0891b2', '#7c3aed', '#475569']
 
@@ -19,8 +21,9 @@ def graph(engine, data):
     low,high = math.log10(min(ratios))-.08,math.log10(max(ratios))+.08
     x = lambda i: 85+i*680/max(1,len(revisions)-1)
     y = lambda value: 310-(math.log10(value)-low)/(high-low)*240
-    parts = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 510" role="img" aria-labelledby="title desc"><title id="title">'+html.escape(engine)+' engine version history</title><desc id="desc">Median elapsed time relative to the oldest tag, log scale. Lower is faster. Lines connect identical output only.</desc><style>text{font:13px system-ui;fill:#172033}.bg{fill:#fff}.grid{stroke:#cbd5e1}@media(prefers-color-scheme:dark){text{fill:#edf2f7}.bg{fill:#152033}.grid{stroke:#475569}}</style><rect class="bg" width="850" height="510"/><text x="35" y="28" font-weight="bold">'+html.escape(engine)+f' · n={n} · time / oldest tag (lower is faster)</text>']
+    parts = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 560" role="img" aria-labelledby="title desc"><title id="title">'+html.escape(engine)+' engine version history</title><desc id="desc">Median elapsed time relative to the oldest tag, log scale. Lower is faster. Lines connect identical output only.</desc><style>text{font:13px system-ui;fill:#172033}.bg{fill:#fff}.grid{stroke:#cbd5e1}@media(prefers-color-scheme:dark){text{fill:#edf2f7}.bg{fill:#152033}.grid{stroke:#475569}}</style><rect class="bg" width="850" height="560"/><text x="35" y="28" font-weight="bold">'+html.escape(engine)+f' · n={n} · time / oldest tag (lower is faster)</text>']
     ticks=[10**(low+(high-low)*i/4) for i in range(5)]
+    parts.append('<text x="35" y="49">Each case starts at its own 1× baseline. Equal ratios do not mean equal milliseconds.</text>')
     for tick in ticks:
         yy=y(tick);parts.append(f'<line class="grid" x1="85" x2="765" y1="{yy}" y2="{yy}"/><text x="25" y="{yy+5}">{tick:.2g}×</text>')
     for i,label in enumerate(revisions):
@@ -35,22 +38,40 @@ def graph(engine, data):
             fill=color if row['output_sha256']==baseline['output_sha256'] else 'none'
             parts.append(f'<circle cx="{xx}" cy="{yy}" r="5" fill="{fill}" stroke="{color}" stroke-width="2"><title>{html.escape(case)} {html.escape(label)}: {row["median_ms"]:.3f} ms</title></circle>')
             previous=xx,yy,row['output_sha256']
-        lx=35+(ci%3)*270;ly=380+(ci//3)*26
-        parts.append(f'<line x1="{lx}" x2="{lx+20}" y1="{ly}" y2="{ly}" stroke="{color}" stroke-width="3"/><text x="{lx+28}" y="{ly+4}">{html.escape(case.replace('html_table','html_table (import)'))}</text>')
-    parts.append('<text x="35" y="484">Hollow points differ from oldest-tag output. Gaps mark output changes.</text></svg>')
+        lx=35+(ci%2)*410;ly=380+(ci//2)*26
+        case_label=html.escape(case.replace('html_table','html_table (import)'))
+        parts.append(f'<line x1="{lx}" x2="{lx+20}" y1="{ly}" y2="{ly}" stroke="{color}" stroke-width="3"/><text x="{lx+28}" y="{ly+4}">{case_label} ({baseline["median_ms"]:.3f} ms)</text>')
+    parts.append('<text x="35" y="530">Hollow points differ from oldest-tag output. Gaps mark output changes.</text></svg>')
     return ''.join(parts)
+
+
+def validate_measurements(data):
+    if data.get('measurement_signature') != run.measurement_signature((Path(__file__).parent/'run.py').read_text()):
+        raise ValueError('History timing or fixture code changed; refresh measurements')
+    for engine,snapshot in data['engines'].items():
+        session=snapshot.get('measurement_session') or data
+        if session.get('measurement_signature') != data['measurement_signature']:
+            raise ValueError('History session timing signature differs')
+        worker={'js':'worker.mjs','php':'worker.php','rs':'worker.rs'}[engine]
+        expected_worker=(snapshot.get('measurement_session') or data)['harness_sha256'][worker]
+        if hashlib.sha256((Path(__file__).parent/worker).read_bytes()).hexdigest()!=expected_worker:
+            raise ValueError('History worker changed; refresh measurements')
+        for row in snapshot['rows']:
+            expected=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
+            if expected!=row['fixture_sha256']:raise ValueError('History fixture does not match recorded input')
 
 
 def build(path):
     data=json.loads(path.read_text());prefix=path.with_suffix('');directory=path.parent
     if data['schema']!=1: raise ValueError('Unknown history schema')
+    validate_measurements(data)
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
-    report=['# Engine release history','',f"Recorded {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures and runtime within its engine. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
+    report=['# Engine release history','',f"Sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
     if data.get('session_note'):
         report += ['## Measurement sessions', '', data['session_note'], '']
         for engine, snapshot in data['engines'].items():
             session = snapshot.get('measurement_session', {})
-            report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}.", '']
+            report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
     watchpoints=[]
     for engine, snapshot in data['engines'].items():
         revisions=[r['label'] for r in snapshot['revisions']]
