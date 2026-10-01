@@ -18,3 +18,21 @@ test('incomplete or malformed results fail the build', () => {
   assert.throws(() => collect(comparison, results.replace(/carve-rs `([^`]+)`/, (_, identity) => 'carve-rs `' + identity + ' altered`'), 'revision'))
   assert.throws(() => sections('## Test\n| A | B |\n|---|---|\n| one |'))
 })
+
+test('history measurement identities agree with the current workers', async () => {
+  const { createHash } = await import('node:crypto')
+  const history = JSON.parse(readFileSync(new URL('reports/engine-history.json', root), 'utf8'))
+  assert.equal(history.schema, 1)
+  assert.deepEqual(Object.keys(history.engines).sort(), ['js', 'php', 'rs'])
+  for (const name of ['run.py', 'worker.mjs', 'worker.php', 'worker.rs']) {
+    assert.equal(history.harness_sha256[name], createHash('sha256').update(readFileSync(new URL(`scripts/history/${name}`, root))).digest('hex'))
+  }
+  for (const engine of Object.values(history.engines)) {
+    assert.equal(engine.revisions.filter(revision => revision.label !== 'dev-main').length, history.tags_per_engine)
+    assert.ok(engine.rows.length > 0)
+    for (const row of engine.rows) {
+      assert.equal(row.samples.length, history.rounds)
+      assert.ok(row.samples.every(sample => sample.samples_ms.length === history.samples_per_round))
+    }
+  }
+})

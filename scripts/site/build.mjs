@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { mkdirSync, readFileSync, writeFileSync, cpSync, rmSync, existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -87,6 +88,23 @@ export function build(root, destination) {
   for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
+  const historyPath = resolve(root, 'reports/engine-history.json')
+  let historySection = ''
+  if (existsSync(historyPath)) {
+    const history = JSON.parse(read('reports/engine-history.json'))
+    assert.equal(history.schema, 1, 'Unknown engine history schema')
+    for (const file of ['run.py', 'worker.mjs', 'worker.php', 'worker.rs']) {
+      const hash = createHash('sha256').update(read(`scripts/history/${file}`)).digest('hex')
+      assert.equal(history.harness_sha256[file], hash, `Engine history used a different ${file}; refresh measurements`)
+    }
+    for (const extension of ['json', 'csv', 'md', 'html']) {
+      cpSync(resolve(root, `reports/engine-history.${extension}`), resolve(destination, `reports/engine-history.${extension}`))
+    }
+    for (const engine of Object.keys(history.engines)) {
+      cpSync(resolve(root, `reports/engine-history-${engine}.svg`), resolve(destination, `reports/engine-history-${engine}.svg`))
+    }
+    historySection = `<section id="history"><h2>Engine release history</h2><p>${history.tags_per_engine} tags per engine and a pinned development main when its measured source differs. Compare elapsed time within each engine; graphs mark changed output.</p><p><a href="reports/engine-history.html">Explore the version history</a> · <a href="reports/engine-history.csv" download>History CSV</a> · <a href="reports/engine-history.json" download>Samples and source commits</a></p>${Object.keys(history.engines).map(engine => `<figure><img loading="lazy" src="reports/engine-history-${escape(engine)}.svg" alt="${escape(engine)} elapsed time across release tags and development main"><figcaption><a href="reports/engine-history-${escape(engine)}.svg" download>Download ${escape(engine)} history SVG</a></figcaption></figure>`).join('')}</section>`
+  }
   writeFileSync(resolve(destination, 'evidence.json'), JSON.stringify(data, null, 2) + '\n')
   writeFileSync(resolve(destination, 'core-throughput.csv'), 'Language,Engine,MB/s\n' + data.peers.map(row => [row.language, row.engine, row.throughput].join(',')).join('\n') + '\n')
   const fullTables = data.full.map(group => `<h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}`).join('')
@@ -94,12 +112,13 @@ export function build(root, destination) {
   const coreTables = data.core.filter(group => ['JavaScript', 'PHP', 'Rust'].includes(group.title)).map(group => `<section class="language-table" data-language="${escape(group.title)}"><h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}</section>`).join('')
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Carve engine benchmarks, measured development snapshots, and downloadable charts."><title>Carve benchmarks</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>
-<body><a class="skip" href="#main">Skip to results</a><header><a class="brand" href="./">Carve / benchmarks</a><nav aria-label="Sections"><a href="#core">Core conversion</a><a href="#full">Full corpus</a><a href="#method">Method &amp; sources</a><a href="https://markup-carve.github.io/carve-proofs/">Proofs</a><a href="https://github.com/markup-carve/carve-bench">GitHub</a></nav></header>
+<body><a class="skip" href="#main">Skip to results</a><header><a class="brand" href="./">Carve / benchmarks</a><nav aria-label="Sections"><a href="#core">Core conversion</a><a href="#full">Full corpus</a><a href="#method">Method &amp; sources</a>${historySection ? '<a href="#history">History</a>' : ''}<a href="https://markup-carve.github.io/carve-proofs/">Proofs</a><a href="https://github.com/markup-carve/carve-bench">GitHub</a></nav></header>
 <main id="main"><section class="intro"><p class="eyebrow">Recorded performance evidence</p><h1>How fast does Carve render?</h1><p>Measured engine snapshots on shared hardware. Explore the default conversion route and the full language corpus separately.</p><p class="run">${escape(data.run)}</p></section>
 <section id="core"><p class="eyebrow">Track A</p><h2>Core source to HTML</h2><p>Default public conversion APIs, without opt-in extensions. Peers use equivalent logical content in their native syntax. Features and output differ; these rows measure rendering cost.</p>${table({...data.headline, headers: data.headline.headers.map((header, index) => header === 'MB/s' ? (index === 2 ? 'Carve MB/s' : 'Peer MB/s') : header)})}
 <div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>Download CSV</a><a href="evidence.json" download>Snapshot JSON</a></div>
 <p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput in MB/s for all measured engines')}${coreTables}<p><a href="${source}/COMPARISON.md">Full comparison report and capability scoring</a></p></section>
 <section id="full"><p class="eyebrow">Track B</p><h2>Full corpus and extension tiers</h2><p>The mixed corpus exercises the normal parser and public AST. Competitor parsers do not accept equivalent syntax, so this track compares Carve implementations and internal PHP tiers.</p><p class="provenance">${escape(data.corpus.replaceAll('`', ''))}</p>${smallInputNote}${chart('full-corpus', 'Throughput of the three Carve engines for each corpus size')}${fullTables}${chart('php-tiers', 'PHP throughput with core, Tier 2, and Tier 3 extension profiles')}<p><a href="${source}/RESULTS.md">Full corpus report</a></p></section>
+${historySection}
 <section id="method"><p class="eyebrow">Read the measurements</p><h2>Method and source commits</h2><p>Higher MB/s is better. Core comparisons use the fastest of five warmed trials; full-corpus rows average many in-process iterations. The two tracks have different API costs and cannot be compared as equal work.</p><p>These are machine-specific snapshots. Shared host activity affects timings; controlled paired runs are needed to establish improvements or regressions.</p><h3>Core comparison host</h3><p>${escape(data.host)}</p><h3>Core peer versions</h3><p>${escape(data.peerVersions)}</p><h3>Engines measured</h3><p class="provenance">${escape(data.engines.replaceAll('`', ''))}</p><p>Site source: <a href="https://github.com/markup-carve/carve-bench/tree/${revision}"><code>${escape(revision)}</code></a>.</p><p><a href="${source}/README.md#running">Reproduce these runs</a> · <a href="${source}/FEATURES.md">Feature scoring</a> · <a href="${source}/docs/html-import-comparison.md">HTML import comparison</a></p><h3>Download reports</h3><p><a href="reports/COMPARISON.md" download>Core comparison</a> · <a href="reports/RESULTS.md" download>Full corpus</a> · <a href="reports/README.md" download>Reproduction guide</a> · <a href="reports/FEATURES.md" download>Feature scoring</a> · <a href="reports/FINDINGS.md" download>Historical findings</a> · <a href="evidence.json" download>All site data</a></p></section></main>
 <footer>Built from committed reports. This site does not run benchmarks during deployment.</footer></body></html>`
   writeFileSync(resolve(destination, 'index.html'), html)

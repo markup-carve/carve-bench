@@ -314,3 +314,48 @@ make parser scope visible but are not a speed-normalization divisor; see
   precedence silently benchmarking the vendored release instead of the checkout
   `CARVE_PHP_SRC` names, and in Rust against a build that resolved the published
   crate while an override asked for a checkout.
+
+## Engine release history
+
+The separate history track measures the latest four stable Git tags for each
+engine, followed by a pinned development main. It belongs here; correctness
+and conformance evidence belongs in carve-proofs. The graph marks changed HTML
+output because timings across a behavior change can represent different work.
+
+```bash
+python3 scripts/history/run.py --cpu 0
+```
+
+Omit `--cpu` when affinity is unavailable, or select a CPU allowed on your host.
+Requires Python 3.11+, Git, Node/npm, PHP/Composer and Rust/Cargo on a POSIX host.
+The first run downloads source snapshots and builds each revision. Later runs
+reuse an ignored `.history-cache/`. Engine repositories and the pinned headline
+manifests stay untouched. Four tags plus a differing main means at most fifteen
+engine builds; measurement cost scales with revisions, cases and sample count.
+Source snapshots and saved binaries stay in that cache; shared Rust compilation
+artifacts live under `/tmp/cargo-shared/carve-bench-history`. The caches can be
+removed to reclaim their disk space.
+
+The runner fetches tags and main once, sorts stable semantic versions, and
+records exact source commits. A main with identical parser source, resources
+and dependency/build manifests to the latest tag reuses its graph point.
+Documentation-only changes do not require another measurement. Each revision
+uses the same generated fixtures and runtime within its engine. Three rounds
+rotate revision order, with seven in-process samples per case and size.
+Rust uses optimized release builds. PHP uses CLI opcache/JIT off and disables
+coverage, matching the maintenance investigation rather than the headline
+production-JIT benchmark. Node workloads receive size-dependent warm-up.
+
+Results are `reports/engine-history.{json,csv,md,html}` and three standalone SVGs.
+Open the HTML for engine, case, size and unit selectors. The default static
+charts show time relative to the oldest tag on a logarithmic scale; lower is
+faster. Hollow points differ from the oldest output, and lines stop at output
+changes. Shared-host load and sample ranges remain visible in the raw JSON.
+The site copies these committed results without rerunning benchmarks during
+deployment. Refresh them through a PR after running on a suitable host.
+
+For a shorter local check, use `--rounds 1 --samples 3 --sizes 128` and a separate
+`--output` path. Concurrent runs also need separate `--cache` directories. `--prepare-only` builds the selected snapshots without timing.
+The Rust equivalent-verse control uses invalid reference-definition syntax so
+older tags and main retain the same body; the original verse case is also kept
+and may produce different output across revisions.

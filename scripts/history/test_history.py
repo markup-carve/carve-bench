@@ -1,0 +1,49 @@
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import tempfile
+import unittest
+
+HERE = Path(__file__).resolve().parent
+
+def module(name):
+    spec=importlib.util.spec_from_file_location(name,HERE/f'{name}.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
+
+run=module('run');report=module('report')
+
+class HistoryTests(unittest.TestCase):
+    def test_semantic_tags_and_duplicate_versions(self):
+        self.assertEqual(run.stable_tags(['v0.1.9','0.1.10','v0.1.8','0.1.7','0.2.0-rc1','v0.1.10'],4),['0.1.7','v0.1.8','v0.1.9','v0.1.10'])
+        with self.assertRaises(ValueError):run.stable_tags(['0.1.1'],4)
+
+    def test_docs_only_main_reuses_tag_but_source_change_adds_point(self):
+        with tempfile.TemporaryDirectory() as directory:
+            tree=Path(directory)/'tree';tree.mkdir()
+            def git(*args):return subprocess.check_output(['git','-C',str(tree),*args],text=True).strip()
+            git('init','-b','main');git('config','user.email','history@example.test');git('config','user.name','History test')
+            (tree/'src').mkdir();(tree/'src/engine').write_text('code');git('add','.');git('commit','-m','source');git('tag','-a','0.1.0','-m','tag')
+            (tree/'README.md').write_text('docs');git('add','.');git('commit','-m','docs')
+            mirror=tree/'.git';revisions,alias=run.select_revisions(mirror,'js',1)
+            self.assertEqual(len(revisions),1);self.assertEqual(alias['same_source_as'],'0.1.0')
+            (tree/'src/engine').write_text('changed');git('add','.');git('commit','-m','change')
+            revisions,alias=run.select_revisions(mirror,'js',1);self.assertEqual(len(revisions),2);self.assertIsNone(alias)
+            git('tag','v0.1.0')
+            with self.assertRaisesRegex(ValueError,'Conflicting tags'):run.select_revisions(mirror,'js',1)
+
+    def test_changed_output_breaks_graph_and_csv_reports_it(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'engine-history.json'
+            rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('dev-main',1.5,'b')]]
+            data={'schema':1,'generated_at':'test','rounds':3,'samples_per_round':7,'engines':{'js':{'runtime':'node','main_alias':None,'revisions':[{'label':r['revision'],'sha':r['revision']} for r in rows],'rows':rows}}}
+            path.write_text(json.dumps(data));report.build(path)
+            svg=path.with_name('engine-history-js.svg').read_text()
+            self.assertEqual(svg.count('stroke-width="2"/>'),1)
+            self.assertIn('False',path.with_suffix('.csv').read_text())
+            viewer=path.with_suffix('.html').read_text();self.assertNotIn('HISTORY_DATA',viewer);self.assertIn('"schema": 1',viewer)
+
+    def test_equivalent_verse_fixture_does_not_define_a_reference(self):
+        text=run.fixture('verse_equivalent',128)
+        self.assertEqual(text.count('[r]: /hidden extra'),128);self.assertIn('[t][missing]',text)
+
+if __name__=='__main__':unittest.main()
