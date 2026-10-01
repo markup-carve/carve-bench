@@ -36,7 +36,7 @@ class HistoryTests(unittest.TestCase):
     def test_changed_output_breaks_graph_and_csv_reports_it(self):
         with tempfile.TemporaryDirectory() as directory:
             path=Path(directory)/'engine-history.json'
-            rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('PR-2',1.5,'b')]]
+            rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('dev-main',4.2,'b'),('PR-2',1.5,'b')]]
             data={'schema':1,'generated_at':'test','rounds':3,'samples_per_round':7,'engines':{'js':{'runtime':'node','main_alias':None,'revisions':[{'label':r['revision'],'sha':r['revision'],**({'kind':'candidate'} if r['revision']=='PR-2' else {})} for r in rows],'rows':rows}}}
             data['measurement_signature']=run.measurement_signature((HERE/'run.py').read_text());data['harness_sha256']={'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}
             for row in rows:
@@ -44,9 +44,21 @@ class HistoryTests(unittest.TestCase):
                 row['samples']=[{'samples_ms':[row['median_ms']]*7,'hash':row['output_sha256']} for _ in range(3)]
             path.write_text(json.dumps(data));report.build(path)
             svg=path.with_name('engine-history-js.svg').read_text()
-            self.assertEqual(svg.count('stroke-width="2"/>'),1)
+            self.assertEqual(svg.count('stroke-width="2"/>'),2)
+            markdown=path.with_suffix('.md').read_text()
+            self.assertIn('js dev-main verse_equivalent n=128',markdown)
+            self.assertNotIn('- js PR-2',markdown)
             self.assertIn('False',path.with_suffix('.csv').read_text())
             viewer=path.with_suffix('.html').read_text();self.assertNotIn('HISTORY_DATA',viewer);self.assertIn('"schema": 1',viewer)
+            self.assertIn('| Main ms | vs main |',markdown)
+            aliased=copy.deepcopy(data);snapshot=aliased['engines']['js']
+            snapshot['revisions']=snapshot['revisions'][:2];snapshot['rows']=snapshot['rows'][:2]
+            snapshot['main_alias']={'sha':'alias','same_source_as':'0.1.1'}
+            for row in snapshot['rows']:
+                row['output_sha256']='b'
+                for sample in row['samples']:sample['hash']='b'
+            path.write_text(json.dumps(aliased));report.build(path)
+            self.assertIn('- js 0.1.1 verse_equivalent n=128',path.with_suffix('.md').read_text())
 
     def test_signature_tracks_timing_and_fixtures_but_ignores_metadata(self):
         source=(HERE/'run.py').read_text()

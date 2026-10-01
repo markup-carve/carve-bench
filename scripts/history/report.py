@@ -88,17 +88,20 @@ def build(path):
         for engine, snapshot in data['engines'].items():
             session = snapshot.get('measurement_session', {})
             report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
+    if not data.get('session_note'):
+        report += [f"Timing driver: `{data.get('benchmark_commit','unknown')}`; CPU affinity: {data.get('cpu_affinity')}; dirty benchmark tree: {data.get('benchmark_dirty')}. Report generation may use later metadata-only corrections.", '']
     watchpoints=[]
     for engine, snapshot in data['engines'].items():
-        revisions=[r['label'] for r in snapshot['revisions']]
+        tags=[r['label'] for r in snapshot['revisions'] if r['label']!='dev-main' and r.get('kind')!='candidate']
+        points={r['label'] for r in snapshot['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {tags[-1]}
         index={(r['revision'],r['case'],r['n']):r for r in snapshot['rows']}
         for row in snapshot['rows']:
-            if row['revision']!=revisions[-1]: continue
-            for label in revisions[:-1]:
+            if row['revision'] not in points: continue
+            for label in tags:
                 previous=index[label,row['case'],row['n']]
                 change=100*(row['median_ms']/previous['median_ms']-1)
                 if change>=100 and row['output_sha256']==previous['output_sha256']:
-                    watchpoints.append(f"- {engine} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%). Output hashes match; investigate the additional cost against this older baseline.")
+                    watchpoints.append(f"- {engine} {row['revision']} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%). Output hashes match; investigate the additional cost against this older baseline.")
     if watchpoints:
         report += ['## Watchpoints', '', *watchpoints, '']
     csvrows=[]
@@ -109,7 +112,7 @@ def build(path):
         if d['main_alias']:report += [f"dev-main `{d['main_alias']['sha']}` has the same measured source as {d['main_alias']['same_source_as']}; it reuses that point.",'']
         for candidate in d.get('candidate_aliases',[]):
             report += [f"{candidate['label']} `{candidate['sha']}` has the same measured source as {candidate['same_source_as']}; it reuses that point.",'']
-        report += ['| Point | Case | n | Latest tag ms | Point ms | Change | Same output |','|---|---|---:|---:|---:|---:|:---:|']
+        report += ['| Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag |','|---|---|---:|---:|---:|---:|---:|---:|:---:|']
         points={r['label'] for r in d['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {latest}
         for r in d['rows']:
             oldest=index[revisions[0],r['case'],r['n']];tag=index[latest,r['case'],r['n']]
@@ -117,7 +120,11 @@ def build(path):
             if r['revision'] in points:
                 change=100*(r['median_ms']/tag['median_ms']-1);same=r['output_sha256']==tag['output_sha256']
                 change_text=f'{change:+.1f}%' if same else 'n/a: different output'
-                report.append(f'| {r["revision"]} | {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {"yes" if same else "no"} |')
+                main_label=d['main_alias']['same_source_as'] if d.get('main_alias') else 'dev-main'
+                main=index.get((main_label,r['case'],r['n']))
+                main_ms=f'{main["median_ms"]:.3f}' if main else 'n/a'
+                main_change=(f'{100*(r["median_ms"]/main["median_ms"]-1):+.1f}%' if r['output_sha256']==main['output_sha256'] else 'different output') if main else 'n/a'
+                report.append(f'| {r["revision"]} | {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {main_ms} | {main_change} | {"yes" if same else "no"} |')
         report.append('');(directory/f'{prefix.name}-{engine}.svg').write_text(graph(engine,d))
     with prefix.with_suffix('.csv').open('w',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(csvrows)

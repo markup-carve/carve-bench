@@ -241,6 +241,8 @@ def main():
         if any(previous[:2]==parts[:2] for previous in candidates):
             parser.error('Candidate labels must be unique within an engine')
         candidates.append(parts)
+    if len(set(args.sizes)) != len(args.sizes):
+        parser.error('Sizes must be unique')
     cache = args.cache.resolve()
     cache.mkdir(parents=True, exist_ok=True)
     cache_lock = (cache / '.run.lock').open('w')
@@ -248,6 +250,7 @@ def main():
         fcntl.flock(cache_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         parser.error('Another history run uses this cache; wait or choose a separate --cache')
+    startup_signature = measurement_signature(Path(__file__).read_text())
     result = {'schema': 1, 'sizes':args.sizes, 'invocation':sys.argv, 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_* cases are HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
     prepared = {}
     for engine in args.engines:
@@ -276,7 +279,7 @@ def main():
     if args.cpu is not None:
         os.sched_setaffinity(0, {args.cpu})
     result['cpu_affinity'] = sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None
-    result['measurement_signature'] = measurement_signature(Path(__file__).read_text())
+    result['measurement_signature'] = startup_signature
     for (engine,sha),tree in prepared.items():
         revision=next(r for r in result['engines'][engine]['revisions'] if r['sha']==sha)
         locks=[tree / f for f in ('package-lock.json','composer.lock','.history-worker/Cargo.lock') if (tree/f).exists()]
