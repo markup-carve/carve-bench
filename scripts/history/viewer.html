@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Carve engine release history</title>
+<style>
+:root{color-scheme:light dark;font-family:system-ui;color:#172033;background:#f8fafc}body{max-width:1050px;margin:auto;padding:24px}h1{font-size:2rem}p{max-width:85ch;line-height:1.6}a{color:#2563eb}.controls{display:flex;gap:20px;flex-wrap:wrap;padding:16px 0}label{display:grid;gap:5px}select{font:inherit;padding:8px}svg,img{width:100%;height:auto}svg text{fill:currentColor;font:13px system-ui}.grid{stroke:#cbd5e1}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,td{text-align:left;padding:10px;border-bottom:1px solid #cbd5e1}td:first-child{font-weight:bold}.scroll{overflow:auto}figure{margin:24px 0}#status{min-height:2em}code{overflow-wrap:anywhere}@media(prefers-color-scheme:dark){:root{color:#edf2f7;background:#152033}a{color:#93c5fd}.grid{stroke:#475569}th,td{border-color:#475569}}
+</style></head><body>
+<h1>Engine release history</h1><p>Four release tags and a pinned dev-main when its measured source differs from the newest tag. Lower elapsed time is faster. These measurements use a shared host; inspect sample spread before treating small changes as regressions.</p>
+<p><a href="engine-history.json" download>Raw samples and provenance</a> · <a href="engine-history.csv" download>Download CSV</a> · <a href="engine-history.md" download>Measurement report</a></p>
+<div class="controls" id="controls" hidden><label><span id="engine-label">Engine</span><select id="engine" aria-labelledby="engine-label"></select></label><label><span id="case-label">Case</span><select id="case" aria-labelledby="case-label"></select></label><label><span id="size-label">Size</span><select id="size" aria-labelledby="size-label"></select></label><label><span id="measure-label">Measure</span><select id="measure" aria-labelledby="measure-label"><option value="ms">Milliseconds</option><option value="relative">Relative to oldest tag</option></select></label></div>
+<p id="status" role="status"></p><div id="chart"></div><div class="scroll" id="table"></div>
+<p>Graphs use a logarithmic vertical scale. Filled points match oldest-tag output. Hollow points have different output; lines connect only matching adjacent outputs. The html_table case measures HTML import. Tag spacing shows version order, not elapsed calendar time. Each engine has its own release tags and runtime. PHP runs with CLI opcache/JIT off; Rust uses optimized release builds. These timings exclude process startup and belong to a separate measurement from the headline benchmark.</p>
+<div id="static">HISTORY_STATIC</div>
+<script id="data" type="application/json">HISTORY_DATA</script>
+<script>
+const history=JSON.parse(document.getElementById('data').textContent)
+const engine=document.getElementById('engine'),caseSelect=document.getElementById('case'),size=document.getElementById('size'),measure=document.getElementById('measure')
+const option=(value)=>new Option(value,value)
+for(const name of Object.keys(history.engines))engine.add(option(name))
+engine.value=history.engines.php?'php':engine.options[0].value
+function selectCases(){
+ const oldCase=caseSelect.value,oldSize=size.value,rows=history.engines[engine.value].rows
+ caseSelect.replaceChildren(...[...new Set(rows.map(r=>r.case))].map(option));size.replaceChildren(...[...new Set(rows.map(r=>r.n))].sort((a,b)=>a-b).map(option))
+ caseSelect.value=[...caseSelect.options].some(o=>o.value===oldCase)?oldCase:'verse_equivalent'
+ size.value=[...size.options].some(o=>o.value===oldSize)?oldSize:size.options[size.options.length-1].value
+ render()
+}
+function element(tag,attrs,text){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,v);if(text!==undefined)el.textContent=text;return el}
+function render(){
+ const data=history.engines[engine.value],labels=data.revisions.map(r=>r.label),rows=labels.map(label=>data.rows.find(r=>r.revision===label&&r.case===caseSelect.value&&r.n===Number(size.value))),base=rows[0],values=rows.map(r=>measure.value==='ms'?r.median_ms:r.median_ms/base.median_ms)
+ const lo=Math.log10(Math.min(...values))-.08,hi=Math.log10(Math.max(...values))+.08
+ const x=i=>90+i*650/Math.max(1,rows.length-1),y=v=>300-(Math.log10(v)-lo)/(hi-lo)*240
+ const svg=element('svg',{viewBox:'0 0 850 360',role:'img','aria-label':`${engine.value}, ${caseSelect.value}, size ${size.value}; median ${measure.value==='ms'?'milliseconds':'time relative to oldest tag'}, lower is faster`})
+ for(let i=0;i<=4;i++){const tick=10**(lo+(hi-lo)*i/4);svg.append(element('line',{x1:90,x2:740,y1:y(tick),y2:y(tick),class:'grid'}));svg.append(element('text',{x:12,y:y(tick)+5},`${Number(tick.toPrecision(2)).toString()}${measure.value==='ms'?' ms':'×'}`))}
+ rows.forEach((row,i)=>{if(i&&row.output_sha256===rows[i-1].output_sha256)svg.append(element('line',{x1:x(i-1),x2:x(i),y1:y(values[i-1]),y2:y(values[i]),stroke:'#2563eb','stroke-width':3}));const circle=element('circle',{cx:x(i),cy:y(values[i]),r:6,fill:row.output_sha256===base.output_sha256?'#2563eb':'none',stroke:'#2563eb','stroke-width':2});circle.append(element('title',{},`${row.revision}: ${row.median_ms.toFixed(3)} ms; range ${row.min_ms.toFixed(3)}–${row.max_ms.toFixed(3)} ms`));svg.append(circle,element('text',{x:x(i),y:330,'text-anchor':'middle'},row.revision))})
+ document.getElementById('chart').replaceChildren(svg)
+ const table=document.createElement('table');const head=table.createTHead().insertRow();for(const label of ['Revision','Median ms','Range ms','vs oldest','Output matches oldest']){const cell=document.createElement('th');cell.scope='col';cell.textContent=label;head.append(cell)}
+ const body=table.createTBody();for(const row of rows){const tr=body.insertRow();for(const value of [row.revision,row.median_ms.toFixed(3),`${row.min_ms.toFixed(3)}–${row.max_ms.toFixed(3)}`,row.output_sha256===base.output_sha256?`${(100*(row.median_ms/base.median_ms-1)).toFixed(1)}%`:'n/a: different output',row.output_sha256===base.output_sha256?'yes':'no'])tr.insertCell().textContent=value}
+ document.getElementById('table').replaceChildren(table)
+ document.getElementById('status').textContent=`${data.runtime}; ${history.rounds*history.samples_per_round} samples per point.${data.main_alias?` dev-main ${data.main_alias.sha.slice(0,12)} shares measured source with ${data.main_alias.same_source_as}.`:''}`
+}
+engine.addEventListener('change',selectCases);for(const control of [caseSelect,size,measure])control.addEventListener('change',render)
+selectCases();document.getElementById('controls').hidden=false
+</script></body></html>

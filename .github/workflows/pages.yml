@@ -21,6 +21,7 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - name: Build from committed measurements
         run: |
+          python3 -m unittest discover -s scripts/history -p 'test_*.py'
           node --test scripts/site/build.test.mjs
           node scripts/site/build.mjs
       - name: Install browser test dependencies
