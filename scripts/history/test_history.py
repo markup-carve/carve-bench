@@ -39,7 +39,9 @@ class HistoryTests(unittest.TestCase):
             rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('PR-2',1.5,'b')]]
             data={'schema':1,'generated_at':'test','rounds':3,'samples_per_round':7,'engines':{'js':{'runtime':'node','main_alias':None,'revisions':[{'label':r['revision'],'sha':r['revision'],**({'kind':'candidate'} if r['revision']=='PR-2' else {})} for r in rows],'rows':rows}}}
             data['measurement_signature']=run.measurement_signature((HERE/'run.py').read_text());data['harness_sha256']={'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}
-            for row in rows:row['fixture_sha256']=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
+            for row in rows:
+                row['fixture_sha256']=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
+                row['samples']=[{'samples_ms':[row['median_ms']]*7,'hash':row['output_sha256']} for _ in range(3)]
             path.write_text(json.dumps(data));report.build(path)
             svg=path.with_name('engine-history-js.svg').read_text()
             self.assertEqual(svg.count('stroke-width="2"/>'),1)
@@ -55,14 +57,17 @@ class HistoryTests(unittest.TestCase):
     def test_validation_rejects_changed_worker_fixture_and_session_signature(self):
         signature=run.measurement_signature((HERE/'run.py').read_text())
         session={'measurement_signature':signature,'harness_sha256':{'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}}
-        row={'case':'paragraphs','n':128,'fixture_sha256':hashlib.sha256(run.fixture('paragraphs',128).encode()).hexdigest()}
-        data={'measurement_signature':signature,'engines':{'js':{'measurement_session':session,'rows':[row]}}}
+        row={'case':'paragraphs','n':128,'fixture_sha256':hashlib.sha256(run.fixture('paragraphs',128).encode()).hexdigest(),'samples':[{'samples_ms':[1.0],'hash':'same'}],'output_sha256':'same','median_ms':1.0,'min_ms':1.0,'max_ms':1.0}
+        data={'rounds':1,'samples_per_round':1,'measurement_signature':signature,'engines':{'js':{'measurement_session':session,'rows':[row]}}}
         report.validate_measurements(data)
-        for field in ('worker','fixture','session','missing'):
+        for field in ('worker','fixture','session','missing','summary','sample_count','output'):
             changed=copy.deepcopy(data)
             if field=='worker':changed['engines']['js']['measurement_session']['harness_sha256']['worker.mjs']='wrong'
             elif field=='fixture':changed['engines']['js']['rows'][0]['fixture_sha256']='wrong'
             elif field=='session':changed['engines']['js']['measurement_session']['measurement_signature']='wrong'
+            elif field=='summary':changed['engines']['js']['rows'][0]['median_ms']=2.0
+            elif field=='sample_count':changed['engines']['js']['rows'][0]['samples']=[]
+            elif field=='output':changed['engines']['js']['rows'][0]['samples'][0]['hash']='different'
             else:del changed['measurement_signature']
             with self.assertRaises(ValueError):report.validate_measurements(changed)
 

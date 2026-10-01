@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require $argv[1] . '/vendor/autoload.php';
 $source = file_get_contents($argv[2]);
-$run = $argv[5] === 'html_table'
+$run = in_array($argv[5], ['html_table', 'html_definition_list'], true)
     ? static fn () => (new MarkupCarve\Carve\Converter\HtmlToCarve(listTableForBlockCells: true))->convertWithReport($source)
     : static fn () => (new MarkupCarve\Carve\CarveConverter())->convert($source);
 for ($i = 0; $i < (int)$argv[4]; $i++) {

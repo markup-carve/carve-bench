@@ -5,6 +5,7 @@ import hashlib
 import html
 import json
 import math
+import statistics
 from pathlib import Path
 import sys
 import run
@@ -39,7 +40,7 @@ def graph(engine, data):
             parts.append(f'<circle cx="{xx}" cy="{yy}" r="5" fill="{fill}" stroke="{color}" stroke-width="2"><title>{html.escape(case)} {html.escape(label)}: {row["median_ms"]:.3f} ms</title></circle>')
             previous=xx,yy,row['output_sha256']
         lx=35+(ci%2)*410;ly=380+(ci//2)*26
-        case_label=html.escape(case.replace('html_table','html_table (import)'))
+        case_label=html.escape(case+' (import)' if case.startswith('html_') else case)
         parts.append(f'<line x1="{lx}" x2="{lx+20}" y1="{ly}" y2="{ly}" stroke="{color}" stroke-width="3"/><text x="{lx+28}" y="{ly+4}">{case_label} ({baseline["median_ms"]:.3f} ms)</text>')
     parts.append('<text x="35" y="530">Hollow points differ from oldest-tag output. Gaps mark output changes.</text></svg>')
     return ''.join(parts)
@@ -47,7 +48,7 @@ def graph(engine, data):
 
 def validate_measurements(data):
     if data.get('measurement_signature') != run.measurement_signature((Path(__file__).parent/'run.py').read_text()):
-        raise ValueError('History timing or fixture code changed; refresh measurements')
+        raise ValueError('History fixture or measurement function changed; refresh measurements')
     for engine,snapshot in data['engines'].items():
         session=snapshot.get('measurement_session') or data
         if session.get('measurement_signature') != data['measurement_signature']:
@@ -59,6 +60,14 @@ def validate_measurements(data):
         for row in snapshot['rows']:
             expected=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
             if expected!=row['fixture_sha256']:raise ValueError('History fixture does not match recorded input')
+            runs=row.get('samples',[])
+            if len(runs)!=data['rounds'] or any(len(sample['samples_ms'])!=data['samples_per_round'] for sample in runs):
+                raise ValueError('History sample count differs from the recorded rounds')
+            times=[value for sample in runs for value in sample['samples_ms']]
+            if any(not (0<value<float('inf')) for value in times) or any(sample['hash']!=row['output_sha256'] for sample in runs):
+                raise ValueError('History samples contain invalid timings or changed output')
+            if (statistics.median(times),min(times),max(times))!=(row['median_ms'],row['min_ms'],row['max_ms']):
+                raise ValueError('History summary differs from recorded samples')
 
 
 def build(path):
@@ -93,15 +102,15 @@ def build(path):
         if d['main_alias']:report += [f"dev-main `{d['main_alias']['sha']}` has the same measured source as {d['main_alias']['same_source_as']}; it reuses that point.",'']
         for candidate in d.get('candidate_aliases',[]):
             report += [f"{candidate['label']} `{candidate['sha']}` has the same measured source as {candidate['same_source_as']}; it reuses that point.",'']
-        report += ['| Case | n | Latest tag ms | Last point ms | Change | Same output |','|---|---:|---:|---:|---:|:---:|']
-        last=revisions[-1]
+        report += ['| Point | Case | n | Latest tag ms | Point ms | Change | Same output |','|---|---|---:|---:|---:|---:|:---:|']
+        points={r['label'] for r in d['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {latest}
         for r in d['rows']:
             oldest=index[revisions[0],r['case'],r['n']];tag=index[latest,r['case'],r['n']]
             csvrows.append(dict(engine=engine,revision=r['revision'],sha=sha[r['revision']],case=r['case'],n=r['n'],median_ms=r['median_ms'],min_ms=r['min_ms'],max_ms=r['max_ms'],change_vs_oldest_pct=100*(r['median_ms']/oldest['median_ms']-1) if r['output_sha256']==oldest['output_sha256'] else '',same_output_as_oldest=r['output_sha256']==oldest['output_sha256'],same_output_as_latest_tag=r['output_sha256']==tag['output_sha256']))
-            if r['revision']==last:
+            if r['revision'] in points:
                 change=100*(r['median_ms']/tag['median_ms']-1);same=r['output_sha256']==tag['output_sha256']
                 change_text=f'{change:+.1f}%' if same else 'n/a: different output'
-                report.append(f'| {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {"yes" if same else "no"} |')
+                report.append(f'| {r["revision"]} | {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {"yes" if same else "no"} |')
         report.append('');(directory/f'{prefix.name}-{engine}.svg').write_text(graph(engine,d))
     with prefix.with_suffix('.csv').open('w',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(csvrows)
