@@ -86,6 +86,17 @@ def select_revisions(repo, engine, count):
     return result, alias
 
 
+def add_candidate(repo, engine, revisions, label, sha):
+    if any(revision['label'] == label for revision in revisions):
+        raise ValueError(f'Duplicate candidate label: {label}')
+    fingerprint=source_fingerprint(repo,sha,engine)
+    matching=next((revision for revision in revisions if revision['source_fingerprint']==fingerprint),None)
+    if matching:
+        return {'label':label,'sha':sha,'same_source_as':matching['label']}
+    revisions.append({'label':label,'sha':sha,'source_fingerprint':fingerprint,'kind':'candidate'})
+    return None
+
+
 def prepare(cache, engine, revision):
     sha = revision['sha']
     tree = cache / engine / sha
@@ -169,6 +180,8 @@ def fixture(name, n):
         return '> ::: |\n' + f'> {definition}\n' * n + '> :::\n\n' + reference + '\n'
     if name == 'paragraphs':
         return 'plain paragraph\n\n' * n
+    if name == 'html_definition_list':
+        return '<dl>'+('<dt>Term</dt><dd><p>Definition</p></dd>'*n)+'</dl>'
     if name == 'html_table':
         return '<table>' + '<tr><td><blockquote cite="u"><p>q</p></blockquote></td></tr>' * n + '</table>'
     return ''.join(f'# Section {i}\n\nA paragraph with *strong*, /emphasis/, [reference][ref] and `code`.\n\n- first\n- second\n\n| key | value |\n| --- | --- |\n| item | count |\n\n' for i in range(n)) + '[ref]: /target\n'
@@ -214,9 +227,22 @@ def main():
     parser.add_argument('--cache', type=Path, default=ROOT / '.history-cache')
     parser.add_argument('--output', type=Path, default=ROOT / 'reports/engine-history.json')
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--candidate',action='append',default=[],metavar='ENGINE=LABEL=REF',help='Also measure a pinned branch or commit, such as js=PR-2445=branch-name')
     args = parser.parse_args()
     if min(args.tags, args.rounds, args.samples, *args.sizes) <= 0:
         parser.error('Counts and sizes must be positive')
+    candidates=[]
+    for candidate in args.candidate:
+        parts=candidate.split('=',2)
+        if len(parts)!=3 or parts[0] not in args.engines or not re.fullmatch(r'[A-Za-z0-9_-]+',parts[1]) or not parts[2] or parts[2].startswith(('-', '+')) or any(char in parts[2] for char in ':*?[\\'):
+            parser.error('Candidate must be ENGINE=LABEL=REF for a selected engine')
+        if re.fullmatch(r'v?\d+\.\d+\.\d+',parts[1]) or parts[1]=='dev-main':
+            parser.error('Candidate labels must differ from release tags and dev-main')
+        if any(previous[:2]==parts[:2] for previous in candidates):
+            parser.error('Candidate labels must be unique within an engine')
+        candidates.append(parts)
+    if len(set(args.sizes)) != len(args.sizes):
+        parser.error('Sizes must be unique')
     cache = args.cache.resolve()
     cache.mkdir(parents=True, exist_ok=True)
     cache_lock = (cache / '.run.lock').open('w')
@@ -224,7 +250,8 @@ def main():
         fcntl.flock(cache_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         parser.error('Another history run uses this cache; wait or choose a separate --cache')
-    result = {'schema': 1, 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_table is HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
+    startup_signature = measurement_signature(Path(__file__).read_text())
+    result = {'schema': 1, 'sizes':args.sizes, 'invocation':sys.argv, 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_* cases are HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
     prepared = {}
     for engine in args.engines:
         mirror = cache / f'{engine}.git'
@@ -232,7 +259,18 @@ def main():
             command(['git','clone','--bare',f'https://github.com/markup-carve/{REPOS[engine]}.git',str(mirror)], capture=False)
         command(['git','--git-dir',str(mirror),'fetch','--prune','--prune-tags','origin','+refs/heads/main:refs/heads/main','+refs/tags/*:refs/tags/*'], capture=False)
         revisions, alias = select_revisions(mirror, engine, args.tags)
-        result['engines'][engine] = {'runtime':runtime(engine),'revisions':revisions,'main_alias':alias,'rows':[]}
+        candidate_aliases=[]
+        for candidate_engine,label,ref in candidates:
+            if candidate_engine!=engine:continue
+            command(['git','--git-dir',str(mirror),'fetch','origin',ref],capture=False)
+            sha=command(['git','--git-dir',str(mirror),'rev-parse','FETCH_HEAD^{commit}'])
+            candidate_alias=add_candidate(mirror,engine,revisions,label,sha)
+            if candidate_alias:
+                candidate_alias['requested_ref']=ref
+                candidate_aliases.append(candidate_alias)
+            else:
+                revisions[-1]['requested_ref']=ref
+        result['engines'][engine] = {'runtime':runtime(engine),'revisions':revisions,'main_alias':alias,'candidate_aliases':candidate_aliases,'rows':[]}
         for revision in revisions:
             prepared[engine, revision['sha']] = prepare(cache, engine, revision)
     if args.prepare_only:
@@ -241,7 +279,7 @@ def main():
     if args.cpu is not None:
         os.sched_setaffinity(0, {args.cpu})
     result['cpu_affinity'] = sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None
-    result['measurement_signature'] = measurement_signature(Path(__file__).read_text())
+    result['measurement_signature'] = startup_signature
     for (engine,sha),tree in prepared.items():
         revision=next(r for r in result['engines'][engine]['revisions'] if r['sha']==sha)
         locks=[tree / f for f in ('package-lock.json','composer.lock','.history-worker/Cargo.lock') if (tree/f).exists()]
@@ -249,6 +287,7 @@ def main():
         revision['dependency_lock_sha256']={str(f.relative_to(tree)):hashlib.sha256(f.read_bytes()).hexdigest() for f in locks}
         if engine=='rs':
             revision['release_profile']=tomllib.loads((tree/'.history-worker/Cargo.toml').read_text())['profile']['release']
+            revision['build_configuration']=json.loads((tree/'.history-build.json').read_text())
             revision['worker_binary_sha256']=hashlib.sha256((tree/'.history-worker/bin/history-worker').read_bytes()).hexdigest()
         if command(['git','-C',str(tree),'rev-parse','HEAD'])!=sha or command(['git','-C',str(tree),'status','--porcelain','--untracked-files=no']):
             raise ValueError('Cached source changed after preparation')
@@ -256,7 +295,8 @@ def main():
         snapshot['runtime']=' / '.join(sorted({revision['runtime'] for revision in snapshot['revisions']}))
     result['initial_load'] = load()
     for engine, data in result['engines'].items():
-        cases = CASES + (['quoted_false_mixed_closer', 'quoted_indented_closer', 'html_table'] if engine == 'php' else [])
+        cases = CASES + (['quoted_false_mixed_closer', 'quoted_indented_closer', 'html_table', 'html_definition_list'] if engine == 'php' else [])
+        data['cases']=cases
         samples = {}
         for round_index in range(args.rounds):
             revisions = data['revisions']; offset = round_index % len(revisions)

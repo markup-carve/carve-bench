@@ -5,6 +5,7 @@ import hashlib
 import html
 import json
 import math
+import statistics
 from pathlib import Path
 import sys
 import run
@@ -39,7 +40,7 @@ def graph(engine, data):
             parts.append(f'<circle cx="{xx}" cy="{yy}" r="5" fill="{fill}" stroke="{color}" stroke-width="2"><title>{html.escape(case)} {html.escape(label)}: {row["median_ms"]:.3f} ms</title></circle>')
             previous=xx,yy,row['output_sha256']
         lx=35+(ci%2)*410;ly=380+(ci//2)*26
-        case_label=html.escape(case.replace('html_table','html_table (import)'))
+        case_label=html.escape(case+' (import)' if case.startswith('html_') else case)
         parts.append(f'<line x1="{lx}" x2="{lx+20}" y1="{ly}" y2="{ly}" stroke="{color}" stroke-width="3"/><text x="{lx+28}" y="{ly+4}">{case_label} ({baseline["median_ms"]:.3f} ms)</text>')
     parts.append('<text x="35" y="530">Hollow points differ from oldest-tag output. Gaps mark output changes.</text></svg>')
     return ''.join(parts)
@@ -47,11 +48,21 @@ def graph(engine, data):
 
 def validate_measurements(data):
     if data.get('measurement_signature') != run.measurement_signature((Path(__file__).parent/'run.py').read_text()):
-        raise ValueError('History timing or fixture code changed; refresh measurements')
+        raise ValueError('History fixture or measurement function changed; refresh measurements')
     for engine,snapshot in data['engines'].items():
         session=snapshot.get('measurement_session') or data
         if session.get('measurement_signature') != data['measurement_signature']:
             raise ValueError('History session timing signature differs')
+        for field in ('sizes','rounds','samples_per_round'):
+            if session.get(field,data.get(field))!=data.get(field):
+                raise ValueError('History session sampling settings differ')
+        rows=snapshot['rows']
+        cases=snapshot.get('cases') or sorted({row['case'] for row in rows})
+        sizes=data.get('sizes') or sorted({row['n'] for row in rows})
+        expected_rows={(revision['label'],case,n) for revision in snapshot['revisions'] for case in cases for n in sizes}
+        actual_rows={(row['revision'],row['case'],row['n']) for row in rows}
+        if len(actual_rows)!=len(rows) or actual_rows!=expected_rows:
+            raise ValueError('History rows do not cover each revision, case and size exactly once')
         worker={'js':'worker.mjs','php':'worker.php','rs':'worker.rs'}[engine]
         expected_worker=(snapshot.get('measurement_session') or data)['harness_sha256'][worker]
         if hashlib.sha256((Path(__file__).parent/worker).read_bytes()).hexdigest()!=expected_worker:
@@ -59,6 +70,14 @@ def validate_measurements(data):
         for row in snapshot['rows']:
             expected=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
             if expected!=row['fixture_sha256']:raise ValueError('History fixture does not match recorded input')
+            runs=row.get('samples',[])
+            if len(runs)!=data['rounds'] or any(len(sample['samples_ms'])!=data['samples_per_round'] for sample in runs):
+                raise ValueError('History sample count differs from the recorded rounds')
+            times=[value for sample in runs for value in sample['samples_ms']]
+            if any(not (0<value<float('inf')) for value in times) or any(sample['hash']!=row['output_sha256'] for sample in runs):
+                raise ValueError('History samples contain invalid timings or changed output')
+            if (statistics.median(times),min(times),max(times))!=(row['median_ms'],row['min_ms'],row['max_ms']):
+                raise ValueError('History summary differs from recorded samples')
 
 
 def build(path):
@@ -66,40 +85,52 @@ def build(path):
     if data['schema']!=1: raise ValueError('Unknown history schema')
     validate_measurements(data)
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
-    report=['# Engine release history','',f"Sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
+    report=['# Engine release history','',f"Sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag. Candidate PR points are included when requested.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
     if data.get('session_note'):
         report += ['## Measurement sessions', '', data['session_note'], '']
         for engine, snapshot in data['engines'].items():
             session = snapshot.get('measurement_session', {})
             report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
+    if not data.get('session_note'):
+        report += [f"Timing driver: `{data.get('benchmark_commit','unknown')}`; CPU affinity: {data.get('cpu_affinity')}; dirty benchmark tree: {data.get('benchmark_dirty')}. Report generation may use later metadata-only corrections.", '']
     watchpoints=[]
     for engine, snapshot in data['engines'].items():
-        revisions=[r['label'] for r in snapshot['revisions']]
+        tags=[r['label'] for r in snapshot['revisions'] if r['label']!='dev-main' and r.get('kind')!='candidate']
+        points={r['label'] for r in snapshot['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {tags[-1]}
+        if snapshot.get('main_alias'):points.add(snapshot['main_alias']['same_source_as'])
         index={(r['revision'],r['case'],r['n']):r for r in snapshot['rows']}
         for row in snapshot['rows']:
-            if row['revision']!=revisions[-1]: continue
-            for label in revisions[:-1]:
+            if row['revision'] not in points: continue
+            for label in tags:
                 previous=index[label,row['case'],row['n']]
                 change=100*(row['median_ms']/previous['median_ms']-1)
                 if change>=100 and row['output_sha256']==previous['output_sha256']:
-                    watchpoints.append(f"- {engine} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%). Output hashes match; investigate the additional cost against this older baseline.")
+                    watchpoints.append(f"- {engine} {row['revision']} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%). Output hashes match; investigate the additional cost against this older baseline.")
     if watchpoints:
         report += ['## Watchpoints', '', *watchpoints, '']
     csvrows=[]
     for engine,d in data['engines'].items():
         if not d['rows']: raise ValueError('Missing measured rows')
-        revisions=[r['label'] for r in d['revisions']];index={(r['revision'],r['case'],r['n']):r for r in d['rows']};latest=next(r['label'] for r in reversed(d['revisions']) if r['label']!='dev-main');sha={r['label']:r['sha'] for r in d['revisions']}
+        revisions=[r['label'] for r in d['revisions']];index={(r['revision'],r['case'],r['n']):r for r in d['rows']};latest=next(r['label'] for r in reversed(d['revisions']) if r['label']!='dev-main' and r.get('kind')!='candidate');sha={r['label']:r['sha'] for r in d['revisions']}
         report += [f'## {engine}', '', f"Runtime: {d['runtime']}. Latest tag: {latest}.",'',f'![{engine} history](engine-history-{engine}.svg)','', '| Revision | Commit |','|---|---|']+[f'| {r["label"]} | `{r["sha"]}` |' for r in d['revisions']]+['']
         if d['main_alias']:report += [f"dev-main `{d['main_alias']['sha']}` has the same measured source as {d['main_alias']['same_source_as']}; it reuses that point.",'']
-        report += ['| Case | n | Latest tag ms | Last point ms | Change | Same output |','|---|---:|---:|---:|---:|:---:|']
-        last=revisions[-1]
+        for candidate in d.get('candidate_aliases',[]):
+            report += [f"{candidate['label']} `{candidate['sha']}` has the same measured source as {candidate['same_source_as']}; it reuses that point.",'']
+        for note in d.get('measurement_notes',[]):report += [note,'']
+        report += ['| Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag |','|---|---|---:|---:|---:|---:|---:|---:|:---:|']
+        points={r['label'] for r in d['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {latest}
+        if d.get('main_alias'):points.add(d['main_alias']['same_source_as'])
         for r in d['rows']:
             oldest=index[revisions[0],r['case'],r['n']];tag=index[latest,r['case'],r['n']]
             csvrows.append(dict(engine=engine,revision=r['revision'],sha=sha[r['revision']],case=r['case'],n=r['n'],median_ms=r['median_ms'],min_ms=r['min_ms'],max_ms=r['max_ms'],change_vs_oldest_pct=100*(r['median_ms']/oldest['median_ms']-1) if r['output_sha256']==oldest['output_sha256'] else '',same_output_as_oldest=r['output_sha256']==oldest['output_sha256'],same_output_as_latest_tag=r['output_sha256']==tag['output_sha256']))
-            if r['revision']==last:
+            if r['revision'] in points:
                 change=100*(r['median_ms']/tag['median_ms']-1);same=r['output_sha256']==tag['output_sha256']
                 change_text=f'{change:+.1f}%' if same else 'n/a: different output'
-                report.append(f'| {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {"yes" if same else "no"} |')
+                main_label=d['main_alias']['same_source_as'] if d.get('main_alias') else 'dev-main'
+                main=index.get((main_label,r['case'],r['n']))
+                main_ms=f'{main["median_ms"]:.3f}' if main else 'n/a'
+                main_change=(f'{100*(r["median_ms"]/main["median_ms"]-1):+.1f}%' if r['output_sha256']==main['output_sha256'] else 'different output') if main else 'n/a'
+                report.append(f'| {r["revision"]} | {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {main_ms} | {main_change} | {"yes" if same else "no"} |')
         report.append('');(directory/f'{prefix.name}-{engine}.svg').write_text(graph(engine,d))
     with prefix.with_suffix('.csv').open('w',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(csvrows)

@@ -30,7 +30,7 @@ test('history measurement identities agree with the current workers', async () =
     assert.equal((snapshot.measurement_session ?? history).harness_sha256[name], createHash('sha256').update(readFileSync(new URL(`scripts/history/${name}`, root))).digest('hex'))
   }
   for (const engine of Object.values(history.engines)) {
-    assert.equal(engine.revisions.filter(revision => revision.label !== 'dev-main').length, history.tags_per_engine)
+    assert.equal(engine.revisions.filter(revision => revision.label !== 'dev-main' && revision.kind !== 'candidate').length, history.tags_per_engine)
     assert.ok(engine.rows.length > 0)
     for (const row of engine.rows) {
       assert.equal(row.samples.length, history.rounds)
