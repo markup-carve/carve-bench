@@ -45,20 +45,26 @@ def graph(engine, data):
     return ''.join(parts)
 
 
+def validate_measurements(data):
+    if data.get('measurement_signature') != run.measurement_signature((Path(__file__).parent/'run.py').read_text()):
+        raise ValueError('History timing or fixture code changed; refresh measurements')
+    for engine,snapshot in data['engines'].items():
+        session=snapshot.get('measurement_session') or data
+        if session.get('measurement_signature') != data['measurement_signature']:
+            raise ValueError('History session timing signature differs')
+        worker={'js':'worker.mjs','php':'worker.php','rs':'worker.rs'}[engine]
+        expected_worker=(snapshot.get('measurement_session') or data)['harness_sha256'][worker]
+        if hashlib.sha256((Path(__file__).parent/worker).read_bytes()).hexdigest()!=expected_worker:
+            raise ValueError('History worker changed; refresh measurements')
+        for row in snapshot['rows']:
+            expected=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
+            if expected!=row['fixture_sha256']:raise ValueError('History fixture does not match recorded input')
+
+
 def build(path):
     data=json.loads(path.read_text());prefix=path.with_suffix('');directory=path.parent
     if data['schema']!=1: raise ValueError('Unknown history schema')
-    if 'measurement_signature' in data:
-        if data['measurement_signature'] != run.measurement_signature((Path(__file__).parent/'run.py').read_text()):
-            raise ValueError('History timing or fixture code changed; refresh measurements')
-        for engine,snapshot in data['engines'].items():
-            worker={'js':'worker.mjs','php':'worker.php','rs':'worker.rs'}[engine]
-            expected_worker=(snapshot.get('measurement_session') or data)['harness_sha256'][worker]
-            if hashlib.sha256((Path(__file__).parent/worker).read_bytes()).hexdigest()!=expected_worker:
-                raise ValueError('History worker changed; refresh measurements')
-            for row in snapshot['rows']:
-                expected=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
-                if expected!=row['fixture_sha256']:raise ValueError('History fixture does not match recorded input')
+    validate_measurements(data)
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
     report=['# Engine release history','',f"Sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
     if data.get('session_note'):

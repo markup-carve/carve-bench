@@ -1,3 +1,5 @@
+import hashlib
+import copy
 import importlib.util
 import json
 from pathlib import Path
@@ -36,6 +38,8 @@ class HistoryTests(unittest.TestCase):
             path=Path(directory)/'engine-history.json'
             rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('dev-main',1.5,'b')]]
             data={'schema':1,'generated_at':'test','rounds':3,'samples_per_round':7,'engines':{'js':{'runtime':'node','main_alias':None,'revisions':[{'label':r['revision'],'sha':r['revision']} for r in rows],'rows':rows}}}
+            data['measurement_signature']=run.measurement_signature((HERE/'run.py').read_text());data['harness_sha256']={'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}
+            for row in rows:row['fixture_sha256']=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
             path.write_text(json.dumps(data));report.build(path)
             svg=path.with_name('engine-history-js.svg').read_text()
             self.assertEqual(svg.count('stroke-width="2"/>'),1)
@@ -47,6 +51,20 @@ class HistoryTests(unittest.TestCase):
         signature=run.measurement_signature(source)
         self.assertNotEqual(signature,run.measurement_signature(source.replace("return 'plain paragraph\\n\\n' * n", "return 'other paragraph\\n\\n' * n")))
         self.assertEqual(signature,run.measurement_signature(source.replace("'finished_at'", "'completion_time'")))
+
+    def test_validation_rejects_changed_worker_fixture_and_session_signature(self):
+        signature=run.measurement_signature((HERE/'run.py').read_text())
+        session={'measurement_signature':signature,'harness_sha256':{'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}}
+        row={'case':'paragraphs','n':128,'fixture_sha256':hashlib.sha256(run.fixture('paragraphs',128).encode()).hexdigest()}
+        data={'measurement_signature':signature,'engines':{'js':{'measurement_session':session,'rows':[row]}}}
+        report.validate_measurements(data)
+        for field in ('worker','fixture','session','missing'):
+            changed=copy.deepcopy(data)
+            if field=='worker':changed['engines']['js']['measurement_session']['harness_sha256']['worker.mjs']='wrong'
+            elif field=='fixture':changed['engines']['js']['rows'][0]['fixture_sha256']='wrong'
+            elif field=='session':changed['engines']['js']['measurement_session']['measurement_signature']='wrong'
+            else:del changed['measurement_signature']
+            with self.assertRaises(ValueError):report.validate_measurements(changed)
 
     def test_equivalent_verse_fixture_does_not_define_a_reference(self):
         text=run.fixture('verse_equivalent',128)

@@ -98,7 +98,13 @@ def prepare(cache, engine, revision):
     stamp = hashlib.sha256(inspect.getsource(prepare).encode() + b''.join(p.read_bytes() for p in inputs)).hexdigest()
     marker = tree / '.history-build.json'
     tool = command({'js':['npm','--version'], 'php':['composer','--version','--no-ansi'], 'rs':['cargo','--version']}[engine],cwd=tree if engine=='rs' else None)
-    expected = {'sha': sha, 'recipe': stamp, 'runtime': runtime(engine,tree if engine=='rs' else None), 'tool':tool, 'rustflags':os.environ.get('RUSTFLAGS'), 'encoded_rustflags':os.environ.get('CARGO_ENCODED_RUSTFLAGS'), 'cargo_build_target':os.environ.get('CARGO_BUILD_TARGET')}
+    cargo_configs = [Path(os.environ.get('CARGO_HOME', str(Path.home()/'.cargo')))/name for name in ('config','config.toml')]
+    if engine == 'rs':
+        cargo_configs += [parent/'.cargo'/name for parent in (tree,*tree.parents) for name in ('config','config.toml')]
+    cargo_configuration = {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in cargo_configs if path.is_file()} if engine == 'rs' else {}
+    cargo_environment = {key:value for key,value in os.environ.items() if key.startswith(('CARGO_BUILD_','CARGO_PROFILE_','CARGO_TARGET_','RUST')) or key == 'CARGO_ENCODED_RUSTFLAGS'}
+    cargo_environment_hash = hashlib.sha256(json.dumps(cargo_environment,sort_keys=True).encode()).hexdigest() if engine == 'rs' else None
+    expected = {'cargo_environment_sha256':cargo_environment_hash, 'cargo_configuration_sha256':cargo_configuration, 'sha': sha, 'recipe': stamp, 'runtime': runtime(engine,tree if engine=='rs' else None), 'tool':tool, 'rustflags':os.environ.get('RUSTFLAGS'), 'encoded_rustflags':os.environ.get('CARGO_ENCODED_RUSTFLAGS'), 'cargo_build_target':os.environ.get('CARGO_BUILD_TARGET')}
     if marker.exists() and json.loads(marker.read_text()) == expected:
         artifact = tree / {'js':'dist/index.js', 'php':'vendor/autoload.php', 'rs':'.history-worker/bin/history-worker'}[engine]
         if artifact.exists() and (engine != 'rs' or command([str(artifact),'--identity']) == sha):
@@ -150,7 +156,7 @@ def prepare(cache, engine, revision):
 
 
 def runtime(engine,cwd=None):
-    return command({'js':['node','--version'], 'php':['php','-r','echo PHP_VERSION;'], 'rs':['rustc','--version']}[engine],cwd=cwd)
+    return command({'js':['node','--version'], 'php':['php','-r','echo PHP_VERSION;'], 'rs':[os.environ.get('RUSTC','rustc'),'--version']}[engine],cwd=cwd)
 
 
 def fixture(name, n):
