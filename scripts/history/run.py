@@ -234,7 +234,7 @@ def main():
     candidates=[]
     for candidate in args.candidate:
         parts=candidate.split('=',2)
-        if len(parts)!=3 or parts[0] not in args.engines or not re.fullmatch(r'[A-Za-z0-9_-]+',parts[1]) or not parts[2] or parts[2].startswith(('-', '+')) or ':' in parts[2]:
+        if len(parts)!=3 or parts[0] not in args.engines or not re.fullmatch(r'[A-Za-z0-9_-]+',parts[1]) or not parts[2] or parts[2].startswith(('-', '+')) or any(char in parts[2] for char in ':*?[\\'):
             parser.error('Candidate must be ENGINE=LABEL=REF for a selected engine')
         if re.fullmatch(r'v?\d+\.\d+\.\d+',parts[1]) or parts[1]=='dev-main':
             parser.error('Candidate labels must differ from release tags and dev-main')
@@ -248,7 +248,7 @@ def main():
         fcntl.flock(cache_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         parser.error('Another history run uses this cache; wait or choose a separate --cache')
-    result = {'schema': 1, 'invocation':sys.argv, 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_* cases are HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
+    result = {'schema': 1, 'sizes':args.sizes, 'invocation':sys.argv, 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_* cases are HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
     prepared = {}
     for engine in args.engines:
         mirror = cache / f'{engine}.git'
@@ -293,6 +293,7 @@ def main():
     result['initial_load'] = load()
     for engine, data in result['engines'].items():
         cases = CASES + (['quoted_false_mixed_closer', 'quoted_indented_closer', 'html_table', 'html_definition_list'] if engine == 'php' else [])
+        data['cases']=cases
         samples = {}
         for round_index in range(args.rounds):
             revisions = data['revisions']; offset = round_index % len(revisions)

@@ -52,21 +52,24 @@ class HistoryTests(unittest.TestCase):
         source=(HERE/'run.py').read_text()
         signature=run.measurement_signature(source)
         self.assertNotEqual(signature,run.measurement_signature(source.replace("return 'plain paragraph\\n\\n' * n", "return 'other paragraph\\n\\n' * n")))
+        self.assertIn("'finished_at'",source)
         self.assertEqual(signature,run.measurement_signature(source.replace("'finished_at'", "'completion_time'")))
 
     def test_validation_rejects_changed_worker_fixture_and_session_signature(self):
         signature=run.measurement_signature((HERE/'run.py').read_text())
         session={'measurement_signature':signature,'harness_sha256':{'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}}
-        row={'case':'paragraphs','n':128,'fixture_sha256':hashlib.sha256(run.fixture('paragraphs',128).encode()).hexdigest(),'samples':[{'samples_ms':[1.0],'hash':'same'}],'output_sha256':'same','median_ms':1.0,'min_ms':1.0,'max_ms':1.0}
-        data={'rounds':1,'samples_per_round':1,'measurement_signature':signature,'engines':{'js':{'measurement_session':session,'rows':[row]}}}
+        row={'revision':'dev-main','case':'paragraphs','n':128,'fixture_sha256':hashlib.sha256(run.fixture('paragraphs',128).encode()).hexdigest(),'samples':[{'samples_ms':[1.0],'hash':'same'}],'output_sha256':'same','median_ms':1.0,'min_ms':1.0,'max_ms':1.0}
+        data={'rounds':1,'samples_per_round':1,'measurement_signature':signature,'engines':{'js':{'revisions':[{'label':'dev-main'}],'measurement_session':session,'rows':[row]}}}
         report.validate_measurements(data)
-        for field in ('worker','fixture','session','missing','summary','sample_count','output'):
+        for field in ('worker','fixture','session','missing','summary','sample_count','output','duplicate','unknown_revision'):
             changed=copy.deepcopy(data)
             if field=='worker':changed['engines']['js']['measurement_session']['harness_sha256']['worker.mjs']='wrong'
             elif field=='fixture':changed['engines']['js']['rows'][0]['fixture_sha256']='wrong'
             elif field=='session':changed['engines']['js']['measurement_session']['measurement_signature']='wrong'
             elif field=='summary':changed['engines']['js']['rows'][0]['median_ms']=2.0
             elif field=='sample_count':changed['engines']['js']['rows'][0]['samples']=[]
+            elif field=='duplicate':changed['engines']['js']['rows'].append(copy.deepcopy(row))
+            elif field=='unknown_revision':changed['engines']['js']['rows'][0]['revision']='unknown'
             elif field=='output':changed['engines']['js']['rows'][0]['samples'][0]['hash']='different'
             else:del changed['measurement_signature']
             with self.assertRaises(ValueError):report.validate_measurements(changed)

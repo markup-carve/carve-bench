@@ -325,7 +325,7 @@ output because timings across a behavior change can represent different work.
 ```bash
 python3 scripts/history/run.py --cpu 0
 # Include an unmerged PR alongside tags and main:
-python3 scripts/history/run.py --cpu 6 --candidate js=proposal=perf/verse-import-followup-20261001
+python3 scripts/history/run.py --cpu 6 --candidate php=proposal=perf/verse-import-followup-20261001
 ```
 
 Omit `--cpu` when affinity is unavailable, or select a CPU allowed on your host.

@@ -53,6 +53,13 @@ def validate_measurements(data):
         session=snapshot.get('measurement_session') or data
         if session.get('measurement_signature') != data['measurement_signature']:
             raise ValueError('History session timing signature differs')
+        rows=snapshot['rows']
+        cases=snapshot.get('cases') or sorted({row['case'] for row in rows})
+        sizes=data.get('sizes') or sorted({row['n'] for row in rows})
+        expected_rows={(revision['label'],case,n) for revision in snapshot['revisions'] for case in cases for n in sizes}
+        actual_rows={(row['revision'],row['case'],row['n']) for row in rows}
+        if len(actual_rows)!=len(rows) or actual_rows!=expected_rows:
+            raise ValueError('History rows do not cover each revision, case and size exactly once')
         worker={'js':'worker.mjs','php':'worker.php','rs':'worker.rs'}[engine]
         expected_worker=(snapshot.get('measurement_session') or data)['harness_sha256'][worker]
         if hashlib.sha256((Path(__file__).parent/worker).read_bytes()).hexdigest()!=expected_worker:
