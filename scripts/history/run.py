@@ -86,6 +86,17 @@ def select_revisions(repo, engine, count):
     return result, alias
 
 
+def add_candidate(repo, engine, revisions, label, sha):
+    if any(revision['label'] == label for revision in revisions):
+        raise ValueError(f'Duplicate candidate label: {label}')
+    fingerprint=source_fingerprint(repo,sha,engine)
+    matching=next((revision for revision in revisions if revision['source_fingerprint']==fingerprint),None)
+    if matching:
+        return {'label':label,'sha':sha,'same_source_as':matching['label']}
+    revisions.append({'label':label,'sha':sha,'source_fingerprint':fingerprint,'kind':'candidate'})
+    return None
+
+
 def prepare(cache, engine, revision):
     sha = revision['sha']
     tree = cache / engine / sha
@@ -214,9 +225,20 @@ def main():
     parser.add_argument('--cache', type=Path, default=ROOT / '.history-cache')
     parser.add_argument('--output', type=Path, default=ROOT / 'reports/engine-history.json')
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--candidate',action='append',default=[],metavar='ENGINE=LABEL=REF',help='Also measure a pinned branch or commit, such as js=PR-2445=branch-name')
     args = parser.parse_args()
     if min(args.tags, args.rounds, args.samples, *args.sizes) <= 0:
         parser.error('Counts and sizes must be positive')
+    candidates=[]
+    for candidate in args.candidate:
+        parts=candidate.split('=',2)
+        if len(parts)!=3 or parts[0] not in args.engines or not re.fullmatch(r'[A-Za-z0-9_-]+',parts[1]) or not parts[2] or parts[2].startswith('-'):
+            parser.error('Candidate must be ENGINE=LABEL=REF for a selected engine')
+        if re.fullmatch(r'v?\d+\.\d+\.\d+',parts[1]) or parts[1]=='dev-main':
+            parser.error('Candidate labels must differ from release tags and dev-main')
+        if any(previous[:2]==parts[:2] for previous in candidates):
+            parser.error('Candidate labels must be unique within an engine')
+        candidates.append(parts)
     cache = args.cache.resolve()
     cache.mkdir(parents=True, exist_ok=True)
     cache_lock = (cache / '.run.lock').open('w')
@@ -232,7 +254,14 @@ def main():
             command(['git','clone','--bare',f'https://github.com/markup-carve/{REPOS[engine]}.git',str(mirror)], capture=False)
         command(['git','--git-dir',str(mirror),'fetch','--prune','--prune-tags','origin','+refs/heads/main:refs/heads/main','+refs/tags/*:refs/tags/*'], capture=False)
         revisions, alias = select_revisions(mirror, engine, args.tags)
-        result['engines'][engine] = {'runtime':runtime(engine),'revisions':revisions,'main_alias':alias,'rows':[]}
+        candidate_aliases=[]
+        for candidate_engine,label,ref in candidates:
+            if candidate_engine!=engine:continue
+            command(['git','--git-dir',str(mirror),'fetch','origin',ref],capture=False)
+            sha=command(['git','--git-dir',str(mirror),'rev-parse','FETCH_HEAD^{commit}'])
+            candidate_alias=add_candidate(mirror,engine,revisions,label,sha)
+            if candidate_alias:candidate_aliases.append(candidate_alias)
+        result['engines'][engine] = {'runtime':runtime(engine),'revisions':revisions,'main_alias':alias,'candidate_aliases':candidate_aliases,'rows':[]}
         for revision in revisions:
             prepared[engine, revision['sha']] = prepare(cache, engine, revision)
     if args.prepare_only:

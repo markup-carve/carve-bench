@@ -36,8 +36,8 @@ class HistoryTests(unittest.TestCase):
     def test_changed_output_breaks_graph_and_csv_reports_it(self):
         with tempfile.TemporaryDirectory() as directory:
             path=Path(directory)/'engine-history.json'
-            rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('dev-main',1.5,'b')]]
-            data={'schema':1,'generated_at':'test','rounds':3,'samples_per_round':7,'engines':{'js':{'runtime':'node','main_alias':None,'revisions':[{'label':r['revision'],'sha':r['revision']} for r in rows],'rows':rows}}}
+            rows=[dict(revision=label,case='verse_equivalent',n=128,median_ms=ms,min_ms=ms,max_ms=ms,output_sha256=hash) for label,ms,hash in [('0.1.0',1,'a'),('0.1.1',2,'b'),('PR-2',1.5,'b')]]
+            data={'schema':1,'generated_at':'test','rounds':3,'samples_per_round':7,'engines':{'js':{'runtime':'node','main_alias':None,'revisions':[{'label':r['revision'],'sha':r['revision'],**({'kind':'candidate'} if r['revision']=='PR-2' else {})} for r in rows],'rows':rows}}}
             data['measurement_signature']=run.measurement_signature((HERE/'run.py').read_text());data['harness_sha256']={'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}
             for row in rows:row['fixture_sha256']=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
             path.write_text(json.dumps(data));report.build(path)
@@ -65,6 +65,20 @@ class HistoryTests(unittest.TestCase):
             elif field=='session':changed['engines']['js']['measurement_session']['measurement_signature']='wrong'
             else:del changed['measurement_signature']
             with self.assertRaises(ValueError):report.validate_measurements(changed)
+
+    def test_candidate_aliases_identical_source_and_adds_changed_source(self):
+        with tempfile.TemporaryDirectory() as directory:
+            tree=Path(directory);subprocess.run(['git','init','-b','main',str(tree)],check=True,capture_output=True)
+            def git(*args):return subprocess.check_output(['git','-C',str(tree),*args],text=True).strip()
+            git('config','user.email','history@example.test');git('config','user.name','History test')
+            (tree/'src').mkdir();(tree/'src/engine').write_text('code');git('add','.');git('commit','-m','source');git('tag','0.1.0')
+            sha=git('rev-parse','HEAD');revisions,alias=run.select_revisions(tree/'.git','js',1)
+            candidate=run.add_candidate(tree/'.git','js',revisions,'PR-1',sha)
+            self.assertEqual(candidate['same_source_as'],'0.1.0');self.assertEqual(len(revisions),1)
+            (tree/'src/engine').write_text('changed');git('add','.');git('commit','-m','candidate')
+            self.assertIsNone(run.add_candidate(tree/'.git','js',revisions,'PR-2',git('rev-parse','HEAD')))
+            self.assertEqual(revisions[-1]['kind'],'candidate')
+            with self.assertRaisesRegex(ValueError,'Duplicate candidate'):run.add_candidate(tree/'.git','js',revisions,'PR-2',sha)
 
     def test_equivalent_verse_fixture_does_not_define_a_reference(self):
         text=run.fixture('verse_equivalent',128)
