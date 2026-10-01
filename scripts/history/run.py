@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Measure release history from immutable source snapshots."""
 import argparse
+import ast
 import csv
 import hashlib
 import inspect
@@ -96,8 +97,8 @@ def prepare(cache, engine, revision):
     inputs = [HERE / f'worker.{ {"js":"mjs", "php":"php", "rs":"rs"}[engine]}']
     stamp = hashlib.sha256(inspect.getsource(prepare).encode() + b''.join(p.read_bytes() for p in inputs)).hexdigest()
     marker = tree / '.history-build.json'
-    tool = command({'js':['npm','--version'], 'php':['composer','--version','--no-ansi'], 'rs':['cargo','--version']}[engine])
-    expected = {'sha': sha, 'recipe': stamp, 'runtime': runtime(engine), 'tool':tool, 'rustflags':os.environ.get('RUSTFLAGS'), 'encoded_rustflags':os.environ.get('CARGO_ENCODED_RUSTFLAGS'), 'cargo_build_target':os.environ.get('CARGO_BUILD_TARGET')}
+    tool = command({'js':['npm','--version'], 'php':['composer','--version','--no-ansi'], 'rs':['cargo','--version']}[engine],cwd=tree if engine=='rs' else None)
+    expected = {'sha': sha, 'recipe': stamp, 'runtime': runtime(engine,tree if engine=='rs' else None), 'tool':tool, 'rustflags':os.environ.get('RUSTFLAGS'), 'encoded_rustflags':os.environ.get('CARGO_ENCODED_RUSTFLAGS'), 'cargo_build_target':os.environ.get('CARGO_BUILD_TARGET')}
     if marker.exists() and json.loads(marker.read_text()) == expected:
         artifact = tree / {'js':'dist/index.js', 'php':'vendor/autoload.php', 'rs':'.history-worker/bin/history-worker'}[engine]
         if artifact.exists() and (engine != 'rs' or command([str(artifact),'--identity']) == sha):
@@ -148,8 +149,8 @@ def prepare(cache, engine, revision):
     return tree
 
 
-def runtime(engine):
-    return command({'js':['node','--version'], 'php':['php','-r','echo PHP_VERSION;'], 'rs':['rustc','--version']}[engine])
+def runtime(engine,cwd=None):
+    return command({'js':['node','--version'], 'php':['php','-r','echo PHP_VERSION;'], 'rs':['rustc','--version']}[engine],cwd=cwd)
 
 
 def fixture(name, n):
@@ -190,6 +191,12 @@ def load():
     return list(os.getloadavg()) if hasattr(os, 'getloadavg') else None
 
 
+def measurement_signature(source):
+    tree = ast.parse(source)
+    definitions = {node.name: ast.get_source_segment(source,node) for node in tree.body if isinstance(node,ast.FunctionDef)}
+    return hashlib.sha256('\0'.join(definitions[name] for name in ('fixture','measure')).encode()).hexdigest()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--tags', type=int, default=4)
@@ -227,15 +234,20 @@ def main():
         return
     if args.cpu is not None:
         os.sched_setaffinity(0, {args.cpu})
+    result['cpu_affinity'] = sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None
+    result['measurement_signature'] = measurement_signature(Path(__file__).read_text())
     for (engine,sha),tree in prepared.items():
         revision=next(r for r in result['engines'][engine]['revisions'] if r['sha']==sha)
         locks=[tree / f for f in ('package-lock.json','composer.lock','.history-worker/Cargo.lock') if (tree/f).exists()]
+        revision['runtime']=runtime(engine,tree if engine=='rs' else None)
         revision['dependency_lock_sha256']={str(f.relative_to(tree)):hashlib.sha256(f.read_bytes()).hexdigest() for f in locks}
         if engine=='rs':
             revision['release_profile']=tomllib.loads((tree/'.history-worker/Cargo.toml').read_text())['profile']['release']
             revision['worker_binary_sha256']=hashlib.sha256((tree/'.history-worker/bin/history-worker').read_bytes()).hexdigest()
         if command(['git','-C',str(tree),'rev-parse','HEAD'])!=sha or command(['git','-C',str(tree),'status','--porcelain','--untracked-files=no']):
             raise ValueError('Cached source changed after preparation')
+    for snapshot in result['engines'].values():
+        snapshot['runtime']=' / '.join(sorted({revision['runtime'] for revision in snapshot['revisions']}))
     result['initial_load'] = load()
     for engine, data in result['engines'].items():
         cases = CASES + (['quoted_false_mixed_closer', 'quoted_indented_closer', 'html_table'] if engine == 'php' else [])
@@ -260,6 +272,7 @@ def main():
         partial.parent.mkdir(parents=True,exist_ok=True)
         partial.write_text(json.dumps(result,indent=2)+'\n')
     result['final_load'] = load()
+    result['finished_at'] = datetime.now(timezone.utc).isoformat()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.output.with_suffix('.tmp')
     temporary.write_text(json.dumps(result,indent=2)+'\n');temporary.replace(args.output)

@@ -1,10 +1,10 @@
 # Engine release history
 
-Recorded 2026-10-01T16:13:00.671025+00:00. 4 stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.
+Sessions began 2026-10-01T16:13:00.671025+00:00. 4 stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.
 
-Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures and runtime within its engine. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.
+Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.
 
-The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.
+The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.
 
 [Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)
 
@@ -12,11 +12,11 @@ The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/m
 
 PHP and Rust retain the first completed run. JS was repeated with a minimum 500 ms warmup; its per-engine measurement_session records the separate driver commit, hashes, affinity and loads.
 
-js: driver `9594c11bb1c526f3da3182df381f851f596a630f`, session started 2026-10-01T16:21:06.569916+00:00, CPU affinity [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].
+js: driver `9594c11bb1c526f3da3182df381f851f596a630f`, session started 2026-10-01T16:21:06.569916+00:00, CPU affinity [0]; dirty benchmark tree: True.
 
-php: driver `06457ef66aadc4ad805641093993126eb3ebf762`, session started 2026-10-01T16:13:00.671025+00:00, CPU affinity [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].
+php: driver `06457ef66aadc4ad805641093993126eb3ebf762`, session started 2026-10-01T16:13:00.671025+00:00, CPU affinity [0]; dirty benchmark tree: False.
 
-rs: driver `06457ef66aadc4ad805641093993126eb3ebf762`, session started 2026-10-01T16:13:00.671025+00:00, CPU affinity [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].
+rs: driver `06457ef66aadc4ad805641093993126eb3ebf762`, session started 2026-10-01T16:13:00.671025+00:00, CPU affinity [0]; dirty benchmark tree: False.
 
 ## Watchpoints
 

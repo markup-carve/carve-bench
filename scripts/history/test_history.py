@@ -42,6 +42,12 @@ class HistoryTests(unittest.TestCase):
             self.assertIn('False',path.with_suffix('.csv').read_text())
             viewer=path.with_suffix('.html').read_text();self.assertNotIn('HISTORY_DATA',viewer);self.assertIn('"schema": 1',viewer)
 
+    def test_signature_tracks_timing_and_fixtures_but_ignores_metadata(self):
+        source=(HERE/'run.py').read_text()
+        signature=run.measurement_signature(source)
+        self.assertNotEqual(signature,run.measurement_signature(source.replace("return 'plain paragraph\\n\\n' * n", "return 'other paragraph\\n\\n' * n")))
+        self.assertEqual(signature,run.measurement_signature(source.replace("'finished_at'", "'completion_time'")))
+
     def test_equivalent_verse_fixture_does_not_define_a_reference(self):
         text=run.fixture('verse_equivalent',128)
         self.assertEqual(text.count('[r]: /hidden extra'),128);self.assertIn('[t][missing]',text)
