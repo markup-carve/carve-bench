@@ -64,7 +64,8 @@ test('history selections display measured samples and all tags', async ({ page, 
   await expect(page.locator('#table tbody tr')).toHaveCount(raw.engines.php.revisions.length)
   await page.getByLabel('Engine', { exact: true }).selectOption('rs')
   await page.getByLabel('Case', { exact: true }).selectOption('verse_definitions')
-  const originalRows = raw.engines.rs.rows.filter(row => row.case === 'verse_definitions' && row.n === Number(await page.getByLabel('Size', { exact: true }).inputValue()))
+  const selectedSize = Number(await page.getByLabel('Size', { exact: true }).inputValue())
+  const originalRows = raw.engines.rs.rows.filter(row => row.case === 'verse_definitions' && row.n === selectedSize)
   const oldestHash = originalRows.find(row => row.revision === raw.engines.rs.revisions[0].label).output_sha256
   if (originalRows.some(row => row.output_sha256 !== oldestHash)) await expect(page.locator('#table')).toContainText('n/a: different output')
   await page.getByLabel('Case', { exact: true }).selectOption('verse_equivalent')

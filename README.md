@@ -344,7 +344,8 @@ uses the same generated fixtures and runtime within its engine. Three rounds
 rotate revision order, with seven in-process samples per case and size.
 Rust uses optimized release builds. PHP uses CLI opcache/JIT off and disables
 coverage, matching the maintenance investigation rather than the headline
-production-JIT benchmark. Node workloads receive size-dependent warm-up.
+production-JIT benchmark. Node workloads receive at least 500 ms of warm-up with a size-dependent minimum
+iteration count.
 
 Results are `reports/engine-history.{json,csv,md,html}` and three standalone SVGs.
 Open the HTML for engine, case, size and unit selectors. The default static

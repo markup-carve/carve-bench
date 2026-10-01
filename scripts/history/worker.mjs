@@ -6,7 +6,13 @@ import { createHash } from 'node:crypto'
 const [root, fixture, count, warm] = process.argv.slice(2)
 const { carveToHtml } = await import(pathToFileURL(`${root}/dist/index.js`))
 const source = readFileSync(fixture, 'utf8')
-for (let i = 0; i < Number(warm); i++) carveToHtml(source)
+const warmupStart = performance.now()
+let warmupIterations = 0
+while (warmupIterations < Number(warm) || performance.now() - warmupStart < 500) {
+  carveToHtml(source)
+  warmupIterations++
+}
+const warmupMs = performance.now() - warmupStart
 const samples = []
 let output
 for (let i = 0; i < Number(count); i++) {
@@ -14,4 +20,4 @@ for (let i = 0; i < Number(count); i++) {
   output = carveToHtml(source)
   samples.push(performance.now() - start)
 }
-console.log(JSON.stringify({ samples_ms: samples, hash: createHash('sha256').update(output).digest('hex') }))
+console.log(JSON.stringify({ samples_ms: samples, hash: createHash('sha256').update(output).digest('hex'), warmup_iterations: warmupIterations, warmup_ms: warmupMs }))
