@@ -8,22 +8,28 @@ The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/m
 
 [Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)
 
-Timing driver: `7b740fa84321e24eb542fef97de544ef0409d871`; CPU affinity: [6]; dirty benchmark tree: False. Report generation may use later metadata-only corrections.
+## Measurement sessions
+
+JavaScript and Rust retain the complete four-round session recorded before the PHP definition-list scan fix. PHP was repeated across all four tags, main and the updated draft after that fix. Both sessions used four rounds of eleven samples, sizes 128 and 1024, and CPU 6. Each engine carries its own original driver, invocation, timestamps and clean-tree state. No timestamps or timing signatures were backfilled.
+
+js: driver `7b740fa84321e24eb542fef97de544ef0409d871`, session started 2026-10-01T20:02:58.582388+00:00, CPU affinity [6]; dirty benchmark tree: False.
+
+php: driver `709ee4fe875c1d175f6a87111931ba5daf27cb69`, session started 2026-10-01T20:30:24.445991+00:00, CPU affinity [6]; dirty benchmark tree: False.
+
+rs: driver `7b740fa84321e24eb542fef97de544ef0409d871`, session started 2026-10-01T20:02:58.582388+00:00, CPU affinity [6]; dirty benchmark tree: False.
 
 ## Watchpoints
 
-- php dev-main html_table n=128: 48.489 ms versus 20.840 ms on 0.1.7 (+132.7%). Output hashes match; investigate the additional cost against this older baseline.
-- php dev-main html_definition_list n=128: 28.706 ms versus 2.223 ms on 0.1.7 (+1191.4%). Output hashes match; investigate the additional cost against this older baseline.
-- php dev-main html_table n=1024: 510.152 ms versus 164.232 ms on 0.1.7 (+210.6%). Output hashes match; investigate the additional cost against this older baseline.
-- php dev-main html_definition_list n=1024: 842.552 ms versus 17.854 ms on 0.1.7 (+4619.2%). Output hashes match; investigate the additional cost against this older baseline.
-- php dev-main html_definition_list n=1024: 842.552 ms versus 274.369 ms on 0.1.8 (+207.1%). Output hashes match; investigate the additional cost against this older baseline.
-- php dev-main html_definition_list n=1024: 842.552 ms versus 271.014 ms on 0.1.9 (+210.9%). Output hashes match; investigate the additional cost against this older baseline.
-- php PR-2815 html_table n=128: 47.780 ms versus 20.840 ms on 0.1.7 (+129.3%). Output hashes match; investigate the additional cost against this older baseline.
-- php PR-2815 html_definition_list n=128: 28.342 ms versus 2.223 ms on 0.1.7 (+1175.0%). Output hashes match; investigate the additional cost against this older baseline.
-- php PR-2815 html_table n=1024: 502.802 ms versus 164.232 ms on 0.1.7 (+206.2%). Output hashes match; investigate the additional cost against this older baseline.
-- php PR-2815 html_definition_list n=1024: 838.838 ms versus 17.854 ms on 0.1.7 (+4598.4%). Output hashes match; investigate the additional cost against this older baseline.
-- php PR-2815 html_definition_list n=1024: 838.838 ms versus 274.369 ms on 0.1.8 (+205.7%). Output hashes match; investigate the additional cost against this older baseline.
-- php PR-2815 html_definition_list n=1024: 838.838 ms versus 271.014 ms on 0.1.9 (+209.5%). Output hashes match; investigate the additional cost against this older baseline.
+- php dev-main html_table n=128: 48.038 ms versus 21.446 ms on 0.1.7 (+124.0%). Output hashes match; investigate the additional cost against this older baseline.
+- php dev-main html_definition_list n=128: 31.417 ms versus 2.383 ms on 0.1.7 (+1218.2%). Output hashes match; investigate the additional cost against this older baseline.
+- php dev-main html_table n=1024: 506.343 ms versus 165.348 ms on 0.1.7 (+206.2%). Output hashes match; investigate the additional cost against this older baseline.
+- php dev-main html_definition_list n=1024: 908.358 ms versus 18.385 ms on 0.1.7 (+4840.8%). Output hashes match; investigate the additional cost against this older baseline.
+- php dev-main html_definition_list n=1024: 908.358 ms versus 264.155 ms on 0.1.8 (+243.9%). Output hashes match; investigate the additional cost against this older baseline.
+- php dev-main html_definition_list n=1024: 908.358 ms versus 280.440 ms on 0.1.9 (+223.9%). Output hashes match; investigate the additional cost against this older baseline.
+- php PR-2815 html_table n=128: 51.197 ms versus 21.446 ms on 0.1.7 (+138.7%). Output hashes match; investigate the additional cost against this older baseline.
+- php PR-2815 html_definition_list n=128: 17.907 ms versus 2.383 ms on 0.1.7 (+651.4%). Output hashes match; investigate the additional cost against this older baseline.
+- php PR-2815 html_table n=1024: 514.973 ms versus 165.348 ms on 0.1.7 (+211.4%). Output hashes match; investigate the additional cost against this older baseline.
+- php PR-2815 html_definition_list n=1024: 198.262 ms versus 18.385 ms on 0.1.7 (+978.4%). Output hashes match; investigate the additional cost against this older baseline.
 
 ## js
 
@@ -39,6 +45,8 @@ Runtime: v22.22.2. Latest tag: 0.1.9.
 | 0.1.9 | `a0cb0ad18fc4da223e46cfb77672e4dec537a83b` |
 | dev-main | `8534bde0ecf823a0b60ae990bd973d9625fcf966` |
 | PR-2445 | `9fbb98d44155930d0e2f6ed4f304f83203478270` |
+
+JS draft head `b807d878185196b09d41be0b99a6bfe43906e0f5` adds two helper contract comments after measured commit `9fbb98d44155930d0e2f6ed4f304f83203478270`. Comment-free TypeScript transpilation is identical; no executable code changed.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|
@@ -76,46 +84,48 @@ Runtime: 8.5.11. Latest tag: 0.1.10.
 | 0.1.9 | `d4b53388df891158c9c868177a4213a5e8b2f608` |
 | 0.1.10 | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
 | dev-main | `de9b7ea63c3d079920923f7b3516d2bab1eff516` |
-| PR-2815 | `bacc8a128e0575af8791722ac41e8164b667010f` |
+| PR-2815 | `f2c3c0d4519fca7cc60abfb1a15688dddb3c749d` |
+
+PHP host load rose from 4.57 to 17.93 during the repeat. Several unchanged parse/render cases at n=128 measured 15–21% slower in the draft; these need a quiet-host repeat before attributing a regression. The definition-list improvement is much larger and also appeared in the earlier diagnostic repeat.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|
-| dev-main | quoted_fences | 128 | 1.254 | 1.395 | +11.3% | 1.395 | +0.0% | yes |
-| dev-main | verse_definitions | 128 | 15.600 | 3.699 | -76.3% | 3.699 | +0.0% | yes |
-| dev-main | verse_equivalent | 128 | 21.521 | 3.973 | -81.5% | 3.973 | +0.0% | yes |
-| dev-main | paragraphs | 128 | 0.308 | 0.307 | -0.3% | 0.307 | +0.0% | yes |
-| dev-main | mixed_document | 128 | 3.602 | 3.461 | -3.9% | 3.461 | +0.0% | yes |
-| dev-main | quoted_false_mixed_closer | 128 | 1.165 | 1.439 | +23.5% | 1.439 | +0.0% | yes |
-| dev-main | quoted_indented_closer | 128 | 1.169 | 1.424 | +21.8% | 1.424 | +0.0% | yes |
-| dev-main | html_table | 128 | 79.032 | 48.489 | -38.6% | 48.489 | +0.0% | yes |
-| dev-main | html_definition_list | 128 | 38.034 | 28.706 | -24.5% | 28.706 | +0.0% | yes |
-| dev-main | quoted_fences | 1024 | 8.445 | 10.268 | +21.6% | 10.268 | +0.0% | yes |
-| dev-main | verse_definitions | 1024 | 728.829 | 31.092 | -95.7% | 31.092 | +0.0% | yes |
-| dev-main | verse_equivalent | 1024 | 1064.620 | 31.730 | -97.0% | 31.730 | +0.0% | yes |
-| dev-main | paragraphs | 1024 | 2.383 | 2.357 | -1.1% | 2.357 | +0.0% | yes |
-| dev-main | mixed_document | 1024 | 485.291 | 492.559 | +1.5% | 492.559 | +0.0% | yes |
-| dev-main | quoted_false_mixed_closer | 1024 | 8.327 | 10.877 | +30.6% | 10.877 | +0.0% | yes |
-| dev-main | quoted_indented_closer | 1024 | 8.333 | 10.554 | +26.7% | 10.554 | +0.0% | yes |
-| dev-main | html_table | 1024 | 1305.128 | 510.152 | -60.9% | 510.152 | +0.0% | yes |
-| dev-main | html_definition_list | 1024 | 962.252 | 842.552 | -12.4% | 842.552 | +0.0% | yes |
-| PR-2815 | quoted_fences | 128 | 1.254 | 1.383 | +10.3% | 1.395 | -0.9% | yes |
-| PR-2815 | verse_definitions | 128 | 15.600 | 3.707 | -76.2% | 3.699 | +0.2% | yes |
-| PR-2815 | verse_equivalent | 128 | 21.521 | 3.952 | -81.6% | 3.973 | -0.5% | yes |
-| PR-2815 | paragraphs | 128 | 0.308 | 0.299 | -2.8% | 0.307 | -2.4% | yes |
-| PR-2815 | mixed_document | 128 | 3.602 | 3.542 | -1.7% | 3.461 | +2.3% | yes |
-| PR-2815 | quoted_false_mixed_closer | 128 | 1.165 | 1.411 | +21.2% | 1.439 | -1.9% | yes |
-| PR-2815 | quoted_indented_closer | 128 | 1.169 | 1.443 | +23.5% | 1.424 | +1.4% | yes |
-| PR-2815 | html_table | 128 | 79.032 | 47.780 | -39.5% | 48.489 | -1.5% | yes |
-| PR-2815 | html_definition_list | 128 | 38.034 | 28.342 | -25.5% | 28.706 | -1.3% | yes |
-| PR-2815 | quoted_fences | 1024 | 8.445 | 10.569 | +25.1% | 10.268 | +2.9% | yes |
-| PR-2815 | verse_definitions | 1024 | 728.829 | 30.512 | -95.8% | 31.092 | -1.9% | yes |
-| PR-2815 | verse_equivalent | 1024 | 1064.620 | 31.379 | -97.1% | 31.730 | -1.1% | yes |
-| PR-2815 | paragraphs | 1024 | 2.383 | 2.399 | +0.7% | 2.357 | +1.8% | yes |
-| PR-2815 | mixed_document | 1024 | 485.291 | 476.209 | -1.9% | 492.559 | -3.3% | yes |
-| PR-2815 | quoted_false_mixed_closer | 1024 | 8.327 | 10.564 | +26.9% | 10.877 | -2.9% | yes |
-| PR-2815 | quoted_indented_closer | 1024 | 8.333 | 11.483 | +37.8% | 10.554 | +8.8% | yes |
-| PR-2815 | html_table | 1024 | 1305.128 | 502.802 | -61.5% | 510.152 | -1.4% | yes |
-| PR-2815 | html_definition_list | 1024 | 962.252 | 838.838 | -12.8% | 842.552 | -0.4% | yes |
+| dev-main | quoted_fences | 128 | 1.191 | 1.401 | +17.6% | 1.401 | +0.0% | yes |
+| dev-main | verse_definitions | 128 | 16.615 | 3.481 | -79.0% | 3.481 | +0.0% | yes |
+| dev-main | verse_equivalent | 128 | 22.054 | 3.858 | -82.5% | 3.858 | +0.0% | yes |
+| dev-main | paragraphs | 128 | 0.317 | 0.283 | -10.9% | 0.283 | +0.0% | yes |
+| dev-main | mixed_document | 128 | 3.808 | 3.357 | -11.8% | 3.357 | +0.0% | yes |
+| dev-main | quoted_false_mixed_closer | 128 | 1.239 | 1.363 | +10.0% | 1.363 | +0.0% | yes |
+| dev-main | quoted_indented_closer | 128 | 1.163 | 1.420 | +22.1% | 1.420 | +0.0% | yes |
+| dev-main | html_table | 128 | 82.685 | 48.038 | -41.9% | 48.038 | +0.0% | yes |
+| dev-main | html_definition_list | 128 | 47.621 | 31.417 | -34.0% | 31.417 | +0.0% | yes |
+| dev-main | quoted_fences | 1024 | 9.349 | 10.591 | +13.3% | 10.591 | +0.0% | yes |
+| dev-main | verse_definitions | 1024 | 827.168 | 30.259 | -96.3% | 30.259 | +0.0% | yes |
+| dev-main | verse_equivalent | 1024 | 1095.591 | 30.670 | -97.2% | 30.670 | +0.0% | yes |
+| dev-main | paragraphs | 1024 | 2.510 | 2.503 | -0.3% | 2.503 | +0.0% | yes |
+| dev-main | mixed_document | 1024 | 518.336 | 474.305 | -8.5% | 474.305 | +0.0% | yes |
+| dev-main | quoted_false_mixed_closer | 1024 | 8.921 | 10.046 | +12.6% | 10.046 | +0.0% | yes |
+| dev-main | quoted_indented_closer | 1024 | 8.658 | 10.054 | +16.1% | 10.054 | +0.0% | yes |
+| dev-main | html_table | 1024 | 1326.066 | 506.343 | -61.8% | 506.343 | +0.0% | yes |
+| dev-main | html_definition_list | 1024 | 989.732 | 908.358 | -8.2% | 908.358 | +0.0% | yes |
+| PR-2815 | quoted_fences | 128 | 1.191 | 1.467 | +23.2% | 1.401 | +4.7% | yes |
+| PR-2815 | verse_definitions | 128 | 16.615 | 4.034 | -75.7% | 3.481 | +15.9% | yes |
+| PR-2815 | verse_equivalent | 128 | 22.054 | 4.220 | -80.9% | 3.858 | +9.4% | yes |
+| PR-2815 | paragraphs | 128 | 0.317 | 0.334 | +5.3% | 0.283 | +18.2% | yes |
+| PR-2815 | mixed_document | 128 | 3.808 | 4.025 | +5.7% | 3.357 | +19.9% | yes |
+| PR-2815 | quoted_false_mixed_closer | 128 | 1.239 | 1.647 | +32.9% | 1.363 | +20.8% | yes |
+| PR-2815 | quoted_indented_closer | 128 | 1.163 | 1.554 | +33.6% | 1.420 | +9.5% | yes |
+| PR-2815 | html_table | 128 | 82.685 | 51.197 | -38.1% | 48.038 | +6.6% | yes |
+| PR-2815 | html_definition_list | 128 | 47.621 | 17.907 | -62.4% | 31.417 | -43.0% | yes |
+| PR-2815 | quoted_fences | 1024 | 9.349 | 10.948 | +17.1% | 10.591 | +3.4% | yes |
+| PR-2815 | verse_definitions | 1024 | 827.168 | 29.970 | -96.4% | 30.259 | -1.0% | yes |
+| PR-2815 | verse_equivalent | 1024 | 1095.591 | 33.391 | -97.0% | 30.670 | +8.9% | yes |
+| PR-2815 | paragraphs | 1024 | 2.510 | 2.553 | +1.7% | 2.503 | +2.0% | yes |
+| PR-2815 | mixed_document | 1024 | 518.336 | 494.901 | -4.5% | 474.305 | +4.3% | yes |
+| PR-2815 | quoted_false_mixed_closer | 1024 | 8.921 | 10.548 | +18.2% | 10.046 | +5.0% | yes |
+| PR-2815 | quoted_indented_closer | 1024 | 8.658 | 10.583 | +22.2% | 10.054 | +5.3% | yes |
+| PR-2815 | html_table | 1024 | 1326.066 | 514.973 | -61.2% | 506.343 | +1.7% | yes |
+| PR-2815 | html_definition_list | 1024 | 989.732 | 198.262 | -80.0% | 908.358 | -78.2% | yes |
 
 ## rs
 

@@ -53,6 +53,9 @@ def validate_measurements(data):
         session=snapshot.get('measurement_session') or data
         if session.get('measurement_signature') != data['measurement_signature']:
             raise ValueError('History session timing signature differs')
+        for field in ('sizes','rounds','samples_per_round'):
+            if session.get(field,data.get(field))!=data.get(field):
+                raise ValueError('History session sampling settings differ')
         rows=snapshot['rows']
         cases=snapshot.get('cases') or sorted({row['case'] for row in rows})
         sizes=data.get('sizes') or sorted({row['n'] for row in rows})
@@ -94,6 +97,7 @@ def build(path):
     for engine, snapshot in data['engines'].items():
         tags=[r['label'] for r in snapshot['revisions'] if r['label']!='dev-main' and r.get('kind')!='candidate']
         points={r['label'] for r in snapshot['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {tags[-1]}
+        if snapshot.get('main_alias'):points.add(snapshot['main_alias']['same_source_as'])
         index={(r['revision'],r['case'],r['n']):r for r in snapshot['rows']}
         for row in snapshot['rows']:
             if row['revision'] not in points: continue
@@ -112,8 +116,10 @@ def build(path):
         if d['main_alias']:report += [f"dev-main `{d['main_alias']['sha']}` has the same measured source as {d['main_alias']['same_source_as']}; it reuses that point.",'']
         for candidate in d.get('candidate_aliases',[]):
             report += [f"{candidate['label']} `{candidate['sha']}` has the same measured source as {candidate['same_source_as']}; it reuses that point.",'']
+        for note in d.get('measurement_notes',[]):report += [note,'']
         report += ['| Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag |','|---|---|---:|---:|---:|---:|---:|---:|:---:|']
         points={r['label'] for r in d['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {latest}
+        if d.get('main_alias'):points.add(d['main_alias']['same_source_as'])
         for r in d['rows']:
             oldest=index[revisions[0],r['case'],r['n']];tag=index[latest,r['case'],r['n']]
             csvrows.append(dict(engine=engine,revision=r['revision'],sha=sha[r['revision']],case=r['case'],n=r['n'],median_ms=r['median_ms'],min_ms=r['min_ms'],max_ms=r['max_ms'],change_vs_oldest_pct=100*(r['median_ms']/oldest['median_ms']-1) if r['output_sha256']==oldest['output_sha256'] else '',same_output_as_oldest=r['output_sha256']==oldest['output_sha256'],same_output_as_latest_tag=r['output_sha256']==tag['output_sha256']))

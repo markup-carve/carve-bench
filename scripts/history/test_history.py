@@ -59,6 +59,10 @@ class HistoryTests(unittest.TestCase):
                 for sample in row['samples']:sample['hash']='b'
             path.write_text(json.dumps(aliased));report.build(path)
             self.assertIn('- js 0.1.1 verse_equivalent n=128',path.with_suffix('.md').read_text())
+            snapshot['revisions'].append(copy.deepcopy(data['engines']['js']['revisions'][-1]))
+            snapshot['rows'].append(copy.deepcopy(data['engines']['js']['rows'][-1]))
+            path.write_text(json.dumps(aliased));report.build(path)
+            self.assertIn('- js 0.1.1 verse_equivalent n=128',path.with_suffix('.md').read_text())
 
     def test_signature_tracks_timing_and_fixtures_but_ignores_metadata(self):
         source=(HERE/'run.py').read_text()
