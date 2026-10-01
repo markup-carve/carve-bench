@@ -46,6 +46,24 @@ def build(path):
     if data['schema']!=1: raise ValueError('Unknown history schema')
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
     report=['# Engine release history','',f"Recorded {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures and runtime within its engine. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
+    if data.get('session_note'):
+        report += ['## Measurement sessions', '', data['session_note'], '']
+        for engine, snapshot in data['engines'].items():
+            session = snapshot.get('measurement_session', {})
+            report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}.", '']
+    watchpoints=[]
+    for engine, snapshot in data['engines'].items():
+        revisions=[r['label'] for r in snapshot['revisions']]
+        index={(r['revision'],r['case'],r['n']):r for r in snapshot['rows']}
+        for row in snapshot['rows']:
+            if row['revision']!=revisions[-1]: continue
+            for label in revisions[:-1]:
+                previous=index[label,row['case'],row['n']]
+                change=100*(row['median_ms']/previous['median_ms']-1)
+                if change>=100 and row['output_sha256']==previous['output_sha256']:
+                    watchpoints.append(f"- {engine} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%). Output hashes match; investigate the additional cost against this older baseline.")
+    if watchpoints:
+        report += ['## Watchpoints', '', *watchpoints, '']
     csvrows=[]
     for engine,d in data['engines'].items():
         if not d['rows']: raise ValueError('Missing measured rows')

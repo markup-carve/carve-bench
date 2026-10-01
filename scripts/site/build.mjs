@@ -97,12 +97,9 @@ export function build(root, destination) {
       const hash = createHash('sha256').update(read(`scripts/history/${file}`)).digest('hex')
       assert.equal(history.harness_sha256[file], hash, `Engine history used a different ${file}; refresh measurements`)
     }
-    for (const extension of ['json', 'csv', 'md', 'html']) {
-      cpSync(resolve(root, `reports/engine-history.${extension}`), resolve(destination, `reports/engine-history.${extension}`))
-    }
-    for (const engine of Object.keys(history.engines)) {
-      cpSync(resolve(root, `reports/engine-history-${engine}.svg`), resolve(destination, `reports/engine-history-${engine}.svg`))
-    }
+    const publishedHistory = resolve(destination, 'reports/engine-history.json')
+    cpSync(historyPath, publishedHistory)
+    execFileSync('python3', [resolve(root, 'scripts/history/report.py'), publishedHistory])
     historySection = `<section id="history"><h2>Engine release history</h2><p>${history.tags_per_engine} tags per engine and a pinned development main when its measured source differs. Compare elapsed time within each engine; graphs mark changed output.</p><p><a href="reports/engine-history.html">Explore the version history</a> · <a href="reports/engine-history.csv" download>History CSV</a> · <a href="reports/engine-history.json" download>Samples and source commits</a></p>${Object.keys(history.engines).map(engine => `<figure><img loading="lazy" src="reports/engine-history-${escape(engine)}.svg" alt="${escape(engine)} elapsed time across release tags and development main"><figcaption><a href="reports/engine-history-${escape(engine)}.svg" download>Download ${escape(engine)} history SVG</a></figcaption></figure>`).join('')}</section>`
   }
   writeFileSync(resolve(destination, 'evidence.json'), JSON.stringify(data, null, 2) + '\n')
