@@ -140,6 +140,10 @@ def append_session(output, path):
         'citation-items-current-main-session': 'Citation item fixes in JavaScript and Rust',
         'citation-short-controls-session': 'Rust short-input controls with longer sampling',
         'js-import-current-main-session': 'JavaScript blank table imports versus merged main',
+        'merged-engines-final-session': 'Merged engine fixes and the first JavaScript importer draft',
+        'rejected-citations-and-paths-session': 'Rust citation rejection and PHP sibling paths',
+        'js-session-refusals-session': 'Final JavaScript batching through captions and composites',
+        'js-citation-final-session': 'Final JavaScript citation fix with bounded short scans',
         'php-merged-import-session': 'PHP importer with all review fixes merged',
     }
     lines = ['', '## ' + titles.get(stem, stem), '',
@@ -148,10 +152,18 @@ def append_session(output, path):
              '| Engine | Main | Candidate |', '|---|---|---|']
     for engine in session['selected_engines']:
         lines.append(f"| {engine} | `{session['sources'][engine + '-main']['revision']}` | `{session['sources'][engine + '-candidate']['revision']}` |")
-    if stem.startswith('rust'):
+    if stem in ('rust-hybrid-session', 'rust-current-main-session'):
         lines += ['', 'A bounded 64-byte scan avoids allocating a whole-run map for short citations. Longer or unmatched spans still build the shared map once. The first Rust draft slowed ordinary nested citations; this follow-up removes that allocation cost. Positions and all output hashes are preserved.']
     if stem.startswith('php-import'):
         lines += ['', 'This session measures HTML-to-AST building only, including DOM loading. Row and section indexes replace full-row searches, section paths reuse the table path, and adjacent definition lists append items. It does not measure full import and report generation. The later invariant check validates each merge target once; that small review correction is not included in this pinned measurement.']
+    if stem == 'citation-short-controls-session':
+        lines += ['', 'The earlier short Rust cases varied by a few microseconds. Longer sampling measures positioned groups at -2.0% and unmatched openers at +0.2%; it does not support the earlier +33%/+20% readings as repeatable regressions.']
+    if stem == 'js-session-refusals-session':
+        lines += ['', 'The final renderer collects refused rows once per render pass, replacing the first draft’s per-block exception bookkeeping. Lists, blockquotes and captioned tables now batch too. No partial source is returned; earlier rows are reported before a later refusal. Complete source and loss-report hashes match.']
+    if stem == 'rejected-citations-and-paths-session':
+        lines += ['', 'The JavaScript candidate in this session is an intermediate draft. Its ordinary citation controls led to the bounded short scan measured in the final JavaScript session below. PHP caches sibling positions once per parent and resets them for each HTML import. Rust omits lexically invalid citation groups while indexing brackets.']
+    if stem == 'js-citation-final-session':
+        lines += ['', 'Short citations use a bounded 64-code-unit raw scan before allocating the shared index. Long candidates validate first, last and complete intervening items in one scan; the existing item parser still owns inline content. Rejected item probes use smaller sizes because the baseline builds and parses each growing item list.']
     lines += ['', '| Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |', '|---|---|---:|---|---:|---:|---:|']
     for row in rows:
         lines.append(f"| {row['engine']} | {row['kind']} | {row['n']} | {row['stage']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
