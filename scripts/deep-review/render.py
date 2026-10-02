@@ -137,6 +137,10 @@ def append_session(output, path):
         'rust-hybrid-session': 'Final Rust fix versus pre-review main',
         'rust-current-main-session': 'Rust short scan versus newly merged main',
         'php-import-current-main-session': 'PHP table and definition-list building versus newly merged main',
+        'citation-items-current-main-session': 'Citation item fixes in JavaScript and Rust',
+        'citation-short-controls-session': 'Rust short-input controls with longer sampling',
+        'js-import-current-main-session': 'JavaScript blank table imports versus merged main',
+        'php-merged-import-session': 'PHP importer with all review fixes merged',
     }
     lines = ['', '## ' + titles.get(stem, stem), '',
              f"{session['rounds']} alternating rounds on CPU {session['cpu']} use {session['samples_per_round']} samples per case. Longer control sampling, when enabled, uses {session.get('control_samples_per_round')} samples per round. Every output hash matches.", '',
@@ -148,27 +152,31 @@ def append_session(output, path):
         lines += ['', 'A bounded 64-byte scan avoids allocating a whole-run map for short citations. Longer or unmatched spans still build the shared map once. The first Rust draft slowed ordinary nested citations; this follow-up removes that allocation cost. Positions and all output hashes are preserved.']
     if stem.startswith('php-import'):
         lines += ['', 'This session measures HTML-to-AST building only, including DOM loading. Row and section indexes replace full-row searches, section paths reuse the table path, and adjacent definition lists append items. It does not measure full import and report generation. The later invariant check validates each merge target once; that small review correction is not included in this pinned measurement.']
-    lines += ['', '| Case | n | Stage / positions | Main ms | Candidate ms | Change |', '|---|---:|---|---:|---:|---:|']
+    lines += ['', '| Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |', '|---|---|---:|---|---:|---:|---:|']
     for row in rows:
-        lines.append(f"| {row['kind']} | {row['n']} | {row['stage']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
+        lines.append(f"| {row['engine']} | {row['kind']} | {row['n']} | {row['stage']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
     with (output / 'deep-review.md').open('a') as stream:
         stream.write('\n'.join(lines) + '\n')
     import matplotlib.pyplot as plt
-    kinds = list(dict.fromkeys(row['kind'] for row in rows))
-    figure, axes = plt.subplots(1, len(kinds), figsize=(5 * len(kinds), 4), squeeze=False, constrained_layout=True)
-    for ax, kind in zip(axes[0], kinds):
-        selected = [row for row in rows if row['kind'] == kind]
+    panels = list(dict.fromkeys((row['engine'], row['kind']) for row in rows))
+    columns = min(3, len(panels))
+    height = (len(panels) + columns - 1) // columns
+    figure, axes = plt.subplots(height, columns, figsize=(5 * columns, 4 * height), squeeze=False, constrained_layout=True)
+    for ax, (engine, kind) in zip(axes.flat, panels):
+        selected = [row for row in rows if row['engine'] == engine and row['kind'] == kind]
         for stage in dict.fromkeys(row['stage'] for row in selected):
             values = sorted([row for row in selected if row['stage'] == stage], key=lambda row: row['n'])
             for variant, style in [('main', '-'), ('candidate', '--')]:
                 ax.plot([row['n'] for row in values], [row[variant + '_ms'] for row in values], style, marker='o', label=stage + ' ' + variant)
         ax.set_xscale('log', base=2)
         ax.set_yscale('log')
-        ax.set_title(kind)
+        ax.set_title(engine + ': ' + kind)
         ax.set_xlabel('Repeated items')
         ax.set_ylabel('Median milliseconds, log scale')
         ax.grid(alpha=.2)
         ax.legend(fontsize=8)
+    for ax in list(axes.flat)[len(panels):]:
+        ax.set_visible(False)
     figure.suptitle(titles.get(stem, stem))
     save_chart(figure, output.parent / 'charts' / (stem + '.svg'))
     plt.close(figure)
