@@ -5,6 +5,7 @@ import { mkdirSync, readFileSync, writeFileSync, cpSync, rmSync, existsSync } fr
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { engineLabel } from '../engine-labels.mjs'
 import { finalCommonmarkResults } from '../commonmark-results.mjs'
 
 export function sections(markdown) {
@@ -100,6 +101,7 @@ export function build(root, destination) {
     statistic: 'Median timing across all samples from both measurement rounds',
     peers: finalRows.map(row => ({ language: 'JavaScript', engine: row.engine, throughput: row.mb_per_s })),
   }] : []
+  for (const row of [...data.peers, ...data.commonmarkLanes.flatMap(lane => lane.peers)]) row.label = engineLabel(row.engine, row.language)
   const finalTable = { headers: ['Engine', 'Median ms/op', 'MB/s'], rows: finalRows.map(row => [row.engine, row.ms_per_op.toFixed(4), row.mb_per_s.toFixed(2)]) }
   const sharedSource = sharedRecord?.metadata.carve_main ? `Carve JS uses merged main ${sharedRecord.metadata.carve_main.commit.slice(0, 7)}, with fast-path use verified. Peers use the released packages named in the report.` : 'Engines use the released packages named in the report.'
   const commonmarkSection = `<section id="commonmark"><h2>JavaScript without pipe tables</h2><p>Carve, Djot, markdown-it and commonmark.js on equivalent content. This 14-point workload excludes pipe tables and is separate from the comparison with pipe tables above. Final values use median timing across all samples from both measurement rounds. ${escape(sharedSource)}</p>${finalRows.length ? table(finalTable) : '<p>No qualified timing snapshot is published yet.</p>'}${finalRows.length && existsSync(resolve(root, 'charts/commonmark-js.svg')) ? chart('commonmark-js', 'Final JavaScript throughput without pipe tables') : ''}<p><a href="reports/commonmark-js.md">Method, individual rounds and measurement provenance</a>${sharedRecord ? ' · <a href="reports/commonmark-js.json" download>Raw samples and controls</a>' : ''}</p></section>`
@@ -114,7 +116,7 @@ export function build(root, destination) {
     writeFileSync(resolve(destination, 'reports', file), read(file).replaceAll('(reports/', '('))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) cpSync(resolve(root, file), resolve(destination, file))
   }
-  for (const file of ['dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
+  for (const file of ['dev-main-rust.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   const historyPath = resolve(root, 'reports/engine-history.json')

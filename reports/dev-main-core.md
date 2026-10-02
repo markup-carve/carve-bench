@@ -1,10 +1,10 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-02T15:21:28.020Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v24.19.0.
+Measured 2026-10-02T15:37:22.352Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v24.19.0.
 
-Carve js: [e3b19ed3189da28ed467981a4fe04dc1760de822](https://github.com/markup-carve/carve-js/commit/e3b19ed3189da28ed467981a4fe04dc1760de822).
-Carve php: [ffadbccece109ceb3c049b22a1a46e67eaed6fc9](https://github.com/markup-carve/carve-php/commit/ffadbccece109ceb3c049b22a1a46e67eaed6fc9).
-Carve rs: [0b4cd93ffe733d136b9396e041e902e14a3c7db1](https://github.com/markup-carve/carve-rs/commit/0b4cd93ffe733d136b9396e041e902e14a3c7db1).
+Carve js: [475f96b3058c3f08d98a429ea698e3e5708c882c](https://github.com/markup-carve/carve-js/commit/475f96b3058c3f08d98a429ea698e3e5708c882c).
+Carve php: [6c0fb9c646d323a1906c81236985a73a63c2f875](https://github.com/markup-carve/carve-php/commit/6c0fb9c646d323a1906c81236985a73a63c2f875).
+Carve rs: [84f603430ba083530062a0fc880e086ad0ea29be](https://github.com/markup-carve/carve-rs/commit/84f603430ba083530062a0fc880e086ad0ea29be).
 
 Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.
 
@@ -12,18 +12,18 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 4.6489 | 12.85 |
-| djot.js | JavaScript | 10.4267 | 5.74 |
-| markdown-it | JavaScript | 8.7718 | 6.87 |
-| carve-php | PHP | 4.2000 | 14.22 |
-| djot-php | PHP | 17.9556 | 3.33 |
-| league/commonmark-gfm | PHP | 46.4120 | 1.30 |
-| carve-rs | Rust | 0.6006 | 99.45 |
-| jotdown | Rust | 1.3719 | 43.64 |
-| comrak | Rust | 1.5278 | 39.47 |
-| pulldown-cmark | Rust | 0.4858 | 124.12 |
+| carve-js | JavaScript | 5.0713 | 11.78 |
+| djot.js | JavaScript | 10.2304 | 5.85 |
+| markdown-it | JavaScript | 8.7275 | 6.91 |
+| carve-php | PHP | 4.1121 | 14.53 |
+| djot-php | PHP | 19.2360 | 3.11 |
+| league/commonmark-gfm | PHP | 43.5934 | 1.38 |
+| carve-rs | Rust | 0.6286 | 95.02 |
+| jotdown | Rust | 1.3308 | 44.99 |
+| comrak | Rust | 1.4488 | 41.62 |
+| pulldown-cmark | Rust | 0.4745 | 127.08 |
 
-[Raw samples, output checks and source hashes](dev-main-core.json). Historical release results remain in [COMPARISON.md](../COMPARISON.md).
+[Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 
 ## Reproduce
 

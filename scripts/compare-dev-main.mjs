@@ -41,20 +41,24 @@ function verifyNpm(tree) {
 }
 verifyNpm(config.js.path)
 verifyNpm(resolve(root, 'engines/js'))
+const environment = { ...process.env }
+for (const key of Object.keys(environment)) if (key.startsWith('CARVE_')) delete environment[key]
 const composerLock = JSON.parse(readFileSync(resolve(root, 'engines/php/composer.lock')))
 const phpInstalled = JSON.parse(readFileSync(resolve(root, 'engines/php/vendor/composer/installed.json'))).packages
-for (const info of composerLock.packages) {
+const phpPackages = [...composerLock.packages, ...composerLock['packages-dev']]
+assert.equal(phpInstalled.length, phpPackages.length)
+for (const info of phpPackages) {
   const actual = phpInstalled.find(item => item.name === info.name)
   assert.equal(actual?.version, info.version, info.name)
   assert.equal(actual?.source?.reference, info.source?.reference, info.name)
 }
 rmSync(resolve(config.js.path, 'dist'), { recursive: true, force: true })
-execFileSync('npm', ['run', 'build'], { cwd: config.js.path, stdio: 'pipe', timeout: 120000 })
+execFileSync('npm', ['run', 'build'], { cwd: config.js.path, env: environment, stdio: 'pipe', timeout: 120000 })
 commits.js.lock_sha256 = sha(readFileSync(resolve(config.js.path, 'package-lock.json')))
 commits.js.dist_sha256 = Object.fromEntries(readdirSync(resolve(config.js.path, 'dist'), { recursive: true }).filter(file => file.endsWith('.js')).sort().map(file => [file, sha(readFileSync(resolve(config.js.path, 'dist', file)))]))
-execFileSync(process.execPath, [resolve(root, 'scripts/build-rs-engine.mjs'), '--carve-rs', config.rs.path], { cwd: root, stdio: 'pipe', timeout: 180000 })
-const environment = { ...process.env }
-for (const key of Object.keys(environment)) if (key.startsWith('CARVE_')) delete environment[key]
+execFileSync(process.execPath, [resolve(root, 'scripts/build-rs-engine.mjs'), '--carve-rs', config.rs.path], { cwd: root, env: environment, stdio: 'pipe', timeout: 1800000 })
+const measuredRustLock = readFileSync(resolve(root, 'engines/rs/target/local-override/crate/Cargo.lock'))
+writeFileSync(resolve(root, 'reports/dev-main-rust.Cargo.lock'), measuredRustLock)
 
 const engines = [
   ['carve-js', 'JavaScript', 'carve'], ['djot.js', 'JavaScript', 'djot'], ['markdown-it', 'JavaScript', 'markdown'],
@@ -87,7 +91,7 @@ function run([engine, language, flavor], iterations, trials, observe = false) {
   return { ...row, language }
 }
 // Table serializers vary in formatting and alignment attributes. Preserve cell
-// content and row hierarchy while discarding whitespace between blocks.
+// content and row hierarchy while discarding whitespace between table rows.
 function projection(html) {
   const clean = (nodes, parent = '') => nodes.filter(node => !(node.text !== undefined && !node.text.trim() && ['table', 'thead', 'tbody', 'tr'].includes(parent))).flatMap(node => {
     if (['thead', 'tbody'].includes(node.tag)) return clean(node.children, node.tag)
@@ -108,10 +112,10 @@ for (const entry of engines) {
   }
   controls.push({ engine: row.engine, source_sha256: row.source_sha256, output_sha256: row.output_sha256, projection_sha256: sha(JSON.stringify(projected)) })
 }
-const metadata = { generated_at: new Date().toISOString(), carve_main: commits, node: process.version, php: execFileSync('php', ['-n', '-v'], { encoding: 'utf8' }).split('\n')[0], rust: execFileSync('rustc', ['--version'], { encoding: 'utf8' }).trim(), php_jit: 'tracing, CLI opcache, extensions ctype and mbstring; php -n', cpu: cpus()[0].model, logical_cpus: cpus().length, load_start: loadavg(), workload_points: 18,
+const metadata = { runtime_flags: { RUSTFLAGS: environment.RUSTFLAGS ?? null, NODE_OPTIONS: environment.NODE_OPTIONS ?? null }, rust_lock_sha256: sha(measuredRustLock), generated_at: new Date().toISOString(), carve_main: commits, node: process.version, php: execFileSync('php', ['-n', '-v'], { encoding: 'utf8' }).split('\n')[0], rust: execFileSync('rustc', ['--version'], { encoding: 'utf8' }).trim(), php_jit: 'tracing, CLI opcache, extensions ctype and mbstring; php -n', cpu: cpus()[0].model, logical_cpus: cpus().length, load_start: loadavg(), workload_points: 18,
   method: 'Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.',
   source_sha256: Object.fromEntries(Object.entries(sources).map(([key, value]) => [key, sha(value)])),
-  harness_sha256: Object.fromEntries(['scripts/compare-dev-main.mjs', 'engines/js/compare.mjs', 'engines/php/compare.php', 'engines/rs/src/compare.rs', 'engines/js/commonmark-core.mjs', 'engines/js/package-lock.json', 'engines/php/composer.lock', 'engines/rs/Cargo.lock'].map(file => [file, sha(readFileSync(resolve(root, file)))])),
+  harness_sha256: Object.fromEntries(['scripts/compare-dev-main.mjs', 'scripts/build-rs-engine.mjs', 'scripts/commonmark-results.mjs', 'engines/rs/build.rs', 'engines/js/compare.mjs', 'engines/php/compare.php', 'engines/rs/src/compare.rs', 'engines/js/commonmark-core.mjs', 'engines/js/package-lock.json', 'engines/php/composer.lock', 'engines/rs/Cargo.lock'].map(file => [file, sha(readFileSync(resolve(root, file)))])),
   rust_binary_sha256: sha(readFileSync(binary)) }
 const rounds = []
 for (let round = 0; round < 2; round++) {
@@ -134,5 +138,5 @@ metadata.load_end = loadavg()
 const record = { schema: 1, metadata, controls, rounds }
 record.final = finalCommonmarkResults(record).map(row => ({ ...row, language: engines.find(entry => entry[0] === row.engine)[1] }))
 writeFileSync(resolve(root, 'reports/dev-main-core.json'), JSON.stringify(record, null, 2) + '\n')
-const lines = ['# Core throughput using Carve development main', '', `Measured ${metadata.generated_at}. ${metadata.cpu}; Node ${metadata.node}.`, '', ...Object.entries(commits).map(([engine, value]) => `Carve ${engine}: [${value.commit}](${value.repository}/commit/${value.commit}).`), '', metadata.method, '', 'The 18-point fixture includes pipe tables. Carve and Markdown use compact nested lists; Djot requires a blank before the nested list. The 150-section workload differs from the historical release fixture, so changes in peer throughput or Carve ratios are not engine-only improvements. Native markup differs by language; the HTML control checks equivalent hierarchy, text, emphasis, links and code. Table alignment is not part of the normalized output check. Compare engines within this workload; the 14-point workload without tables is measured separately.', '', '| Engine | Language | Median ms/op | MB/s |', '|---|---|---:|---:|', ...record.final.map(row => `| ${row.engine} | ${row.language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} |`), '', '[Raw samples, output checks and source hashes](dev-main-core.json). Historical release results remain in [COMPARISON.md](../COMPARISON.md).', '', '## Reproduce', '', 'Check out the three commits above and install the locked dependencies in `engines/js` and `engines/php`. Build Carve JS with `npm ci && npm run build` in its checkout. Build the Rust worker with `node scripts/build-rs-engine.mjs --carve-rs CHECKOUT`. Create a local JSON configuration with `js`, `php` and `rs` entries, each containing `path` and `commit`. Run `node scripts/compare-dev-main.mjs CONFIG.json`, then `node scripts/gen-charts.mjs`. The runner rebuilds JS and Rust and accepts the pinned commits as merged ancestors after main advances.', '']
+const lines = ['# Core throughput using Carve development main', '', `Measured ${metadata.generated_at}. ${metadata.cpu}; Node ${metadata.node}.`, '', ...Object.entries(commits).map(([engine, value]) => `Carve ${engine}: [${value.commit}](${value.repository}/commit/${value.commit}).`), '', metadata.method, '', 'The 18-point fixture includes pipe tables. Carve and Markdown use compact nested lists; Djot requires a blank before the nested list. The 150-section workload differs from the historical release fixture, so changes in peer throughput or Carve ratios are not engine-only improvements. Native markup differs by language; the HTML control checks equivalent hierarchy, text, emphasis, links and code. Table alignment is not part of the normalized output check. Compare engines within this workload; the 14-point workload without tables is measured separately.', '', '| Engine | Language | Median ms/op | MB/s |', '|---|---|---:|---:|', ...record.final.map(row => `| ${row.engine} | ${row.language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} |`), '', '[Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).', '', '## Reproduce', '', 'Check out the three commits above and install the locked dependencies in `engines/js` and `engines/php`. Build Carve JS with `npm ci && npm run build` in its checkout. Build the Rust worker with `node scripts/build-rs-engine.mjs --carve-rs CHECKOUT`. Create a local JSON configuration with `js`, `php` and `rs` entries, each containing `path` and `commit`. Run `node scripts/compare-dev-main.mjs CONFIG.json`, then `node scripts/gen-charts.mjs`. The runner rebuilds JS and Rust and accepts the pinned commits as merged ancestors after main advances.', '']
 writeFileSync(resolve(root, 'reports/dev-main-core.md'), lines.join('\n'))

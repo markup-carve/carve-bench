@@ -11,6 +11,7 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   assert.equal(new Set(record.controls.map(row => row.projection_sha256)).size, 1)
   for (const [engine, value] of Object.entries(record.metadata.carve_main)) {
     assert.equal(value.kind, 'merged-main')
+    assert.equal(value.commit, value.latest_at_setup, 'Published current graph must use main at setup')
     assert.equal(value.repository, `https://github.com/markup-carve/carve-${engine}`)
     assert.match(value.commit, /^[a-f0-9]{40}$/)
     for (const round of record.rounds) {
@@ -26,6 +27,7 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   }
   assert.deepEqual(record.final.map(({ language, ...row }) => row), finalCommonmarkResults(record))
   for (const [file, hash] of Object.entries(record.metadata.harness_sha256)) assert.equal(createHash('sha256').update(readFileSync(file)).digest('hex'), hash, file)
+  assert.equal(createHash('sha256').update(readFileSync('reports/dev-main-rust.Cargo.lock')).digest('hex'), record.metadata.rust_lock_sha256)
   const shared = JSON.parse(readFileSync('reports/commonmark-js.json'))
   assert.equal(shared.metadata.carve_main.commit, record.metadata.carve_main.js.commit)
   assert.equal(shared.metadata.carve_main.fast_path, true)

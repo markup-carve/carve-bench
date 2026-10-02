@@ -1,8 +1,8 @@
 # JavaScript core comparison including commonmark.js
 
-Measured 2026-10-02T15:23:36.952Z, Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark main at setup: `15dfd8dababc7bd47297a06bf933bb09dfac199e`.
+Measured 2026-10-02T15:39:30.865Z, Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark main at setup: `15dfd8dababc7bd47297a06bf933bb09dfac199e`.
 
-Carve JS merged main 0.1.10 at `e3b19ed3189da28ed467981a4fe04dc1760de822`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
+Carve JS merged main 0.1.10 at `475f96b3058c3f08d98a429ea698e3e5708c882c`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
 This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the comparison with pipe tables](../COMPARISON.md); their throughput values must not be mixed.
 
@@ -14,10 +14,10 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Median ms/op | MB/s |
 |---|---:|---:|
-| carve-js | 2.7563 | 17.21 |
-| djot.js | 5.9481 | 7.97 |
-| markdown-it | 5.5511 | 8.65 |
-| commonmark.js | 2.5776 | 18.62 |
+| carve-js | 2.9397 | 16.13 |
+| djot.js | 5.8910 | 8.05 |
+| markdown-it | 5.6276 | 8.53 |
+| commonmark.js | 2.6468 | 18.14 |
 
 ![Final JavaScript throughput](../charts/commonmark-js.svg)
 
@@ -25,21 +25,21 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Bytes | Round 1 fastest MB/s | Round 2 fastest MB/s |
 |---|---:|---:|---:|
-| carve-js | 49732 | 18.00 | 17.66 |
-| djot.js | 49732 | 8.40 | 8.22 |
-| markdown-it | 50332 | 9.04 | 8.99 |
-| commonmark.js | 50332 | 19.33 | 19.63 |
+| carve-js | 49732 | 17.73 | 17.86 |
+| djot.js | 49732 | 8.38 | 8.41 |
+| markdown-it | 50332 | 8.66 | 9.01 |
+| commonmark.js | 50332 | 19.86 | 19.58 |
 
 ## CommonMark constructor control
 
 | API lifetime | Round 1 fastest ms/op | Round 2 fastest ms/op |
 |---|---:|---:|
-| Reuse parser and renderer | 2.4834 | 2.4453 |
-| Construct both per call | 2.4447 | 2.2620 |
+| Reuse parser and renderer | 2.4164 | 2.4520 |
+| Construct both per call | 2.5061 | 2.4734 |
 
 The lifetime control investigates the parser-construction concern in [djot.js #13](https://github.com/jgm/djot.js/issues/13). markdown-it also reuses its instance; Carve and Djot use their public conversion functions. These are default API costs, not equal object lifetimes. Round variation makes the constructor-cost comparison inconclusive.
 
-One-minute host load was 3.47 at start and 4.35 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
+One-minute host load was 3.35 at start and 5.00 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
 
 ## Reproduce
 
@@ -48,9 +48,9 @@ cd engines/js
 npm ci
 cd ../..
 git clone https://github.com/markup-carve/carve-js.git /tmp/carve-js-main
-git -C /tmp/carve-js-main checkout e3b19ed3189da28ed467981a4fe04dc1760de822
+git -C /tmp/carve-js-main checkout 475f96b3058c3f08d98a429ea698e3e5708c882c
 npm ci --prefix /tmp/carve-js-main
-node scripts/compare-commonmark.mjs --carve-main /tmp/carve-js-main --carve-revision e3b19ed3189da28ed467981a4fe04dc1760de822
+node scripts/compare-commonmark.mjs --carve-main /tmp/carve-js-main --carve-revision 475f96b3058c3f08d98a429ea698e3e5708c882c
 node scripts/gen-charts.mjs
 ```
 

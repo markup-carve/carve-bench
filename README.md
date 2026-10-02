@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `e3b19ed`, including the
+The current comparison measures Carve JS merged main `475f96b`, including the
 nested-list fast-path fix, against released peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -51,9 +51,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 99.45 | pulldown-cmark | 124.12 | 0.80x |
-| JavaScript | carve-js | 12.85 | markdown-it | 6.87 | 1.87x |
-| PHP | carve-php | 14.22 | djot-php | 3.33 | 4.26x |
+| Rust | carve-rs | 95.02 | pulldown-cmark | 127.08 | 0.75x |
+| JavaScript | carve-js | 11.78 | markdown-it | 6.91 | 1.70x |
+| PHP | carve-php | 14.53 | djot-php | 3.11 | 4.67x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -63,9 +63,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.6489 | 12.85 | 7.74x |
-| carve-php | PHP | 4.2000 | 14.22 | 6.99x |
-| carve-rs | Rust | 0.6006 | 99.45 | 1.00x |
+| carve-js | JavaScript | 5.0713 | 11.78 | 8.07x |
+| carve-php | PHP | 4.1121 | 14.53 | 6.54x |
+| carve-rs | Rust | 0.6286 | 95.02 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).

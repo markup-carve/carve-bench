@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { engineLabel } from './engine-labels.mjs'
 import { finalCommonmarkResults, withFinalCommonmarkSummary } from './commonmark-results.mjs'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
@@ -43,8 +44,8 @@ const barColor = (name, index) =>
 
 function chart(title, subtitle, groups, unit = 'MB/s') {
   const width = 1000
-  const left = 245
-  const barWidth = 650
+  const left = groups.some(group => group.rows.some(row => row.name.length > 32)) ? 310 : 245
+  const barWidth = 895 - left
   const rowHeight = 34
   const panelGap = 55
   const height = 105 + groups.reduce((sum, group) => sum + 35 + group.rows.length * rowHeight + panelGap, 0)
@@ -106,7 +107,7 @@ if (mainRecord) {
   writeFileSync(path, readFileSync(path, 'utf8').replace(/\| Language \| Carve \| MB\/s \| Fastest peer \| MB\/s \| Carve vs peer \|\n(?:\|[^\n]*\n)+/, headline + '\n').replace(/\| Engine \| Language \| ms\/op \| MB\/s \| rel \|\n(?:\|[^\n]*\n)+/, internal + '\n'))
 }
 const allEngines = comparisonGroups.flatMap((group) =>
-  group.rows.map((row) => ({ ...row, name: `${row.name} (${group.name})` })),
+  group.rows.map((row) => ({ ...row, name: engineLabel(row.name, group.name) })),
 )
 writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Same-language render throughput',
@@ -118,6 +119,10 @@ const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json'))
 if (sharedRecord) {
   const path = resolve(root, 'reports/commonmark-js.md')
   writeFileSync(path, withFinalCommonmarkSummary(readFileSync(path, 'utf8'), sharedRecord))
+  if (sharedRecord.metadata.carve_main) {
+    const readme = resolve(root, 'README.md')
+    writeFileSync(readme, readFileSync(readme, 'utf8').replace(/The current comparison measures Carve JS merged main `[^`]+`/, `The current comparison measures Carve JS merged main \`${sharedRecord.metadata.carve_main.commit.slice(0, 7)}\``))
+  }
 }
 const commonmarkGroups = sharedRecord ? [{
   name: 'Final results',
@@ -130,7 +135,7 @@ writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
     { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
       name: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)}${sharedRecord.metadata.carve_main ? ', Carve main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) : ''})`,
-      rows: group.rows.map(row => ({ ...row, name: `${row.name} (JavaScript)` })),
+      rows: group.rows.map(row => ({ ...row, name: engineLabel(row.name, 'JavaScript') })),
     })),
   ],
 ))
@@ -167,6 +172,6 @@ if (commonmarkGroups.length) {
   writeFileSync(resolve(root, 'charts/commonmark-js.svg'), chart(
     'Shared JavaScript core including commonmark.js',
     'Without pipe tables: 14 points. Median timing.' + (sharedRecord.metadata.carve_main ? ' Carve dev-main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) + '.' : ''),
-    commonmarkGroups,
+    commonmarkGroups.map(group => ({ ...group, rows: group.rows.map(row => ({ ...row, name: engineLabel(row.name, 'JavaScript') })) })),
   ))
 }

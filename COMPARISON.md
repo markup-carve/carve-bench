@@ -37,7 +37,7 @@ by default. See `FEATURES.md` for the auditable matrix and limitations.
 
 ![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)
 
-The [current development-main charts](README.md#results) use separate measurements.
+The [current development-main charts](https://github.com/markup-carve/carve-bench#results) use separate measurements.
 
 ![Bar chart of enabled core capability points](./charts/capabilities.svg)
 

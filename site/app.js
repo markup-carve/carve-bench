@@ -25,7 +25,7 @@ fetch('evidence.json').then(response => {
       for (const row of rows) {
         const item = document.createElement('li')
         const label = document.createElement('span')
-        label.textContent = `${row.engine} (${row.language})`
+        label.textContent = row.label ?? `${row.engine} (${row.language})`
         const track = document.createElement('span')
         track.className = 'bar-track'
         const bar = document.createElement('span')
