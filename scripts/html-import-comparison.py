@@ -76,6 +76,14 @@ class Worker:
         return self.request({"html": html, "mode": "safe"})["markdown"]
 
 
+def portable_argv(argv, root):
+    # The provenance manifest is published: name the file, not the home directory.
+    def label(part):
+        path = Path(part)
+        return str(path.relative_to(root)) if path.is_absolute() and path.is_relative_to(root) else (path.name if path.is_absolute() else part)
+    return [label(part) for part in argv]
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -175,7 +183,7 @@ def main():
     manifest = {
         "benchmark_revision": benchmark_head, "benchmark_status": benchmark_state,
         "rust_worker_sources": {name: digest(path) for name, path in worker_sources.items()},
-        "command": sys.argv, "platform": platform.platform(), "cpu_count": os.cpu_count(),
+        "command": portable_argv(sys.argv, root), "platform": platform.platform(), "cpu_count": os.cpu_count(),
         "node": subprocess.check_output(["node", "--version"], text=True).strip(),
         "python": sys.version, "rustc": rs_version["rustc"],
         "upstream_status": upstream_state, "js_status": js_state,

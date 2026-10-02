@@ -1,7 +1,7 @@
 {
   "started_at": "2026-10-02T09:08:32.705823+00:00",
   "driver": {
-    "root": "/tmp/carve-bench-deep-20261002",
+    "root": "carve-bench-deep-20261002",
     "revision": "d99732c77b3fe2c1f4f294b56884aa31d2d332c1"
   },
   "worker_hashes": {
@@ -12,27 +12,27 @@
   },
   "sources": {
     "js-main": {
-      "root": "/tmp/carve-js-deep-base-20261002",
+      "root": "carve-js-deep-base-20261002",
       "revision": "8dcafd7c2248fb8b8db94e573ab28c84cec385e2"
     },
     "js-candidate": {
-      "root": "/tmp/carve-js-deep-20261002",
+      "root": "carve-js-deep-20261002",
       "revision": "df6ec4662f726218881a5887174f1848fd809bd6"
     },
     "php-main": {
-      "root": "/tmp/carve-php-deep-base-20261002",
+      "root": "carve-php-deep-base-20261002",
       "revision": "9558a932e0944ea71e9eb2cb9327a8bf3ffda896"
     },
     "php-candidate": {
-      "root": "/tmp/carve-php-deep-20261002",
+      "root": "carve-php-deep-20261002",
       "revision": "307b6469ff4a741d419eef1024105abcfaff9d74"
     },
     "rs-main": {
-      "root": "/tmp/carve-rs-round2-base-20261002",
+      "root": "carve-rs-round2-base-20261002",
       "revision": "3b2a24a8e2b6f9e730b42490573db19b846c8aa6"
     },
     "rs-candidate": {
-      "root": "/tmp/carve-rs-round2-20261002",
+      "root": "carve-rs-round2-20261002",
       "revision": "852cc1e517044981783eef9bae1aef74cf628ce3"
     }
   },
@@ -42,21 +42,21 @@
   "invocation": [
     "scripts/deep-review/run.py",
     "--js-main",
-    "/tmp/carve-js-deep-base-20261002",
+    "carve-js-deep-base-20261002",
     "--js-candidate",
-    "/tmp/carve-js-deep-20261002",
+    "carve-js-deep-20261002",
     "--php-main",
-    "/tmp/carve-php-deep-base-20261002",
+    "carve-php-deep-base-20261002",
     "--php-candidate",
-    "/tmp/carve-php-deep-20261002",
+    "carve-php-deep-20261002",
     "--rs-main",
-    "/tmp/carve-rs-round2-base-20261002",
+    "carve-rs-round2-base-20261002",
     "--rs-candidate",
-    "/tmp/carve-rs-round2-20261002",
+    "carve-rs-round2-20261002",
     "--output",
-    "/media/mark/data/work/carve-quality-measurements-2026-10-02/deep-review/rust-current-main-session.json",
+    "rust-current-main-session.json",
     "--cargo-target",
-    "/tmp/cargo-shared/carve-deep-probe-20261002",
+    "carve-deep-probe-20261002",
     "--engines",
     "rs",
     "--control-samples",
@@ -50448,12 +50448,12 @@
     }
   },
   "node_modules_paths": {
-    "main": "/tmp/carve-js-deep-20261002/node_modules",
-    "candidate": "/tmp/carve-js-deep-20261002/node_modules"
+    "main": "node_modules",
+    "candidate": "node_modules"
   },
   "cargo_config_hashes": {
-    "/home/mark/.cargo/config.toml": "755e8cd5addca205990f8fd424816367cee984df23adc2dcf9b31f4cdd00cfb8",
-    "/tmp/carve-bench-deep-20261002/.cargo/config.toml": null
+    "layer-0/config.toml": "755e8cd5addca205990f8fd424816367cee984df23adc2dcf9b31f4cdd00cfb8",
+    "layer-1/config.toml": null
   },
   "rust_build_environment": {
     "RUSTFLAGS": null,
@@ -51545,5 +51545,6 @@
         ]
       }
     }
-  ]
+  ],
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
 }

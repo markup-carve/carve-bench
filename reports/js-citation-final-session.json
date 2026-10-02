@@ -1,7 +1,7 @@
 {
   "started_at": "2026-10-02T11:27:25.287671+00:00",
   "driver": {
-    "root": "/tmp/carve-bench-js-short-20261002",
+    "root": "carve-bench-js-short-20261002",
     "revision": "4add24dbdbea74fe525ab005db09cde14eb08b41"
   },
   "worker_hashes": {
@@ -12,27 +12,27 @@
   },
   "sources": {
     "js-main": {
-      "root": "/tmp/carve-js-round2-base-20261002",
+      "root": "carve-js-round2-base-20261002",
       "revision": "c77d85ead683bffc534d50ab18c1df95f1821c8b"
     },
     "js-candidate": {
-      "root": "/tmp/carve-js-round3-short-20261002",
+      "root": "carve-js-round3-short-20261002",
       "revision": "41350ea6d3a4eb2468914328ec5c0d0c5179bdd4"
     },
     "php-main": {
-      "root": "/tmp/carve-php-merged-review-20261002",
+      "root": "carve-php-merged-review-20261002",
       "revision": "4c1cf690ea57e6ce035dfbecce932d42684c1018"
     },
     "php-candidate": {
-      "root": "/tmp/carve-php-round3-citations-20261002",
+      "root": "carve-php-round3-citations-20261002",
       "revision": "23350fb058dded3bd85ed08239e5db03b0679a02"
     },
     "rs-main": {
-      "root": "/tmp/carve-rs-merged-review-20261002",
+      "root": "carve-rs-merged-review-20261002",
       "revision": "1aa51a380af1c5407fba49a476497ac4795adaeb"
     },
     "rs-candidate": {
-      "root": "/tmp/carve-rs-round3-citations-20261002",
+      "root": "carve-rs-round3-citations-20261002",
       "revision": "338a17ea3b33f782c91b686e1bfd0265b52ea02f"
     }
   },
@@ -42,17 +42,17 @@
   "invocation": [
     "scripts/deep-review/run.py",
     "--js-main",
-    "/tmp/carve-js-round2-base-20261002",
+    "carve-js-round2-base-20261002",
     "--js-candidate",
-    "/tmp/carve-js-round3-short-20261002",
+    "carve-js-round3-short-20261002",
     "--php-main",
-    "/tmp/carve-php-merged-review-20261002",
+    "carve-php-merged-review-20261002",
     "--php-candidate",
-    "/tmp/carve-php-round3-citations-20261002",
+    "carve-php-round3-citations-20261002",
     "--rs-main",
-    "/tmp/carve-rs-merged-review-20261002",
+    "carve-rs-merged-review-20261002",
     "--rs-candidate",
-    "/tmp/carve-rs-round3-citations-20261002",
+    "carve-rs-round3-citations-20261002",
     "--engines",
     "js",
     "--kinds",
@@ -75,9 +75,9 @@
     "--cpu",
     "13",
     "--cargo-target",
-    "/tmp/cargo-shared/carve-round3-final-probe-20261002",
+    "carve-round3-final-probe-20261002",
     "--output",
-    "/media/mark/data/work/carve-quality-measurements-2026-10-02/deep-review/js-citation-final-session.json"
+    "js-citation-final-session.json"
   ],
   "runtimes": {
     "js": "v22.22.2",
@@ -9630,12 +9630,12 @@
     }
   },
   "node_modules_paths": {
-    "main": "/tmp/carve-js-deep-20261002/node_modules",
-    "candidate": "/tmp/carve-js-deep-20261002/node_modules"
+    "main": "node_modules",
+    "candidate": "node_modules"
   },
   "cargo_config_hashes": {
-    "/home/mark/.cargo/config.toml": "755e8cd5addca205990f8fd424816367cee984df23adc2dcf9b31f4cdd00cfb8",
-    "/tmp/carve-bench-js-short-20261002/.cargo/config.toml": null
+    "layer-0/config.toml": "755e8cd5addca205990f8fd424816367cee984df23adc2dcf9b31f4cdd00cfb8",
+    "layer-1/config.toml": null
   },
   "rust_build_environment": {
     "RUSTFLAGS": null,
@@ -11067,5 +11067,6 @@
         ]
       }
     }
-  ]
+  ],
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
 }

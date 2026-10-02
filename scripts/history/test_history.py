@@ -1,4 +1,5 @@
 import hashlib
+import os
 import copy
 import importlib.util
 import json
@@ -118,5 +119,21 @@ class HistoryTests(unittest.TestCase):
     def test_equivalent_verse_fixture_does_not_define_a_reference(self):
         text=run.fixture('verse_equivalent',128)
         self.assertEqual(text.count('[r]: /hidden extra'),128);self.assertIn('[t][missing]',text)
+
+    def test_recorded_paths_name_the_layer_not_the_machine(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home=Path(directory)/'cargo-home';home.mkdir();(home/'config.toml').write_text('[build]\n',encoding='utf-8')
+            tree=Path(directory)/'cache'/'rs'/'abc';tree.mkdir(parents=True)
+            (tree/'.cargo').mkdir();(tree/'.cargo'/'config.toml').write_text('[net]\n',encoding='utf-8')
+            previous=os.environ.get('CARGO_HOME');os.environ['CARGO_HOME']=str(home)
+            try:layers=run.cargo_layers(tree)
+            finally:
+                if previous is None:del os.environ['CARGO_HOME']
+                else:os.environ['CARGO_HOME']=previous
+        self.assertEqual(sorted(layers),['cargo-home/config.toml','tree/.cargo/config.toml'])
+        self.assertFalse([label for label in layers if label.startswith('/')])
+    def test_invocation_keeps_tree_paths_relative_and_drops_the_rest(self):
+        self.assertEqual(run.invocation(['scripts/history/run.py','--sizes','128','/tmp/bench/corpus/small.crv','/home/you/node'],Path('/tmp/bench')),
+            ['scripts/history/run.py','--sizes','128','corpus/small.crv','node'])
 
 if __name__=='__main__':unittest.main()
