@@ -25,7 +25,7 @@ python3 scripts/deep-review/render.py /tmp/focused-session.json /tmp/focused-rep
 
 Use `--engines rs --control-samples 401` for longer Rust controls, or `--engines php --kinds table-sections adjacent-definitions` for importer building. All six prepared source paths remain required. `--control-samples` applies to Rust plain text, nested citations and unpositioned groups.
 
-The committed October 2 report also includes separate PHP citation, Rust short-scan and PHP importer sessions, plus longer Rust diagnostics. The diagnostics reuse the original worker binaries; their producer was saved after the run. They do not replace the primary session.
+The local October 2 evidence includes separate PHP citation, Rust short-scan and PHP importer sessions, plus longer Rust diagnostics. These sessions remain local.
 
 `cache-memory.php ROOT COUNT` measures live PHP memory retained after unique attribute payloads longer than 4 KB. It warms a short marker first, releases the final result, collects cycles, and checks every parsed ID. Fresh processes keep static cache state independent. This measures retained memory, not peak allocation or throughput.
 
@@ -33,6 +33,6 @@ Filter cases with `--kinds` and sizes with `--sizes`. Empty case selections fail
 
 Use `cache-retention.py --help` for the paired retention runner. It records source revisions, runtime and dependency metadata, loaded PHP class origins and worker hashes. The PHP timing workers reject autoloaders that load engine classes outside the selected source tree. Earlier saved sessions predate that check; their class origins were checked afterward where the source trees remained available.
 
-Final follow-ups retain the intermediate drafts and their controls. JavaScript's bounded short citation scan fixes the intermediate nested-citation cost; flat citation groups retain a small absolute indexing cost at every measured size. The final importer session compares session batching against the first importer draft.
+Local follow-ups retain the intermediate drafts and their controls. JavaScript's bounded short citation scan fixes the intermediate nested-citation cost; flat citation groups retain a small absolute indexing cost at every measured size. The final importer session compares session batching against the first importer draft.
 
-Keep original measurement files outside the repository. To publish a copy, run `python3 scripts/public_report.py reports/your-session.json` before committing it. The export retains samples, output hashes and source/build hashes while replacing absolute paths with portable labels. An embedded producer with rewritten path literals records its published hash separately from the original producer hash. The host-path guard checks committed reports.
+Keep intermediate branch measurements outside the repository. Published docs and graphs use released tags and merged main, as specified in `AGENTS.md`. Publishing intermediate results requires an explicit user request. For an authorized publication, run `python3 scripts/public_report.py reports/your-session.json` before committing it. The export retains samples, output hashes and source/build hashes while replacing absolute paths with portable labels. An embedded producer with rewritten path literals records its published hash separately from the original producer hash. The host-path guard checks committed reports.

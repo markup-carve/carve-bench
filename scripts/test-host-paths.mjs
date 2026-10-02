@@ -71,3 +71,17 @@ test('the report helpers reduce the paths that reached the committed reports', (
     assert.deepEqual(hostPaths(value), [], value)
   }
 })
+
+test('published engine history contains releases and merged main only', () => {
+  const history = JSON.parse(readFileSync(new URL('../reports/engine-history.json', import.meta.url), 'utf8'))
+  for (const [engine, data] of Object.entries(history.engines)) {
+    const labels = new Set()
+    for (const revision of data.revisions) {
+      assert.notEqual(revision.kind, 'candidate', `${engine}: intermediate branch`)
+      assert.match(revision.label, /^(?:v?\d+\.\d+\.\d+|dev-main)$/, `${engine}: unpublished revision`)
+      labels.add(revision.label)
+    }
+    assert.equal((data.candidate_aliases ?? []).length, 0, `${engine}: candidate alias`)
+    for (const row of data.rows) assert.ok(labels.has(row.revision), `${engine}: row without published revision`)
+  }
+})

@@ -8,7 +8,7 @@ This table uses the completed release-history session. Lower milliseconds are fa
 | php | `1cfc7e42d65acbe498c904b93b8f30c301c197ac` | 0.1.9, 0.1.10 |
 | rs | `2668992f289c9029ae1d42350c1cca5883f773e8` | 0.1.6, 0.1.7 |
 
-[CSV](latest-main-comparison.csv) · [Focused review fixes](deep-review.md)
+[CSV](latest-main-comparison.csv)
 
 | Engine | Case | n | Tag | Tag ms | Main ms | Change |
 |---|---|---:|---|---:|---:|---:|
