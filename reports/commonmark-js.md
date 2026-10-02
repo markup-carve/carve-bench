@@ -1,6 +1,6 @@
 # JavaScript core comparison including commonmark.js
 
-Measured 2026-10-02T14:45:54.349Z, Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark main at setup: `3ba4195fe2373932c5f0c2497d3bfc60b0914136`.
+Measured 2026-10-02T15:11:57.370Z, Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark main at setup: `811e73f4612eacacfb5b5449104130d28b1091c8`.
 
 Carve JS merged main 0.1.10 at `e3b19ed3189da28ed467981a4fe04dc1760de822`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
@@ -14,10 +14,10 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Median ms/op | MB/s |
 |---|---:|---:|
-| carve-js | 3.0570 | 15.51 |
-| djot.js | 6.1635 | 7.70 |
-| markdown-it | 5.8561 | 8.20 |
-| commonmark.js | 2.6501 | 18.11 |
+| carve-js | 3.2053 | 14.80 |
+| djot.js | 6.5232 | 7.27 |
+| markdown-it | 5.9148 | 8.12 |
+| commonmark.js | 2.7153 | 17.68 |
 
 ![Final JavaScript throughput](../charts/commonmark-js.svg)
 
@@ -25,21 +25,21 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Bytes | Round 1 fastest MB/s | Round 2 fastest MB/s |
 |---|---:|---:|---:|
-| carve-js | 49732 | 16.20 | 15.84 |
-| djot.js | 49732 | 7.80 | 8.01 |
-| markdown-it | 50332 | 8.42 | 8.38 |
-| commonmark.js | 50332 | 18.49 | 18.45 |
+| carve-js | 49732 | 15.33 | 15.02 |
+| djot.js | 49732 | 7.85 | 7.15 |
+| markdown-it | 50332 | 8.24 | 8.23 |
+| commonmark.js | 50332 | 18.10 | 18.06 |
 
 ## CommonMark constructor control
 
 | API lifetime | Round 1 fastest ms/op | Round 2 fastest ms/op |
 |---|---:|---:|
-| Reuse parser and renderer | 2.5966 | 2.6017 |
-| Construct both per call | 2.4932 | 2.4318 |
+| Reuse parser and renderer | 2.6527 | 2.6580 |
+| Construct both per call | 2.5068 | 2.4754 |
 
 The lifetime control investigates the parser-construction concern in [djot.js #13](https://github.com/jgm/djot.js/issues/13). markdown-it also reuses its instance; Carve and Djot use their public conversion functions. These are default API costs, not equal object lifetimes. Round variation makes the constructor-cost comparison inconclusive.
 
-One-minute host load was 5.18 at start and 5.06 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
+One-minute host load was 4.52 at start and 6.63 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
 
 ## Reproduce
 

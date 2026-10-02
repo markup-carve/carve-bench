@@ -16,9 +16,9 @@ js retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, ses
 
 php retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
-php dev-main refresh: 2026-10-02T14:07:06.099883+00:00 to 2026-10-02T14:08:28.843824+00:00. [Point provenance](php-latest-main-history-point.json).
-
 rs retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
+
+php dev-main refresh: 2026-10-02T14:07:06.099883+00:00 to 2026-10-02T14:08:28.843824+00:00. [Point provenance](php-latest-main-history-point.json).
 
 ## Shared-host spread
 

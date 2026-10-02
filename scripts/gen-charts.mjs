@@ -91,6 +91,20 @@ const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => 
 // Rows from every language share one scale here, so each label carries its
 // language.
 const comparisonDate = mainRecord?.metadata.generated_at.slice(0, 10) ?? readFileSync(resolve(root, 'COMPARISON.md'), 'utf8').match(/measured\s+(\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'
+if (mainRecord) {
+  const rows = finalCommonmarkResults(mainRecord)
+  const byLanguage = language => rows.filter(row => mainRecord.final.find(item => item.engine === row.engine).language === language)
+  const headline = ['| Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |', '|---|---|---:|---|---:|---:|', ...['Rust', 'JavaScript', 'PHP'].map(language => {
+    const group = byLanguage(language), carve = group.find(row => row.engine.startsWith('carve-'))
+    const peer = group.filter(row => !row.engine.startsWith('carve-')).sort((a, b) => b.mb_per_s - a.mb_per_s)[0]
+    return `| ${language} | ${carve.engine} | ${carve.mb_per_s.toFixed(2)} | ${peer.engine} | ${peer.mb_per_s.toFixed(2)} | ${(carve.mb_per_s / peer.mb_per_s).toFixed(2)}x |`
+  })].join('\n')
+  const carveRows = rows.filter(row => row.engine.startsWith('carve-'))
+  const fastest = Math.min(...carveRows.map(row => row.ms_per_op))
+  const internal = ['| Engine | Language | ms/op | MB/s | rel |', '|---|---|---:|---:|---:|', ...carveRows.map(row => `| ${row.engine} | ${mainRecord.final.find(item => item.engine === row.engine).language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} | ${(row.ms_per_op / fastest).toFixed(2)}x |`)].join('\n')
+  const path = resolve(root, 'README.md')
+  writeFileSync(path, readFileSync(path, 'utf8').replace(/\| Language \| Carve \| MB\/s \| Fastest peer \| MB\/s \| Carve vs peer \|\n(?:\|[^\n]*\n)+/, headline + '\n').replace(/\| Engine \| Language \| ms\/op \| MB\/s \| rel \|\n(?:\|[^\n]*\n)+/, internal + '\n'))
+}
 const allEngines = comparisonGroups.flatMap((group) =>
   group.rows.map((row) => ({ ...row, name: `${row.name} (${group.name})` })),
 )

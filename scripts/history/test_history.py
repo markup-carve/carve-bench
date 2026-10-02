@@ -88,10 +88,14 @@ class HistoryTests(unittest.TestCase):
         session={'measurement_signature':signature,'harness_sha256':{'worker.mjs':hashlib.sha256((HERE/'worker.mjs').read_bytes()).hexdigest()}}
         row={'revision':'dev-main','case':'paragraphs','n':128,'fixture_sha256':hashlib.sha256(run.fixture('paragraphs',128).encode()).hexdigest(),'samples':[{'samples_ms':[1.0],'hash':'same'}],'output_sha256':'same','median_ms':1.0,'min_ms':1.0,'max_ms':1.0}
         data={'rounds':1,'samples_per_round':1,'measurement_signature':signature,'engines':{'js':{'revisions':[{'label':'dev-main'}],'measurement_session':session,'rows':[row]}}}
+        data['engines']['js']['point_sessions']={'dev-main':copy.deepcopy(session)}
         report.validate_measurements(data)
-        for field in ('worker','fixture','session','missing','summary','sample_count','output','duplicate','unknown_revision'):
+        for field in ('worker','fixture','session','missing','summary','sample_count','output','duplicate','unknown_revision','point_worker','point_signature','point_label'):
             changed=copy.deepcopy(data)
-            if field=='worker':changed['engines']['js']['measurement_session']['harness_sha256']['worker.mjs']='wrong'
+            if field=='point_worker':changed['engines']['js']['point_sessions']['dev-main']['harness_sha256']['worker.mjs']='wrong'
+            elif field=='point_signature':changed['engines']['js']['point_sessions']['dev-main']['measurement_signature']='wrong'
+            elif field=='point_label':changed['engines']['js']['point_sessions']['unknown']=changed['engines']['js']['point_sessions'].pop('dev-main')
+            elif field=='worker':changed['engines']['js']['measurement_session']['harness_sha256']['worker.mjs']='wrong'
             elif field=='fixture':changed['engines']['js']['rows'][0]['fixture_sha256']='wrong'
             elif field=='session':changed['engines']['js']['measurement_session']['measurement_signature']='wrong'
             elif field=='summary':changed['engines']['js']['rows'][0]['median_ms']=2.0
