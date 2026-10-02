@@ -51,6 +51,17 @@ class HistoryTests(unittest.TestCase):
             self.assertIn('False',path.with_suffix('.csv').read_text())
             viewer=path.with_suffix('.html').read_text();self.assertNotIn('HISTORY_DATA',viewer);self.assertIn('"schema": 1',viewer)
             self.assertIn('| Main ms | vs main |',markdown)
+            noisy=copy.deepcopy(data)
+            row=noisy['engines']['js']['rows'][2]
+            row['min_ms']=1.5;row['max_ms']=5.0;row['median_ms']=4.2
+            for sample in row['samples']:sample['samples_ms']=[1.5,4.2,4.2,4.2,4.2,4.2,5.0]
+            path.write_text(json.dumps(noisy));report.build(path)
+            noisy_report=path.with_suffix('.md').read_text()
+            self.assertIn('Uncertain +100% readings',noisy_report)
+            self.assertIn('Sample ranges overlap',noisy_report)
+            self.assertIn('Tag range ms | Point range ms',noisy_report)
+            self.assertIn('opacity=".3"',path.with_name('engine-history-js.svg').read_text())
+
             aliased=copy.deepcopy(data);snapshot=aliased['engines']['js']
             snapshot['revisions']=snapshot['revisions'][:2];snapshot['rows']=snapshot['rows'][:2]
             snapshot['main_alias']={'sha':'alias','same_source_as':'0.1.1'}

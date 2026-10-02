@@ -368,3 +368,5 @@ and may produce different output across revisions.
 The history signature covers the fixture and measurement functions. Worker hashes and source/build records identify the remaining execution context. Report generation also verifies sample counts, output hashes and summaries against the raw timings.
 
 The [focused engine review](reports/deep-review.md) measures the October 2 citation fixes, JavaScript blank-table import batching and PHP AST/import changes against pinned main. It retains intermediate drafts, ordinary-input controls, complete output hashes, raw sessions and [graphs](charts/deep-review.svg). The final citation, composite-table and sibling-path sessions identify their own main and candidate commits. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases. These timing boundaries stay separate from release history.
+
+The [older-tag cost checks](reports/history-watchpoint-controls.md) repeat PHP and Rust watchpoints with longer paired sampling. Release-history graphs show sample ranges; overlapping +100% readings are marked uncertain.
