@@ -91,7 +91,9 @@ def build(path):
         report += ['## Measurement sessions', '', data['session_note'], '']
         for engine, snapshot in data['engines'].items():
             session = snapshot.get('measurement_session', {})
-            report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
+            report += [f"{engine} retained measurements: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
+            for label, point in snapshot.get('point_sessions', {}).items():
+                report += [f"{engine} {label} refresh: {point.get('started_at', point.get('generated_at', 'not recorded'))} to {point.get('finished_at', 'not recorded')}. [Point provenance]({point.get('file', 'engine-history.json')}).", '']
     if not data.get('session_note'):
         report += [f"Timing driver: `{data.get('benchmark_commit','unknown')}`; CPU affinity: {data.get('cpu_affinity')}; dirty benchmark tree: {data.get('benchmark_dirty')}. Report generation may use later metadata-only corrections.", '']
     report += ['## Shared-host spread', '', f"Initial load average: {data.get('initial_load', 'not recorded')}. Final load average: {data.get('final_load', 'not recorded')}. Whiskers show sample ranges; medians from noisy sessions are descriptive readings, not confirmed speed changes.", '']

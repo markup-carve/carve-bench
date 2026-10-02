@@ -373,4 +373,6 @@ The history signature covers the fixture and measurement functions. Worker hashe
 
 The [latest main comparison](reports/latest-main-comparison.md) lists current merged main against the two most recent tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
 
+The [merged main versus PHP and Rust peers](reports/merged-core-peers.md) report includes warmed medians, raw samples, source hashes and matching Carve output hashes.
+
 Release-history graphs show sample ranges; overlapping +100% readings are marked uncertain.
