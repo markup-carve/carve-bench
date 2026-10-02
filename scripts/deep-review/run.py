@@ -81,6 +81,21 @@ def cases():
             yield "php", kind, n, "build", source
     yield "php", "plain", 1024, "parse+encode", "A paragraph with *emphasis*.\n\n" * 1024
 
+    for engine in ('js', 'rs'):
+        for kind, opening, closing in (
+            ('rejected-wrappers', '[', ']'),
+            ('rejected-suffixes', '[', ']x'),
+            ('rejected-whitespace', '[', ' ]'),
+            ('rejected-commas', '[,', ']'),
+            ('rejected-items', '[@a;', ']'),
+            ('rejected-middle-items', '[@a; bad; @b,', ']'),
+        ):
+            sizes = (128, 512, 1024) if kind in ('rejected-items', 'rejected-middle-items') else (4096, 16384, 65536)
+            for n in sizes:
+                yield engine, kind, n, 'false', opening * n + '@a' + closing * n
+    for n in (128, 1024, 4096):
+        yield 'php', 'sibling-partitioned-tables', n, 'build', '<table><tbody><tr><td>x</td></tr></tbody><tfoot><tr><td>y</td></tr></tfoot></table>' * n
+
 
 def summarize(rows):
     groups = {}
