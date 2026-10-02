@@ -7,6 +7,12 @@ import { finalCommonmarkResults } from './commonmark-results.mjs'
 test('throughput graph uses pinned Carve main in both workloads', () => {
   const record = JSON.parse(readFileSync('reports/dev-main-core.json'))
   assert.equal(record.metadata.workload_points, 18)
+  assert.ok(!record.metadata.php_dependencies['markup-carve/carve-php'])
+  assert.match(record.metadata.benchmark_base_commit, /^[a-f0-9]{40}$/)
+  const phpLock = JSON.parse(readFileSync('engines/php/composer.lock'))
+  const djot = phpLock.packages.find(info => info.name === 'php-collective/djot')
+  assert.deepEqual(record.metadata.php_dependencies[djot.name], { version: djot.version, reference: djot.source.reference })
+  assert.ok(readFileSync('reports/dev-main-core.md', 'utf8').includes(djot.source.reference))
   assert.equal(record.controls.length, 10)
   assert.equal(new Set(record.controls.map(row => row.projection_sha256)).size, 1)
   for (const [engine, value] of Object.entries(record.metadata.carve_main)) {
