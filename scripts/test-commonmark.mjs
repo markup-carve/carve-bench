@@ -1,0 +1,107 @@
+import assert from 'node:assert/strict'
+import { test } from 'node:test'
+import { execFileSync } from 'node:child_process'
+import { mkdtempSync, writeFileSync, rmSync, readFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { resolve } from 'node:path'
+import { coreSources, coreProjection } from '../engines/js/commonmark-core.mjs'
+
+test('shared native syntax produces equivalent HTML through all public APIs', () => {
+  const directory = mkdtempSync(resolve(tmpdir(), 'commonmark-control-'))
+  try {
+    for (const [flavor, name] of [['carve', 'carve.crv'], ['djot', 'djot.dj'], ['markdown', 'markdown.md']]) assert.equal(readFileSync(`corpus/commonmark-core/${name}`, 'utf8'), coreSources()[flavor])
+    const sources = coreSources(2)
+    const environment = { ...process.env, CARVE_COMPARE_OBSERVE: '1' }
+    delete environment.CARVE_JS
+    const render = (engine, source) => {
+      const file = resolve(directory, 'input')
+      writeFileSync(file, source)
+      return JSON.parse(execFileSync(process.execPath, ['engines/js/compare.mjs', engine, file, '1', '1'], {
+        encoding: 'utf8', env: environment,
+      })).html
+    }
+    const baseline = render('commonmark.js', sources.markdown)
+    for (const [engine, flavor] of [['carve-js', 'carve'], ['djot.js', 'djot'], ['markdown-it', 'markdown'], ['commonmark.js-fresh', 'markdown']]) {
+      assert.deepEqual(coreProjection(render(engine, sources[flavor])), coreProjection(baseline), engine)
+    }
+    const table = '| a | b |\n| --- | --- |\n| c | d |\n'
+    assert.doesNotMatch(render('commonmark.js', table), /<table>/)
+    assert.match(render('markdown-it', table), /<table>/)
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+})
+
+test('projection retains meaningful inline semantics and exact code bytes', () => {
+  for (const [left, right] of [
+    ['<li><strong>a</strong> <em>b</em></li>', '<li><strong>a</strong><em>b</em></li>'],
+    ['<p>has <strong>x</strong></p>', '<p>has<strong>x</strong></p>'],
+    ['<p><em>x</em></p>', '<p><strong>x</strong></p>'],
+    ['<a href="/a">x</a>', '<a href="/b">x</a>'],
+    ['<pre><code>a  b\n</code></pre>', '<pre><code>a b\n</code></pre>'],
+    ['<code class="language-js">x</code>', '<code class="language-rs">x</code>'],
+  ]) assert.notDeepEqual(coreProjection(left), coreProjection(right))
+})
+
+
+test('published shared-workload samples retain measured source and harness provenance', async () => {
+  const { createHash } = await import('node:crypto')
+  const sha = value => createHash('sha256').update(value).digest('hex')
+  const record = JSON.parse(readFileSync('reports/commonmark-js.json', 'utf8'))
+  const { sections } = await import('./site/build.mjs')
+  const tables = sections(readFileSync('reports/commonmark-js.md', 'utf8'))
+  const shared = tables.find(group => group.title === 'Reused public conversion APIs').tables[0]
+  for (const row of shared.rows) {
+    const measured = record.rounds.map(round => round.rows.find(item => item.engine === row[0]))
+    assert.deepEqual(row.slice(1), [String(measured[0].bytes), ...measured.map(item => item.mb_per_s.toFixed(2))])
+  }
+  const constructor = tables.find(group => group.title === 'CommonMark constructor control').tables[0]
+  for (const [index, engine] of ['commonmark.js', 'commonmark.js-fresh'].entries()) {
+    assert.deepEqual(constructor.rows[index].slice(1), record.rounds.map(round => round.rows.find(item => item.engine === engine).ms_per_op.toFixed(4)))
+  }
+  assert.equal(record.schema, 1)
+  assert.equal(record.metadata.workload_points, 14)
+  if (record.metadata.carve_main) {
+    assert.equal(record.metadata.carve_main.kind, 'merged-main')
+    assert.match(record.metadata.carve_main.commit, /^[a-f0-9]{40}$/)
+    assert.equal(record.metadata.carve_main.fast_path, true)
+    assert.ok(Object.keys(record.metadata.carve_main.dist_sha256).includes('fast-html.js'))
+    for (const round of record.rounds) assert.equal(round.rows.find(row => row.engine === 'carve-js').carve_source, `@markup-carve/carve ${record.metadata.carve_main.version} (merged main ${record.metadata.carve_main.commit})`)
+  }
+  for (const [file, hash] of Object.entries(record.metadata.harness_sha256)) assert.equal(sha(readFileSync(file)), hash, file)
+  assert.equal(sha(readFileSync('engines/js/package-lock.json')), record.metadata.lock_sha256)
+  assert.deepEqual(record.rounds[1].order, [...record.rounds[0].order].reverse())
+  const expected = ['carve-js', 'commonmark.js', 'commonmark.js-fresh', 'djot.js', 'markdown-it']
+  assert.deepEqual(record.controls.map(row => row.engine).sort(), expected)
+  assert.equal(new Set(record.controls.map(row => row.projection_sha256)).size, 1)
+  for (const round of record.rounds) {
+    assert.deepEqual(round.rows.map(row => row.engine).sort(), expected)
+    for (const row of round.rows) {
+      assert.equal(row.samples.length, row.trials)
+      assert.ok(row.samples.every(sample => sample > 0))
+      assert.equal(row.ms_per_op, Math.min(...row.samples))
+      const control = record.controls.find(item => item.engine === row.engine)
+      assert.equal(row.source_sha256, control.source_sha256)
+      assert.equal(row.output_sha256, control.output_sha256)
+    }
+  }
+})
+
+test('final chart summary uses the median of all trial timings, excluding constructor controls', async () => {
+  const { finalCommonmarkResults, withFinalCommonmarkSummary } = await import('./commonmark-results.mjs')
+  const published = JSON.parse(readFileSync('reports/commonmark-js.json'))
+  const report = readFileSync('reports/commonmark-js.md', 'utf8')
+  assert.equal(withFinalCommonmarkSummary(report, published), report)
+  const raw = report.replace(/## Final chart values\n[\s\S]*?(?=## )/, '')
+  assert.equal(withFinalCommonmarkSummary(raw, published), report)
+  const runnerOutput = raw.replaceAll('Round 1 fastest', 'Round 1').replaceAll('Round 2 fastest', 'Round 2')
+    .replace('the comparison with pipe tables', 'the table-capable comparison')
+    .replace('## CommonMark constructor control', '![Shared JavaScript core throughput](../charts/commonmark-js.svg)\n\n## CommonMark constructor control')
+  assert.equal(withFinalCommonmarkSummary(runnerOutput, published), report)
+  const row = samples => ({ engine: 'commonmark.js', bytes: 1048576, source_sha256: 'source', output_sha256: 'output', samples, trials: samples.length })
+  const record = { rounds: [{ rows: [row([1, 5]), { ...row([0.5, 0.5]), engine: 'commonmark.js-fresh' }] }, { rows: [row([2, 8])] }] }
+  const result = finalCommonmarkResults(record)
+  assert.equal(result.length, 1)
+  assert.equal(result[0].ms_per_op, 3.5)
+  assert.equal(result[0].mb_per_s, 1000 / 3.5)
+  record.rounds[1].rows[0].source_sha256 = 'different input'
+  assert.throws(() => finalCommonmarkResults(record))
+})

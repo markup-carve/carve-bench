@@ -12,45 +12,69 @@ Engines covered: [carve-js](https://github.com/markup-carve/carve-js) (TypeScrip
 carve-py / carve-rb bindings wrap the carve-rs engine, so their core render speed
 tracks carve-rs plus a thin FFI/IPC layer.
 
+## JavaScript comparison including commonmark.js
+
+The [shared JavaScript core report](reports/commonmark-js.md) compares Carve,
+Djot, markdown-it and commonmark.js 0.31.2 on equivalent content without pipe tables.
+Its runner checks projected HTML before timing and records two reversed-order rounds,
+plus a CommonMark parser/renderer constructor control. This 14-point workload
+is separate from the 18-point comparison with pipe tables below.
+The all-engines chart shows final values in a separate panel without pipe tables; the
+interactive site view also includes commonmark.js under All languages and JavaScript.
+Final values use median timing across all samples from both rounds. The raw
+report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
+
+The current comparison measures Carve JS merged main `e3b19ed`, including the
+nested-list fast-path fix, against released peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
+remains available. To reproduce merged main, use the pinned checkout command
+in the report; the runner verifies its ancestry, clean source and fast-path use.
+
+Run `npm ci` in `engines/js`, then `node scripts/compare-commonmark.mjs`
+from the repository root. Generate its chart with `node scripts/gen-charts.mjs`.
+
 ## Results
 
 The [benchmark site](https://markup-carve.github.io/carve-bench/) presents the
 same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
-Measured 2026-09-30 Europe/Berlin, every lane on its pinned published release.
-The development-main snapshot measured earlier the same day, taken after the PHP
+The throughput charts use pinned Carve development main for JS, PHP and Rust,
+measured 2026-10-02. See [the source commits and samples](reports/dev-main-core.md).
+The current tables below use median timing across fourteen samples.
+Historical release results remain in [COMPARISON.md](COMPARISON.md).
+The September 30 development-main snapshot, taken after the PHP
 parser and renderer changes and naming its exact commits and input hashes, is in
 [the refresh report](reports/performance-refresh.md).
 
-The headline question is the core route: the default conversion API with **no
+The table below records the core route: the default conversion API with **no
 opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 99.90 | pulldown-cmark | 119.17 | 0.84x |
-| JavaScript | carve-js | 11.55 | markdown-it | 6.29 | 1.83x |
-| PHP | carve-php | 11.18 | djot-php | 15.27 | 0.73x |
+| Rust | carve-rs | 95.17 | pulldown-cmark | 121.65 | 0.78x |
+| JavaScript | carve-js | 12.63 | markdown-it | 6.17 | 2.05x |
+| PHP | carve-php | 14.12 | djot-php | 3.64 | 3.88x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
-The same core route, Carve engine against Carve engine on the identical
-document:
+![Carve core throughput with pipe tables](./charts/carve-core-throughput.svg)
+
+Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.0694 | 11.55 | 8.65x |
-| carve-php | PHP | 4.2042 | 11.18 | 8.94x |
-| carve-rs | Rust | 0.4703 | 99.90 | 1.00x |
+| carve-js | JavaScript | 4.7286 | 12.63 | 7.53x |
+| carve-php | PHP | 4.2316 | 14.12 | 6.74x |
+| carve-rs | Rust | 0.6276 | 95.17 | 1.00x |
 
-Every peer row, the capability breadth behind each row, and the method are in
-[COMPARISON.md](./COMPARISON.md).
+Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
+Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
 
 The published numbers are deliberately split into two tracks:
 
 | Track | Question | Route | Peers |
 |---|---|---|---|
-| A: [core source-to-HTML](./COMPARISON.md) | How fast is the normal core conversion API? | Default configuration, borrowed facade where accepted | Same-language Djot/CommonMark libraries |
+| A: [core source-to-HTML](reports/dev-main-core.md) | How fast is the normal core conversion API? | Default configuration, borrowed facade where accepted | Same-language Djot/CommonMark libraries |
 | B: [full corpus and configured tiers](./RESULTS.md) | How does the whole language scale, and what do opt-in extensions cost? | Mixed 2,134-document corpus plus PHP Tier 1/2/3 | Carve implementations and internal tiers |
 
 Track A and Track B are not interchangeable. A Track-A library may avoid an
@@ -62,7 +86,7 @@ rather than equal work.
 Every table in both documents is regenerated by `compare.mjs` / `run.mjs`; no
 row is transcribed by hand, including the PHP tier table.
 
-The current tables measure the published release each manifest pins, so they
+The historical tables measure the published release each manifest pins, so they
 reproduce from the registries with no override. `COMPARISON.md` and `RESULTS.md`
 record what each harness reported back, which is what a release row and a
 checkout row are told apart by. Measuring an unreleased engine stays a run-time

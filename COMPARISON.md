@@ -39,6 +39,8 @@ by default. See `FEATURES.md` for the auditable matrix and limitations.
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
+![Carve core throughput with pipe tables](./charts/carve-core-throughput.svg)
+
 ![Bar chart of enabled core capability points](./charts/capabilities.svg)
 
 ## Headline: core route vs the fastest same-language peer
@@ -93,3 +95,11 @@ same three engines is in [`RESULTS.md`](./RESULTS.md).
 Language groups should be run in isolation. Sustained host load can reduce
 absolute throughput substantially even when within-language ordering stays
 similar; contaminated groups should be rerun rather than published.
+
+## Table-free JavaScript comparison
+
+[Commonmark.js 0.31.2 joins a separate four-library comparison](reports/commonmark-js.md).
+Its workload excludes pipe tables and exercises 14 of this report's 18 points.
+The runner checks projected HTML, preserves both timing rounds and includes a
+parser/renderer constructor control. Its throughput values use different inputs
+and must stay separate from the historical tables above.

@@ -5,6 +5,8 @@ import { mkdirSync, readFileSync, writeFileSync, cpSync, rmSync, existsSync } fr
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { finalCommonmarkResults } from '../commonmark-results.mjs'
+
 export function sections(markdown) {
   const groups = []
   let current = { title: 'Overview', tables: [] }
@@ -74,6 +76,33 @@ export function build(root, destination) {
   const read = file => readFileSync(resolve(root, file), 'utf8')
   const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
   const data = collect(read('COMPARISON.md'), read('RESULTS.md'), revision)
+  const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(read('reports/dev-main-core.json')) : null
+  if (mainRecord) {
+    const rows = finalCommonmarkResults(mainRecord)
+    data.peers = rows.map(row => ({ language: mainRecord.final.find(item => item.engine === row.engine).language, engine: row.engine, throughput: row.mb_per_s }))
+    data.coreTitle = `With pipe tables · 18 points (${mainRecord.metadata.generated_at.slice(0, 10)}, Carve dev-main)`
+    data.coreStatistic = 'Median timing across fourteen samples'
+    data.coreSources = mainRecord.metadata.carve_main
+    data.core = ['JavaScript', 'PHP', 'Rust'].map(title => ({ title, tables: [{ headers: ['Engine', 'MB/s'], rows: data.peers.filter(row => row.language === title).map(row => [row.engine, row.throughput.toFixed(2)]) }] }))
+    data.headline = { headers: ['Language', 'Carve', 'MB/s', 'Fastest peer', 'Peer MB/s'], rows: ['JavaScript', 'PHP', 'Rust'].map(language => {
+      const peers = data.peers.filter(row => row.language === language)
+      const carve = peers.find(row => row.engine.startsWith('carve-'))
+      const best = peers.filter(row => !row.engine.startsWith('carve-')).sort((a, b) => b.throughput - a.throughput)[0]
+      return [language, carve.engine, carve.throughput.toFixed(2), best.engine, best.throughput.toFixed(2)]
+    }) }
+    data.host = `${mainRecord.metadata.generated_at}; ${mainRecord.metadata.cpu}; Node ${mainRecord.metadata.node}`
+    data.peerVersions += ' Current core Carve source commits: ' + Object.entries(mainRecord.metadata.carve_main).map(([engine, value]) => engine + ' ' + value.commit).join('; ')
+  }
+  const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json')) ? JSON.parse(read('reports/commonmark-js.json')) : null
+  const finalRows = sharedRecord ? finalCommonmarkResults(sharedRecord) : []
+  data.commonmarkLanes = finalRows.length ? [{
+    title: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)}${sharedRecord.metadata.carve_main ? ', Carve main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) : ''})`,
+    statistic: 'Median timing across all samples from both measurement rounds',
+    peers: finalRows.map(row => ({ language: 'JavaScript', engine: row.engine, throughput: row.mb_per_s })),
+  }] : []
+  const finalTable = { headers: ['Engine', 'Median ms/op', 'MB/s'], rows: finalRows.map(row => [row.engine, row.ms_per_op.toFixed(4), row.mb_per_s.toFixed(2)]) }
+  const sharedSource = sharedRecord?.metadata.carve_main ? `Carve JS uses merged main ${sharedRecord.metadata.carve_main.commit.slice(0, 7)}, with fast-path use verified. Peers use the released packages named in the report.` : 'Engines use the released packages named in the report.'
+  const commonmarkSection = `<section id="commonmark"><h2>JavaScript without pipe tables</h2><p>Carve, Djot, markdown-it and commonmark.js on equivalent content. This 14-point workload excludes pipe tables and is separate from the comparison with pipe tables above. Final values use median timing across all samples from both measurement rounds. ${escape(sharedSource)}</p>${finalRows.length ? table(finalTable) : '<p>No qualified timing snapshot is published yet.</p>'}${finalRows.length && existsSync(resolve(root, 'charts/commonmark-js.svg')) ? chart('commonmark-js', 'Final JavaScript throughput without pipe tables') : ''}<p><a href="reports/commonmark-js.md">Method, individual rounds and measurement provenance</a>${sharedRecord ? ' · <a href="reports/commonmark-js.json" download>Raw samples and controls</a>' : ''}</p></section>`
   const source = `https://github.com/markup-carve/carve-bench/blob/${revision}`
   assert.notEqual(resolve(destination), resolve(root), 'Output must differ from source directory')
   rmSync(destination, { recursive: true, force: true })
@@ -85,7 +114,7 @@ export function build(root, destination) {
     writeFileSync(resolve(destination, 'reports', file), read(file).replaceAll('(reports/', '('))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) cpSync(resolve(root, file), resolve(destination, file))
   }
-  for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json']) {
+  for (const file of ['dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   const historyPath = resolve(root, 'reports/engine-history.json')
@@ -114,11 +143,12 @@ export function build(root, destination) {
 <body><a class="skip" href="#main">Skip to results</a><header><a class="brand" href="./">Carve / benchmarks</a><nav aria-label="Sections"><a href="#core">Core conversion</a><a href="#full">Full corpus</a><a href="#method">Method &amp; sources</a>${historySection ? '<a href="#history">History</a>' : ''}<a href="https://markup-carve.github.io/carve-proofs/">Proofs</a><a href="https://github.com/markup-carve/carve-bench">GitHub</a></nav></header>
 <main id="main"><section class="intro"><p class="eyebrow">Recorded performance evidence</p><h1>How fast does Carve render?</h1><p>Measured engine snapshots on shared hardware. Explore the default conversion route and the full language corpus separately.</p><p class="run">${escape(data.run)}</p></section>
 <section id="core"><p class="eyebrow">Track A</p><h2>Core source to HTML</h2><p>Default public conversion APIs, without opt-in extensions. Peers use equivalent logical content in their native syntax. Features and output differ; these rows measure rendering cost.</p>${table({...data.headline, headers: data.headline.headers.map((header, index) => header === 'MB/s' ? (index === 2 ? 'Carve MB/s' : 'Peer MB/s') : header)})}
-<div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>Download CSV</a><a href="evidence.json" download>Snapshot JSON</a></div>
-<p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput in MB/s for all measured engines')}${coreTables}<p><a href="${source}/COMPARISON.md">Full comparison report and capability scoring</a></p></section>
+<div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>CSV with pipe tables</a><a href="evidence.json" download>Snapshot JSON</a></div>
+<p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput with and without pipe tables, in separate panels')}${chart('carve-core-throughput', 'Carve core throughput with pipe tables')}${coreTables}<p><a href="${source}/COMPARISON.md">Historical release comparison and capability scoring</a> · <a href="reports/dev-main-core.md">Current dev-main measurement report</a></p></section>
+${commonmarkSection}
 <section id="full"><p class="eyebrow">Track B</p><h2>Full corpus and extension tiers</h2><p>The mixed corpus exercises the normal parser and public AST. Competitor parsers do not accept equivalent syntax, so this track compares Carve implementations and internal PHP tiers.</p><p class="provenance">${escape(data.corpus.replaceAll('`', ''))}</p>${smallInputNote}${chart('full-corpus', 'Throughput of the three Carve engines for each corpus size')}${fullTables}${chart('php-tiers', 'PHP throughput with core, Tier 2, and Tier 3 extension profiles')}<p><a href="${source}/RESULTS.md">Full corpus report</a></p></section>
 ${historySection}
-<section id="method"><p class="eyebrow">Read the measurements</p><h2>Method and source commits</h2><p>Higher MB/s is better. Core comparisons use the fastest of five warmed trials; full-corpus rows average many in-process iterations. The two tracks have different API costs and cannot be compared as equal work.</p><p>These are machine-specific snapshots. Shared host activity affects timings; controlled paired runs are needed to establish improvements or regressions.</p><h3>Core comparison host</h3><p>${escape(data.host)}</p><h3>Core peer versions</h3><p>${escape(data.peerVersions)}</p><h3>Engines measured</h3><p class="provenance">${escape(data.engines.replaceAll('`', ''))}</p><p>Site source: <a href="https://github.com/markup-carve/carve-bench/tree/${revision}"><code>${escape(revision)}</code></a>.</p><p><a href="${source}/README.md#running">Reproduce these runs</a> · <a href="${source}/FEATURES.md">Feature scoring</a> · <a href="${source}/docs/html-import-comparison.md">HTML import comparison</a></p><h3>Download reports</h3><p><a href="reports/COMPARISON.md" download>Core comparison</a> · <a href="reports/RESULTS.md" download>Full corpus</a> · <a href="reports/README.md" download>Reproduction guide</a> · <a href="reports/FEATURES.md" download>Feature scoring</a> · <a href="reports/FINDINGS.md" download>Historical findings</a> · <a href="evidence.json" download>All site data</a></p></section></main>
+<section id="method"><p class="eyebrow">Read the measurements</p><h2>Method and source commits</h2><p>Higher MB/s is better. Current core charts use median timing across fourteen warmed samples; full-corpus rows average many in-process iterations. The two tracks have different API costs and cannot be compared as equal work.</p><p>These are machine-specific snapshots. Shared host activity affects timings; controlled paired runs are needed to establish improvements or regressions.</p><h3>Core comparison host</h3><p>${escape(data.host)}</p><h3>Core peer versions</h3><p class="provenance">${escape(data.peerVersions)}</p><h3>Engines measured</h3><p class="provenance">${escape(data.engines.replaceAll('`', ''))}</p><p>Site source: <a href="https://github.com/markup-carve/carve-bench/tree/${revision}"><code>${escape(revision)}</code></a>.</p><p><a href="${source}/README.md#running">Reproduce these runs</a> · <a href="${source}/FEATURES.md">Feature scoring</a> · <a href="${source}/docs/html-import-comparison.md">HTML import comparison</a></p><h3>Download reports</h3><p><a href="reports/COMPARISON.md" download>Core comparison</a> · <a href="reports/RESULTS.md" download>Full corpus</a> · <a href="reports/README.md" download>Reproduction guide</a> · <a href="reports/FEATURES.md" download>Feature scoring</a> · <a href="reports/FINDINGS.md" download>Historical findings</a> · <a href="evidence.json" download>All site data</a></p></section></main>
 <footer>Built from committed reports. This site does not run benchmarks during deployment.</footer></body></html>`
   writeFileSync(resolve(destination, 'index.html'), html)
   writeFileSync(resolve(destination, '.nojekyll'), '')

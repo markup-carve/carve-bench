@@ -35,6 +35,8 @@ jobs:
           node --check engines/js/compare.mjs
           node --check scripts/gen-corpus.mjs
           node --check scripts/gen-comparison-corpus.mjs
+          node --check scripts/compare-commonmark.mjs
+          node --test scripts/test-commonmark.mjs scripts/test-dev-main.mjs
           node --check scripts/gen-charts.mjs
           node --check scripts/build-rs-engine.mjs
           node --check scripts/measured-sources.mjs
@@ -111,6 +113,7 @@ jobs:
       - name: Smoke-run JS and PHP comparison harnesses
         run: |
           node engines/js/compare.mjs markdown-it corpus/comparison/markdown.md 5 1
+          node engines/js/compare.mjs commonmark.js corpus/commonmark-core/markdown.md 5 1
           php engines/php/compare.php league/commonmark-gfm corpus/comparison/markdown.md 5 1
           CARVE_PHP_AUTOLOAD="$PWD/engines/php/vendor/autoload.php" php engines/php/tiers.php tier1 corpus/small.crv 1 1
 

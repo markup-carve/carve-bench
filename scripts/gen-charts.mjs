@@ -1,7 +1,9 @@
-// Generate accessible SVG charts from the checked-in Markdown result tables.
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+// Generate SVG charts and the final JavaScript summary from checked-in reports.
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import { finalCommonmarkResults, withFinalCommonmarkSummary } from './commonmark-results.mjs'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
 const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
@@ -33,7 +35,7 @@ const FAMILY_COLORS = [
   [/^carve-php\b/, CARVE_PURPLE[1]],
   [/^carve-js\b/, CARVE_PURPLE[2]],
   [/^(djot\.js|djot-php|jotdown)\b/, '#24a37a'],
-  [/^(markdown-it|comrak|pulldown-cmark|league\/commonmark)/, '#e58b25'],
+  [/^(commonmark\.js|markdown-it|comrak|pulldown-cmark|league\/commonmark)/, '#e58b25'],
 ]
 const barColor = (name, index) =>
   FAMILY_COLORS.find(([pattern]) => pattern.test(name))?.[1] ??
@@ -84,9 +86,25 @@ mkdirSync(resolve(root, 'charts'), { recursive: true })
 const LANGUAGES = new Set(['Rust', 'JavaScript', 'PHP'])
 const languageSections = (path, valueColumn) =>
   sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
-const comparisonGroups = languageSections(resolve(root, 'COMPARISON.md'), 3)
+const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'), 'utf8')) : null
+const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => ({ name, rows: finalCommonmarkResults(mainRecord).filter(row => mainRecord.final.find(item => item.engine === row.engine).language === name).map(row => ({ name: row.engine, value: row.mb_per_s })) })) : languageSections(resolve(root, 'COMPARISON.md'), 3)
 // Rows from every language share one scale here, so each label carries its
 // language.
+const comparisonDate = mainRecord?.metadata.generated_at.slice(0, 10) ?? readFileSync(resolve(root, 'COMPARISON.md'), 'utf8').match(/measured\s+(\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'
+if (mainRecord) {
+  const rows = finalCommonmarkResults(mainRecord)
+  const byLanguage = language => rows.filter(row => mainRecord.final.find(item => item.engine === row.engine).language === language)
+  const headline = ['| Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |', '|---|---|---:|---|---:|---:|', ...['Rust', 'JavaScript', 'PHP'].map(language => {
+    const group = byLanguage(language), carve = group.find(row => row.engine.startsWith('carve-'))
+    const peer = group.filter(row => !row.engine.startsWith('carve-')).sort((a, b) => b.mb_per_s - a.mb_per_s)[0]
+    return `| ${language} | ${carve.engine} | ${carve.mb_per_s.toFixed(2)} | ${peer.engine} | ${peer.mb_per_s.toFixed(2)} | ${(carve.mb_per_s / peer.mb_per_s).toFixed(2)}x |`
+  })].join('\n')
+  const carveRows = rows.filter(row => row.engine.startsWith('carve-'))
+  const fastest = Math.min(...carveRows.map(row => row.ms_per_op))
+  const internal = ['| Engine | Language | ms/op | MB/s | rel |', '|---|---|---:|---:|---:|', ...carveRows.map(row => `| ${row.engine} | ${mainRecord.final.find(item => item.engine === row.engine).language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} | ${(row.ms_per_op / fastest).toFixed(2)}x |`)].join('\n')
+  const path = resolve(root, 'README.md')
+  writeFileSync(path, readFileSync(path, 'utf8').replace(/\| Language \| Carve \| MB\/s \| Fastest peer \| MB\/s \| Carve vs peer \|\n(?:\|[^\n]*\n)+/, headline + '\n').replace(/\| Engine \| Language \| ms\/op \| MB\/s \| rel \|\n(?:\|[^\n]*\n)+/, internal + '\n'))
+}
 const allEngines = comparisonGroups.flatMap((group) =>
   group.rows.map((row) => ({ ...row, name: `${row.name} (${group.name})` })),
 )
@@ -95,16 +113,34 @@ writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
   comparisonGroups,
 ))
+const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json'))
+  ? JSON.parse(readFileSync(resolve(root, 'reports/commonmark-js.json'), 'utf8')) : null
+if (sharedRecord) {
+  const path = resolve(root, 'reports/commonmark-js.md')
+  writeFileSync(path, withFinalCommonmarkSummary(readFileSync(path, 'utf8'), sharedRecord))
+}
+const commonmarkGroups = sharedRecord ? [{
+  name: 'Final results',
+  rows: finalCommonmarkResults(sharedRecord).map(row => ({ name: row.engine, value: row.mb_per_s })).sort((a, b) => b.value - a.value),
+}] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
-  'Core route throughput, all engines on one scale',
-  'Default configuration, no opt-in extensions. Carve purple, Djot peers green, CommonMark peers orange.',
+  'Core route throughput, all measured engines',
+  mainRecord ? `Carve dev-main in every panel: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}. Median timing; compare within each workload.` : 'With pipe tables: fastest trial. Without pipe tables: median timing. Compare within each panel.',
   [
-    { name: 'Every measured engine', rows: [...allEngines].sort((a, b) => b.value - a.value) },
-    {
-      name: 'Carve engines only',
-      rows: allEngines.filter((row) => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
-    },
+    { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
+    ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
+      name: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)}${sharedRecord.metadata.carve_main ? ', Carve main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) : ''})`,
+      rows: group.rows.map(row => ({ ...row, name: `${row.name} (JavaScript)` })),
+    })),
   ],
+))
+writeFileSync(resolve(root, 'charts/carve-core-throughput.svg'), chart(
+  'Carve core route throughput',
+  mainRecord ? 'With pipe tables: 18 points. Pinned Carve dev-main; median timing across all samples.' : 'With pipe tables: 18 points. Fastest trial from the recorded release comparison.',
+  [{
+    name: `Carve with pipe tables · 18 points (${comparisonDate})`,
+    rows: allEngines.filter(row => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
+  }],
 ))
 writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
   'Enabled core capability breadth',
@@ -126,3 +162,11 @@ writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   sections(resolve(root, 'RESULTS.md'), 3)
     .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))
+
+if (commonmarkGroups.length) {
+  writeFileSync(resolve(root, 'charts/commonmark-js.svg'), chart(
+    'Shared JavaScript core including commonmark.js',
+    'Without pipe tables: 14 points. Median timing.' + (sharedRecord.metadata.carve_main ? ' Carve dev-main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) + '.' : ''),
+    commonmarkGroups,
+  ))
+}

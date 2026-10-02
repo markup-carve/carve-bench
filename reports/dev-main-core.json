@@ -1,0 +1,615 @@
+{
+  "schema": 1,
+  "metadata": {
+    "generated_at": "2026-10-02T15:09:52.687Z",
+    "carve_main": {
+      "js": {
+        "repository": "https://github.com/markup-carve/carve-js",
+        "commit": "e3b19ed3189da28ed467981a4fe04dc1760de822",
+        "kind": "merged-main"
+      },
+      "php": {
+        "repository": "https://github.com/markup-carve/carve-php",
+        "commit": "ffadbccece109ceb3c049b22a1a46e67eaed6fc9",
+        "kind": "merged-main"
+      },
+      "rs": {
+        "repository": "https://github.com/markup-carve/carve-rs",
+        "commit": "0b4cd93ffe733d136b9396e041e902e14a3c7db1",
+        "kind": "merged-main"
+      }
+    },
+    "node": "v24.19.0",
+    "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "php_jit": "tracing, CLI opcache, extensions ctype and mbstring; php -n",
+    "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
+    "logical_cpus": 16,
+    "load_start": [
+      5.19,
+      7.23,
+      8.16
+    ],
+    "workload_points": 18,
+    "method": "Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.",
+    "source_sha256": {
+      "carve": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+      "djot": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+      "markdown": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55"
+    },
+    "harness_sha256": {
+      "scripts/compare-dev-main.mjs": "83cd8d2e405da437eaa45877ae411a1826f6641c92598aeadffdcf1c65a986c1",
+      "engines/js/compare.mjs": "351fab3aae28645c4e5b48e7b48e50914b5488b812b50e98c8e32bb8278cfe64",
+      "engines/php/compare.php": "eec92d01577b5b2e52a30f08e931e137653223daf00857912c39ac40dd2c9fef",
+      "engines/rs/src/compare.rs": "ee220c81d67aa2fae7cdace39bcc15d9b3abf992dd789806dc46e2edae402fd6",
+      "engines/js/commonmark-core.mjs": "13fec435537fdb9b3212defe4dcae39a1d4019ff9cd199e9b1fbb18e974db4b4",
+      "engines/js/package-lock.json": "1cf31844f248a5dfe65181c39aacf11bb363a1ece4f02adda10b5590af2ee20c",
+      "engines/php/composer.lock": "32ec97c02c8a81acdb6b11a96ae383472aaaa03a4129d3c2342d66a156c42ba0",
+      "engines/rs/Cargo.lock": "48bc4285364086187f822c6f61dd149878716aef3b3c328c41e8bb5c83e78408"
+    },
+    "rust_binary_sha256": "8a8a44fc1a5095d8a55d13bb86e4fd7f9ba192338da8477664d9c78bc62d5570",
+    "load_end": [
+      4.95,
+      6.44,
+      7.77
+    ]
+  },
+  "controls": [
+    {
+      "engine": "carve-js",
+      "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+      "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "djot.js",
+      "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+      "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "markdown-it",
+      "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+      "output_sha256": "dfa5759bea0543595bc20ea4429cbd57ac551ff96932a1ee21e63d2d7d1d3261",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "carve-php",
+      "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+      "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "djot-php",
+      "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+      "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "league/commonmark-gfm",
+      "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+      "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "carve-rs",
+      "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+      "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "jotdown",
+      "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+      "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "comrak",
+      "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+      "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    },
+    {
+      "engine": "pulldown-cmark",
+      "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+      "output_sha256": "61e66dae86ca89ffed40d76b79a799a89ee11e920cb05ce73ace10f04fc6b6ce",
+      "projection_sha256": "0bea9f561afb20564dfb2df950d778c9e67931cc411225ccab3354b6c319aa7f"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "rows": [
+        {
+          "engine": "carve-js",
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
+          "bytes": 62632,
+          "iterations": 100,
+          "trials": 7,
+          "samples": [
+            5.43028328,
+            4.90672391,
+            4.64623507,
+            4.7254716100000005,
+            4.53264362,
+            4.558571590000001,
+            5.1018724099999995
+          ],
+          "ms_per_op": 4.53264362,
+          "mb_per_s": 13.177857072547928,
+          "carve_source": "carve-js (merged main e3b19ed3189da28ed467981a4fe04dc1760de822)",
+          "language": "JavaScript"
+        },
+        {
+          "engine": "djot.js",
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "bytes": 62782,
+          "iterations": 100,
+          "trials": 7,
+          "samples": [
+            11.48434651,
+            10.886012749999999,
+            10.24641093,
+            10.2323946,
+            10.58832262,
+            10.830460290000001,
+            10.978310590000001
+          ],
+          "ms_per_op": 10.2323946,
+          "mb_per_s": 5.85137529123605,
+          "language": "JavaScript"
+        },
+        {
+          "engine": "markdown-it",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "output_sha256": "dfa5759bea0543595bc20ea4429cbd57ac551ff96932a1ee21e63d2d7d1d3261",
+          "bytes": 63232,
+          "iterations": 100,
+          "trials": 7,
+          "samples": [
+            12.300108700000001,
+            10.023377779999999,
+            9.371681180000001,
+            11.660248919999999,
+            10.46128567,
+            10.43955954,
+            10.3815411
+          ],
+          "ms_per_op": 9.371681180000001,
+          "mb_per_s": 6.434569552332978,
+          "language": "JavaScript"
+        },
+        {
+          "engine": "carve-php",
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "bytes": 62632,
+          "iterations": 50,
+          "trials": 7,
+          "samples": [
+            4.23807176,
+            4.2269156400000005,
+            4.40846686,
+            4.38110078,
+            4.17254634,
+            4.2256306,
+            4.18278256
+          ],
+          "ms_per_op": 4.17254634,
+          "mb_per_s": 14.315126763854286,
+          "jit": true,
+          "carve_source": "carve-php (merged main ffadbccece109ceb3c049b22a1a46e67eaed6fc9)",
+          "language": "PHP"
+        },
+        {
+          "engine": "djot-php",
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "bytes": 62782,
+          "iterations": 50,
+          "trials": 7,
+          "samples": [
+            16.33485942,
+            16.4388082,
+            15.84340892,
+            15.78678662,
+            17.728069599999998,
+            19.06653502,
+            16.91831982
+          ],
+          "ms_per_op": 15.78678662,
+          "mb_per_s": 3.7926388931338573,
+          "jit": true,
+          "language": "PHP"
+        },
+        {
+          "engine": "league/commonmark-gfm",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
+          "bytes": 63232,
+          "iterations": 50,
+          "trials": 7,
+          "samples": [
+            46.83604958,
+            46.805205720000004,
+            46.645613940000004,
+            48.17403356,
+            46.4824308,
+            48.1191035,
+            47.208459160000004
+          ],
+          "ms_per_op": 46.4824308,
+          "mb_per_s": 1.2973231678537775,
+          "jit": true,
+          "language": "PHP"
+        },
+        {
+          "engine": "carve-rs",
+          "bytes": 62632,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            0.649301,
+            0.630725,
+            0.644765,
+            0.629393,
+            0.632178,
+            0.635559,
+            0.618526
+          ],
+          "ms_per_op": 0.618526,
+          "mb_per_s": 96.57,
+          "carve_source": "carve-rs (merged main 0b4cd93ffe733d136b9396e041e902e14a3c7db1)",
+          "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "language": "Rust"
+        },
+        {
+          "engine": "jotdown",
+          "bytes": 62782,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            1.440786,
+            1.401347,
+            1.417833,
+            1.387538,
+            1.390907,
+            1.392406,
+            1.40098
+          ],
+          "ms_per_op": 1.387538,
+          "mb_per_s": 43.15,
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "language": "Rust"
+        },
+        {
+          "engine": "comrak",
+          "bytes": 63232,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            1.594119,
+            1.634972,
+            1.595688,
+            1.614916,
+            1.594743,
+            1.60237,
+            1.626731
+          ],
+          "ms_per_op": 1.594119,
+          "mb_per_s": 37.83,
+          "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "language": "Rust"
+        },
+        {
+          "engine": "pulldown-cmark",
+          "bytes": 63232,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            0.496449,
+            0.493186,
+            0.493095,
+            0.495408,
+            0.494947,
+            0.499538,
+            0.498583
+          ],
+          "ms_per_op": 0.493095,
+          "mb_per_s": 122.29,
+          "output_sha256": "61e66dae86ca89ffed40d76b79a799a89ee11e920cb05ce73ace10f04fc6b6ce",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "language": "Rust"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "rows": [
+        {
+          "engine": "pulldown-cmark",
+          "bytes": 63232,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            0.496473,
+            0.497946,
+            0.495982,
+            0.490289,
+            0.491226,
+            0.49336,
+            0.499571
+          ],
+          "ms_per_op": 0.490289,
+          "mb_per_s": 122.99,
+          "output_sha256": "61e66dae86ca89ffed40d76b79a799a89ee11e920cb05ce73ace10f04fc6b6ce",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "language": "Rust"
+        },
+        {
+          "engine": "comrak",
+          "bytes": 63232,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            1.536214,
+            1.537859,
+            1.559249,
+            1.545254,
+            1.546755,
+            1.704903,
+            1.610515
+          ],
+          "ms_per_op": 1.536214,
+          "mb_per_s": 39.25,
+          "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "language": "Rust"
+        },
+        {
+          "engine": "jotdown",
+          "bytes": 62782,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            1.402118,
+            1.413678,
+            1.408846,
+            1.401234,
+            1.454361,
+            1.442645,
+            1.448001
+          ],
+          "ms_per_op": 1.401234,
+          "mb_per_s": 42.73,
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "language": "Rust"
+        },
+        {
+          "engine": "carve-rs",
+          "bytes": 62632,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            0.623648,
+            0.625854,
+            0.636265,
+            0.620805,
+            0.620982,
+            0.621003,
+            0.616201
+          ],
+          "ms_per_op": 0.616201,
+          "mb_per_s": 96.93,
+          "carve_source": "carve-rs (merged main 0b4cd93ffe733d136b9396e041e902e14a3c7db1)",
+          "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "language": "Rust"
+        },
+        {
+          "engine": "league/commonmark-gfm",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
+          "bytes": 63232,
+          "iterations": 50,
+          "trials": 7,
+          "samples": [
+            45.16629156,
+            44.1634368,
+            44.84556426,
+            47.17498942,
+            49.38046762,
+            48.124525739999996,
+            45.06149422000001
+          ],
+          "ms_per_op": 44.1634368,
+          "mb_per_s": 1.3654447829341037,
+          "jit": true,
+          "language": "PHP"
+        },
+        {
+          "engine": "djot-php",
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "bytes": 62782,
+          "iterations": 50,
+          "trials": 7,
+          "samples": [
+            19.62550044,
+            18.70265786,
+            16.338746020000002,
+            16.44087296,
+            15.9319062,
+            16.3128493,
+            17.397756819999998
+          ],
+          "ms_per_op": 15.9319062,
+          "mb_per_s": 3.758092734227696,
+          "jit": true,
+          "language": "PHP"
+        },
+        {
+          "engine": "carve-php",
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "bytes": 62632,
+          "iterations": 50,
+          "trials": 7,
+          "samples": [
+            4.22853212,
+            4.35027942,
+            4.23470062,
+            4.226768799999999,
+            4.1836221799999995,
+            4.28389294,
+            4.25654266
+          ],
+          "ms_per_op": 4.1836221799999995,
+          "mb_per_s": 14.277228491306127,
+          "jit": true,
+          "carve_source": "carve-php (merged main ffadbccece109ceb3c049b22a1a46e67eaed6fc9)",
+          "language": "PHP"
+        },
+        {
+          "engine": "markdown-it",
+          "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+          "output_sha256": "dfa5759bea0543595bc20ea4429cbd57ac551ff96932a1ee21e63d2d7d1d3261",
+          "bytes": 63232,
+          "iterations": 100,
+          "trials": 7,
+          "samples": [
+            9.90700029,
+            9.396360829999999,
+            9.65032331,
+            9.54860375,
+            9.27712545,
+            9.35611219,
+            9.3267733
+          ],
+          "ms_per_op": 9.27712545,
+          "mb_per_s": 6.500152951472701,
+          "language": "JavaScript"
+        },
+        {
+          "engine": "djot.js",
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "bytes": 62782,
+          "iterations": 100,
+          "trials": 7,
+          "samples": [
+            11.30001448,
+            10.6152995,
+            11.10671383,
+            10.18659769,
+            9.54715102,
+            10.14682155,
+            9.4656769
+          ],
+          "ms_per_op": 9.4656769,
+          "mb_per_s": 6.325335373809049,
+          "language": "JavaScript"
+        },
+        {
+          "engine": "carve-js",
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
+          "bytes": 62632,
+          "iterations": 100,
+          "trials": 7,
+          "samples": [
+            5.00519756,
+            5.00019919,
+            4.48758402,
+            4.72842178,
+            4.781621390000001,
+            4.5659144,
+            4.72871818
+          ],
+          "ms_per_op": 4.48758402,
+          "mb_per_s": 13.310175256653189,
+          "carve_source": "carve-js (merged main e3b19ed3189da28ed467981a4fe04dc1760de822)",
+          "language": "JavaScript"
+        }
+      ]
+    }
+  ],
+  "final": [
+    {
+      "engine": "carve-js",
+      "bytes": 62632,
+      "ms_per_op": 4.72856998,
+      "mb_per_s": 12.631837963230536,
+      "language": "JavaScript"
+    },
+    {
+      "engine": "djot.js",
+      "bytes": 62782,
+      "ms_per_op": 10.60181106,
+      "mb_per_s": 5.647486131734288,
+      "language": "JavaScript"
+    },
+    {
+      "engine": "markdown-it",
+      "bytes": 63232,
+      "ms_per_op": 9.778661799999998,
+      "mb_per_s": 6.166767560669704,
+      "language": "JavaScript"
+    },
+    {
+      "engine": "carve-php",
+      "bytes": 62632,
+      "ms_per_op": 4.231616369999999,
+      "mb_per_s": 14.11529887458968,
+      "language": "PHP"
+    },
+    {
+      "engine": "djot-php",
+      "bytes": 62782,
+      "ms_per_op": 16.439840580000002,
+      "mb_per_s": 3.64198062878157,
+      "language": "PHP"
+    },
+    {
+      "engine": "league/commonmark-gfm",
+      "bytes": 63232,
+      "ms_per_op": 46.820627650000006,
+      "mb_per_s": 1.2879522851718965,
+      "language": "PHP"
+    },
+    {
+      "engine": "carve-rs",
+      "bytes": 62632,
+      "ms_per_op": 0.6276235,
+      "mb_per_s": 95.16936473085576,
+      "language": "Rust"
+    },
+    {
+      "engine": "jotdown",
+      "bytes": 62782,
+      "ms_per_op": 1.4054820000000001,
+      "mb_per_s": 42.60003396174208,
+      "language": "Rust"
+    },
+    {
+      "engine": "comrak",
+      "bytes": 63232,
+      "ms_per_op": 1.5952155000000001,
+      "mb_per_s": 37.8022495236537,
+      "language": "Rust"
+    },
+    {
+      "engine": "pulldown-cmark",
+      "bytes": 63232,
+      "ms_per_op": 0.495695,
+      "mb_per_s": 121.65290022090197,
+      "language": "Rust"
+    }
+  ]
+}

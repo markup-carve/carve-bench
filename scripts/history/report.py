@@ -66,6 +66,13 @@ def validate_measurements(data):
             raise ValueError('History rows do not cover each revision, case and size exactly once')
         worker={'js':'worker.mjs','php':'worker.php','rs':'worker.rs'}[engine]
         expected_worker=(snapshot.get('measurement_session') or data)['harness_sha256'][worker]
+        for label, point in snapshot.get('point_sessions', {}).items():
+            if label not in {revision['label'] for revision in snapshot['revisions']}:
+                raise ValueError('History point names an unknown revision')
+            if point.get('measurement_signature') != data['measurement_signature']:
+                raise ValueError('History point timing signature differs')
+            if point.get('harness_sha256', {}).get(worker) != expected_worker:
+                raise ValueError('History point worker differs')
         if hashlib.sha256((Path(__file__).parent/worker).read_bytes()).hexdigest()!=expected_worker:
             raise ValueError('History worker changed; refresh measurements')
         for row in snapshot['rows']:
@@ -92,8 +99,9 @@ def build(path):
         for engine, snapshot in data['engines'].items():
             session = snapshot.get('measurement_session', {})
             report += [f"{engine} retained measurements: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
-            for label, point in snapshot.get('point_sessions', {}).items():
-                report += [f"{engine} {label} refresh: {point.get('started_at', point.get('generated_at', 'not recorded'))} to {point.get('finished_at', 'not recorded')}. [Point provenance]({point.get('file', 'engine-history.json')}).", '']
+    for engine, snapshot in data['engines'].items():
+        for label, point in snapshot.get('point_sessions', {}).items():
+            report += [f"{engine} {label} refresh: {point.get('started_at', point.get('generated_at', 'not recorded'))} to {point.get('finished_at', 'not recorded')}. [Point provenance]({point.get('file', 'engine-history.json')}).", '']
     if not data.get('session_note'):
         report += [f"Timing driver: `{data.get('benchmark_commit','unknown')}`; CPU affinity: {data.get('cpu_affinity')}; dirty benchmark tree: {data.get('benchmark_dirty')}. Report generation may use later metadata-only corrections.", '']
     report += ['## Shared-host spread', '', f"Initial load average: {data.get('initial_load', 'not recorded')}. Final load average: {data.get('final_load', 'not recorded')}. Whiskers show sample ranges; medians from noisy sessions are descriptive readings, not confirmed speed changes.", '']
