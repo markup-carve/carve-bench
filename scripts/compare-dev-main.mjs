@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { cpus, loadavg } from 'node:os'
@@ -24,11 +24,38 @@ for (const [engine, entry] of Object.entries(config)) {
   assert.ok([repository, repository + '.git', `git@github.com:markup-carve/carve-${engine}.git`].includes(git(entry.path, 'remote', 'get-url', 'origin')))
   git(entry.path, 'fetch', 'origin', 'main')
   assert.equal(git(entry.path, 'rev-parse', 'HEAD'), entry.commit)
-  assert.equal(git(entry.path, 'rev-parse', 'FETCH_HEAD'), entry.commit, 'Pin latest main before measuring')
+  git(entry.path, 'merge-base', '--is-ancestor', entry.commit, 'FETCH_HEAD')
+  commits[engine] = { latest_at_setup: git(entry.path, 'rev-parse', 'FETCH_HEAD') }
   assert.equal(git(entry.path, 'status', '--porcelain'), '')
-  commits[engine] = { repository, commit: entry.commit, kind: 'merged-main' }
+  commits[engine] = { ...commits[engine], repository, commit: entry.commit, kind: 'merged-main' }
 }
 assert.equal(Object.keys(commits).length, 3)
+function verifyNpm(tree) {
+  const lock = JSON.parse(readFileSync(resolve(tree, 'package-lock.json')))
+  const installed = JSON.parse(readFileSync(resolve(tree, 'node_modules/.package-lock.json')))
+  for (const [name, info] of Object.entries(installed.packages)) {
+    assert.equal(info.version, lock.packages[name]?.version, name)
+    assert.equal(info.integrity, lock.packages[name]?.integrity, name)
+  }
+  for (const name of Object.keys(lock.packages).filter(name => name && !lock.packages[name].optional)) assert.ok(installed.packages[name], name)
+}
+verifyNpm(config.js.path)
+verifyNpm(resolve(root, 'engines/js'))
+const composerLock = JSON.parse(readFileSync(resolve(root, 'engines/php/composer.lock')))
+const phpInstalled = JSON.parse(readFileSync(resolve(root, 'engines/php/vendor/composer/installed.json'))).packages
+for (const info of composerLock.packages) {
+  const actual = phpInstalled.find(item => item.name === info.name)
+  assert.equal(actual?.version, info.version, info.name)
+  assert.equal(actual?.source?.reference, info.source?.reference, info.name)
+}
+rmSync(resolve(config.js.path, 'dist'), { recursive: true, force: true })
+execFileSync('npm', ['run', 'build'], { cwd: config.js.path, stdio: 'pipe', timeout: 120000 })
+commits.js.lock_sha256 = sha(readFileSync(resolve(config.js.path, 'package-lock.json')))
+commits.js.dist_sha256 = Object.fromEntries(readdirSync(resolve(config.js.path, 'dist'), { recursive: true }).filter(file => file.endsWith('.js')).sort().map(file => [file, sha(readFileSync(resolve(config.js.path, 'dist', file)))]))
+execFileSync(process.execPath, [resolve(root, 'scripts/build-rs-engine.mjs'), '--carve-rs', config.rs.path], { cwd: root, stdio: 'pipe', timeout: 180000 })
+const environment = { ...process.env }
+for (const key of Object.keys(environment)) if (key.startsWith('CARVE_')) delete environment[key]
+
 const engines = [
   ['carve-js', 'JavaScript', 'carve'], ['djot.js', 'JavaScript', 'djot'], ['markdown-it', 'JavaScript', 'markdown'],
   ['carve-php', 'PHP', 'carve'], ['djot-php', 'PHP', 'djot'], ['league/commonmark-gfm', 'PHP', 'markdown'],
@@ -40,14 +67,16 @@ function run([engine, language, flavor], iterations, trials, observe = false) {
   const command = language === 'JavaScript' ? process.execPath : language === 'PHP' ? 'php' : binary
   const args = language === 'JavaScript' ? [resolve(root, 'engines/js/compare.mjs')] : language === 'PHP' ? ['-n', '-d', 'extension=ctype', '-d', 'extension=mbstring', '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing', resolve(root, 'engines/php/compare.php')] : []
   const row = JSON.parse(execFileSync(command, [...args, engine, file, String(iterations), String(trials)], { encoding: 'utf8', maxBuffer: 16000000, timeout: 180000,
-    env: { ...process.env, CARVE_JS: pathToFileURL(resolve(config.js.path, 'dist/index.js')).href, CARVE_PHP_SRC: resolve(config.php.path, 'src'), CARVE_COMPARE_OBSERVE: observe ? '1' : '0' } }))
+    env: { ...environment, CARVE_COMPARE_WARMUP: '20', CARVE_JS: pathToFileURL(resolve(config.js.path, 'dist/index.js')).href, CARVE_PHP_SRC: resolve(config.php.path, 'src'), CARVE_COMPARE_OBSERVE: observe ? '1' : '0' } }))
   if (row.output_hex) {
     row.html = Buffer.from(row.output_hex, 'hex').toString('utf8')
     row.output_sha256 = sha(row.html)
-    row.source_sha256 = sha(sources[flavor])
+    row.source_sha256 = sha(readFileSync(file))
+    row.source_hash_origin = 'driver fixture; Rust worker reports input bytes'
     delete row.output_hex
   }
-  if (language === 'PHP') assert.equal(row.jit, true, 'Tracing JIT must be active')
+  if (language === 'PHP') assert.ok(row.jit && row.jit_on, 'Tracing JIT must be active')
+  assert.equal(row.bytes, Buffer.byteLength(sources[flavor]))
   assert.equal(row.source_sha256, sha(sources[flavor]))
   if (engine.startsWith('carve-')) {
     const key = engine.slice(6)
@@ -60,9 +89,9 @@ function run([engine, language, flavor], iterations, trials, observe = false) {
 // Table serializers vary in formatting and alignment attributes. Preserve cell
 // content and row hierarchy while discarding whitespace between blocks.
 function projection(html) {
-  const clean = nodes => nodes.filter(node => !(node.text !== undefined && !node.text.trim())).flatMap(node => {
-    if (['thead', 'tbody'].includes(node.tag)) return clean(node.children)
-    if (node.tag) return { ...node, children: clean(node.children) }
+  const clean = (nodes, parent = '') => nodes.filter(node => !(node.text !== undefined && !node.text.trim() && ['table', 'thead', 'tbody', 'tr'].includes(parent))).flatMap(node => {
+    if (['thead', 'tbody'].includes(node.tag)) return clean(node.children, node.tag)
+    if (node.tag) return { ...node, children: clean(node.children, node.tag) }
     return node
   })
   return clean(coreProjection(html))
@@ -99,9 +128,11 @@ for (const entry of Object.values(config)) {
   assert.equal(git(entry.path, 'rev-parse', 'HEAD'), entry.commit)
   assert.equal(git(entry.path, 'status', '--porcelain'), '')
 }
+for (const [flavor, source] of Object.entries(sources)) assert.equal(sha(readFileSync(resolve(corpus, files[flavor]))), sha(source))
+for (const [file, hash] of Object.entries(commits.js.dist_sha256)) assert.equal(sha(readFileSync(resolve(config.js.path, 'dist', file))), hash)
 metadata.load_end = loadavg()
 const record = { schema: 1, metadata, controls, rounds }
 record.final = finalCommonmarkResults(record).map(row => ({ ...row, language: engines.find(entry => entry[0] === row.engine)[1] }))
 writeFileSync(resolve(root, 'reports/dev-main-core.json'), JSON.stringify(record, null, 2) + '\n')
-const lines = ['# Core throughput using Carve development main', '', `Measured ${metadata.generated_at}. ${metadata.cpu}; Node ${metadata.node}.`, '', ...Object.entries(commits).map(([engine, value]) => `Carve ${engine}: [${value.commit}](${value.repository}/commit/${value.commit}).`), '', metadata.method, '', 'The 18-point fixture includes pipe tables. Native markup differs by language; the HTML control checks equivalent hierarchy, text, emphasis, links and code. Table alignment is not part of the normalized output check. Compare engines within this workload; the 14-point workload without tables is measured separately.', '', '| Engine | Language | Median ms/op | MB/s |', '|---|---|---:|---:|', ...record.final.map(row => `| ${row.engine} | ${row.language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} |`), '', '[Raw samples, output checks and source hashes](dev-main-core.json). Historical release results remain in [COMPARISON.md](../COMPARISON.md).', '', '## Reproduce', '', 'Check out the three commits above and install the locked dependencies in `engines/js` and `engines/php`. Build Carve JS with `npm ci && npm run build` in its checkout. Build the Rust worker with `node scripts/build-rs-engine.mjs --carve-rs CHECKOUT`. Create a local JSON configuration with `js`, `php` and `rs` entries, each containing `path` and `commit`. Run `node scripts/compare-dev-main.mjs CONFIG.json`, then `node scripts/gen-charts.mjs`.', '']
+const lines = ['# Core throughput using Carve development main', '', `Measured ${metadata.generated_at}. ${metadata.cpu}; Node ${metadata.node}.`, '', ...Object.entries(commits).map(([engine, value]) => `Carve ${engine}: [${value.commit}](${value.repository}/commit/${value.commit}).`), '', metadata.method, '', 'The 18-point fixture includes pipe tables. Carve and Markdown use compact nested lists; Djot requires a blank before the nested list. The 150-section workload differs from the historical release fixture, so changes in peer throughput or Carve ratios are not engine-only improvements. Native markup differs by language; the HTML control checks equivalent hierarchy, text, emphasis, links and code. Table alignment is not part of the normalized output check. Compare engines within this workload; the 14-point workload without tables is measured separately.', '', '| Engine | Language | Median ms/op | MB/s |', '|---|---|---:|---:|', ...record.final.map(row => `| ${row.engine} | ${row.language} | ${row.ms_per_op.toFixed(4)} | ${row.mb_per_s.toFixed(2)} |`), '', '[Raw samples, output checks and source hashes](dev-main-core.json). Historical release results remain in [COMPARISON.md](../COMPARISON.md).', '', '## Reproduce', '', 'Check out the three commits above and install the locked dependencies in `engines/js` and `engines/php`. Build Carve JS with `npm ci && npm run build` in its checkout. Build the Rust worker with `node scripts/build-rs-engine.mjs --carve-rs CHECKOUT`. Create a local JSON configuration with `js`, `php` and `rs` entries, each containing `path` and `commit`. Run `node scripts/compare-dev-main.mjs CONFIG.json`, then `node scripts/gen-charts.mjs`. The runner rebuilds JS and Rust and accepts the pinned commits as merged ancestors after main advances.', '']
 writeFileSync(resolve(root, 'reports/dev-main-core.md'), lines.join('\n'))

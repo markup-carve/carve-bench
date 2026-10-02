@@ -111,7 +111,7 @@ const allEngines = comparisonGroups.flatMap((group) =>
 writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Same-language render throughput',
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
-  comparisonGroups,
+  languageSections(resolve(root, 'COMPARISON.md'), 3),
 ))
 const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json'))
   ? JSON.parse(readFileSync(resolve(root, 'reports/commonmark-js.json'), 'utf8')) : null

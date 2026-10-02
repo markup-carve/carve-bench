@@ -37,9 +37,7 @@ by default. See `FEATURES.md` for the auditable matrix and limitations.
 
 ![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)
 
-![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
-
-![Carve core throughput with pipe tables](./charts/carve-core-throughput.svg)
+The [current development-main charts](README.md#results) use separate measurements.
 
 ![Bar chart of enabled core capability points](./charts/capabilities.svg)
 

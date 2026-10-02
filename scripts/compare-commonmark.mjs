@@ -77,7 +77,7 @@ const metadata = { generated_at: new Date().toISOString(), benchmark_base_commit
   node: process.version, platform: platform(), arch: arch(), cpu: cpus()[0].model, logical_cpus: cpus().length, load_start: loadavg(),
   package_versions: { ...manifest.dependencies, ...(carveMain ? { '@markup-carve/carve': 'merged-main ' + carveMain.commit } : {}) }, ...(carveMain ? { carve_main: carveMain } : {}), lock_sha256: sha(readFileSync(resolve(root, 'engines/js/package-lock.json'))),
   harness_sha256: Object.fromEntries(['scripts/compare-commonmark.mjs', 'engines/js/compare.mjs', 'engines/js/commonmark-core.mjs'].map(path => [path, sha(readFileSync(resolve(root, path)))])),
-  method: 'Two serial fresh-worker rounds, reverse order in round two. Each worker warms 200 conversions, then records seven trials of 200 calls. Samples exclude process startup and output verification. Reused commonmark.js parser/renderer; separate per-call construction control. Default options. Best trial per round; both rounds retained.',
+  method: 'Two serial fresh-worker rounds, reverse order in round two. Each worker warms 200 conversions, then records seven trials of 200 calls. Samples exclude process startup and output verification. Reused commonmark.js parser/renderer; separate per-call construction control. Default options. Raw round fields retain the fastest trial; final chart throughput uses median timing across all fourteen samples.',
   workload_points: 14, sections: 150, projection: 'Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.' }
 const rounds = []
 for (let round = 0; round < 2; round++) {

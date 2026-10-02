@@ -51,9 +51,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 95.17 | pulldown-cmark | 121.65 | 0.78x |
-| JavaScript | carve-js | 12.63 | markdown-it | 6.17 | 2.05x |
-| PHP | carve-php | 14.12 | djot-php | 3.64 | 3.88x |
+| Rust | carve-rs | 99.45 | pulldown-cmark | 124.12 | 0.80x |
+| JavaScript | carve-js | 12.85 | markdown-it | 6.87 | 1.87x |
+| PHP | carve-php | 14.22 | djot-php | 3.33 | 4.26x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -63,9 +63,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.7286 | 12.63 | 7.53x |
-| carve-php | PHP | 4.2316 | 14.12 | 6.74x |
-| carve-rs | Rust | 0.6276 | 95.17 | 1.00x |
+| carve-js | JavaScript | 4.6489 | 12.85 | 7.74x |
+| carve-php | PHP | 4.2000 | 14.22 | 6.99x |
+| carve-rs | Rust | 0.6006 | 99.45 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -96,7 +96,11 @@ The historical [PHP snapshot check](docs/php-snapshot-check.md) compares two
 pre-improvement commits with identical PHP source trees. It does not cover the
 parser and renderer changes measured here.
 
-To reproduce the current tables, install the pinned releases and generate the
+To reproduce the current throughput tables, use [the pinned main runner](reports/dev-main-core.md#reproduce).
+The 150-section fixture differs from the historical release workload; peer speed
+and Carve ratios can change with the content mix.
+
+To reproduce historical release tables, install the pinned releases and generate the
 corpus from the carve commit the reports name:
 
 | Component | Version |
@@ -397,6 +401,6 @@ The history signature covers the fixture and measurement functions. Worker hashe
 
 The [latest main comparison](reports/latest-main-comparison.md) lists current merged main against the two most recent tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
 
-The [merged main versus PHP and Rust peers](reports/merged-core-peers.md) report includes warmed medians, raw samples, source hashes and matching Carve output hashes.
+The historical [merged main versus PHP and Rust peers](reports/merged-core-peers.md) report includes warmed medians, raw samples, source hashes and matching Carve output hashes.
 
 Release-history graphs show sample ranges; overlapping +100% readings are marked uncertain.

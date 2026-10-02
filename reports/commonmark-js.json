@@ -1,17 +1,17 @@
 {
   "schema": 1,
   "metadata": {
-    "generated_at": "2026-10-02T15:11:57.370Z",
-    "benchmark_base_commit": "811e73f4612eacacfb5b5449104130d28b1091c8",
+    "generated_at": "2026-10-02T15:23:36.952Z",
+    "benchmark_base_commit": "15dfd8dababc7bd47297a06bf933bb09dfac199e",
     "node": "v24.19.0",
     "platform": "linux",
     "arch": "x64",
     "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
     "logical_cpus": 16,
     "load_start": [
-      4.52,
-      6.25,
-      7.67
+      3.47,
+      4.4,
+      5.91
     ],
     "package_versions": {
       "@djot/djot": "0.3.2",
@@ -149,18 +149,18 @@
     },
     "lock_sha256": "1cf31844f248a5dfe65181c39aacf11bb363a1ece4f02adda10b5590af2ee20c",
     "harness_sha256": {
-      "scripts/compare-commonmark.mjs": "1e8d80f7cea7156d312f6459a0812d45c0677d3f54c032e58ae2cdb20ca0d1b3",
+      "scripts/compare-commonmark.mjs": "f2fadb0a817e23f876ece1b48016cc34eff8d0e942232965ded0a1f9a1a4699f",
       "engines/js/compare.mjs": "351fab3aae28645c4e5b48e7b48e50914b5488b812b50e98c8e32bb8278cfe64",
       "engines/js/commonmark-core.mjs": "13fec435537fdb9b3212defe4dcae39a1d4019ff9cd199e9b1fbb18e974db4b4"
     },
-    "method": "Two serial fresh-worker rounds, reverse order in round two. Each worker warms 200 conversions, then records seven trials of 200 calls. Samples exclude process startup and output verification. Reused commonmark.js parser/renderer; separate per-call construction control. Default options. Best trial per round; both rounds retained.",
+    "method": "Two serial fresh-worker rounds, reverse order in round two. Each worker warms 200 conversions, then records seven trials of 200 calls. Samples exclude process startup and output verification. Reused commonmark.js parser/renderer; separate per-call construction control. Default options. Raw round fields retain the fastest trial; final chart throughput uses median timing across all fourteen samples.",
     "workload_points": 14,
     "sections": 150,
     "projection": "Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.",
     "load_end": [
-      6.63,
-      6.33,
-      7.58
+      4.35,
+      4.52,
+      5.85
     ]
   },
   "controls": [
@@ -206,9 +206,9 @@
         "commonmark.js-fresh"
       ],
       "load_end": [
-        4.67,
-        6.1,
-        7.57
+        4.75,
+        4.61,
+        5.93
       ],
       "rows": [
         {
@@ -219,16 +219,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.134861355,
-            3.200928065,
-            3.093644595,
-            3.209574535,
-            3.225064275,
-            3.139505405,
-            3.143678385
+            2.84634566,
+            2.76170567,
+            2.8384015799999998,
+            2.924404805,
+            2.82046674,
+            2.70600568,
+            2.6351166
           ],
-          "ms_per_op": 3.093644595,
-          "mb_per_s": 15.330827329089372,
+          "ms_per_op": 2.6351166,
+          "mb_per_s": 17.998494299461218,
           "carve_source": "@markup-carve/carve 0.1.10 (merged main e3b19ed3189da28ed467981a4fe04dc1760de822)"
         },
         {
@@ -239,16 +239,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            6.416284425,
-            6.145879535000001,
-            6.165430659999999,
-            6.298806265,
-            6.247408719999999,
-            6.05605667,
-            6.039997835
+            5.64941645,
+            6.1984543,
+            5.99022649,
+            5.792497610000001,
+            6.391879800000001,
+            5.90604154,
+            5.720887385
           ],
-          "ms_per_op": 6.039997835,
-          "mb_per_s": 7.852342401297503
+          "ms_per_op": 5.64941645,
+          "mb_per_s": 8.39522657309422
         },
         {
           "engine": "markdown-it",
@@ -258,16 +258,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            5.9323388150000005,
-            5.9736720000000005,
-            5.966852895,
-            5.9749604099999996,
-            6.031073924999999,
-            5.833630955,
-            5.82717449
+            5.31216779,
+            5.401114665,
+            5.310603885000001,
+            5.852868495,
+            5.61592661,
+            5.85317178,
+            5.96001889
           ],
-          "ms_per_op": 5.82717449,
-          "mb_per_s": 8.237325958872972
+          "ms_per_op": 5.310603885000001,
+          "mb_per_s": 9.03858331986276
         },
         {
           "engine": "commonmark.js",
@@ -277,16 +277,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.7751113600000004,
-            2.743415895,
-            2.71454895,
-            2.71602556,
-            2.652682265,
-            2.655964,
-            2.6973564199999998
+            2.84653349,
+            2.48344617,
+            2.55982673,
+            2.539343545,
+            2.6398301199999996,
+            2.6965545150000003,
+            2.7233815
           ],
-          "ms_per_op": 2.652682265,
-          "mb_per_s": 18.0950188896292
+          "ms_per_op": 2.48344617,
+          "mb_per_s": 19.328116016043694
         },
         {
           "engine": "commonmark.js-fresh",
@@ -296,16 +296,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.603641775,
-            3.143189695,
-            2.542948265,
-            2.622917605,
-            2.506781025,
-            2.5196725349999998,
-            2.52795695
+            2.5567234450000003,
+            2.630645995,
+            2.528692785,
+            2.521033145,
+            2.477153185,
+            2.8213747000000002,
+            2.444695475
           ],
-          "ms_per_op": 2.506781025,
-          "mb_per_s": 19.148196517627373
+          "ms_per_op": 2.444695475,
+          "mb_per_s": 19.634484615454763
         }
       ]
     },
@@ -319,9 +319,9 @@
         "carve-js"
       ],
       "load_end": [
-        6.63,
-        6.33,
-        7.58
+        4.35,
+        4.52,
+        5.85
       ],
       "rows": [
         {
@@ -332,16 +332,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.47542337,
-            2.52744631,
-            2.5219852,
-            2.49350849,
-            2.542356755,
-            2.5447733450000003,
-            2.527731975
+            2.34235207,
+            2.510002315,
+            2.2620146,
+            2.5923916350000002,
+            2.50923035,
+            2.51989916,
+            2.35805965
           ],
-          "ms_per_op": 2.47542337,
-          "mb_per_s": 19.39075807196543
+          "ms_per_op": 2.2620146,
+          "mb_per_s": 21.220170591895993
         },
         {
           "engine": "commonmark.js",
@@ -351,16 +351,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.65796167,
-            2.73174197,
-            2.70952183,
-            2.757863435,
-            2.699563005,
-            2.7970877,
-            2.78464961
+            2.650443805,
+            2.534336775,
+            2.524501705,
+            2.445329445,
+            2.59527918,
+            2.69520955,
+            2.54820546
           ],
-          "ms_per_op": 2.65796167,
-          "mb_per_s": 18.059077463430604
+          "ms_per_op": 2.445329445,
+          "mb_per_s": 19.629394228048227
         },
         {
           "engine": "markdown-it",
@@ -370,16 +370,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            6.02381444,
-            5.88741353,
-            5.8586244,
-            5.872230495,
-            5.8313562899999996,
-            6.14372665,
-            5.897306250000001
+            5.486241345,
+            5.663177325,
+            6.415078495,
+            5.342211969999999,
+            5.407854305,
+            5.343743839999999,
+            5.71714973
           ],
-          "ms_per_op": 5.8313562899999996,
-          "mb_per_s": 8.231418782569257
+          "ms_per_op": 5.342211969999999,
+          "mb_per_s": 8.985105039431707
         },
         {
           "engine": "djot.js",
@@ -389,16 +389,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            6.630091844999999,
-            8.087048505,
-            7.5016663349999995,
-            7.6803043,
-            8.79519242,
-            8.528713790000001,
-            8.162608425
+            6.402866115,
+            6.257543065,
+            6.569535315,
+            6.070167995,
+            5.82058836,
+            5.8116443349999996,
+            5.771911055
           ],
-          "ms_per_op": 6.630091844999999,
-          "mb_per_s": 7.1534651724746405
+          "ms_per_op": 5.771911055,
+          "mb_per_s": 8.217058553324437
         },
         {
           "engine": "carve-js",
@@ -408,16 +408,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            4.357778605,
-            4.30043054,
-            3.794043805,
-            3.334723155,
-            3.15808058,
-            3.1713229000000003,
-            3.664045495
+            3.01248749,
+            2.706274075,
+            2.72012197,
+            2.68607523,
+            2.81412424,
+            2.75097961,
+            2.697728255
           ],
-          "ms_per_op": 3.15808058,
-          "mb_per_s": 15.018024367039938,
+          "ms_per_op": 2.68607523,
+          "mb_per_s": 17.657037514736928,
           "carve_source": "@markup-carve/carve 0.1.10 (merged main e3b19ed3189da28ed467981a4fe04dc1760de822)"
         }
       ]
