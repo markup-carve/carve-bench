@@ -1,0 +1,299 @@
+{
+  "schema": 1,
+  "metadata": {
+    "generated_at": "2026-10-02T14:07:55.356Z",
+    "benchmark_base_commit": "906361bae52cccf52c9e4ae728f3bab8dc8c94d2",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
+    "logical_cpus": 16,
+    "load_start": [
+      3.04,
+      5.72,
+      6.22
+    ],
+    "package_versions": {
+      "@djot/djot": "0.3.2",
+      "@markup-carve/carve": "0.1.9",
+      "commonmark": "0.31.2",
+      "markdown-it": "15.0.0",
+      "parse5": "7.3.0"
+    },
+    "lock_sha256": "1cf31844f248a5dfe65181c39aacf11bb363a1ece4f02adda10b5590af2ee20c",
+    "harness_sha256": {
+      "scripts/compare-commonmark.mjs": "4545478bdd7b41b2f52fd869c1cce7d98da706343b528fadb46a8ffce7749b85",
+      "engines/js/compare.mjs": "351fab3aae28645c4e5b48e7b48e50914b5488b812b50e98c8e32bb8278cfe64",
+      "engines/js/commonmark-core.mjs": "13fec435537fdb9b3212defe4dcae39a1d4019ff9cd199e9b1fbb18e974db4b4"
+    },
+    "method": "Two serial fresh-worker rounds, reverse order in round two. Each worker warms 200 conversions, then records seven trials of 200 calls. Samples exclude process startup and output verification. Reused commonmark.js parser/renderer; separate per-call construction control. Default options. Best trial per round; both rounds retained.",
+    "workload_points": 14,
+    "sections": 150,
+    "projection": "Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.",
+    "load_end": [
+      3.68,
+      5.19,
+      5.97
+    ]
+  },
+  "controls": [
+    {
+      "engine": "carve-js",
+      "source_sha256": "b1b3d08972c16abe18902935bb0badfdcb4932a994371e69d3e98168b7a98af3",
+      "output_sha256": "c5026e89a2af84ce716e014debd3cdf224366a848fc6edf44f7b8f29fdce28bd",
+      "projection_sha256": "c8a7bb229d3d112cb3fa969a477cbc30058ec3de289695652fec44f689922e19"
+    },
+    {
+      "engine": "djot.js",
+      "source_sha256": "d96cb6c3f6c4d6022a8730272de2384e90336aa1dc0afca0847afda4505f2f03",
+      "output_sha256": "6095e81f51634e9fcc84a9d5a975a407528551b4fa4d9408761c1a4f2feb178f",
+      "projection_sha256": "c8a7bb229d3d112cb3fa969a477cbc30058ec3de289695652fec44f689922e19"
+    },
+    {
+      "engine": "markdown-it",
+      "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+      "output_sha256": "c201137ccde0ba1adec0b8b959664fb028cebf98775226b21f7f20bc4a488579",
+      "projection_sha256": "c8a7bb229d3d112cb3fa969a477cbc30058ec3de289695652fec44f689922e19"
+    },
+    {
+      "engine": "commonmark.js",
+      "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+      "output_sha256": "c45415058ca33f75d7bb17f26edd7cbdf5885eaa9d4a2629caca47639d23f407",
+      "projection_sha256": "c8a7bb229d3d112cb3fa969a477cbc30058ec3de289695652fec44f689922e19"
+    },
+    {
+      "engine": "commonmark.js-fresh",
+      "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+      "output_sha256": "c45415058ca33f75d7bb17f26edd7cbdf5885eaa9d4a2629caca47639d23f407",
+      "projection_sha256": "c8a7bb229d3d112cb3fa969a477cbc30058ec3de289695652fec44f689922e19"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "order": [
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "commonmark.js-fresh"
+      ],
+      "load_end": [
+        3.7,
+        5.45,
+        6.09
+      ],
+      "rows": [
+        {
+          "engine": "carve-js",
+          "source_sha256": "b1b3d08972c16abe18902935bb0badfdcb4932a994371e69d3e98168b7a98af3",
+          "output_sha256": "c5026e89a2af84ce716e014debd3cdf224366a848fc6edf44f7b8f29fdce28bd",
+          "bytes": 49732,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            19.968871065000002,
+            23.774424275,
+            21.643815375,
+            19.35234322,
+            18.87711252,
+            18.67550096,
+            18.800799225000002
+          ],
+          "ms_per_op": 18.67550096,
+          "mb_per_s": 2.5395908364171467,
+          "carve_source": "@markup-carve/carve 0.1.9 (npm package)"
+        },
+        {
+          "engine": "djot.js",
+          "source_sha256": "d96cb6c3f6c4d6022a8730272de2384e90336aa1dc0afca0847afda4505f2f03",
+          "output_sha256": "6095e81f51634e9fcc84a9d5a975a407528551b4fa4d9408761c1a4f2feb178f",
+          "bytes": 49732,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            5.62402405,
+            5.597928339999999,
+            5.800160135,
+            5.73729608,
+            6.1984286950000005,
+            5.7627464250000004,
+            6.115260975
+          ],
+          "ms_per_op": 5.597928339999999,
+          "mb_per_s": 8.4724434152931
+        },
+        {
+          "engine": "markdown-it",
+          "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+          "output_sha256": "c201137ccde0ba1adec0b8b959664fb028cebf98775226b21f7f20bc4a488579",
+          "bytes": 50332,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            5.768930355,
+            5.54749204,
+            5.1927148899999995,
+            5.24123695,
+            5.32357681,
+            5.357227835,
+            5.4878856250000005
+          ],
+          "ms_per_op": 5.1927148899999995,
+          "mb_per_s": 9.243784168816436
+        },
+        {
+          "engine": "commonmark.js",
+          "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+          "output_sha256": "c45415058ca33f75d7bb17f26edd7cbdf5885eaa9d4a2629caca47639d23f407",
+          "bytes": 50332,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            2.595632485,
+            2.6404924199999997,
+            2.9235847699999997,
+            2.69998201,
+            2.62475507,
+            2.55136854,
+            2.460338845
+          ],
+          "ms_per_op": 2.460338845,
+          "mb_per_s": 19.509644287780766
+        },
+        {
+          "engine": "commonmark.js-fresh",
+          "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+          "output_sha256": "c45415058ca33f75d7bb17f26edd7cbdf5885eaa9d4a2629caca47639d23f407",
+          "bytes": 50332,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            2.44657298,
+            2.3133936449999997,
+            2.276672295,
+            2.336702195,
+            2.327878225,
+            2.39113198,
+            2.435564355
+          ],
+          "ms_per_op": 2.276672295,
+          "mb_per_s": 21.08355067120425
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "order": [
+        "commonmark.js-fresh",
+        "commonmark.js",
+        "markdown-it",
+        "djot.js",
+        "carve-js"
+      ],
+      "load_end": [
+        3.68,
+        5.19,
+        5.97
+      ],
+      "rows": [
+        {
+          "engine": "commonmark.js-fresh",
+          "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+          "output_sha256": "c45415058ca33f75d7bb17f26edd7cbdf5885eaa9d4a2629caca47639d23f407",
+          "bytes": 50332,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            2.42887821,
+            2.322283215,
+            2.311763835,
+            2.49487894,
+            2.424446535,
+            2.4719684799999997,
+            2.583251475
+          ],
+          "ms_per_op": 2.311763835,
+          "mb_per_s": 20.76351181147333
+        },
+        {
+          "engine": "commonmark.js",
+          "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+          "output_sha256": "c45415058ca33f75d7bb17f26edd7cbdf5885eaa9d4a2629caca47639d23f407",
+          "bytes": 50332,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            3.07935935,
+            3.0077798799999997,
+            3.2808666349999998,
+            2.729235915,
+            3.3064440999999998,
+            2.9394229050000003,
+            2.88360341
+          ],
+          "ms_per_op": 2.729235915,
+          "mb_per_s": 17.587463007337487
+        },
+        {
+          "engine": "markdown-it",
+          "source_sha256": "0cd1f99bcf4227c9b2c2fec4005ffa978ac4e3c0304de65df6f2c465d74ff6b3",
+          "output_sha256": "c201137ccde0ba1adec0b8b959664fb028cebf98775226b21f7f20bc4a488579",
+          "bytes": 50332,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            6.06162822,
+            6.137135905,
+            6.298441825,
+            6.435463670000001,
+            6.05686851,
+            5.83814925,
+            5.505177055000001
+          ],
+          "ms_per_op": 5.505177055000001,
+          "mb_per_s": 8.719126599164278
+        },
+        {
+          "engine": "djot.js",
+          "source_sha256": "d96cb6c3f6c4d6022a8730272de2384e90336aa1dc0afca0847afda4505f2f03",
+          "output_sha256": "6095e81f51634e9fcc84a9d5a975a407528551b4fa4d9408761c1a4f2feb178f",
+          "bytes": 49732,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            7.592537735,
+            6.963903785,
+            7.049039645000001,
+            7.5644207549999996,
+            8.01855284,
+            6.910913305,
+            6.848160765
+          ],
+          "ms_per_op": 6.848160765,
+          "mb_per_s": 6.925674313300911
+        },
+        {
+          "engine": "carve-js",
+          "source_sha256": "b1b3d08972c16abe18902935bb0badfdcb4932a994371e69d3e98168b7a98af3",
+          "output_sha256": "c5026e89a2af84ce716e014debd3cdf224366a848fc6edf44f7b8f29fdce28bd",
+          "bytes": 49732,
+          "iterations": 200,
+          "trials": 7,
+          "samples": [
+            19.86160865,
+            19.15533787,
+            19.869053335,
+            19.392822195,
+            19.0692886,
+            19.22167558,
+            18.99678117
+          ],
+          "ms_per_op": 18.99678117,
+          "mb_per_s": 2.496640387604972,
+          "carve_source": "@markup-carve/carve 0.1.9 (npm package)"
+        }
+      ]
+    }
+  ]
+}

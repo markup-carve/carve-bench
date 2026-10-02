@@ -87,6 +87,7 @@ const languageSections = (path, valueColumn) =>
 const comparisonGroups = languageSections(resolve(root, 'COMPARISON.md'), 3)
 // Rows from every language share one scale here, so each label carries its
 // language.
+const comparisonDate = readFileSync(resolve(root, 'COMPARISON.md'), 'utf8').match(/measured\s+(\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'
 const allEngines = comparisonGroups.flatMap((group) =>
   group.rows.map((row) => ({ ...row, name: `${row.name} (${group.name})` })),
 )
@@ -95,15 +96,24 @@ writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
   comparisonGroups,
 ))
+const commonmarkGroups = [2, 3].map((column, index) => ({
+  name: `Round ${index + 1}`,
+  rows: sections(resolve(root, 'reports/commonmark-js.md'), column)
+    .find(group => group.name === 'Reused public conversion APIs')?.rows.sort((a, b) => b.value - a.value) ?? [],
+}))
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
-  'Core route throughput, all engines on one scale',
-  'Default configuration, no opt-in extensions. Carve purple, Djot peers green, CommonMark peers orange.',
+  'Core route throughput, all measured engines',
+  '18-point historical workload and 14-point table-free JavaScript. Compare engines within each panel.',
   [
-    { name: 'Every measured engine', rows: [...allEngines].sort((a, b) => b.value - a.value) },
+    { name: `Table-capable engines, 18 points (${comparisonDate})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     {
-      name: 'Carve engines only',
+      name: `Table-capable Carve engines, 18 points (${comparisonDate})`,
       rows: allEngines.filter((row) => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
     },
+    ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
+      name: `Table-free JavaScript, 14 points (${readFileSync(resolve(root, 'reports/commonmark-js.md'), 'utf8').match(/Measured (\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'}), ${group.name.toLowerCase()}`,
+      rows: group.rows.map(row => ({ ...row, name: `${row.name} (JavaScript)` })),
+    })),
   ],
 ))
 writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
@@ -127,11 +137,6 @@ writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
     .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))
 
-const commonmarkGroups = [2, 3].map((column, index) => ({
-  name: `Round ${index + 1}`,
-  rows: sections(resolve(root, 'reports/commonmark-js.md'), column)
-    .find(group => group.name === 'Reused public conversion APIs')?.rows ?? [],
-}))
 if (commonmarkGroups.every(group => group.rows.length)) {
   writeFileSync(resolve(root, 'charts/commonmark-js.svg'), chart(
     'Shared JavaScript core including commonmark.js',

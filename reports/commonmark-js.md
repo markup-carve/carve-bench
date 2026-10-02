@@ -1,24 +1,36 @@
 # JavaScript core comparison including commonmark.js
 
-The comparison runs Carve JS, Djot, markdown-it and commonmark.js 0.31.2 on
-150 equivalent sections in each library's native syntax. Commonmark.js has no
-pipe-table extension, so this workload excludes tables. It exercises 14 of the
-[table-capable comparison's](../COMPARISON.md) 18 points: the three grid points
-and one alignment point are absent. Keep throughput from these workloads separate.
+Measured 2026-10-02T14:07:55.356Z, Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark main at setup: `906361bae52cccf52c9e4ae728f3bab8dc8c94d2`.
 
-Before timing, the runner checks projected HTML across all four libraries.
-It ignores section wrappers, generated IDs and list paragraph wrappers, and
-normalizes whitespace outside code. Inline word boundaries, element hierarchy,
-strong versus emphasis, link destinations, code language and code bytes remain
-part of the check. This verifies the shared workload; it is not general
-language conformance.
+Released packages: Carve JS 0.1.9, Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
-Commonmark.js reuses its parser and HTML renderer in the primary comparison.
-A separate control constructs both per conversion, investigating the concern in
-[djot.js #13](https://github.com/jgm/djot.js/issues/13). markdown-it reuses its
-instance; Carve and Djot use their public conversion functions.
+This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the table-capable comparison](../COMPARISON.md); their throughput values must not be mixed.
 
-## Run
+Before timing, all engines agree under an HTML projection that ignores section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. It preserves element hierarchy, emphasis versus strong, resolved link destinations, code language and code bytes. This is scoped workload verification, not general language conformance.
+
+## Reused public conversion APIs
+
+| Engine | Bytes | Round 1 MB/s | Round 2 MB/s |
+|---|---:|---:|---:|
+| carve-js | 49732 | 2.54 | 2.50 |
+| djot.js | 49732 | 8.47 | 6.93 |
+| markdown-it | 50332 | 9.24 | 8.72 |
+| commonmark.js | 50332 | 19.51 | 17.59 |
+
+![Shared JavaScript core throughput](../charts/commonmark-js.svg)
+
+## CommonMark constructor control
+
+| API lifetime | Round 1 ms/op | Round 2 ms/op |
+|---|---:|---:|
+| Reuse parser and renderer | 2.4603 | 2.7292 |
+| Construct both per call | 2.2767 | 2.3118 |
+
+The lifetime control investigates the parser-construction concern in [djot.js #13](https://github.com/jgm/djot.js/issues/13). markdown-it also reuses its instance; Carve and Djot use their public conversion functions. These are default API costs, not equal object lifetimes. Round variation makes the constructor-cost comparison inconclusive.
+
+One-minute host load was 3.04 at start and 3.68 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
+
+## Reproduce
 
 ```sh
 cd engines/js
@@ -28,22 +40,4 @@ node scripts/compare-commonmark.mjs
 node scripts/gen-charts.mjs
 ```
 
-The runner fetches the benchmark repository's main before recording its base.
-It verifies locked and installed packages, rejects a Carve checkout override,
-warms 200 conversions and records seven trials of 200 calls per worker. Two
-serial fresh-worker rounds reverse engine order. Startup and output checks are
-outside timing; each round reports its best trial and retains all samples.
-
-A run replaces this guide with its generated report and writes
-`reports/commonmark-js.json`. Chart generation then writes
-`charts/commonmark-js.svg`. The raw record includes source/output hashes,
-projection controls, package versions, harness hashes, hardware, runtime,
-measurement time and host load.
-
-## Published measurements
-
-No qualified timing snapshot is published yet. Samples collected while adding
-this comparison remain local because host activity varied. Run on an idle host
-and review both rounds before committing generated measurements, following the
-repository's publication policy. CI verifies workload equivalence and fixture
-drift and smoke-runs commonmark.js; it does not publish CI timings.
+The [raw record](commonmark-js.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.

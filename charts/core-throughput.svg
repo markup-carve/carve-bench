@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="727" viewBox="0 0 1000 727" role="img" aria-labelledby="title desc">
-<title id="title">Core route throughput, all engines on one scale</title>
-<desc id="desc">Default configuration, no opt-in extensions. Carve purple, Djot peers green, CommonMark peers orange.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1179" viewBox="0 0 1000 1179" role="img" aria-labelledby="title desc">
+<title id="title">Core route throughput, all measured engines</title>
+<desc id="desc">18-point historical workload and 14-point table-free JavaScript. Compare engines within each panel.</desc>
 <style>text{font-family:ui-sans-serif,system-ui,sans-serif;fill:#24292f}.title{font-size:25px;font-weight:700}.sub{font-size:14px;fill:#57606a}.group{font-size:19px;font-weight:650}.label{font-size:14px}.value{font-size:13px;font-weight:650;fill:#24292f}.track{fill:#eaeef2}@media(prefers-color-scheme:dark){text,.value{fill:#f0f6fc}.sub{fill:#8c959f}.track{fill:#30363d}}</style>
-<text id="chart-title" class="title" x="24" y="36">Core route throughput, all engines on one scale</text>
-<text class="sub" x="24" y="62">Default configuration, no opt-in extensions. Carve purple, Djot peers green, CommonMark peers orange.</text>
-<text class="group" x="24" y="105">Every measured engine</text>
+<text id="chart-title" class="title" x="24" y="36">Core route throughput, all measured engines</text>
+<text class="sub" x="24" y="62">18-point historical workload and 14-point table-free JavaScript. Compare engines within each panel.</text>
+<text class="group" x="24" y="105">Table-capable engines, 18 points (2026-09-30)</text>
 <text class="label" x="233" y="146" text-anchor="end">pulldown-cmark (Rust)</text>
 <rect class="track" x="245" y="133" width="650" height="20" rx="4"/>
 <rect x="245" y="133" width="650.0" height="20" rx="4" fill="#e58b25"/>
@@ -45,7 +45,7 @@
 <rect class="track" x="245" y="439" width="650" height="20" rx="4"/>
 <rect x="245" y="439" width="7.3" height="20" rx="4" fill="#e58b25"/>
 <text class="value" x="260.30888646471425" y="454">1.34 MB/s</text>
-<text class="group" x="24" y="524">Carve engines only</text>
+<text class="group" x="24" y="524">Table-capable Carve engines, 18 points (2026-09-30)</text>
 <text class="label" x="233" y="565" text-anchor="end">carve-rs (Rust)</text>
 <rect class="track" x="245" y="552" width="650" height="20" rx="4"/>
 <rect x="245" y="552" width="650.0" height="20" rx="4" fill="#4c31a8"/>
@@ -58,4 +58,38 @@
 <rect class="track" x="245" y="620" width="650" height="20" rx="4"/>
 <rect x="245" y="620" width="72.7" height="20" rx="4" fill="#7357d9"/>
 <text class="value" x="325.74274274274273" y="635">11.18 MB/s</text>
+<text class="group" x="24" y="705">Table-free JavaScript, 14 points (2026-10-02), round 1</text>
+<text class="label" x="233" y="746" text-anchor="end">commonmark.js (JavaScript)</text>
+<rect class="track" x="245" y="733" width="650" height="20" rx="4"/>
+<rect x="245" y="733" width="650.0" height="20" rx="4" fill="#e58b25"/>
+<text class="value" x="825" y="748">19.51 MB/s</text>
+<text class="label" x="233" y="780" text-anchor="end">markdown-it (JavaScript)</text>
+<rect class="track" x="245" y="767" width="650" height="20" rx="4"/>
+<rect x="245" y="767" width="307.8" height="20" rx="4" fill="#e58b25"/>
+<text class="value" x="560.842132239877" y="782">9.24 MB/s</text>
+<text class="label" x="233" y="814" text-anchor="end">djot.js (JavaScript)</text>
+<rect class="track" x="245" y="801" width="650" height="20" rx="4"/>
+<rect x="245" y="801" width="282.2" height="20" rx="4" fill="#24a37a"/>
+<text class="value" x="535.1886212198872" y="816">8.47 MB/s</text>
+<text class="label" x="233" y="848" text-anchor="end">carve-js (JavaScript)</text>
+<rect class="track" x="245" y="835" width="650" height="20" rx="4"/>
+<rect x="245" y="835" width="84.6" height="20" rx="4" fill="#a08ceb"/>
+<text class="value" x="337.6232701178883" y="850">2.54 MB/s</text>
+<text class="group" x="24" y="920">Table-free JavaScript, 14 points (2026-10-02), round 2</text>
+<text class="label" x="233" y="961" text-anchor="end">commonmark.js (JavaScript)</text>
+<rect class="track" x="245" y="948" width="650" height="20" rx="4"/>
+<rect x="245" y="948" width="650.0" height="20" rx="4" fill="#e58b25"/>
+<text class="value" x="825" y="963">17.59 MB/s</text>
+<text class="label" x="233" y="995" text-anchor="end">markdown-it (JavaScript)</text>
+<rect class="track" x="245" y="982" width="650" height="20" rx="4"/>
+<rect x="245" y="982" width="322.2" height="20" rx="4" fill="#e58b25"/>
+<text class="value" x="575.228538942581" y="997">8.72 MB/s</text>
+<text class="label" x="233" y="1029" text-anchor="end">djot.js (JavaScript)</text>
+<rect class="track" x="245" y="1016" width="650" height="20" rx="4"/>
+<rect x="245" y="1016" width="256.1" height="20" rx="4" fill="#24a37a"/>
+<text class="value" x="509.08300170551445" y="1031">6.93 MB/s</text>
+<text class="label" x="233" y="1063" text-anchor="end">carve-js (JavaScript)</text>
+<rect class="track" x="245" y="1050" width="650" height="20" rx="4"/>
+<rect x="245" y="1050" width="92.4" height="20" rx="4" fill="#a08ceb"/>
+<text class="value" x="345.3820352472996" y="1065">2.50 MB/s</text>
 </svg>
