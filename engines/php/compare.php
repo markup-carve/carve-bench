@@ -49,6 +49,7 @@ $result = [
     'samples' => $samples,
     'ms_per_op' => $min,
     'mb_per_s' => $bytes / 1048576 / ($min / 1000),
+    'jit_on' => (@opcache_get_status(false)['jit']['on'] ?? false) === true,
     'jit' => (@opcache_get_status(false)['jit']['enabled'] ?? false) === true,
 ];
 // Only the Carve row carries this; on a peer row it would name an engine that
