@@ -146,8 +146,9 @@ def append_session(output, path):
         'js-citation-final-session': 'Final JavaScript citation fix with bounded short scans',
         'php-merged-import-session': 'PHP importer with all review fixes merged',
     }
+    control_note = f" Rust control cases use {session['control_samples_per_round']} samples per round." if session.get('control_samples_per_round') and 'rs' in session['selected_engines'] else ''
     lines = ['', '## ' + titles.get(stem, stem), '',
-             f"{session['rounds']} alternating rounds on CPU {session['cpu']} use {session['samples_per_round']} samples per case. Longer control sampling, when enabled, uses {session.get('control_samples_per_round')} samples per round. Every output hash matches.", '',
+             f"{session['rounds']} alternating rounds on CPU {session['cpu']} use {session['samples_per_round']} samples per case.{control_note} Every output hash matches.", '',
              f'[Raw session]({stem}.json) · [CSV]({stem}.csv) · [Graph](../charts/{stem}.svg)', '',
              '| Engine | Main | Candidate |', '|---|---|---|']
     for engine in session['selected_engines']:
