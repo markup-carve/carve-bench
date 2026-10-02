@@ -5,6 +5,11 @@ import json
 from pathlib import Path
 
 
+def save_chart(figure, path):
+    figure.savefig(path, metadata={'Date': None})
+    path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines()) + '\n')
+
+
 def render(session_path, output):
     session = json.loads(session_path.read_text())
     if 'finished_at' not in session or 'summary' not in session:
@@ -41,6 +46,7 @@ def render(session_path, output):
     (output / 'deep-review.md').write_text('\n'.join(lines))
     import matplotlib
     matplotlib.use('Agg')
+    matplotlib.rcParams['svg.hashsalt'] = 'carve-bench-focused-v1'
     import matplotlib.pyplot as plt
     figure, axes = plt.subplots(1, 3, figsize=(17, 5), constrained_layout=True)
     colors = ['#2463a8', '#ca6733', '#238463']
@@ -69,7 +75,7 @@ def render(session_path, output):
     figure.suptitle('Pinned main vs proposed changes; lower is faster; compare within each engine')
     chart = output.parent / 'charts'
     chart.mkdir(exist_ok=True)
-    figure.savefig(chart / 'deep-review.svg', metadata={'Date': None})
+    save_chart(figure, chart / 'deep-review.svg')
     plt.close(figure)
 
 
@@ -112,7 +118,7 @@ def append_followups(output, citation_path, controls_path):
         ax.set_ylabel('Median milliseconds, log scale')
         ax.grid(alpha=.2)
         ax.legend()
-    figure.savefig(output.parent / 'charts/php-citation-review.svg', metadata={'Date': None})
+    save_chart(figure, output.parent / 'charts/php-citation-review.svg')
     plt.close(figure)
 
 
