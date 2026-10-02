@@ -34,7 +34,7 @@ from the repository root. Generate its chart with `node scripts/gen-charts.mjs`.
 
 ## Results
 
-The [benchmark site](https://markup-carve.github.io/carve-bench/) presents the
+The [**benchmark site**](https://markup-carve.github.io/carve-bench/) presents the
 same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
