@@ -1,0 +1,2536 @@
+{
+  "schema": 1,
+  "sampling": "four rounds; PHP alternates revision order, Rust uses fixed engine order; 21 warmed trials per round; median of all 84 trials; PHP 50 iterations/trial, Rust 400",
+  "cpu": 12,
+  "timing": "default public source-to-HTML; PHP tracing JIT; Rust optimized release with LTO",
+  "php": {
+    "main_sha": "8deb237e1129af59f7efa5e5e3522340d08a5ae4",
+    "rows": [
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          3.20050292,
+          3.1757584800000003,
+          3.2318024000000003,
+          3.1618142799999998,
+          3.14435406,
+          3.3056931200000004,
+          3.20033024,
+          3.18374444,
+          3.2867717,
+          3.18612598,
+          3.18835,
+          3.2038832200000003,
+          3.24306478,
+          3.28369392,
+          3.3064989000000002,
+          3.2491946,
+          3.1689952,
+          3.16344968,
+          3.2436369000000003,
+          3.1689094399999997,
+          4.00034276
+        ],
+        "ms_per_op": 3.14435406,
+        "mb_per_s": 14.943461414563453,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout carve-php-core-output-20261002 @ 8deb237e1)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "dd009cb0bd9656bc86bd26747dbaf2adf25fcecb6596a31b2ce395c7de90cd78"
+          },
+          "MarkupCarve\\Carve\\Performance\\HtmlOutput": {
+            "path": "HtmlOutput.php",
+            "sha256": "4862371b941805e839bd6287a1cdc1ff8beba1bf7c4340455f780de59f154420"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 0,
+        "revision_label": "carve-php"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          3.33760622,
+          2.8613383,
+          3.72622364,
+          3.24231602,
+          2.88887684,
+          2.89236226,
+          3.39997952,
+          2.94066552,
+          2.90022096,
+          2.8563062,
+          2.9525268,
+          2.8927929,
+          2.96089264,
+          2.90955422,
+          2.93611694,
+          2.8972559799999997,
+          3.0885680000000004,
+          3.18708672,
+          3.02763684,
+          2.99492712,
+          3.22316624
+        ],
+        "ms_per_op": 2.8563062,
+        "mb_per_s": 16.450453935693567,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout d4b53388df891158c9c868177a4213a5e8b2f608 @ d4b53388)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "16d309174a7688f4eef3253b05806ce6b5283ab69c98add2d1cd13c0edc92f30"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 0,
+        "revision_label": "carve-php-0.1.9"
+      },
+      {
+        "engine": "djot-php",
+        "bytes": 49540,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          2.73994936,
+          2.84441936,
+          2.8728155400000004,
+          2.92800582,
+          2.62903856,
+          2.70861604,
+          2.6955607600000002,
+          2.71281724,
+          2.77604534,
+          2.7174714399999997,
+          2.67322386,
+          2.7471266,
+          2.68502842,
+          3.6636794200000002,
+          4.22622996,
+          4.15824584,
+          4.0574574000000005,
+          2.5849810200000003,
+          2.7508268399999998,
+          2.65840306,
+          2.77779694
+        ],
+        "ms_per_op": 2.5849810200000003,
+        "mb_per_s": 18.27673985581744,
+        "jit": true,
+        "output_sha256": "57efd99d76c6e8a429c2ee61ce61682db0463fef23cdf8e3330bae9870765a84",
+        "sources_before": [],
+        "sources_after": [],
+        "round": 0,
+        "revision_label": "djot-php"
+      },
+      {
+        "engine": "djot-php",
+        "bytes": 49540,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          2.6667612800000002,
+          2.52822016,
+          2.57166984,
+          2.5135518,
+          2.52904514,
+          2.51953236,
+          2.51175762,
+          2.5271700200000002,
+          2.54561836,
+          2.53962938,
+          2.5285444200000002,
+          2.55973766,
+          2.5578892,
+          2.5259313,
+          2.5825100400000003,
+          2.5571007,
+          2.53779616,
+          2.57149276,
+          2.5029039,
+          2.5744489600000002,
+          2.59853878
+        ],
+        "ms_per_op": 2.5029039,
+        "mb_per_s": 18.876084549137353,
+        "jit": true,
+        "output_sha256": "57efd99d76c6e8a429c2ee61ce61682db0463fef23cdf8e3330bae9870765a84",
+        "sources_before": [],
+        "sources_after": [],
+        "round": 1,
+        "revision_label": "djot-php"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          3.0892154599999997,
+          3.05823982,
+          2.9923011600000002,
+          2.9194306,
+          2.94845736,
+          2.9453965799999997,
+          2.94249952,
+          2.8666633200000002,
+          2.9926739199999997,
+          3.0263857400000003,
+          2.8032189799999996,
+          2.98385562,
+          2.9497672999999995,
+          2.79129464,
+          2.9103959600000002,
+          2.94324656,
+          2.9525157,
+          2.9206121,
+          2.9974959,
+          2.7633621799999997,
+          2.76084402
+        ],
+        "ms_per_op": 2.76084402,
+        "mb_per_s": 17.01926411957744,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout d4b53388df891158c9c868177a4213a5e8b2f608 @ d4b53388)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "16d309174a7688f4eef3253b05806ce6b5283ab69c98add2d1cd13c0edc92f30"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 1,
+        "revision_label": "carve-php-0.1.9"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          3.37760442,
+          3.54657898,
+          3.45273528,
+          3.4239768400000004,
+          3.90582202,
+          3.423934,
+          3.47430256,
+          3.47222604,
+          4.48375702,
+          3.51269486,
+          3.5326194199999996,
+          3.4365583199999996,
+          3.53706766,
+          3.9318926800000003,
+          3.5619133,
+          3.51902488,
+          3.53772132,
+          3.5283972599999998,
+          3.45634264,
+          3.5392961200000004,
+          3.4246698600000003
+        ],
+        "ms_per_op": 3.37760442,
+        "mb_per_s": 13.911496944729821,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout carve-php-core-output-20261002 @ 8deb237e1)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "dd009cb0bd9656bc86bd26747dbaf2adf25fcecb6596a31b2ce395c7de90cd78"
+          },
+          "MarkupCarve\\Carve\\Performance\\HtmlOutput": {
+            "path": "HtmlOutput.php",
+            "sha256": "4862371b941805e839bd6287a1cdc1ff8beba1bf7c4340455f780de59f154420"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 1,
+        "revision_label": "carve-php"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          3.3568671,
+          3.3245743599999997,
+          3.4096197999999998,
+          3.3241601800000002,
+          3.30090674,
+          3.3105784799999998,
+          3.3215963599999996,
+          3.38988386,
+          3.51825434,
+          3.3779841399999997,
+          3.300602,
+          3.47040816,
+          3.39327992,
+          3.35450612,
+          3.3942994599999996,
+          3.3857677,
+          3.3881077399999997,
+          3.4639712200000004,
+          3.53048438,
+          3.33650586,
+          3.30689978
+        ],
+        "ms_per_op": 3.300602,
+        "mb_per_s": 14.236049535610757,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout carve-php-core-output-20261002 @ 8deb237e1)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "dd009cb0bd9656bc86bd26747dbaf2adf25fcecb6596a31b2ce395c7de90cd78"
+          },
+          "MarkupCarve\\Carve\\Performance\\HtmlOutput": {
+            "path": "HtmlOutput.php",
+            "sha256": "4862371b941805e839bd6287a1cdc1ff8beba1bf7c4340455f780de59f154420"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 2,
+        "revision_label": "carve-php"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          2.86097514,
+          2.8831297,
+          2.8975582,
+          3.12457472,
+          2.92335268,
+          3.40794954,
+          3.20569196,
+          2.9649603,
+          2.9492856,
+          2.87713878,
+          2.87918846,
+          2.85466482,
+          3.17261516,
+          2.85692614,
+          2.80713424,
+          3.20625546,
+          2.81818236,
+          2.7518198999999997,
+          2.7561025999999997,
+          2.8608518,
+          2.78385778
+        ],
+        "ms_per_op": 2.7518198999999997,
+        "mb_per_s": 17.075075868640944,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout d4b53388df891158c9c868177a4213a5e8b2f608 @ d4b53388)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "16d309174a7688f4eef3253b05806ce6b5283ab69c98add2d1cd13c0edc92f30"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 2,
+        "revision_label": "carve-php-0.1.9"
+      },
+      {
+        "engine": "djot-php",
+        "bytes": 49540,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          2.68709316,
+          2.8616453,
+          2.70967732,
+          2.64755128,
+          3.1216130399999997,
+          2.5888052599999996,
+          2.68980592,
+          2.63977558,
+          2.5637594200000002,
+          2.59016622,
+          2.53490898,
+          2.56899136,
+          2.55653518,
+          2.54034892,
+          2.5592974,
+          2.56091868,
+          2.71565832,
+          2.61855102,
+          2.6692894799999998,
+          2.6101563399999996,
+          2.52409878
+        ],
+        "ms_per_op": 2.52409878,
+        "mb_per_s": 18.717581898583866,
+        "jit": true,
+        "output_sha256": "57efd99d76c6e8a429c2ee61ce61682db0463fef23cdf8e3330bae9870765a84",
+        "sources_before": [],
+        "sources_after": [],
+        "round": 2,
+        "revision_label": "djot-php"
+      },
+      {
+        "engine": "djot-php",
+        "bytes": 49540,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          2.6381758000000004,
+          3.03044846,
+          2.68808574,
+          2.6675841000000005,
+          2.6626589999999997,
+          2.59420316,
+          2.8889234800000003,
+          2.89947788,
+          2.6011971999999997,
+          2.6572241,
+          2.67661384,
+          2.5634058399999997,
+          2.5565977799999997,
+          2.61167348,
+          2.62639294,
+          2.60655738,
+          2.58162556,
+          2.57543566,
+          2.5974313,
+          2.59729506,
+          2.62173634
+        ],
+        "ms_per_op": 2.5565977799999997,
+        "mb_per_s": 18.479647445663364,
+        "jit": true,
+        "output_sha256": "57efd99d76c6e8a429c2ee61ce61682db0463fef23cdf8e3330bae9870765a84",
+        "sources_before": [],
+        "sources_after": [],
+        "round": 3,
+        "revision_label": "djot-php"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          2.77863026,
+          2.7687561799999996,
+          2.80542982,
+          2.77845194,
+          2.80130884,
+          2.79696362,
+          2.77891384,
+          2.8499419599999998,
+          2.83720664,
+          3.20163338,
+          3.44627308,
+          2.95999038,
+          3.34493058,
+          3.03860946,
+          3.0269676399999996,
+          2.97233638,
+          2.9413719400000002,
+          2.89118628,
+          3.5209149,
+          2.86897446,
+          3.1541531199999997
+        ],
+        "ms_per_op": 2.7687561799999996,
+        "mb_per_s": 16.970628872541585,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout d4b53388df891158c9c868177a4213a5e8b2f608 @ d4b53388)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "a73987649e297e662ef66593293ad686ad6c0937412d62e9a412f6255d5f01ca"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "3b789e7412707906d4cec7d1063a163c2fe7a0e78e5bb3b2eeff6fe467ddb45f"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "9cc4cf15dbb71e2c34083dd8d0fef3bf0ea186349c140a27271d03ea9cef568e"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "d840d274c2c387d3c9496d00a3337cbe01586dabeddc44c86ba3ad6940dcaf4d"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "94bfe23d1a8e9ec4be9aee937d4bcea5348565fb2637bb80a5365f0f17dd721a"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "755d504f11b72215fdf810b9cbd6b04d3ef5b67f492ef67850c7cff9dfc706be"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "0abc55fdb842e3c791b90d9e68ccdafa42dcdea24e1446e733c9e356f988d36c"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "4bf1e8a0adc794f902b907e319e98a5caba9aa845343e346f6026476867c5483"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "12d9ea2e90ad1cc5b367d44df5367b49aa47e9b74c812cbe0ee9388910508bd6"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "ca6391f8d2f3ebc9f697018a6b90c10084534fce312b177d4a442ea87ddc7bde"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "6bedde4a95fb4f294261f4507027f753dce43c8e324d0ddeb0eab665d0344ff0"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "c66e28c848f0a5166ab97497d606e5ce5ee90d2ecc6967ff0d2890ec3788507a"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "392c7436103f09c336a4f769ad785b45d597dbf5af98b7d6c4cdf50ae7c40558"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "7e26cd8a389fe15d8c5aa77c14671be7a144749db03dfcc6025cbd6076c0f17c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "e40d76956bcaf01f4a94a60932635494935b81c197db724e1259bd4e8038b89e"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "a498f3094b7abf4bfe98204048047d86603ad268727d196b849618d713243e25"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "16d309174a7688f4eef3253b05806ce6b5283ab69c98add2d1cd13c0edc92f30"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 3,
+        "revision_label": "carve-php-0.1.9"
+      },
+      {
+        "engine": "carve-php",
+        "bytes": 49270,
+        "iterations": 50,
+        "trials": 21,
+        "samples": [
+          3.3491593999999996,
+          3.34644926,
+          3.4357836600000002,
+          3.34289514,
+          3.3680283600000003,
+          3.29252476,
+          3.3694254,
+          3.33014402,
+          3.36723486,
+          3.31785256,
+          3.3601867199999997,
+          3.34569228,
+          3.3868234200000003,
+          3.1838436000000003,
+          3.20121268,
+          3.2299489,
+          3.18927848,
+          3.15967882,
+          3.2032251200000004,
+          3.19606898,
+          3.2523140799999997
+        ],
+        "ms_per_op": 3.15967882,
+        "mb_per_s": 14.870984124055983,
+        "jit": true,
+        "carve_source": "markup-carve/carve-php (local checkout carve-php-core-output-20261002 @ 8deb237e1)",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "sources_before": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          }
+        },
+        "sources_after": {
+          "MarkupCarve\\Carve\\Ast\\AstCodec": {
+            "path": "AstCodec.php",
+            "sha256": "aa4b529f6fd67daad26208e4c95e887547c1676b4ae8caffd094657ee162e47e"
+          },
+          "MarkupCarve\\Carve\\CarveConverter": {
+            "path": "CarveConverter.php",
+            "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+          },
+          "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+            "path": "HtmlAstBuilder.php",
+            "sha256": "0c813e881fde7ca553066f11522fc24d6838441d24fc6197fb2ad0c7e1fa5cc3"
+          },
+          "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+            "path": "CitationsExtension.php",
+            "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+            "path": "ListParser.php",
+            "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderMode": {
+            "path": "RenderMode.php",
+            "sha256": "d1b062764ce644dbd6fbd2c8b8a1674ac6c3cf6ef9b6a180627cda172d8c4304"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParser": {
+            "path": "BlockParser.php",
+            "sha256": "38ad644f73e8838b4884d459af2c370036adea95ade92d3a472cc51a400b794b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockGrammar": {
+            "path": "BlockGrammar.php",
+            "sha256": "eb0ea7eff354c7ec8258431f958b9bf260efafde22da2ddb348076717c393b90"
+          },
+          "MarkupCarve\\Carve\\Util\\StringUtil": {
+            "path": "StringUtil.php",
+            "sha256": "9bf6ed6a482cfbd36fccced6b4ea5d7e5ffec384c5810632045ecb13f3b2f11b"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\TableCell": {
+            "path": "TableCell.php",
+            "sha256": "be28528421967926c2d58f7fad44d951608601d324a488cd2ac8d4bc17bdcf59"
+          },
+          "MarkupCarve\\Carve\\Node\\Block\\BlockNode": {
+            "path": "BlockNode.php",
+            "sha256": "afee64000a085baef4cf56d554d9b70a1830f0e49c036e1bdd8e868a1da57321"
+          },
+          "MarkupCarve\\Carve\\Node\\Node": {
+            "path": "Node.php",
+            "sha256": "1f8188492d67acb03d42e1c5168a05eee004bca257d31a8fa0ddc1224711992b"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParserState": {
+            "path": "BlockParserState.php",
+            "sha256": "24d475196f7858aa6475cb7d9164ec9da172e1257d84fa434922bdf85bfcbcc9"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseSession": {
+            "path": "BlockParseSession.php",
+            "sha256": "e574057413417c3d564760f0c93a4f6c6cdc52164f62a901b8f18b5f7f98e0cf"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockParseFrame": {
+            "path": "BlockParseFrame.php",
+            "sha256": "8dc32ecd92739801293d4afc8fef814ddb359d5835a1978a3a158f332d21d337"
+          },
+          "MarkupCarve\\Carve\\Parser\\BlockSourceState": {
+            "path": "BlockSourceState.php",
+            "sha256": "ee5435952f66775f9beb513bbfef69d22c79f89c8785ed1d805d68e350414da5"
+          },
+          "MarkupCarve\\Carve\\Parser\\InlineParser": {
+            "path": "InlineParser.php",
+            "sha256": "d9e23a47bbae0fd812b4a192c5982539020503b8f122453d0616d88d8c312d95"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\TableParser": {
+            "path": "TableParser.php",
+            "sha256": "2aef5ea5a325b7df0719beb794c82a2bfc7e2cf0aef66f2d53676807ca261e78"
+          },
+          "MarkupCarve\\Carve\\Parser\\Block\\FencedBlockParser": {
+            "path": "FencedBlockParser.php",
+            "sha256": "95a44926705131286ddd5353e2635fbbbc2fbb1769e11819eac9333de4e6fbbb"
+          },
+          "MarkupCarve\\Carve\\Parser\\ReferenceDefinitionExtractor": {
+            "path": "ReferenceDefinitionExtractor.php",
+            "sha256": "25882332beafa7abb2fe6dba6ef5a1ca14f205deba1d672bf669be999c6d413c"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HtmlRenderer": {
+            "path": "HtmlRenderer.php",
+            "sha256": "020aac59de1aa28cbe287425a49d892cc6ccb7bb5de5bde5d58770bb3651df82"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SoftBreakMode": {
+            "path": "SoftBreakMode.php",
+            "sha256": "44b9b268effdf6678a9139e5673e85bf768c2c64da5c67dc10d022823f0e58d8"
+          },
+          "MarkupCarve\\Carve\\Renderer\\SmartTypographyMode": {
+            "path": "SmartTypographyMode.php",
+            "sha256": "bf87ff8fce309112d96495b79ee2f1f4e08e01ff9b5981ff2d3d233f85414ed0"
+          },
+          "MarkupCarve\\Carve\\Renderer\\RenderContext": {
+            "path": "RenderContext.php",
+            "sha256": "d7a23f180f6d25023218a9e5f641b0605d5e33c315bf36d366eef260e8d3aa61"
+          },
+          "MarkupCarve\\Carve\\Renderer\\HeadingIdTracker": {
+            "path": "HeadingIdTracker.php",
+            "sha256": "f22b8004e21fed473877863830f34783bf3b49e1523ebbcad787da4655f9a2ce"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedExtensionPlan": {
+            "path": "BorrowedExtensionPlan.php",
+            "sha256": "10f36093acf4446fdbd20795236fdd990b4e1c37f2870a1ec1ab7982d427ed0c"
+          },
+          "MarkupCarve\\Carve\\Performance\\BorrowedHtmlLayout": {
+            "path": "BorrowedHtmlLayout.php",
+            "sha256": "dd009cb0bd9656bc86bd26747dbaf2adf25fcecb6596a31b2ce395c7de90cd78"
+          },
+          "MarkupCarve\\Carve\\Performance\\HtmlOutput": {
+            "path": "HtmlOutput.php",
+            "sha256": "4862371b941805e839bd6287a1cdc1ff8beba1bf7c4340455f780de59f154420"
+          },
+          "MarkupCarve\\Carve\\Parser\\LabelKey": {
+            "path": "LabelKey.php",
+            "sha256": "e134ba624235cbd2d6d2d2990d83fca2e91d6605cc53a3381366ee01f6b1b7f5"
+          }
+        },
+        "round": 3,
+        "revision_label": "carve-php"
+      }
+    ],
+    "source_guards": {
+      "main_src": "0c720df07e3eebdf3171d4e5783337ce30e0db6feed3695e4e30ce71e921479d",
+      "composer_artifacts": "881413b85c1eef8e3a91d05a864b8476efcf001dc0034409bbf02ca59c459f6d",
+      "tag_0_1_9_src": "cc4bcb549d547e9aa0c3c2016b69fb59893a7b91b417ecaa52bceaabd77568b3"
+    },
+    "worker_sha256": "1356434b4f05be368a68acdddb7ac0692da0b418e1a0afc3a7eb0c940ffde370",
+    "finished_at": "2026-10-02T14:05:48.516193+00:00",
+    "peer": "php-collective/djot dev-master fab953f6e4820d0d00209668062a68658589af75",
+    "runtime": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "peer_provenance_note": "Composer installed metadata is covered by composer_artifacts; peer source files were not individually guarded."
+  },
+  "rust": {
+    "main_sha": "2668992f289c9029ae1d42350c1cca5883f773e8",
+    "tag_sha": "d7837249c64b88879b04cd71b8b5555ff246e16f",
+    "rows": [
+      {
+        "engine": "carve-rs",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.45267,
+          0.451045,
+          0.455778,
+          0.454299,
+          0.455642,
+          0.464544,
+          0.452786,
+          0.45314,
+          0.453676,
+          0.453304,
+          0.45228,
+          0.460088,
+          0.459163,
+          0.458137,
+          0.460612,
+          0.468876,
+          0.458784,
+          0.463231,
+          0.456034,
+          0.452338,
+          0.452968
+        ],
+        "ms_per_op": 0.451045,
+        "mb_per_s": 104.17,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 0
+      },
+      {
+        "engine": "carve-rs-0.1.6",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.424515,
+          0.405688,
+          0.404836,
+          0.403059,
+          0.407364,
+          0.405881,
+          0.405514,
+          0.404209,
+          0.407497,
+          0.402844,
+          0.416175,
+          0.404028,
+          0.406087,
+          0.404736,
+          0.405712,
+          0.409776,
+          0.405989,
+          0.410458,
+          0.406917,
+          0.406526,
+          0.408217
+        ],
+        "ms_per_op": 0.402844,
+        "mb_per_s": 116.64,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 0
+      },
+      {
+        "engine": "pulldown-cmark",
+        "bytes": 49540,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.379908,
+          0.397881,
+          0.398956,
+          0.380011,
+          0.39453,
+          0.398435,
+          0.39007,
+          0.399005,
+          0.393644,
+          0.407609,
+          0.392325,
+          0.391452,
+          0.39252,
+          0.402747,
+          0.396881,
+          0.394331,
+          0.398691,
+          0.405927,
+          0.384307,
+          0.380414,
+          0.387394
+        ],
+        "ms_per_op": 0.379908,
+        "mb_per_s": 124.36,
+        "output_sha256": "a7da31b7f9d4c223e1b34d33f6e564b1af1de34ee34e4981ac805afd4add4193",
+        "variant": "baseline",
+        "round": 0
+      },
+      {
+        "engine": "carve-rs",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.456094,
+          0.450331,
+          0.453905,
+          0.502384,
+          0.497113,
+          0.454211,
+          0.452041,
+          0.448891,
+          0.452516,
+          0.45838,
+          0.515771,
+          0.446291,
+          0.44868,
+          0.452999,
+          0.46029,
+          0.461197,
+          0.452947,
+          0.459702,
+          0.462231,
+          0.461845,
+          0.464021
+        ],
+        "ms_per_op": 0.446291,
+        "mb_per_s": 105.28,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 1
+      },
+      {
+        "engine": "carve-rs-0.1.6",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.422403,
+          0.408867,
+          0.400822,
+          0.401918,
+          0.403262,
+          0.402539,
+          0.405358,
+          0.40409,
+          0.399079,
+          0.399858,
+          0.404104,
+          0.400974,
+          0.403831,
+          0.408057,
+          0.435697,
+          0.411255,
+          0.407303,
+          0.416387,
+          0.433027,
+          0.408983,
+          0.406348
+        ],
+        "ms_per_op": 0.399079,
+        "mb_per_s": 117.74,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 1
+      },
+      {
+        "engine": "pulldown-cmark",
+        "bytes": 49540,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.390975,
+          0.393905,
+          0.402459,
+          0.393911,
+          0.391089,
+          0.416636,
+          0.382798,
+          0.397228,
+          0.401418,
+          0.398043,
+          0.397206,
+          0.41693,
+          0.415744,
+          0.405301,
+          0.399948,
+          0.412699,
+          0.398425,
+          0.402293,
+          0.386216,
+          0.389397,
+          0.405809
+        ],
+        "ms_per_op": 0.382798,
+        "mb_per_s": 123.42,
+        "output_sha256": "a7da31b7f9d4c223e1b34d33f6e564b1af1de34ee34e4981ac805afd4add4193",
+        "variant": "baseline",
+        "round": 1
+      },
+      {
+        "engine": "carve-rs",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.459149,
+          0.46588,
+          0.464673,
+          0.459143,
+          0.457939,
+          0.468981,
+          0.501971,
+          0.528564,
+          0.494829,
+          0.489659,
+          0.485917,
+          0.471585,
+          0.460772,
+          0.463023,
+          0.467208,
+          0.486819,
+          0.497947,
+          0.501579,
+          0.489222,
+          0.487454,
+          0.49447
+        ],
+        "ms_per_op": 0.457939,
+        "mb_per_s": 102.61,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 2
+      },
+      {
+        "engine": "carve-rs-0.1.6",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.426041,
+          0.418214,
+          0.433,
+          0.43071,
+          0.433548,
+          0.498772,
+          0.411496,
+          0.409388,
+          0.403534,
+          0.417714,
+          0.428075,
+          0.419664,
+          0.409129,
+          0.404808,
+          0.400322,
+          0.43433,
+          0.418195,
+          0.414211,
+          0.41535,
+          0.40606,
+          0.4152
+        ],
+        "ms_per_op": 0.400322,
+        "mb_per_s": 117.37,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 2
+      },
+      {
+        "engine": "pulldown-cmark",
+        "bytes": 49540,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.389194,
+          0.390909,
+          0.398589,
+          0.387678,
+          0.396769,
+          0.436182,
+          0.402668,
+          0.395393,
+          0.394371,
+          0.387526,
+          0.421641,
+          0.411854,
+          0.43971,
+          0.467389,
+          0.396365,
+          0.410259,
+          0.427346,
+          0.403177,
+          0.400664,
+          0.397198,
+          0.397402
+        ],
+        "ms_per_op": 0.387526,
+        "mb_per_s": 121.91,
+        "output_sha256": "a7da31b7f9d4c223e1b34d33f6e564b1af1de34ee34e4981ac805afd4add4193",
+        "variant": "baseline",
+        "round": 2
+      },
+      {
+        "engine": "carve-rs",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.462844,
+          0.460545,
+          0.460256,
+          0.454469,
+          0.462733,
+          0.484993,
+          0.472238,
+          0.468452,
+          0.473511,
+          0.472967,
+          0.552276,
+          0.699958,
+          0.493383,
+          0.542113,
+          0.494646,
+          0.493367,
+          0.504728,
+          0.475557,
+          0.486645,
+          0.486442,
+          0.48802
+        ],
+        "ms_per_op": 0.454469,
+        "mb_per_s": 103.39,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 3
+      },
+      {
+        "engine": "carve-rs-0.1.6",
+        "bytes": 49270,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.430115,
+          0.425269,
+          0.41214,
+          0.420107,
+          0.418051,
+          0.421466,
+          0.426054,
+          0.413841,
+          0.410885,
+          0.408354,
+          0.410193,
+          0.413411,
+          0.413545,
+          0.41339,
+          0.406246,
+          0.411116,
+          0.443435,
+          0.405443,
+          0.409526,
+          0.407377,
+          0.406461
+        ],
+        "ms_per_op": 0.405443,
+        "mb_per_s": 115.89,
+        "carve_source": "main=2668992f; legacy=0.1.6; pulldown-cmark=0.13.4",
+        "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755",
+        "variant": "baseline",
+        "round": 3
+      },
+      {
+        "engine": "pulldown-cmark",
+        "bytes": 49540,
+        "iterations": 400,
+        "trials": 21,
+        "samples": [
+          0.399284,
+          0.399628,
+          0.397584,
+          0.3856,
+          0.390779,
+          0.387307,
+          0.386834,
+          0.387425,
+          0.390342,
+          0.387899,
+          0.397041,
+          0.399557,
+          0.389724,
+          0.388097,
+          0.408465,
+          0.392803,
+          0.387012,
+          0.386753,
+          0.397683,
+          0.393567,
+          0.47673
+        ],
+        "ms_per_op": 0.3856,
+        "mb_per_s": 122.52,
+        "output_sha256": "a7da31b7f9d4c223e1b34d33f6e564b1af1de34ee34e4981ac805afd4add4193",
+        "variant": "baseline",
+        "round": 3
+      }
+    ],
+    "source_hashes": {
+      "baseline": "71d40cc673346402519276e8661db1794ce7b3a9e4dd44a108ea60e3c48cd8a6",
+      "legacy": "e356b5532ab5af46fb438c1a0c0dc87b26a63ceaa92cc8858eed3aa0a12a9202"
+    },
+    "worker_sha256": "1598af141087fe29137cfeaf10253a3ca59e056cc5276f1e0a8754b9ef55f29a",
+    "binary_sha256": "4c06816c4003142257db452cd1f26d06ed2bad4400ec0efea26fb73dbe0ed860",
+    "lock_sha256": "00636f1e3ef97dbdffb8b6317f8e2fcb9d0a3082ec701e9b3c32f12c4c81952a",
+    "peer": "pulldown-cmark 0.13.4",
+    "runtime": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "artifact_written_at": "2026-10-02T14:03:44.563231+00:00",
+    "time_note": "Measurement completed before this raw artifact write time; no separate start/end timestamp was recorded."
+  },
+  "fixture_hashes": {
+    "carve.crv": "9e17569764af6cbdf23c9a5e70439b4dfc87fbe24dbcb022eb4c4577533119d5",
+    "markdown.md": "cf044c271de393e7f68923ec1213c284d559f03191e9f2fdff4567d9f41c1a51"
+  },
+  "summary": [
+    {
+      "language": "PHP",
+      "engine": "carve-php",
+      "revision": "main",
+      "bytes": 49270,
+      "median_ms": 3.3478043299999998,
+      "mb_per_s": 14.035328513161922,
+      "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2"
+    },
+    {
+      "language": "PHP",
+      "engine": "carve-php-0.1.9",
+      "revision": "0.1.9",
+      "bytes": 49270,
+      "median_ms": 2.9383912299999997,
+      "mb_per_s": 15.990904509109885,
+      "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2"
+    },
+    {
+      "language": "PHP",
+      "engine": "djot-php",
+      "revision": "peer",
+      "bytes": 49540,
+      "median_ms": 2.61511225,
+      "mb_per_s": 18.066155911573443,
+      "output_sha256": "57efd99d76c6e8a429c2ee61ce61682db0463fef23cdf8e3330bae9870765a84"
+    },
+    {
+      "language": "Rust",
+      "engine": "carve-rs",
+      "revision": "main",
+      "bytes": 49270,
+      "median_ms": 0.462482,
+      "mb_per_s": 101.59862128544665,
+      "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755"
+    },
+    {
+      "language": "Rust",
+      "engine": "carve-rs-0.1.6",
+      "revision": "0.1.6",
+      "bytes": 49270,
+      "median_ms": 0.409056,
+      "mb_per_s": 114.86821747960167,
+      "output_sha256": "79b31e6e80492c47c382480c940fdf886356c8e073e556fb37309a070f063755"
+    },
+    {
+      "language": "Rust",
+      "engine": "pulldown-cmark",
+      "revision": "peer",
+      "bytes": 49540,
+      "median_ms": 0.39711949999999996,
+      "mb_per_s": 118.96929169875976,
+      "output_sha256": "a7da31b7f9d4c223e1b34d33f6e564b1af1de34ee34e4981ac805afd4add4193"
+    }
+  ],
+  "publication_exporter_sha256": "1514264c3ce71dcb1982392cd440c81362d0ca456be3d18b50677787b78baf4a",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
+}
