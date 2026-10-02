@@ -194,6 +194,39 @@ def append_session(output, path):
     plt.close(figure)
 
 
+def append_retention(output, path):
+    session = json.loads(path.read_text())
+    rows = session['rows']
+    counts = sorted({row['count'] for row in rows})
+    for count in counts:
+        selected = [row for row in rows if row['count'] == count]
+        if len(selected) != 2 or len({row['output_hash'] for row in selected}) != 1:
+            raise ValueError('Cache retention outputs differ or a pair is missing')
+    lines = ['', '## PHP marker cache retention', '',
+             'Fresh PHP processes parse unique attribute payloads longer than 4 KB. A short marker warms the parser before the live-memory baseline. The final result is released and cycles collected. These are retained bytes, not peak memory or throughput. Complete marker output hashes match.', '',
+             f"Main: `{session['sources']['main']}`. Candidate: `{session['sources']['candidate']}`.", '',
+             '[Raw retention measurement](php-cache-retention.json) · [Graph](../charts/php-cache-retention.svg)', '',
+             '| Unique payloads | Main bytes | Candidate bytes |', '|---:|---:|---:|']
+    import matplotlib.pyplot as plt
+    figure, ax = plt.subplots(figsize=(6, 4), constrained_layout=True)
+    for count in counts:
+        pair = {row['variant']: row['retained_bytes'] for row in rows if row['count'] == count}
+        lines.append(f"| {count} | {pair['main']} | {pair['candidate']} |")
+    for variant in ['main', 'candidate']:
+        selected = sorted([row for row in rows if row['variant'] == variant], key=lambda row: row['count'])
+        ax.plot([row['count'] for row in selected], [row['retained_bytes'] for row in selected], marker='o', label=variant)
+    ax.set_yscale('log')
+    ax.set_xlabel('Unique oversized payloads')
+    ax.set_ylabel('Live retained bytes, log scale')
+    ax.set_title('PHP marker attribute cache')
+    ax.legend()
+    ax.grid(alpha=.2)
+    save_chart(figure, output.parent / 'charts' / 'php-cache-retention.svg')
+    plt.close(figure)
+    with (output / 'deep-review.md').open('a') as stream:
+        stream.write('\n'.join(lines) + '\n')
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('session', type=Path)
@@ -201,9 +234,12 @@ if __name__ == '__main__':
     parser.add_argument('--php-citations', type=Path)
     parser.add_argument('--rust-controls', type=Path)
     parser.add_argument('--followup', action='append', type=Path, default=[])
+    parser.add_argument('--cache-retention', type=Path)
     args = parser.parse_args()
     render(args.session, args.output)
     if args.php_citations and args.rust_controls:
         append_followups(args.output, args.php_citations, args.rust_controls)
     for followup in args.followup:
         append_session(args.output, followup)
+    if args.cache_retention:
+        append_retention(args.output, args.cache_retention)
