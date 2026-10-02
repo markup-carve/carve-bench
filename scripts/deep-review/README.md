@@ -26,3 +26,5 @@ python3 scripts/deep-review/render.py /tmp/focused-session.json /tmp/focused-rep
 Use `--engines rs --control-samples 401` for longer Rust controls, or `--engines php --kinds table-sections adjacent-definitions` for importer building. All six prepared source paths remain required. `--control-samples` applies to Rust plain text, nested citations and unpositioned groups.
 
 The committed October 2 report also includes separate PHP citation, Rust short-scan and PHP importer sessions, plus longer Rust diagnostics. The diagnostics reuse the original worker binaries; their producer was saved after the run. They do not replace the primary session.
+
+`cache-memory.php ROOT COUNT` measures live PHP memory retained after unique attribute payloads longer than 4 KB. It warms a short marker first, releases the final result, collects cycles, and checks every parsed ID. Fresh processes keep static cache state independent. This measures retained memory, not peak allocation or throughput.
