@@ -50,6 +50,8 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
+![Carve core throughput with pipe tables](./charts/carve-core-throughput.svg)
+
 The same core route, Carve engine against Carve engine on the identical
 document:
 

@@ -113,15 +113,19 @@ writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'With pipe tables: fastest trial. Without pipe tables: median timing. Compare within each panel.',
   [
     { name: `With pipe tables · 18 points (${comparisonDate})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
-    {
-      name: `Carve with pipe tables · 18 points (${comparisonDate})`,
-      rows: allEngines.filter((row) => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
-    },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
       name: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)})`,
       rows: group.rows.map(row => ({ ...row, name: `${row.name} (JavaScript)` })),
     })),
   ],
+))
+writeFileSync(resolve(root, 'charts/carve-core-throughput.svg'), chart(
+  'Carve core route throughput',
+  'With pipe tables: 18 points. Fastest trial from the recorded release comparison.',
+  [{
+    name: `Carve with pipe tables · 18 points (${comparisonDate})`,
+    rows: allEngines.filter(row => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
+  }],
 ))
 writeFileSync(resolve(root, 'charts/capabilities.svg'), chart(
   'Enabled core capability breadth',

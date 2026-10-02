@@ -39,6 +39,8 @@ by default. See `FEATURES.md` for the auditable matrix and limitations.
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
+![Carve core throughput with pipe tables](./charts/carve-core-throughput.svg)
+
 ![Bar chart of enabled core capability points](./charts/capabilities.svg)
 
 ## Headline: core route vs the fastest same-language peer
