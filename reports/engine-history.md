@@ -84,11 +84,13 @@ Runtime: 8.5.11. Latest tag: 0.1.10.
 | 0.1.8 | `93409af08040344221ff0d2d2d40351c8105e413` |
 | 0.1.9 | `d4b53388df891158c9c868177a4213a5e8b2f608` |
 | 0.1.10 | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
-| dev-main | `1cfc7e42d65acbe498c904b93b8f30c301c197ac` |
 | PR2829 | `6a6b1cfaf84c7b1c1248c6df5952dd76cd385c3d` |
 | PR2830 | `977761d0008f9d80b73f8a50bbc300ab7f2f77d3` |
+| dev-main | `1cfc7e42d65acbe498c904b93b8f30c301c197ac` |
 
 PHP dev-main was refreshed on the same CPU 12 after both further PRs merged. Four rounds of 11 samples began 2026-10-02T12:51:01.231751+00:00. Source, Composer artifacts and autoload origins were checked before and after. [Refreshed main point](php-latest-main-history-point.json). Individual PR points retain their earlier snapshots.
+
+Individual PR points measure separate component branches on sibling-path main; dev-main contains both fixes.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|
