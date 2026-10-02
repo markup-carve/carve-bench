@@ -68,6 +68,13 @@ def cases():
                          ("definition", "<dl>" + "<dt>Term</dt><dd><p>Definition</p></dd>" * 1024 + "</dl>")):
         for stage in ("encode", "decode", "import"):
             yield "php", kind, 1024, stage, source
+    for kind, fragment in (("table-sections", "<tbody><tr><td>x</td></tr></tbody>"),
+                           ("adjacent-definitions", "<dl><dt>t</dt><dd>d</dd></dl>")):
+        for n in (128, 1024, 4096):
+            source = fragment * n
+            if kind == "table-sections":
+                source = "<table>" + source + "</table>"
+            yield "php", kind, n, "build", source
     yield "php", "plain", 1024, "parse+encode", "A paragraph with *emphasis*.\n\n" * 1024
 
 
@@ -103,8 +110,9 @@ def main():
     parser.add_argument("--samples", type=int, default=11)
     parser.add_argument("--engines", nargs='+', choices=['js', 'php', 'rs'], default=['js', 'php', 'rs'])
     parser.add_argument("--control-samples", type=int)
+    parser.add_argument("--kinds", nargs="+")
     args = parser.parse_args()
-    if args.rounds < 2 or args.rounds % 2 or args.samples < 1:
+    if args.rounds < 2 or args.rounds % 2 or args.samples < 1 or (args.control_samples is not None and args.control_samples < 1):
         parser.error("Use an even number of rounds >= 2 and at least one sample")
     if args.output.exists():
         parser.error("Output already exists; choose a new session path")
@@ -172,7 +180,7 @@ def main():
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
             for engine, kind, n, stage, source in cases():
-                if engine not in args.engines:
+                if engine not in args.engines or (args.kinds and kind not in args.kinds):
                     continue
                 fixture = build / "fixture.txt"
                 fixture.write_text(source)

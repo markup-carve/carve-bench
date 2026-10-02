@@ -22,6 +22,9 @@ if ($stage === 'encode' || $stage === 'decode') {
     } else {
         $run = static fn () => $codec->decodeImporterTree($tree);
     }
+} elseif ($stage === 'build') {
+    $builder = new HtmlAstBuilder();
+    $run = static fn () => $builder->build($source);
 } elseif ($stage === 'import') {
     $import = new HtmlToCarve(listTableForBlockCells: true);
     $run = static fn () => $import->convertWithReport($source);
