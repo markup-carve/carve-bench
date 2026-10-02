@@ -325,7 +325,7 @@ output because timings across a behavior change can represent different work.
 ```bash
 python3 scripts/history/run.py --cpu 0
 # Include an unmerged PR alongside tags and main:
-python3 scripts/history/run.py --cpu 6 --candidate php=proposal=perf/verse-import-followup-20261001
+python3 scripts/history/run.py --cpu 6 --candidate php=proposal=my-branch
 ```
 
 Omit `--cpu` when affinity is unavailable, or select a CPU allowed on your host.
@@ -366,3 +366,5 @@ older tags and main retain the same body; the original verse case is also kept
 and may produce different output across revisions.
 
 The history signature covers the fixture and measurement functions. Worker hashes and source/build records identify the remaining execution context. Report generation also verifies sample counts, output hashes and summaries against the raw timings.
+
+The [focused engine review](reports/deep-review.md) measures the October 2 citation fixes and PHP AST encoding changes against pinned main. It includes raw sessions, controls and [graphs](charts/deep-review.svg). The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases. This comparison has its own timing boundaries and stays separate from release history.

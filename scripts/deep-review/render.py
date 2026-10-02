@@ -73,9 +73,56 @@ def render(session_path, output):
     plt.close(figure)
 
 
+def append_followups(output, citation_path, controls_path):
+    citation = json.loads(citation_path.read_text())
+    controls = json.loads(controls_path.read_text())
+    if 'finished_at' not in citation or controls['rounds_complete'] != 8:
+        raise ValueError('Follow-up measurement is incomplete')
+    lines = ['', '## PHP citation follow-up', '',
+             'This separate session measures the citation position fix against the same PHP main. The encoding measurements above use a different draft. Both changes are independent.', '',
+             'Main: `' + citation['sources']['main']['revision'] + '`. Citation draft: `' + citation['sources']['candidate']['revision'] + '`.', '',
+             '[Citation raw session](php-citation-review.json) · [Citation CSV](php-citation-review.csv) · [Citation graph](../charts/php-citation-review.svg)', '',
+             'Four alternating rounds of eleven samples use three warmups. Parsing with positions enabled includes the whole parser. The setter case measures the public setPos() method on a prepared group. Output serialization remains outside timing. Unpositioned controls show mixed small changes, including +11.1% at n=4096 and −16.7% at n=1024; the changed loop is not entered on this path.', '',
+             '| Stage | n | Main ms | Draft ms | Change |', '|---|---:|---:|---:|---:|']
+    columns = ['engine', 'kind', 'n', 'stage', 'main_ms', 'candidate_ms', 'change_percent', 'hash']
+    with (output / 'php-citation-review.csv').open('w') as stream:
+        writer = csv.DictWriter(stream, fieldnames=columns, extrasaction='ignore')
+        writer.writeheader()
+        writer.writerows(citation['summary'])
+    for row in citation['summary']:
+        lines.append(f"| {row['stage']} | {row['n']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
+    lines += ['', '## Longer Rust controls', '',
+              'Some short controls in the primary session read +10–41%. A local diagnostic repeated the same worker binaries for eight alternating rounds of 401 samples. The revised readings range from −2.0% to +4.0%. Keep the primary raw session intact; these repeats suggest sampling and host effects rather than the initial large regression.', '',
+              '[Diagnostic raw samples](deep-review-rust-controls.json)', '',
+              '| Case | n | Positions | Main ms | Draft ms | Change |', '|---|---:|---|---:|---:|---:|']
+    for row in controls['summary']:
+        lines.append(f"| {row['kind']} | {row['n']} | {row['positions']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
+    with (output / 'deep-review.md').open('a') as stream:
+        stream.write('\n'.join(lines) + '\n')
+    import matplotlib.pyplot as plt
+    figure, axes = plt.subplots(1, 2, figsize=(10, 4), constrained_layout=True)
+    for ax, stage, title in zip(axes, ['setter', 'parse+positions'], ['PHP public citation position setter', 'PHP parsing with citation positions']):
+        rows = [r for r in citation['summary'] if r['stage'] == stage]
+        for variant, style in [('main', '-'), ('candidate', '--')]:
+            ax.plot([r['n'] for r in rows], [r[variant + '_ms'] for r in rows], style, marker='o', label=variant)
+        ax.set_xscale('log', base=2)
+        ax.set_yscale('log')
+        ax.set_title(title)
+        ax.set_xlabel('Citation items')
+        ax.set_ylabel('Median milliseconds, log scale')
+        ax.grid(alpha=.2)
+        ax.legend()
+    figure.savefig(output.parent / 'charts/php-citation-review.svg', metadata={'Date': None})
+    plt.close(figure)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('session', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--php-citations', type=Path)
+    parser.add_argument('--rust-controls', type=Path)
     args = parser.parse_args()
     render(args.session, args.output)
+    if args.php_citations and args.rust_controls:
+        append_followups(args.output, args.php_citations, args.rust_controls)
