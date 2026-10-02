@@ -86,10 +86,11 @@ mkdirSync(resolve(root, 'charts'), { recursive: true })
 const LANGUAGES = new Set(['Rust', 'JavaScript', 'PHP'])
 const languageSections = (path, valueColumn) =>
   sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
-const comparisonGroups = languageSections(resolve(root, 'COMPARISON.md'), 3)
+const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'), 'utf8')) : null
+const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => ({ name, rows: finalCommonmarkResults(mainRecord).filter(row => mainRecord.final.find(item => item.engine === row.engine).language === name).map(row => ({ name: row.engine, value: row.mb_per_s })) })) : languageSections(resolve(root, 'COMPARISON.md'), 3)
 // Rows from every language share one scale here, so each label carries its
 // language.
-const comparisonDate = readFileSync(resolve(root, 'COMPARISON.md'), 'utf8').match(/measured\s+(\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'
+const comparisonDate = mainRecord?.metadata.generated_at.slice(0, 10) ?? readFileSync(resolve(root, 'COMPARISON.md'), 'utf8').match(/measured\s+(\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'
 const allEngines = comparisonGroups.flatMap((group) =>
   group.rows.map((row) => ({ ...row, name: `${row.name} (${group.name})` })),
 )
@@ -110,18 +111,18 @@ const commonmarkGroups = sharedRecord ? [{
 }] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core route throughput, all measured engines',
-  'With pipe tables: fastest trial. Without pipe tables: median timing. Compare within each panel.',
+  mainRecord ? `Carve dev-main in every panel: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}. Median timing; compare within each workload.` : 'With pipe tables: fastest trial. Without pipe tables: median timing. Compare within each panel.',
   [
-    { name: `With pipe tables · 18 points (${comparisonDate})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
+    { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
-      name: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)})`,
+      name: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)}${sharedRecord.metadata.carve_main ? ', Carve main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) : ''})`,
       rows: group.rows.map(row => ({ ...row, name: `${row.name} (JavaScript)` })),
     })),
   ],
 ))
 writeFileSync(resolve(root, 'charts/carve-core-throughput.svg'), chart(
   'Carve core route throughput',
-  'With pipe tables: 18 points. Fastest trial from the recorded release comparison.',
+  mainRecord ? 'With pipe tables: 18 points. Pinned Carve dev-main; median timing across all samples.' : 'With pipe tables: 18 points. Fastest trial from the recorded release comparison.',
   [{
     name: `Carve with pipe tables · 18 points (${comparisonDate})`,
     rows: allEngines.filter(row => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
@@ -151,7 +152,7 @@ writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
 if (commonmarkGroups.length) {
   writeFileSync(resolve(root, 'charts/commonmark-js.svg'), chart(
     'Shared JavaScript core including commonmark.js',
-    'Without pipe tables: 14 points. Throughput uses median timing across all recorded samples.',
+    'Without pipe tables: 14 points. Median timing.' + (sharedRecord.metadata.carve_main ? ' Carve dev-main ' + sharedRecord.metadata.carve_main.commit.slice(0, 7) + '.' : ''),
     commonmarkGroups,
   ))
 }

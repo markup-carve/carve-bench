@@ -41,6 +41,8 @@ $min = min($samples);
 $bytes = strlen($source);
 $result = [
     'engine' => $engine,
+    'source_sha256' => hash('sha256', $source),
+    'output_sha256' => hash('sha256', $render()),
     'bytes' => $bytes,
     'iterations' => $iterations,
     'trials' => $trials,
@@ -54,4 +56,5 @@ $result = [
 if ($engine === 'carve-php') {
     $result['carve_source'] = carve_bench_describe_src(CarveConverter::class);
 }
+if (getenv('CARVE_COMPARE_OBSERVE') === '1') { $result['html'] = $render(); }
 echo json_encode($result) . "\n";

@@ -7,7 +7,7 @@ fetch('evidence.json').then(response => {
   document.getElementById('filter-controls').hidden = false
   function render() {
     const selected = select.value
-    const panels = [{ title: `With pipe tables · 18 points (${data.host.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? 'recorded run'})`, statistic: 'Fastest trial', peers: data.peers }, ...(data.commonmarkLanes ?? [])]
+    const panels = [{ title: data.coreTitle ?? `With pipe tables · 18 points (${data.host.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? 'recorded run'})`, statistic: data.coreStatistic ?? 'Fastest trial', peers: data.peers }, ...(data.commonmarkLanes ?? [])]
     const visible = panels.map(panel => ({ ...panel, peers: panel.peers.filter(row => selected === 'all' || row.language === selected) })).filter(panel => panel.peers.length)
     const fragments = []
     for (const panel of visible) {

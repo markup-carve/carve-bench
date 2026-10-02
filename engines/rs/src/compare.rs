@@ -57,5 +57,7 @@ fn main() {
     } else {
         String::new()
     };
-    println!("{{\"engine\":\"{engine}\",\"bytes\":{},\"iterations\":{iterations},\"trials\":{trials},\"samples\":[{encoded}],\"ms_per_op\":{min:.6},\"mb_per_s\":{throughput:.2}{carve_source}}}", source.len());
+    let mut output_hex = String::new();
+    for byte in render().bytes() { write!(&mut output_hex, "{byte:02x}").unwrap(); }
+    println!("{{\"engine\":\"{engine}\",\"bytes\":{},\"iterations\":{iterations},\"trials\":{trials},\"samples\":[{encoded}],\"ms_per_op\":{min:.6},\"mb_per_s\":{throughput:.2}{carve_source},\"output_hex\":\"{output_hex}\"}}", source.len());
 }

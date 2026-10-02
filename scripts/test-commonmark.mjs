@@ -59,6 +59,13 @@ test('published shared-workload samples retain measured source and harness prove
   }
   assert.equal(record.schema, 1)
   assert.equal(record.metadata.workload_points, 14)
+  if (record.metadata.carve_main) {
+    assert.equal(record.metadata.carve_main.kind, 'merged-main')
+    assert.match(record.metadata.carve_main.commit, /^[a-f0-9]{40}$/)
+    assert.equal(record.metadata.carve_main.fast_path, true)
+    assert.ok(Object.keys(record.metadata.carve_main.dist_sha256).includes('fast-html.js'))
+    for (const round of record.rounds) assert.equal(round.rows.find(row => row.engine === 'carve-js').carve_source, `@markup-carve/carve ${record.metadata.carve_main.version} (merged main ${record.metadata.carve_main.commit})`)
+  }
   for (const [file, hash] of Object.entries(record.metadata.harness_sha256)) assert.equal(sha(readFileSync(file)), hash, file)
   assert.equal(sha(readFileSync('engines/js/package-lock.json')), record.metadata.lock_sha256)
   assert.deepEqual(record.rounds[1].order, [...record.rounds[0].order].reverse())
