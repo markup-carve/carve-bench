@@ -67,5 +67,14 @@ class WorkerProtocol(unittest.TestCase):
             worker.close()
 
 
+class ProvenancePaths(unittest.TestCase):
+    def test_argv_records_names_not_home_directories(self):
+        root = Path('/tmp/carve-bench')
+        argv = ['/tmp/carve-bench/scripts/html-import-comparison.py', '--upstream', '/home/mark/work/upstream', '--reps', '5']
+        self.assertEqual(comparison.portable_argv(argv, root),
+            ['scripts/html-import-comparison.py', '--upstream', 'upstream', '--reps', '5'])
+        self.assertNotIn('/home/', ' '.join(comparison.portable_argv(argv, root)))
+
+
 if __name__ == '__main__':
     unittest.main()
