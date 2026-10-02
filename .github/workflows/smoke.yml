@@ -18,6 +18,11 @@ jobs:
       - name: Install JS comparison engines
         working-directory: engines/js
         run: npm ci
+      # Generated reports record the machine that produced them, so this fails the
+      # suite before a home directory reaches public history.
+      - name: No tracked file records a host path
+        run: node --test scripts/test-host-paths.mjs
+
       - name: Syntax-check JS harnesses
         run: |
           node --check run.mjs

@@ -195,6 +195,12 @@ if the run measured anything else - the published release, a different checkout,
 or a lane that reported nothing at all. `node scripts/test-measured-sources.mjs`
 is that check being made to fire on each of those readings.
 
+An absolute override is fine to pass, and it does not reach the committed
+reports: a report records the interpreter by name, a path inside this repo
+relative to its root, and anything outside it by file name. Reports are
+published, so `node --test scripts/test-host-paths.mjs` fails the suite when a
+tracked file names a home directory.
+
 Prefer `CARVE_PHP_SRC` for a checkout. `CARVE_PHP_AUTOLOAD` alone cannot beat the
 benchmark's own vendored carve-php: Composer prepends that loader, so it resolves
 `MarkupCarve\Carve\*` first and the checkout never runs. `CARVE_PHP_SRC` rewrites

@@ -4,11 +4,13 @@ import { readFileSync, writeFileSync, readdirSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { loadavg } from 'node:os'
 import { fileURLToPath } from 'node:url'
-import { resolve, dirname } from 'node:path'
+import { resolve, dirname, basename } from 'node:path'
 import { assertMeasuredSources } from './measured-sources.mjs'
+import { portablePath, portableArgs, portableValues } from './portable-paths.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const doc = resolve(root, 'corpus/small.crv')
+
 const variants = {
   js: { baseline: process.env.CARVE_JS_BASELINE, current: process.env.CARVE_JS },
   php: { baseline: process.env.CARVE_PHP_BASELINE_SRC, current: process.env.CARVE_PHP_SRC },
@@ -47,7 +49,7 @@ for (const engine of ['js', 'php']) for (const iterations of [20, 2000]) for (co
     assert.equal(result.iters, iterations)
     if (engine === 'php') assert.equal(result.jit, true)
     assertMeasuredSources(new Map([[`carve-${engine}`, new Set([result.carve_source])]]), override, root)
-    rows.push({ engine, variant, round, order, iterations, command, args, override, loadBefore, loadAfter: loadavg(), result })
+    rows.push({ engine, variant, round, order, iterations, command: basename(command), args: portableArgs(args, root), override: portableValues(override, root), loadBefore, loadAfter: loadavg(), result })
     console.log(`${engine}/${iterations}/${round}/${variant}: ${result.ms_per_op} ms/op`)
   }
 }
@@ -57,7 +59,10 @@ for (const entries of Object.values(sources)) for (const source of Object.values
 }
 for (const source of Object.values(sources.js)) assert.equal(moduleDigest(source.checkout), source.modulesSha256, 'JS build changed during measurement')
 writeFileSync(resolve(root, 'reports/small-corpus-check.json'), JSON.stringify({
-  generatedAt: new Date().toISOString(), node: process.version, phpRuntime, sources,
+  generatedAt: new Date().toISOString(), node: process.version, phpRuntime,
+  sources: Object.fromEntries(Object.entries(sources).map(([engine, entries]) => [engine,
+    Object.fromEntries(Object.entries(entries).map(([variant, source]) => [variant, { ...source, checkout: portablePath(source.checkout, root) }])),
+  ])),
   inputSha256: createHash('sha256').update(readFileSync(doc)).digest('hex'),
   method: 'Rebuild both JS checkouts before timing and verify their module digests afterward. Serial fresh processes, baseline/current then current/baseline, at 20 and 2000 timed calls. Each harness warms up to 20 calls. Mean in-process wall time; builds and process startup excluded. PHP tracing JIT verified. Local shared host; two pairs per iteration count are diagnostic observations, not a performance threshold.',
   rows,

@@ -97,6 +97,29 @@ def add_candidate(repo, engine, revisions, label, sha):
     return None
 
 
+def portable(path, base):
+    # Reports are published: record a path relative to the benchmark tree, or just
+    # the file name, never an absolute path that names the home directory.
+    path = Path(path)
+    return str(path.relative_to(base)) if path.is_relative_to(base) else path.name
+
+
+def invocation(argv, root):
+    return [portable(part, root) if part.startswith('/') else part for part in argv]
+
+
+def cargo_layers(tree):
+    # Which layer applied, plus its content hash, is what reproduces a build; the
+    # absolute path only adds the home directory to a published report.
+    candidates = [(f'cargo-home/{name}', Path(os.environ.get('CARGO_HOME', str(Path.home()/'.cargo')))/name) for name in ('config','config.toml')]
+    candidates += [(f'{"tree" if not level else f"ancestor{level}"}/.cargo/{name}', parent/'.cargo'/name)
+                   for level,parent in enumerate((tree,*tree.parents)) for name in ('config','config.toml')]
+    layers = {}
+    for label,path in candidates:
+        if path.is_file(): layers.setdefault(path.resolve(), label)
+    return {label:hashlib.sha256(path.read_bytes()).hexdigest() for path,label in layers.items()}
+
+
 def prepare(cache, engine, revision):
     sha = revision['sha']
     tree = cache / engine / sha
@@ -109,10 +132,7 @@ def prepare(cache, engine, revision):
     stamp = hashlib.sha256(inspect.getsource(prepare).encode() + b''.join(p.read_bytes() for p in inputs)).hexdigest()
     marker = tree / '.history-build.json'
     tool = command({'js':['npm','--version'], 'php':['composer','--version','--no-ansi'], 'rs':['cargo','--version']}[engine],cwd=tree if engine=='rs' else None)
-    cargo_configs = [Path(os.environ.get('CARGO_HOME', str(Path.home()/'.cargo')))/name for name in ('config','config.toml')]
-    if engine == 'rs':
-        cargo_configs += [parent/'.cargo'/name for parent in (tree,*tree.parents) for name in ('config','config.toml')]
-    cargo_configuration = {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in cargo_configs if path.is_file()} if engine == 'rs' else {}
+    cargo_configuration = cargo_layers(tree) if engine == 'rs' else {}
     cargo_environment = {key:value for key,value in os.environ.items() if key.startswith(('CARGO_BUILD_','CARGO_PROFILE_','CARGO_TARGET_','RUST')) or key == 'CARGO_ENCODED_RUSTFLAGS'}
     cargo_environment_hash = hashlib.sha256(json.dumps(cargo_environment,sort_keys=True).encode()).hexdigest() if engine == 'rs' else None
     expected = {'cargo_environment_sha256':cargo_environment_hash, 'cargo_configuration_sha256':cargo_configuration, 'sha': sha, 'recipe': stamp, 'runtime': runtime(engine,tree if engine=='rs' else None), 'tool':tool, 'rustflags':os.environ.get('RUSTFLAGS'), 'encoded_rustflags':os.environ.get('CARGO_ENCODED_RUSTFLAGS'), 'cargo_build_target':os.environ.get('CARGO_BUILD_TARGET')}
@@ -251,7 +271,7 @@ def main():
     except BlockingIOError:
         parser.error('Another history run uses this cache; wait or choose a separate --cache')
     startup_signature = measurement_signature(Path(__file__).read_text())
-    result = {'schema': 1, 'sizes':args.sizes, 'invocation':sys.argv, 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_* cases are HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
+    result = {'schema': 1, 'sizes':args.sizes, 'invocation':invocation(sys.argv, ROOT), 'generated_at': datetime.now(timezone.utc).isoformat(), 'benchmark_commit': command(['git','-C',str(ROOT),'rev-parse','HEAD']), 'harness_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob('*')) if p.is_file()}, 'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)) if hasattr(os,'sched_getaffinity') else None, 'tags_per_engine':args.tags,'benchmark_dirty':bool(command(['git','-C',str(ROOT),'status','--porcelain'])), 'rounds':args.rounds,'samples_per_round':args.samples, 'timing':'in-process core conversion, except php html_* cases are HTML import; Rust mirrors engine release profile; PHP CLI opcache/JIT off, coverage off; affinity also pins Node compiler/GC threads', 'engines': {}}
     prepared = {}
     for engine in args.engines:
         mirror = cache / f'{engine}.git'
