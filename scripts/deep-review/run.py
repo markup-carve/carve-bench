@@ -61,6 +61,8 @@ def cases():
         for n in (128, 1024, 2048):
             source = ("[" + "; ".join(["@a"] * n) + "]\n") if fragment is None else fragment * n + "\n"
             yield "js", kind, n, "true", source
+    for n in (128, 1024, 4096):
+        yield "js", "empty-table-rows", n, "html-import", "<table>" + "<tr><td></td></tr>" * n + "</table>"
     for n in (128, 1024):
         for positions in ("true", "false"):
             yield "rs", "plain", n, positions, "A paragraph with *emphasis*.\n\n" * n
@@ -111,6 +113,7 @@ def main():
     parser.add_argument("--engines", nargs='+', choices=['js', 'php', 'rs'], default=['js', 'php', 'rs'])
     parser.add_argument("--control-samples", type=int)
     parser.add_argument("--kinds", nargs="+")
+    parser.add_argument("--sizes", nargs="+", type=int)
     args = parser.parse_args()
     if args.rounds < 2 or args.rounds % 2 or args.samples < 1 or (args.control_samples is not None and args.control_samples < 1):
         parser.error("Use an even number of rounds >= 2 and at least one sample")
@@ -180,7 +183,7 @@ def main():
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
             for engine, kind, n, stage, source in cases():
-                if engine not in args.engines or (args.kinds and kind not in args.kinds):
+                if engine not in args.engines or (args.kinds and kind not in args.kinds) or (args.sizes and n not in args.sizes):
                     continue
                 fixture = build / "fixture.txt"
                 fixture.write_text(source)
