@@ -1,0 +1,1738 @@
+{
+  "started_at": "2026-10-02T11:17:24.200652+00:00",
+  "driver": {
+    "root": "/tmp/carve-bench-import-session-20261002",
+    "revision": "68f9fcea805e994150270cee7598e1bb9ca5be94"
+  },
+  "worker_hashes": {
+    "run.py": "ccd29e0783d4cecf06bc8c09a5b28265aceec78ffd3ecd67ff249bb3ae9b2310",
+    "worker.mjs": "f5772ae631d875460041676b6faeafb2f760c22070b0fd9b65c1e3fe00c3feac",
+    "worker.php": "137df180db18a943f557d4dc6f8929388bbe2fb0fa0bc44f5e7c56c8a176bd35",
+    "worker.rs": "4554bdc0a8f9f2d3339376993badf31205d9ebf79701803b2d14e7129004acd2"
+  },
+  "sources": {
+    "js-main": {
+      "root": "/tmp/carve-js-import-measured-base-20261002",
+      "revision": "0fe9653ad250bd813314b7f031f659ee79d6da9f"
+    },
+    "js-candidate": {
+      "root": "/tmp/carve-js-round3-import-20261002",
+      "revision": "d9eecc702bbbbc3d86a488bd991e038e3fc70885"
+    },
+    "php-main": {
+      "root": "/tmp/carve-php-merged-review-20261002",
+      "revision": "4c1cf690ea57e6ce035dfbecce932d42684c1018"
+    },
+    "php-candidate": {
+      "root": "/tmp/carve-php-round3-citations-20261002",
+      "revision": "23350fb058dded3bd85ed08239e5db03b0679a02"
+    },
+    "rs-main": {
+      "root": "/tmp/carve-rs-merged-review-20261002",
+      "revision": "1aa51a380af1c5407fba49a476497ac4795adaeb"
+    },
+    "rs-candidate": {
+      "root": "/tmp/carve-rs-round3-citations-20261002",
+      "revision": "338a17ea3b33f782c91b686e1bfd0265b52ea02f"
+    }
+  },
+  "rounds": 4,
+  "samples_per_round": 3,
+  "cpu": 11,
+  "invocation": [
+    "scripts/deep-review/run.py",
+    "--js-main",
+    "/tmp/carve-js-import-measured-base-20261002",
+    "--js-candidate",
+    "/tmp/carve-js-round3-import-20261002",
+    "--php-main",
+    "/tmp/carve-php-merged-review-20261002",
+    "--php-candidate",
+    "/tmp/carve-php-round3-citations-20261002",
+    "--rs-main",
+    "/tmp/carve-rs-merged-review-20261002",
+    "--rs-candidate",
+    "/tmp/carve-rs-round3-citations-20261002",
+    "--engines",
+    "js",
+    "--kinds",
+    "captioned-blank-tables",
+    "quoted-blank-tables",
+    "listed-blank-tables",
+    "--rounds",
+    "4",
+    "--samples",
+    "3",
+    "--cpu",
+    "11",
+    "--cargo-target",
+    "/tmp/cargo-shared/carve-round3-final-probe-20261002",
+    "--output",
+    "/media/mark/data/work/carve-quality-measurements-2026-10-02/deep-review/js-session-refusals-session.json"
+  ],
+  "runtimes": {
+    "js": "v22.22.2",
+    "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "rs": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
+  },
+  "rust_binary_hashes": {},
+  "rows": [
+    {
+      "samples": [
+        1467.9105639999998,
+        893.7785029999995,
+        1253.9936399999988
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 3,
+      "warmup_ms": 6849.6065659999995,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:17:25.444830+00:00",
+      "load_average": [
+        33.38037109375,
+        21.52685546875,
+        22.03369140625
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "783322"
+    },
+    {
+      "samples": [
+        698.2914989999999,
+        386.00271299999986,
+        225.81108700000004
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 3,
+      "warmup_ms": 1864.81509,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:17:39.233391+00:00",
+      "load_average": [
+        34.62158203125,
+        22.40966796875,
+        22.31640625
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "844442"
+    },
+    {
+      "samples": [
+        11552.905888000008,
+        11567.703115000011,
+        13001.996855000005
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 150200.84815499999,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:17:43.736783+00:00",
+      "load_average": [
+        37.455078125,
+        23.2001953125,
+        22.57275390625
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3600582"
+    },
+    {
+      "samples": [
+        173.71912499999985,
+        145.23170800000003,
+        248.951546
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 1471.281091,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:21:05.219565+00:00",
+      "load_average": [
+        21.9189453125,
+        29.4755859375,
+        25.7451171875
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593535"
+    },
+    {
+      "samples": [
+        245.13023599999997,
+        201.84705400000007,
+        195.14902400000005
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 3,
+      "warmup_ms": 940.3362460000001,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:21:07.629346+00:00",
+      "load_average": [
+        20.56396484375,
+        29.06884765625,
+        25.63330078125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593529"
+    },
+    {
+      "samples": [
+        38.19996000000003,
+        67.85674999999992,
+        44.714401000000066
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 7,
+      "warmup_ms": 523.9217629999999,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:21:09.591561+00:00",
+      "load_average": [
+        20.56396484375,
+        29.06884765625,
+        25.63330078125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593596"
+    },
+    {
+      "samples": [
+        19260.544787,
+        21938.93259599999,
+        17961.134919999997
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 41599.75655,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:21:10.516326+00:00",
+      "load_average": [
+        20.56396484375,
+        29.06884765625,
+        25.63330078125
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3588055"
+    },
+    {
+      "samples": [
+        153.68224599999985,
+        116.68438300000003,
+        207.46608000000015
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 1367.318669,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:23:03.654692+00:00",
+      "load_average": [
+        17.2041015625,
+        24.66259765625,
+        24.38916015625
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593516"
+    },
+    {
+      "samples": [
+        256.13979399999994,
+        230.1541209999998,
+        193.02804400000014
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 3,
+      "warmup_ms": 1079.701276,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:23:05.809145+00:00",
+      "load_average": [
+        17.2041015625,
+        24.66259765625,
+        24.38916015625
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593493"
+    },
+    {
+      "samples": [
+        51.78352000000007,
+        76.21097900000007,
+        57.31466599999999
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 7,
+      "warmup_ms": 528.9017140000001,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:23:07.971870+00:00",
+      "load_average": [
+        16.38671875,
+        24.369140625,
+        24.29541015625
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593571"
+    },
+    {
+      "samples": [
+        15737.120991999996,
+        15961.578406,
+        15995.419483999998
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 50176.83025399999,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:23:08.924818+00:00",
+      "load_average": [
+        16.38671875,
+        24.369140625,
+        24.29541015625
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3585937"
+    },
+    {
+      "samples": [
+        254.96328399999993,
+        305.9627300000002,
+        330.80213200000026
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 1741.080198,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 0,
+      "observed_at": "2026-10-02T11:25:04.340506+00:00",
+      "load_average": [
+        7.6318359375,
+        18.5224609375,
+        22.1689453125
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593538"
+    },
+    {
+      "samples": [
+        26.28088200000002,
+        44.94065699999999,
+        47.959877000000006
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 6,
+      "warmup_ms": 502.00145,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:25:07.328196+00:00",
+      "load_average": [
+        7.5810546875,
+        18.3310546875,
+        22.08740234375
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593569"
+    },
+    {
+      "samples": [
+        243.163098,
+        224.84233799999993,
+        212.97044899999992
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 3,
+      "warmup_ms": 1001.440905,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:25:08.211193+00:00",
+      "load_average": [
+        7.5810546875,
+        18.3310546875,
+        22.08740234375
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593584"
+    },
+    {
+      "samples": [
+        155.06570499999998,
+        140.6875500000001,
+        229.81972900000005
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 1361.5079700000001,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:25:10.281344+00:00",
+      "load_average": [
+        7.5810546875,
+        18.3310546875,
+        22.08740234375
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593569"
+    },
+    {
+      "samples": [
+        14950.631127,
+        14794.107226,
+        13433.320974000002
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 37854.738653,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:25:12.490849+00:00",
+      "load_average": [
+        7.61474609375,
+        18.1591796875,
+        22.01171875
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3591482"
+    },
+    {
+      "samples": [
+        38.09414000000004,
+        58.65050299999996,
+        49.696905000000015
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 7,
+      "warmup_ms": 506.065877,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:26:45.914420+00:00",
+      "load_average": [
+        6.1337890625,
+        14.9560546875,
+        20.5166015625
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593598"
+    },
+    {
+      "samples": [
+        249.49957100000006,
+        188.7676610000001,
+        199.18936000000008
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 3,
+      "warmup_ms": 935.367497,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:26:46.813447+00:00",
+      "load_average": [
+        6.60400390625,
+        14.90673828125,
+        20.470703125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593548"
+    },
+    {
+      "samples": [
+        180.55631300000005,
+        133.55216599999994,
+        225.60991999999987
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 1468.548916,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:26:48.765972+00:00",
+      "load_average": [
+        6.60400390625,
+        14.90673828125,
+        20.470703125
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593578"
+    },
+    {
+      "samples": [
+        15154.747361000002,
+        14474.23447499999,
+        12789.664484999987
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 39049.358819,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:26:51.102418+00:00",
+      "load_average": [
+        6.60400390625,
+        14.90673828125,
+        20.470703125
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593631"
+    },
+    {
+      "samples": [
+        30.408834999999954,
+        48.3166490000001,
+        67.71256299999993
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 6,
+      "warmup_ms": 504.79507,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:28:23.687049+00:00",
+      "load_average": [
+        7.58251953125,
+        13.01171875,
+        19.251953125
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593597"
+    },
+    {
+      "samples": [
+        256.20670800000016,
+        233.6288179999999,
+        205.346004
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 3,
+      "warmup_ms": 1088.45734,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:28:24.611427+00:00",
+      "load_average": [
+        7.58251953125,
+        13.01171875,
+        19.251953125
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593560"
+    },
+    {
+      "samples": [
+        223.094836,
+        295.1455430000003,
+        333.4572170000001
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 1546.9361620000002,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:28:26.800145+00:00",
+      "load_average": [
+        7.45556640625,
+        12.89501953125,
+        19.1806640625
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593549"
+    },
+    {
+      "samples": [
+        19750.096730999998,
+        15772.875006000002,
+        16777.729734000008
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 46993.991257,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 1,
+      "observed_at": "2026-10-02T11:28:29.513458+00:00",
+      "load_average": [
+        7.45556640625,
+        12.89501953125,
+        19.1806640625
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593504"
+    },
+    {
+      "samples": [
+        264.20756200000005,
+        225.05883600000016,
+        216.64598899999987
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 3,
+      "warmup_ms": 1034.5581739999998,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:30:24.399235+00:00",
+      "load_average": [
+        7.13427734375,
+        10.98876953125,
+        17.74755859375
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593084"
+    },
+    {
+      "samples": [
+        24.172965999999974,
+        43.72933999999998,
+        68.91610200000002
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 6,
+      "warmup_ms": 500.767283,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:30:26.557702+00:00",
+      "load_average": [
+        7.13427734375,
+        10.98876953125,
+        17.74755859375
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593568"
+    },
+    {
+      "samples": [
+        12365.523593999998,
+        12381.086040999995,
+        10249.007989999998
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 36556.283649000005,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:30:27.465696+00:00",
+      "load_average": [
+        6.962890625,
+        10.88916015625,
+        17.6787109375
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593523"
+    },
+    {
+      "samples": [
+        109.4090389999999,
+        97.45203800000013,
+        139.3224799999998
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 987.1732840000001,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:31:46.781479+00:00",
+      "load_average": [
+        5.96337890625,
+        9.671875,
+        16.689453125
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593572"
+    },
+    {
+      "samples": [
+        164.116714,
+        119.6448089999999,
+        122.53020100000003
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 3,
+      "warmup_ms": 637.252334,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:31:48.351324+00:00",
+      "load_average": [
+        5.96337890625,
+        9.671875,
+        16.689453125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593629"
+    },
+    {
+      "samples": [
+        9.12562099999991,
+        7.807174999999916,
+        14.224189000000024
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 15,
+      "warmup_ms": 506.08177400000005,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:31:50.037230+00:00",
+      "load_average": [
+        5.96337890625,
+        9.671875,
+        16.689453125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593500"
+    },
+    {
+      "samples": [
+        7992.684892000001,
+        8048.823504999997,
+        7881.0787890000065
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 22274.579763,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:31:50.799229+00:00",
+      "load_average": [
+        5.96337890625,
+        9.671875,
+        16.689453125
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593540"
+    },
+    {
+      "samples": [
+        129.10074600000007,
+        91.95757000000003,
+        152.16700500000002
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 967.00977,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:32:44.597029+00:00",
+      "load_average": [
+        4.625,
+        8.6943359375,
+        15.951171875
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593631"
+    },
+    {
+      "samples": [
+        163.796562,
+        144.08387599999992,
+        133.76965700000005
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 3,
+      "warmup_ms": 719.921242,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:32:46.168425+00:00",
+      "load_average": [
+        4.625,
+        8.6943359375,
+        15.951171875
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593524"
+    },
+    {
+      "samples": [
+        20.26657899999998,
+        27.802548,
+        8.811883999999964
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 10,
+      "warmup_ms": 504.36736499999995,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:32:47.603618+00:00",
+      "load_average": [
+        4.8154296875,
+        8.666015625,
+        15.90283203125
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593506"
+    },
+    {
+      "samples": [
+        9363.642644,
+        9159.622225,
+        9443.889631000005
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 27281.944969,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:32:48.336904+00:00",
+      "load_average": [
+        4.8154296875,
+        8.666015625,
+        15.90283203125
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593529"
+    },
+    {
+      "samples": [
+        157.60470399999986,
+        209.72509300000002,
+        207.31817
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 1094.93086,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 2,
+      "observed_at": "2026-10-02T11:33:52.881858+00:00",
+      "load_average": [
+        5.58740234375,
+        8.0537109375,
+        15.1962890625
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593528"
+    },
+    {
+      "samples": [
+        6.548962999999958,
+        9.902444999999943,
+        28.205591000000027
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 12,
+      "warmup_ms": 519.078744,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:33:54.823114+00:00",
+      "load_average": [
+        5.58740234375,
+        8.0537109375,
+        15.1962890625
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593589"
+    },
+    {
+      "samples": [
+        159.49310100000002,
+        135.57734100000005,
+        125.96437500000002
+      ],
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "warmups": 3,
+      "warmup_ms": 664.66976,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:33:55.569215+00:00",
+      "load_average": [
+        5.58740234375,
+        8.0537109375,
+        15.1962890625
+      ],
+      "fixture_hash": "ca2f29d1fec78e2c0cf5efb88820d253d5bb41ac0ba6a0a43086ec0f5c10aea5",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593532"
+    },
+    {
+      "samples": [
+        109.855458,
+        109.65750200000002,
+        162.92572199999995
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 1033.175219,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:33:56.944805+00:00",
+      "load_average": [
+        5.3798828125,
+        7.9697265625,
+        15.13037109375
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593645"
+    },
+    {
+      "samples": [
+        8885.008148,
+        9323.916025999999,
+        7954.3442829999985
+      ],
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "warmups": 3,
+      "warmup_ms": 24973.370643,
+      "engine": "js",
+      "variant": "main",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:33:58.602386+00:00",
+      "load_average": [
+        5.3798828125,
+        7.9697265625,
+        15.13037109375
+      ],
+      "fixture_hash": "4139572bd7e92806977037d0d77d36008fa8f9a5983761ba48e6ceca402f978f",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3592251"
+    },
+    {
+      "samples": [
+        8.927821999999992,
+        7.5426310000000285,
+        19.855945999999904
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 15,
+      "warmup_ms": 509.46371999999997,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:34:57.511766+00:00",
+      "load_average": [
+        3.87060546875,
+        7.09814453125,
+        14.38330078125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593547"
+    },
+    {
+      "samples": [
+        159.85632999999996,
+        137.48434499999985,
+        121.76659100000006
+      ],
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "warmups": 3,
+      "warmup_ms": 631.352573,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:34:58.326534+00:00",
+      "load_average": [
+        3.87060546875,
+        7.09814453125,
+        14.38330078125
+      ],
+      "fixture_hash": "ff5059c49d301229544491b5c301c46d08f072ba0102679325144a8cc71a5577",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593467"
+    },
+    {
+      "samples": [
+        111.12058400000001,
+        85.450513,
+        157.94043899999997
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 985.967034,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:34:59.652463+00:00",
+      "load_average": [
+        3.87060546875,
+        7.09814453125,
+        14.38330078125
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593518"
+    },
+    {
+      "samples": [
+        7983.8022789999995,
+        8238.023727,
+        7754.0767570000025
+      ],
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "warmups": 3,
+      "warmup_ms": 22747.46932,
+      "engine": "js",
+      "variant": "main",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:35:01.205578+00:00",
+      "load_average": [
+        3.87060546875,
+        7.09814453125,
+        14.38330078125
+      ],
+      "fixture_hash": "927770d818f1026437a9a01b9ef00eadf9eb16ebff1cdfebf844b3057aa7b062",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593769"
+    },
+    {
+      "samples": [
+        22.287523999999962,
+        10.278989000000024,
+        14.745785999999953
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 11,
+      "warmup_ms": 512.968971,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:35:55.628729+00:00",
+      "load_average": [
+        3.6572265625,
+        6.484375,
+        13.75244140625
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593565"
+    },
+    {
+      "samples": [
+        165.353385,
+        143.37704199999996,
+        136.24488199999996
+      ],
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "warmups": 3,
+      "warmup_ms": 698.049554,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:35:56.492630+00:00",
+      "load_average": [
+        3.6572265625,
+        6.484375,
+        13.75244140625
+      ],
+      "fixture_hash": "06cdd41c3a73c64d42ca0672d8c95dca06e868801e001efa9bd42c651a188bdd",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593520"
+    },
+    {
+      "samples": [
+        158.41769799999997,
+        195.54640799999993,
+        184.61949800000002
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 1080.463411,
+      "engine": "js",
+      "variant": "candidate",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:35:57.926870+00:00",
+      "load_average": [
+        3.84521484375,
+        6.47607421875,
+        13.71044921875
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593597"
+    },
+    {
+      "samples": [
+        9572.620116000002,
+        8705.960327,
+        8991.646435000002
+      ],
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "warmups": 3,
+      "warmup_ms": 25998.337989,
+      "engine": "js",
+      "variant": "main",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "round": 3,
+      "observed_at": "2026-10-02T11:35:59.786656+00:00",
+      "load_average": [
+        3.84521484375,
+        6.47607421875,
+        13.71044921875
+      ],
+      "fixture_hash": "519d81ff8e4dee266d1d35529a433876df52bee22a577a1c8e94df813380a6e7",
+      "sample_count": 3,
+      "cpu_frequency_khz": "3593621"
+    }
+  ],
+  "rust_worker_lockfile": null,
+  "rust_worker_lockfile_hash": null,
+  "selected_engines": [
+    "js"
+  ],
+  "control_samples_per_round": null,
+  "artifact_hashes": {
+    "js-main": "2b42c5fb46efea7ef4cc802c0594292493f83ba769cad2241623344b99c22cd9",
+    "js-candidate": "99b1eba88136ab9ec464d1a016ddfff20adad322ccdbbce289d23f9426eb5437",
+    "php-main": "50a805a2fba82bc7a31111f6744e5ce491cc63910dfd4cb77288d233addf628a",
+    "php-candidate": "50a805a2fba82bc7a31111f6744e5ce491cc63910dfd4cb77288d233addf628a"
+  },
+  "dependency_files": {
+    "js-main": {
+      "path": "package-lock.json",
+      "hash": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528"
+    },
+    "js-candidate": {
+      "path": "package-lock.json",
+      "hash": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528"
+    },
+    "php-main": {
+      "path": "vendor/composer/installed.json",
+      "hash": "61b3a49347879b3f444667a4e0ec9fe0a039e7a99b5db4361cf62af179692baa"
+    },
+    "php-candidate": {
+      "path": "vendor/composer/installed.json",
+      "hash": "61b3a49347879b3f444667a4e0ec9fe0a039e7a99b5db4361cf62af179692baa"
+    },
+    "rs-main": {
+      "path": "Cargo.lock",
+      "hash": "fa969b9398a18b7c731e59d5995276baa59aa767f5706d98e581429fb2fc2e2d"
+    },
+    "rs-candidate": {
+      "path": "Cargo.lock",
+      "hash": "fa969b9398a18b7c731e59d5995276baa59aa767f5706d98e581429fb2fc2e2d"
+    }
+  },
+  "node_modules_paths": {
+    "main": "/tmp/carve-js-deep-20261002/node_modules",
+    "candidate": "/tmp/carve-js-deep-20261002/node_modules"
+  },
+  "cargo_config_hashes": {
+    "/home/mark/.cargo/config.toml": "755e8cd5addca205990f8fd424816367cee984df23adc2dcf9b31f4cdd00cfb8",
+    "/tmp/carve-bench-import-session-20261002/.cargo/config.toml": null
+  },
+  "rust_build_environment": {
+    "RUSTFLAGS": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "RUSTUP_TOOLCHAIN": null
+  },
+  "cargo_version": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "php_modules": "[PHP Modules]\nbcmath\ncalendar\nCore\nctype\ncurl\ndate\ndom\nexif\nFFI\nfileinfo\nfilter\nftp\ngd\ngettext\nhash\niconv\nigbinary\nimagick\nintl\njson\nlexbor\nlibxml\nmbstring\nmysqli\nmysqlnd\nopenssl\npcntl\npcov\npcre\nPDO\npdo_mysql\npdo_pgsql\npdo_sqlite\npgsql\nPhar\nposix\nrandom\nreadline\nredis\nReflection\nsession\nshmop\nSimpleXML\nsockets\nsodium\nSPL\nsqlite3\nstandard\nsysvmsg\nsysvsem\nsysvshm\ntokenizer\nuri\nxml\nxmlreader\nxmlwriter\nxsl\nyaml\nZend OPcache\nzip\nzlib\n\n[Zend Modules]\nZend OPcache\n\n",
+  "host": {
+    "platform": "Linux 7.0.0-31-generic x86_64 GNU/Linux",
+    "cpu": {
+      "lscpu": [
+        {
+          "field": "Architecture:",
+          "data": "x86_64"
+        },
+        {
+          "field": "CPU op-mode(s):",
+          "data": "32-bit, 64-bit"
+        },
+        {
+          "field": "Address sizes:",
+          "data": "48 bits physical, 48 bits virtual"
+        },
+        {
+          "field": "Byte Order:",
+          "data": "Little Endian"
+        },
+        {
+          "field": "CPU(s):",
+          "data": "16"
+        },
+        {
+          "field": "On-line CPU(s) list:",
+          "data": "0-15"
+        },
+        {
+          "field": "Vendor ID:",
+          "data": "AuthenticAMD"
+        },
+        {
+          "field": "Model name:",
+          "data": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics"
+        },
+        {
+          "field": "CPU family:",
+          "data": "25"
+        },
+        {
+          "field": "Model:",
+          "data": "116"
+        },
+        {
+          "field": "Thread(s) per core:",
+          "data": "2"
+        },
+        {
+          "field": "Core(s) per socket:",
+          "data": "8"
+        },
+        {
+          "field": "Socket(s):",
+          "data": "1"
+        },
+        {
+          "field": "Stepping:",
+          "data": "1"
+        },
+        {
+          "field": "Frequency boost:",
+          "data": "enabled"
+        },
+        {
+          "field": "CPU(s) scaling MHz:",
+          "data": "11%"
+        },
+        {
+          "field": "CPU max MHz:",
+          "data": "5263.0610"
+        },
+        {
+          "field": "CPU min MHz:",
+          "data": "402.7860"
+        },
+        {
+          "field": "BogoMIPS:",
+          "data": "7985.68"
+        },
+        {
+          "field": "Flags:",
+          "data": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpuid_fault cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca flush_l1d amd_lbr_pmc_freeze"
+        },
+        {
+          "field": "Virtualization:",
+          "data": "AMD-V"
+        },
+        {
+          "field": "L1d cache:",
+          "data": "256 KiB (8 instances)"
+        },
+        {
+          "field": "L1i cache:",
+          "data": "256 KiB (8 instances)"
+        },
+        {
+          "field": "L2 cache:",
+          "data": "8 MiB (8 instances)"
+        },
+        {
+          "field": "L3 cache:",
+          "data": "16 MiB (1 instance)"
+        },
+        {
+          "field": "NUMA node(s):",
+          "data": "1"
+        },
+        {
+          "field": "NUMA node0 CPU(s):",
+          "data": "0-15"
+        },
+        {
+          "field": "Vulnerability Gather data sampling:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Ghostwrite:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Indirect target selection:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Itlb multihit:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability L1tf:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Meltdown:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mmio stale data:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Old microcode:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Reg file data sampling:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Retbleed:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Spec rstack overflow:",
+          "data": "Mitigation; Safe RET"
+        },
+        {
+          "field": "Vulnerability Spec store bypass:",
+          "data": "Mitigation; Speculative Store Bypass disabled via prctl"
+        },
+        {
+          "field": "Vulnerability Spectre v1:",
+          "data": "Mitigation; usercopy/swapgs barriers and __user pointer sanitization"
+        },
+        {
+          "field": "Vulnerability Spectre v2:",
+          "data": "Mitigation; Enhanced / Automatic IBRS; IBPB conditional; STIBP always-on; PBRSB-eIBRS Not affected; BHI Not affected"
+        },
+        {
+          "field": "Vulnerability Srbds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Tsa:",
+          "data": "Mitigation; Clear CPU buffers"
+        },
+        {
+          "field": "Vulnerability Tsx async abort:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Vmscape:",
+          "data": "Mitigation; IBPB before exit to userspace"
+        }
+      ]
+    },
+    "initial_load_average": [
+      33.38037109375,
+      21.52685546875,
+      22.03369140625
+    ],
+    "governor": "performance"
+  },
+  "finished_at": "2026-10-02T11:37:02.031805+00:00",
+  "summary": [
+    {
+      "engine": "js",
+      "kind": "captioned-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "main_ms": 224.95058700000004,
+      "candidate_ms": 44.33499849999998,
+      "change_percent": -80.29122791308832,
+      "hash": "3a92e72064dd8b77ecc00207722ca56a052acd23e3e137173137dbb3b7d005ae",
+      "round_medians": {
+        "main": [
+          1253.9936399999988,
+          224.84233799999993,
+          225.05883600000016,
+          135.57734100000005
+        ],
+        "candidate": [
+          386.00271299999986,
+          44.94065699999999,
+          43.72933999999998,
+          9.902444999999943
+        ]
+      },
+      "ranges": {
+        "main": [
+          125.96437500000002,
+          1467.9105639999998
+        ],
+        "candidate": [
+          6.548962999999958,
+          698.2914989999999
+        ]
+      }
+    },
+    {
+      "engine": "js",
+      "kind": "captioned-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "main_ms": 11966.613354500005,
+      "candidate_ms": 142.95962900000006,
+      "change_percent": -98.80534596744333,
+      "hash": "c3a6a8c45aa0af8d94b51dd96c0b72a238cd28e34ba4fd77333e0a508e8e6783",
+      "round_medians": {
+        "main": [
+          11567.703115000011,
+          14794.107226,
+          12365.523593999998,
+          8885.008148
+        ],
+        "candidate": [
+          173.71912499999985,
+          155.06570499999998,
+          109.4090389999999,
+          109.855458
+        ]
+      },
+      "ranges": {
+        "main": [
+          7954.3442829999985,
+          14950.631127
+        ],
+        "candidate": [
+          97.45203800000013,
+          248.951546
+        ]
+      }
+    },
+    {
+      "engine": "js",
+      "kind": "quoted-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "main_ms": 176.44218750000005,
+      "candidate_ms": 28.97504299999997,
+      "change_percent": -83.57816607776982,
+      "hash": "0a5b60625b9d9ea71d591221768d83d2e5992b9cbec48020501bef770c917caf",
+      "round_medians": {
+        "main": [
+          201.84705400000007,
+          199.18936000000008,
+          122.53020100000003,
+          137.48434499999985
+        ],
+        "candidate": [
+          44.714401000000066,
+          49.696905000000015,
+          9.12562099999991,
+          8.927821999999992
+        ]
+      },
+      "ranges": {
+        "main": [
+          119.6448089999999,
+          249.49957100000006
+        ],
+        "candidate": [
+          7.5426310000000285,
+          67.85674999999992
+        ]
+      }
+    },
+    {
+      "engine": "js",
+      "kind": "quoted-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "main_ms": 10513.844105999993,
+      "candidate_ms": 142.85958549999998,
+      "change_percent": -98.64122404650766,
+      "hash": "5bd7f7da330751dad895af018379dee250b15c6366e9c380df8e68e24952f70b",
+      "round_medians": {
+        "main": [
+          19260.544787,
+          14474.23447499999,
+          7992.684892000001,
+          7983.8022789999995
+        ],
+        "candidate": [
+          153.68224599999985,
+          180.55631300000005,
+          129.10074600000007,
+          111.12058400000001
+        ]
+      },
+      "ranges": {
+        "main": [
+          7754.0767570000025,
+          21938.93259599999
+        ],
+        "candidate": [
+          85.450513,
+          225.60991999999987
+        ]
+      }
+    },
+    {
+      "engine": "js",
+      "kind": "listed-blank-tables",
+      "n": 128,
+      "stage": "html-import",
+      "main_ms": 179.19071450000007,
+      "candidate_ms": 29.105691499999978,
+      "change_percent": -83.75714300754129,
+      "hash": "863e50f45194518099f725999cf2ea990296e11654914d6d09188ccf15af5733",
+      "round_medians": {
+        "main": [
+          230.1541209999998,
+          233.6288179999999,
+          144.08387599999992,
+          143.37704199999996
+        ],
+        "candidate": [
+          57.31466599999999,
+          48.3166490000001,
+          20.26657899999998,
+          14.745785999999953
+        ]
+      },
+      "ranges": {
+        "main": [
+          133.76965700000005,
+          256.20670800000016
+        ],
+        "candidate": [
+          8.811883999999964,
+          76.21097900000007
+        ]
+      }
+    },
+    {
+      "engine": "js",
+      "kind": "listed-blank-tables",
+      "n": 1024,
+      "stage": "html-import",
+      "main_ms": 12654.870554,
+      "candidate_ms": 216.4099645,
+      "change_percent": -98.28990771911454,
+      "hash": "fd5c2e3d2f8d4079459bbb467a667df430a992100690ddb53aa39f975909016c",
+      "round_medians": {
+        "main": [
+          15961.578406,
+          16777.729734000008,
+          9363.642644,
+          8991.646435000002
+        ],
+        "candidate": [
+          305.9627300000002,
+          295.1455430000003,
+          207.31817,
+          184.61949800000002
+        ]
+      },
+      "ranges": {
+        "main": [
+          8705.960327,
+          19750.096730999998
+        ],
+        "candidate": [
+          157.60470399999986,
+          333.4572170000001
+        ]
+      }
+    }
+  ]
+}

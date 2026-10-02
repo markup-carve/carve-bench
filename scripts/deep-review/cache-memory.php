@@ -22,6 +22,7 @@ for ($i = 0; $i < $count; $i++) {
 }
 unset($id, $marker);
 gc_collect_cycles();
+$loadedSources = verifyLoadedSources($argv[1]);
 echo json_encode([
     'loaded_sources' => $loadedSources,
     'count' => $count,

@@ -28,3 +28,9 @@ Use `--engines rs --control-samples 401` for longer Rust controls, or `--engines
 The committed October 2 report also includes separate PHP citation, Rust short-scan and PHP importer sessions, plus longer Rust diagnostics. The diagnostics reuse the original worker binaries; their producer was saved after the run. They do not replace the primary session.
 
 `cache-memory.php ROOT COUNT` measures live PHP memory retained after unique attribute payloads longer than 4 KB. It warms a short marker first, releases the final result, collects cycles, and checks every parsed ID. Fresh processes keep static cache state independent. This measures retained memory, not peak allocation or throughput.
+
+Filter cases with `--kinds` and sizes with `--sizes`. Empty case selections fail before building. Output inside this repository must be ignored; use an external path for measurements. Add `--large-sibling-tables` to include the optional 16,384-table PHP case.
+
+Use `cache-retention.py --help` for the paired retention runner. It records source revisions, runtime and dependency metadata, loaded PHP class origins and worker hashes. The PHP timing workers reject autoloaders that load engine classes outside the selected source tree. Earlier saved sessions predate that check; their class origins were checked afterward where the source trees remained available.
+
+Final follow-ups retain the intermediate drafts and their controls. JavaScript's bounded short citation scan fixes the intermediate nested-citation cost; flat citation groups retain a small absolute indexing cost at every measured size. The final importer session compares session batching against the first importer draft.

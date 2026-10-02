@@ -58,9 +58,9 @@ def render(session_path, output):
         if len({row['n'] for row in selected}) == 1:
             x = list(range(len(stages)))
             for variant, offset in [('main', -.18), ('candidate', .18)]:
-                ax.bar([value + offset for value in x],
+                ax.scatter([value + offset for value in x],
                        [next(row[variant + '_ms'] for row in selected if row['stage'] == stage) for stage in stages],
-                       width=.36, label=variant)
+                       s=42, label=variant)
             ax.set_xticks(x, stages)
             ax.set_xlabel('Stage')
         else:
@@ -157,6 +157,9 @@ def append_session(output, path):
         'js-session-refusals-session': 'Final JavaScript batching through captions and composites',
         'js-citation-final-session': 'Final JavaScript citation fix with bounded short scans',
         'php-merged-import-session': 'PHP importer with all review fixes merged',
+        'php-large-sibling-paths-session': 'PHP sibling paths at 16,384 tables',
+        'php-decode-passes-session': 'PHP bounded payload walk and unchanged arrays',
+        'php-table-comments-session': 'PHP multiline comments without repeated table scans',
     }
     control_note = f" Rust control cases use {session['control_samples_per_round']} samples per round." if session.get('control_samples_per_round') and 'rs' in session['selected_engines'] else ''
     lines = ['', '## ' + titles.get(stem, stem), '',
@@ -175,8 +178,10 @@ def append_session(output, path):
         lines += ['', 'The final renderer collects refused rows once per render pass, replacing the first draft’s per-block exception bookkeeping. Lists, blockquotes and captioned tables now batch too. No partial source is returned; earlier rows are reported before a later refusal. Complete source and loss-report hashes match.']
     if stem == 'rejected-citations-and-paths-session':
         lines += ['', 'The JavaScript candidate in this session is an intermediate draft. Its ordinary citation controls led to the bounded short scan measured in the final JavaScript session below. PHP caches sibling positions once per parent and resets them for each HTML import. Rust omits lexically invalid citation groups while indexing brackets.']
+    if stem == 'php-large-sibling-paths-session':
+        lines += ['', 'This opt-in case measures HTML-to-AST building at 16,384 sibling tables. Two alternating rounds use three samples per round, six per revision. Source origins for this older worker were checked after the run in the saved PHP verification. It complements the smaller four-round sibling-path session; full import is not measured here.']
     if stem == 'js-citation-final-session':
-        lines += ['', 'Short citations use a bounded 64-code-unit raw scan before allocating the shared index. Long candidates validate first, last and complete intervening items in one scan; the existing item parser still owns inline content. Rejected item probes use smaller sizes because the baseline builds and parses each growing item list.']
+        lines += ['', 'Short citations use a bounded 64-code-unit raw scan before allocating the shared index. Long candidates validate first, last and complete intervening items in one scan; the existing item parser still owns inline content. Rejected item probes use smaller sizes because the baseline builds and parses each growing item list. Ordinary flat citation groups rise from 0.068 to 0.095 ms at n=128 (+38.7%), from 0.547 to 0.682 ms at n=1024 (+24.8%) and from 1.102 to 1.285 ms at n=2048 (+16.7%); the added indexing cost remains a control to monitor.']
     lines += ['', '| Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |', '|---|---|---:|---|---:|---:|---:|']
     for row in rows:
         lines.append(f"| {row['engine']} | {row['kind']} | {row['n']} | {row['stage']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")

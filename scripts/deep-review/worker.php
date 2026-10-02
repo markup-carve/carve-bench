@@ -23,8 +23,8 @@ if ($stage === 'encode' || $stage === 'decode') {
     } else {
         $run = static fn () => $codec->decodeImporterTree($tree);
     }
-} elseif ($stage === 'build') {
-    $builder = new HtmlAstBuilder();
+} elseif ($stage === 'build' || $stage === 'build-list-table') {
+    $builder = new HtmlAstBuilder(listTableForBlockCells: $stage === 'build-list-table');
     $run = static fn () => $builder->build($source);
 } elseif ($stage === 'import') {
     $import = new HtmlToCarve(listTableForBlockCells: true);
@@ -47,6 +47,7 @@ $output = $run();
 if ($stage === 'decode') {
     $output = $codec->encode($output);
 }
+$loadedSources = verifyLoadedSources($argv[1]);
 echo json_encode([
     'loaded_sources' => $loadedSources,
     'samples' => $samples,

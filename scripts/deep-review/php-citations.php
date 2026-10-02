@@ -40,5 +40,6 @@ for ($i = 0; $i < $count; $i++) {
     unset($output);
 }
 $output = $stage === 'setter' ? $group->getItems() : (new AstCodec())->encode($run());
+$loadedSources = verifyLoadedSources($argv[1]);
 echo json_encode([
     'loaded_sources' => $loadedSources,'samples' => $samples, 'hash' => hash('sha256', serialize($output))], JSON_THROW_ON_ERROR), "\n";

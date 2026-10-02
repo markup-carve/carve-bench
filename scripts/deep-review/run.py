@@ -93,6 +93,10 @@ def cases(include_large_sibling_tables=False):
             sizes = (128, 512, 1024) if kind in ('rejected-items', 'rejected-middle-items') else (4096, 16384, 65536)
             for n in sizes:
                 yield engine, kind, n, 'false', opening * n + '@a' + closing * n
+    for n in (128, 512, 1024):
+        source = '<table>' + '<tr><td>a<!-- x\ny -->b</td></tr>' * n + '</table>'
+        for stage in ('build-list-table', 'import'):
+            yield 'php', 'multiline-table-comments', n, stage, source
     for n in ((128, 1024, 4096, 16384) if include_large_sibling_tables else (128, 1024, 4096)):
         yield 'php', 'sibling-partitioned-tables', n, 'build', '<table><tbody><tr><td>x</td></tr></tbody><tfoot><tr><td>y</td></tr></tfoot></table>' * n
 
