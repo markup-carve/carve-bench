@@ -10,7 +10,7 @@ The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/m
 
 ## Measurement sessions
 
-Retained tag, JavaScript and Rust timings are unchanged. PHP main was refreshed at 8deb237 after markup-carve/carve-php#2832, markup-carve/carve-php#2833 and markup-carve/carve-php#2834 merged. The PHP point records its own session times and worker hashes; the top-level harness describes the retained history session.
+Retained tag, JavaScript and Rust timings are unchanged. PHP main was refreshed at 8deb237 after markup-carve/carve-php#2832, markup-carve/carve-php#2833 and markup-carve/carve-php#2834 merged. The PHP point records its own session times and worker hashes; the top-level harness describes the retained history session. JavaScript and Rust main advanced through CI-timeout-only commits; their source fingerprints match the measured commits recorded on each revision.
 
 js retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
@@ -51,7 +51,7 @@ Runtime: v22.22.2. Latest tag: 0.1.9.
 | 0.1.7 | `680af386605367bb86a07c2b258673c6514c4005` |
 | 0.1.8 | `23204e8982012a4b3900dc735e46b3c2630803c2` |
 | 0.1.9 | `a0cb0ad18fc4da223e46cfb77672e4dec537a83b` |
-| dev-main | `d39de173734a075e18b6d797fb199de94efec159` |
+| dev-main | `d5f82cf4f87828c101dbb9a284a9fcd843ba0151` |
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|
@@ -115,7 +115,7 @@ Runtime: rustc 1.97.1 (8bab26f4f 2026-07-14). Latest tag: 0.1.7.
 | 0.1.5 | `56cb353657375e1a85965d5fcf00a234831d82c6` |
 | 0.1.6 | `d7837249c64b88879b04cd71b8b5555ff246e16f` |
 | 0.1.7 | `9f3f334c7d5c91c57e4e6269b32599af1062fdde` |
-| dev-main | `2668992f289c9029ae1d42350c1cca5883f773e8` |
+| dev-main | `d9922c6edcf371d668ce4b5c80b2d9ddb7686b76` |
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|

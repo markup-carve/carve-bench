@@ -4,7 +4,7 @@ These measurements use the normal fastest public source-to-HTML API on the exist
 
 Four rounds contain 21 warmed trials each on CPU 12. PHP alternates revision order; Rust uses fixed engine order. Runs completed on 2026-10-02. The table uses the median of all 84 trials. PHP uses tracing JIT and 50 iterations per trial; Rust uses an optimized LTO build and 400. These medians differ from the fastest-of-five statistic in older headline reports. The host is shared.
 
-PHP main: `8deb237e1129af59f7efa5e5e3522340d08a5ae4`. Rust main: `2668992f289c9029ae1d42350c1cca5883f773e8`. The PHP peer is Djot PHP `fab953f6`; the Rust peer is pulldown-cmark 0.13.4.
+PHP main: `8deb237e1129af59f7efa5e5e3522340d08a5ae4`. Rust main: `d9922c6edcf371d668ce4b5c80b2d9ddb7686b76`, measured at `2668992f`; only CI timeouts changed afterward. The PHP peer is Djot PHP `fab953f6`; the Rust peer is pulldown-cmark 0.13.4.
 
 | Language | Engine | Revision | Median ms | MB/s |
 |---|---|---|---:|---:|

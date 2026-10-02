@@ -4,9 +4,11 @@ This table combines retained release-history measurements with the PHP main refr
 
 | Engine | Main commit | Recent tags |
 |---|---|---|
-| js | `d39de173734a075e18b6d797fb199de94efec159` | 0.1.8, 0.1.9 |
+| js | `d5f82cf4f87828c101dbb9a284a9fcd843ba0151` | 0.1.8, 0.1.9 |
 | php | `8deb237e1129af59f7efa5e5e3522340d08a5ae4` | 0.1.9, 0.1.10 |
-| rs | `2668992f289c9029ae1d42350c1cca5883f773e8` | 0.1.6, 0.1.7 |
+| rs | `d9922c6edcf371d668ce4b5c80b2d9ddb7686b76` | 0.1.6, 0.1.7 |
+
+JavaScript and Rust numbers were measured at `d39de173` and `2668992f`. Their newer main heads change CI timeouts only; source fingerprints match.
 
 [CSV](latest-main-comparison.csv)
 
