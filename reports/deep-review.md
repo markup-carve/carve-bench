@@ -456,7 +456,7 @@ The final renderer collects refused rows once per render pass, replacing the fir
 |---|---|---|
 | js | `c77d85ead683bffc534d50ab18c1df95f1821c8b` | `41350ea6d3a4eb2468914328ec5c0d0c5179bdd4` |
 
-Short citations use a bounded 64-code-unit raw scan before allocating the shared index. Long candidates validate first, last and complete intervening items in one scan; the existing item parser still owns inline content. Rejected item probes use smaller sizes because the baseline builds and parses each growing item list. Ordinary flat citation groups rise from 0.547 to 0.682 ms at n=1024 (+24.8%) and from 1.102 to 1.285 ms at n=2048 (+16.7%); the added indexing cost remains a control to monitor.
+Short citations use a bounded 64-code-unit raw scan before allocating the shared index. Long candidates validate first, last and complete intervening items in one scan; the existing item parser still owns inline content. Rejected item probes use smaller sizes because the baseline builds and parses each growing item list. Ordinary flat citation groups rise from 0.068 to 0.095 ms at n=128 (+38.7%), from 0.547 to 0.682 ms at n=1024 (+24.8%) and from 1.102 to 1.285 ms at n=2048 (+16.7%); the added indexing cost remains a control to monitor.
 
 | Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |
 |---|---|---:|---|---:|---:|---:|
@@ -507,11 +507,54 @@ Short citations use a bounded 64-code-unit raw scan before allocating the shared
 |---|---|---|
 | php | `4c1cf690ea57e6ce035dfbecce932d42684c1018` | `23350fb058dded3bd85ed08239e5db03b0679a02` |
 
-This opt-in case measures HTML-to-AST building at 16,384 sibling tables. Two alternating rounds use three samples per revision. It complements the smaller four-round sibling-path session; full import is not measured here.
+This opt-in case measures HTML-to-AST building at 16,384 sibling tables. Two alternating rounds use three samples per round, six per revision. Source origins for this older worker were checked after the run in the [saved PHP verification](php-source-origin-verification.json). It complements the smaller four-round sibling-path session; full import is not measured here.
 
 | Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |
 |---|---|---:|---|---:|---:|---:|
 | php | sibling-partitioned-tables | 16384 | build | 5725.802 | 2861.538 | -50.0% |
+
+## PHP bounded payload walk and unchanged arrays
+
+4 alternating rounds on CPU 10 use 7 samples per case. Every output hash matches.
+
+[Raw session](php-decode-passes-session.json) · [CSV](php-decode-passes-session.csv) · [Graph](../charts/php-decode-passes-session.svg)
+
+| Engine | Main | Candidate |
+|---|---|---|
+| php | `4c1cf690ea57e6ce035dfbecce932d42684c1018` | `3f0f3c8c58488aac3fac578be5a53f011487d793` |
+
+Depth checking and byte accounting share one bounded walk. NUL normalization and importer-hint pruning retain unchanged arrays and propagate child-change flags. Independent schema validation remains guarded. These measurements use the pre-path-merge main; the PR later merged the latest main into its branch.
+
+| Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |
+|---|---|---:|---|---:|---:|---:|
+| php | table | 1024 | encode | 40.102 | 38.302 | -4.5% |
+| php | table | 1024 | decode | 188.107 | 176.212 | -6.3% |
+| php | table | 1024 | import | 684.654 | 640.570 | -6.4% |
+| php | definition | 1024 | encode | 25.085 | 24.444 | -2.6% |
+| php | definition | 1024 | decode | 112.108 | 102.078 | -8.9% |
+| php | definition | 1024 | import | 276.767 | 268.396 | -3.0% |
+| php | plain | 1024 | parse+encode | 54.354 | 56.270 | +3.5% |
+
+## PHP multiline comments without repeated table scans
+
+4 alternating rounds on CPU 11 use 7 samples per case. Every output hash matches.
+
+[Raw session](php-table-comments-session.json) · [CSV](php-table-comments-session.csv) · [Graph](../charts/php-table-comments-session.svg)
+
+| Engine | Main | Candidate |
+|---|---|---|
+| php | `4c1cf690ea57e6ce035dfbecce932d42684c1018` | `16d5edbc87db0d5017b8d19a7410cd7c5d9c3038` |
+
+The builder and report inspection cache stable table-block decisions within their sessions. Both scaling guards fail on the measured main and pass on the candidate. The build-list-table stage enables list-table import explicitly; import includes complete source and its loss report. These measurements use the pre-path-merge main; the PR later merged the latest main into its branch.
+
+| Engine | Case | n | Stage / positions | Main ms | Candidate ms | Change |
+|---|---|---:|---|---:|---:|---:|
+| php | multiline-table-comments | 128 | build-list-table | 17.471 | 4.351 | -75.1% |
+| php | multiline-table-comments | 128 | import | 41.617 | 16.803 | -59.6% |
+| php | multiline-table-comments | 512 | build-list-table | 230.447 | 20.636 | -91.0% |
+| php | multiline-table-comments | 512 | import | 512.113 | 78.783 | -84.6% |
+| php | multiline-table-comments | 1024 | build-list-table | 962.357 | 42.563 | -95.6% |
+| php | multiline-table-comments | 1024 | import | 1926.670 | 140.700 | -92.7% |
 
 ## PHP marker cache retention
 
@@ -523,6 +566,6 @@ Main: `d14268ab2bc5ed579b834a73def0ba993dceae20`. Candidate: `4c1cf690ea57e6ce03
 
 | Unique payloads | Main bytes | Candidate bytes |
 |---:|---:|---:|
-| 128 | 2157624 | 376 |
-| 512 | 8622136 | 376 |
-| 1024 | 17244216 | 376 |
+| 128 | 2157248 | 0 |
+| 512 | 8621760 | 0 |
+| 1024 | 17243840 | 0 |

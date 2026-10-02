@@ -22,6 +22,8 @@ rs: widest sample range is 4.2x for 0.1.6 verse_equivalent n=128 (0.220 to 0.932
 
 ## Watchpoints
 
+[Longer paired cost checks](history-watchpoint-controls.md)
+
 - php dev-main quoted_fences n=128: 2.602 ms versus 1.053 ms on 0.1.9 (+147.2%). Output hashes match and sample ranges are separate; investigate this older-baseline cost.
 - php dev-main html_definition_list n=128: 29.605 ms versus 4.386 ms on 0.1.7 (+574.9%). Output hashes match and sample ranges are separate; investigate this older-baseline cost.
 - php dev-main html_table n=1024: 834.547 ms versus 275.740 ms on 0.1.7 (+202.7%). Output hashes match and sample ranges are separate; investigate this older-baseline cost.
@@ -29,6 +31,8 @@ rs: widest sample range is 4.2x for 0.1.6 verse_equivalent n=128 (0.220 to 0.932
 - rs dev-main verse_equivalent n=1024: 3.326 ms versus 1.533 ms on 0.1.4 (+116.9%). Output hashes match and sample ranges are separate; investigate this older-baseline cost.
 
 ## Uncertain +100% readings
+
+[Longer paired cost checks](history-watchpoint-controls.md)
 
 - php dev-main verse_definitions n=128: 7.028 ms versus 3.325 ms on 0.1.9 (+111.4%). Sample ranges overlap; this session does not establish a +100% regression.
 - php dev-main verse_equivalent n=128: 7.084 ms versus 3.503 ms on 0.1.9 (+102.2%). Sample ranges overlap; this session does not establish a +100% regression.
