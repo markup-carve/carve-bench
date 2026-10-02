@@ -15,13 +15,14 @@ tracks carve-rs plus a thin FFI/IPC layer.
 ## JavaScript comparison including commonmark.js
 
 The [shared JavaScript core report](reports/commonmark-js.md) compares Carve,
-Djot, markdown-it and commonmark.js 0.31.2 on equivalent table-free content.
+Djot, markdown-it and commonmark.js 0.31.2 on equivalent content without pipe tables.
 Its runner checks projected HTML before timing and records two reversed-order rounds,
 plus a CommonMark parser/renderer constructor control. This 14-point workload
-is separate from the historical 18-point table-capable comparison below.
-The all-engines chart includes both rounds in separate table-free panels; the
+is separate from the historical 18-point comparison with pipe tables below.
+The all-engines chart shows final values in a separate panel without pipe tables; the
 interactive site view also includes commonmark.js under All languages and JavaScript.
-Different content mixes change each library's conversion cost. These panels use
+Final values use median timing across all samples from both rounds. The raw
+report retains the individual rounds. Different content mixes change each library's conversion cost. These panels use
 the same released JavaScript versions; they do not measure a version regression.
 
 Run `npm ci` in `engines/js`, then `node scripts/compare-commonmark.mjs`

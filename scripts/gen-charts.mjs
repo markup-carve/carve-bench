@@ -1,7 +1,9 @@
-// Generate accessible SVG charts from the checked-in Markdown result tables.
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+// Generate SVG charts and the final JavaScript summary from checked-in reports.
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import { finalCommonmarkResults, withFinalCommonmarkSummary } from './commonmark-results.mjs'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
 const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
@@ -96,22 +98,27 @@ writeFileSync(resolve(root, 'charts/comparison.svg'), chart(
   'Each panel is normalized visually to its fastest engine; labels show absolute MB/s.',
   comparisonGroups,
 ))
-const commonmarkGroups = [2, 3].map((column, index) => ({
-  name: `Round ${index + 1}`,
-  rows: sections(resolve(root, 'reports/commonmark-js.md'), column)
-    .find(group => group.name === 'Reused public conversion APIs')?.rows.sort((a, b) => b.value - a.value) ?? [],
-}))
+const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json'))
+  ? JSON.parse(readFileSync(resolve(root, 'reports/commonmark-js.json'), 'utf8')) : null
+if (sharedRecord) {
+  const path = resolve(root, 'reports/commonmark-js.md')
+  writeFileSync(path, withFinalCommonmarkSummary(readFileSync(path, 'utf8'), sharedRecord))
+}
+const commonmarkGroups = sharedRecord ? [{
+  name: 'Final results',
+  rows: finalCommonmarkResults(sharedRecord).map(row => ({ name: row.engine, value: row.mb_per_s })).sort((a, b) => b.value - a.value),
+}] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core route throughput, all measured engines',
-  '18-point historical workload and 14-point table-free JavaScript. Compare engines within each panel.',
+  'With pipe tables: fastest trial. Without pipe tables: median timing. Compare within each panel.',
   [
-    { name: `Table-capable engines, 18 points (${comparisonDate})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
+    { name: `With pipe tables · 18 points (${comparisonDate})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     {
-      name: `Table-capable Carve engines, 18 points (${comparisonDate})`,
+      name: `Carve with pipe tables · 18 points (${comparisonDate})`,
       rows: allEngines.filter((row) => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
     },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
-      name: `Table-free JavaScript, 14 points (${readFileSync(resolve(root, 'reports/commonmark-js.md'), 'utf8').match(/Measured (\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'}), ${group.name.toLowerCase()}`,
+      name: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)})`,
       rows: group.rows.map(row => ({ ...row, name: `${row.name} (JavaScript)` })),
     })),
   ],
@@ -137,10 +144,10 @@ writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
     .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))
 
-if (commonmarkGroups.every(group => group.rows.length)) {
+if (commonmarkGroups.length) {
   writeFileSync(resolve(root, 'charts/commonmark-js.svg'), chart(
     'Shared JavaScript core including commonmark.js',
-    'Table-free workload, 14 exercised points. Separate from the 18-point table-capable comparison.',
+    'Without pipe tables: 14 points. Throughput uses median timing across all recorded samples.',
     commonmarkGroups,
   ))
 }

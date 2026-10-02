@@ -7,13 +7,16 @@ fetch('evidence.json').then(response => {
   document.getElementById('filter-controls').hidden = false
   function render() {
     const selected = select.value
-    const panels = [{ title: `Table-capable workload, 18 points (${data.host.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? 'recorded run'})`, peers: data.peers }, ...(data.commonmarkLanes ?? [])]
+    const panels = [{ title: `With pipe tables · 18 points (${data.host.match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? 'recorded run'})`, statistic: 'Fastest trial', peers: data.peers }, ...(data.commonmarkLanes ?? [])]
     const visible = panels.map(panel => ({ ...panel, peers: panel.peers.filter(row => selected === 'all' || row.language === selected) })).filter(panel => panel.peers.length)
     const fragments = []
     for (const panel of visible) {
       const heading = document.createElement('h3')
       heading.textContent = panel.title
       fragments.push(heading)
+      const statistic = document.createElement('p')
+      statistic.textContent = panel.statistic
+      fragments.push(statistic)
       const rows = [...panel.peers].sort((a, b) => b.throughput - a.throughput)
       const maximum = Math.max(...rows.map(row => row.throughput))
       const list = document.createElement('ul')

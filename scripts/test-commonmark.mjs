@@ -77,3 +77,24 @@ test('published shared-workload samples retain measured source and harness prove
     }
   }
 })
+
+test('final chart summary uses the median of all trial timings, excluding constructor controls', async () => {
+  const { finalCommonmarkResults, withFinalCommonmarkSummary } = await import('./commonmark-results.mjs')
+  const published = JSON.parse(readFileSync('reports/commonmark-js.json'))
+  const report = readFileSync('reports/commonmark-js.md', 'utf8')
+  assert.equal(withFinalCommonmarkSummary(report, published), report)
+  const raw = report.replace(/## Final chart values\n[\s\S]*?(?=## )/, '')
+  assert.equal(withFinalCommonmarkSummary(raw, published), report)
+  const runnerOutput = raw.replaceAll('Round 1 fastest', 'Round 1').replaceAll('Round 2 fastest', 'Round 2')
+    .replace('the comparison with pipe tables', 'the table-capable comparison')
+    .replace('## CommonMark constructor control', '![Shared JavaScript core throughput](../charts/commonmark-js.svg)\n\n## CommonMark constructor control')
+  assert.equal(withFinalCommonmarkSummary(runnerOutput, published), report)
+  const row = samples => ({ engine: 'commonmark.js', bytes: 1048576, source_sha256: 'source', output_sha256: 'output', samples, trials: samples.length })
+  const record = { rounds: [{ rows: [row([1, 5]), { ...row([0.5, 0.5]), engine: 'commonmark.js-fresh' }] }, { rows: [row([2, 8])] }] }
+  const result = finalCommonmarkResults(record)
+  assert.equal(result.length, 1)
+  assert.equal(result[0].ms_per_op, 3.5)
+  assert.equal(result[0].mb_per_s, 1000 / 3.5)
+  record.rounds[1].rows[0].source_sha256 = 'different input'
+  assert.throws(() => finalCommonmarkResults(record))
+})

@@ -5,6 +5,8 @@ import { mkdirSync, readFileSync, writeFileSync, cpSync, rmSync, existsSync } fr
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { finalCommonmarkResults } from '../commonmark-results.mjs'
+
 export function sections(markdown) {
   const groups = []
   let current = { title: 'Overview', tables: [] }
@@ -74,17 +76,15 @@ export function build(root, destination) {
   const read = file => readFileSync(resolve(root, file), 'utf8')
   const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
   const data = collect(read('COMPARISON.md'), read('RESULTS.md'), revision)
-  const commonmark = sections(read('reports/commonmark-js.md')).filter(group => group.tables.length)
-  const shared = commonmark.find(group => group.title === 'Reused public conversion APIs')?.tables[0]
-  data.commonmarkLanes = shared ? [2, 3].map((column, index) => ({
-    title: `Table-free JavaScript, 14 points (${read('reports/commonmark-js.md').match(/Measured (\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'}), round ${index + 1}`,
-    peers: shared.rows.map(row => {
-      const throughput = Number(row[column])
-      assert.ok(Number.isFinite(throughput) && throughput > 0, 'Invalid shared JavaScript throughput')
-      return { language: 'JavaScript', engine: row[0], throughput }
-    }),
-  })) : []
-  const commonmarkSection = `<section id="commonmark"><h2>Table-free JavaScript core</h2><p>Carve, Djot, markdown-it and commonmark.js on equivalent content. This 14-point workload excludes pipe tables and is separate from the historical comparison above. Projected HTML is checked before timing; two reversed-order rounds retain host variation.</p>${commonmark.map(group => `<h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}`).join('')}${commonmark.some(group => group.title === 'Reused public conversion APIs') && existsSync(resolve(root, 'charts/commonmark-js.svg')) ? chart('commonmark-js', 'Table-free JavaScript throughput in two rounds') : '<p>No qualified timing snapshot is published yet. Run the comparison on an idle host to collect one.</p>'}<p><a href="reports/commonmark-js.md">Method, versions and measurement provenance</a>${existsSync(resolve(root, 'reports/commonmark-js.json')) ? ' · <a href="reports/commonmark-js.json" download>Raw samples and controls</a>' : ''}</p></section>`
+  const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json')) ? JSON.parse(read('reports/commonmark-js.json')) : null
+  const finalRows = sharedRecord ? finalCommonmarkResults(sharedRecord) : []
+  data.commonmarkLanes = finalRows.length ? [{
+    title: `JavaScript without pipe tables · 14 points (${sharedRecord.metadata.generated_at.slice(0, 10)})`,
+    statistic: 'Median timing across all samples from both measurement rounds',
+    peers: finalRows.map(row => ({ language: 'JavaScript', engine: row.engine, throughput: row.mb_per_s })),
+  }] : []
+  const finalTable = { headers: ['Engine', 'Median ms/op', 'MB/s'], rows: finalRows.map(row => [row.engine, row.ms_per_op.toFixed(4), row.mb_per_s.toFixed(2)]) }
+  const commonmarkSection = `<section id="commonmark"><h2>JavaScript without pipe tables</h2><p>Carve, Djot, markdown-it and commonmark.js on equivalent content. This 14-point workload excludes pipe tables and is separate from the historical comparison above. Final values use median timing across all samples from both measurement rounds.</p>${finalRows.length ? table(finalTable) : '<p>No qualified timing snapshot is published yet.</p>'}${finalRows.length && existsSync(resolve(root, 'charts/commonmark-js.svg')) ? chart('commonmark-js', 'Final JavaScript throughput without pipe tables') : ''}<p><a href="reports/commonmark-js.md">Method, individual rounds and measurement provenance</a>${sharedRecord ? ' · <a href="reports/commonmark-js.json" download>Raw samples and controls</a>' : ''}</p></section>`
   const source = `https://github.com/markup-carve/carve-bench/blob/${revision}`
   assert.notEqual(resolve(destination), resolve(root), 'Output must differ from source directory')
   rmSync(destination, { recursive: true, force: true })
@@ -125,8 +125,8 @@ export function build(root, destination) {
 <body><a class="skip" href="#main">Skip to results</a><header><a class="brand" href="./">Carve / benchmarks</a><nav aria-label="Sections"><a href="#core">Core conversion</a><a href="#full">Full corpus</a><a href="#method">Method &amp; sources</a>${historySection ? '<a href="#history">History</a>' : ''}<a href="https://markup-carve.github.io/carve-proofs/">Proofs</a><a href="https://github.com/markup-carve/carve-bench">GitHub</a></nav></header>
 <main id="main"><section class="intro"><p class="eyebrow">Recorded performance evidence</p><h1>How fast does Carve render?</h1><p>Measured engine snapshots on shared hardware. Explore the default conversion route and the full language corpus separately.</p><p class="run">${escape(data.run)}</p></section>
 <section id="core"><p class="eyebrow">Track A</p><h2>Core source to HTML</h2><p>Default public conversion APIs, without opt-in extensions. Peers use equivalent logical content in their native syntax. Features and output differ; these rows measure rendering cost.</p>${table({...data.headline, headers: data.headline.headers.map((header, index) => header === 'MB/s' ? (index === 2 ? 'Carve MB/s' : 'Peer MB/s') : header)})}
-<div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>Table-capable CSV</a><a href="evidence.json" download>Snapshot JSON</a></div>
-<p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput for table-capable engines and table-free JavaScript, in separate panels')}${coreTables}<p><a href="${source}/COMPARISON.md">Full comparison report and capability scoring</a></p></section>
+<div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>CSV with pipe tables</a><a href="evidence.json" download>Snapshot JSON</a></div>
+<p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput with and without pipe tables, in separate panels')}${coreTables}<p><a href="${source}/COMPARISON.md">Full comparison report and capability scoring</a></p></section>
 ${commonmarkSection}
 <section id="full"><p class="eyebrow">Track B</p><h2>Full corpus and extension tiers</h2><p>The mixed corpus exercises the normal parser and public AST. Competitor parsers do not accept equivalent syntax, so this track compares Carve implementations and internal PHP tiers.</p><p class="provenance">${escape(data.corpus.replaceAll('`', ''))}</p>${smallInputNote}${chart('full-corpus', 'Throughput of the three Carve engines for each corpus size')}${fullTables}${chart('php-tiers', 'PHP throughput with core, Tier 2, and Tier 3 extension profiles')}<p><a href="${source}/RESULTS.md">Full corpus report</a></p></section>
 ${historySection}

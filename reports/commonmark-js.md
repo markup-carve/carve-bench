@@ -4,24 +4,35 @@ Measured 2026-10-02T14:07:55.356Z, Node v24.19.0, AMD Ryzen 9 PRO 7940HS w/ Rade
 
 Released packages: Carve JS 0.1.9, Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
-This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the table-capable comparison](../COMPARISON.md); their throughput values must not be mixed.
+This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the comparison with pipe tables](../COMPARISON.md); their throughput values must not be mixed.
 
 Before timing, all engines agree under an HTML projection that ignores section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. It preserves element hierarchy, emphasis versus strong, resolved link destinations, code language and code bytes. This is scoped workload verification, not general language conformance.
 
+## Final chart values
+
+The charts and site show one final value per engine: throughput computed from median timing across all trial samples from both measurement rounds. The diagnostic round tables below show each round's fastest trial.
+
+| Engine | Median ms/op | MB/s |
+|---|---:|---:|
+| carve-js | 19.2870 | 2.46 |
+| djot.js | 6.5233 | 7.27 |
+| markdown-it | 5.6582 | 8.48 |
+| commonmark.js | 2.8064 | 17.10 |
+
+![Final JavaScript throughput](../charts/commonmark-js.svg)
+
 ## Reused public conversion APIs
 
-| Engine | Bytes | Round 1 MB/s | Round 2 MB/s |
+| Engine | Bytes | Round 1 fastest MB/s | Round 2 fastest MB/s |
 |---|---:|---:|---:|
 | carve-js | 49732 | 2.54 | 2.50 |
 | djot.js | 49732 | 8.47 | 6.93 |
 | markdown-it | 50332 | 9.24 | 8.72 |
 | commonmark.js | 50332 | 19.51 | 17.59 |
 
-![Shared JavaScript core throughput](../charts/commonmark-js.svg)
-
 ## CommonMark constructor control
 
-| API lifetime | Round 1 ms/op | Round 2 ms/op |
+| API lifetime | Round 1 fastest ms/op | Round 2 fastest ms/op |
 |---|---:|---:|
 | Reuse parser and renderer | 2.4603 | 2.7292 |
 | Construct both per call | 2.2767 | 2.3118 |
