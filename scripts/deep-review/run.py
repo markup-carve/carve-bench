@@ -108,6 +108,10 @@ def main():
         parser.error("Output already exists; choose a new session path")
     roots = {(e, v): getattr(args, f"{e}_{v}").resolve() for e in ("js", "php", "rs") for v in ("main", "candidate")}
     identities = {f"{e}-{v}": source_identity(root) for (e, v), root in roots.items()}
+    dependency_files = {}
+    for (engine, variant), root in roots.items():
+        name = "package-lock.json" if engine == "js" else "Cargo.lock" if engine == "rs" else "vendor/composer/installed.json"
+        dependency_files[f"{engine}-{variant}"] = {"path": name, "hash": digest(root / name)}
     for engine in ("js", "php", "rs"):
         if identities[f"{engine}-main"]["revision"] == identities[f"{engine}-candidate"]["revision"]:
             parser.error(f"{engine}: main and candidate revisions must differ")
@@ -150,7 +154,9 @@ def main():
         session["rust_worker_lockfile"] = rust_lockfile
         session["rust_worker_lockfile_hash"] = digest(build / "Cargo.lock")
         session["artifact_hashes"] = artifacts
-        session["dependency_lock_hashes"] = {f"{e}-{v}": digest(root / ("package-lock.json" if e == "js" else "composer.lock" if e == "php" else "Cargo.lock")) for (e, v), root in roots.items()}
+        session["dependency_files"] = dependency_files
+        session["node_modules_paths"] = {v: str((roots["js", v] / "node_modules").resolve()) for v in ("main", "candidate")}
+        session["cargo_config_hashes"] = {str(path): digest(path) if path.exists() else None for path in (Path.home() / ".cargo/config.toml", repo / ".cargo/config.toml")}
         session["rust_build_environment"] = {key: os.environ.get(key) for key in ("RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "RUSTUP_TOOLCHAIN")}
         session["cargo_version"] = execute(["cargo", "--version"]).strip()
         session["php_modules"] = execute(["php", "-m"])
