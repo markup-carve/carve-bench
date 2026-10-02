@@ -137,7 +137,7 @@ def main():
                 command.append("--locked")
             subprocess.run(command, env=env, check=True)
             binary = build / f"worker-{variant}"
-            shutil.copyfile(args.cargo_target.resolve() / "release" / bin_name, binary)
+            shutil.copy2(args.cargo_target.resolve() / "release" / bin_name, binary)
             binaries[variant] = binary
         rust_lockfile = (build / "Cargo.lock").read_text()
         for variant in ("main", "candidate"):
