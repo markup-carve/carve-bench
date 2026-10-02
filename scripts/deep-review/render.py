@@ -238,10 +238,10 @@ def append_retention(output, path):
         lines.append(f"| {count} | {pair['main']} | {pair['candidate']} |")
     for variant in ['main', 'candidate']:
         selected = sorted([row for row in rows if row['variant'] == variant], key=lambda row: row['count'])
-        ax.plot([row['count'] for row in selected], [row['retained_bytes'] for row in selected], marker='o', label=variant)
-    ax.set_yscale('log')
+        ax.plot([row['count'] for row in selected], [row['retained_bytes'] / 1048576 for row in selected], marker='o', label=variant)
+    ax.set_ylim(bottom=0)
     ax.set_xlabel('Unique oversized payloads')
-    ax.set_ylabel('Live retained bytes, log scale')
+    ax.set_ylabel('Live retained MiB')
     ax.set_title('PHP marker attribute cache')
     ax.legend()
     ax.grid(alpha=.2)
