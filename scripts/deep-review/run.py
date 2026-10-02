@@ -46,7 +46,7 @@ def source_identity(root):
     return {"root": str(root), "revision": execute(["git", "rev-parse", "HEAD"], root).strip()}
 
 
-def cases():
+def cases(include_large_sibling_tables=False):
     for kind in ("group", "unclosed", "nested"):
         for n in (128, 1024, 4096, 8192):
             if kind == "nested" and n > 4096:
@@ -93,7 +93,7 @@ def cases():
             sizes = (128, 512, 1024) if kind in ('rejected-items', 'rejected-middle-items') else (4096, 16384, 65536)
             for n in sizes:
                 yield engine, kind, n, 'false', opening * n + '@a' + closing * n
-    for n in (128, 1024, 4096):
+    for n in ((128, 1024, 4096, 16384) if include_large_sibling_tables else (128, 1024, 4096)):
         yield 'php', 'sibling-partitioned-tables', n, 'build', '<table><tbody><tr><td>x</td></tr></tbody><tfoot><tr><td>y</td></tr></tfoot></table>' * n
 
     for kind, prefix, suffix in (
@@ -139,6 +139,7 @@ def main():
     parser.add_argument("--control-samples", type=int)
     parser.add_argument("--kinds", nargs="+")
     parser.add_argument("--sizes", nargs="+", type=int)
+    parser.add_argument("--large-sibling-tables", action="store_true")
     args = parser.parse_args()
     if args.rounds < 2 or args.rounds % 2 or args.samples < 1 or (args.control_samples is not None and args.control_samples < 1):
         parser.error("Use an even number of rounds >= 2 and at least one sample")
@@ -207,7 +208,7 @@ def main():
         output_hashes = {}
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
-            for engine, kind, n, stage, source in cases():
+            for engine, kind, n, stage, source in cases(args.large_sibling_tables):
                 if engine not in args.engines or (args.kinds and kind not in args.kinds) or (args.sizes and n not in args.sizes):
                     continue
                 fixture = build / "fixture.txt"
