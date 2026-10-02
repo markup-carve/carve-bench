@@ -63,6 +63,8 @@ def cases():
             yield "js", kind, n, "true", source
     for n in (128, 1024, 4096):
         yield "js", "empty-table-rows", n, "html-import", "<table>" + "<tr><td></td></tr>" * n + "</table>"
+    for n in (128, 1024, 4096):
+        yield "js", "empty-tables", n, "html-import", "<table><tr><td></td></tr></table>" * n
     for n in (128, 1024):
         for positions in ("true", "false"):
             yield "rs", "plain", n, positions, "A paragraph with *emphasis*.\n\n" * n
