@@ -4,7 +4,7 @@ Two different scores answer two different questions. Keeping them separate is
 important: the comparison document is deliberately portable, while the parsers
 are not equally broad.
 
-## Workload coverage: 18 points for every engine
+## Table-capable workload coverage: 18 points for every engine
 
 The workload score describes syntax exercised by the comparison corpus. An
 engine only enters the timing table after it handles all 18 points, using the
@@ -27,6 +27,12 @@ Ordinary syntax families receive one point, cross-document or recursive work
 two, and the table grid three. These weights were fixed independently of the
 timings. Equal workload points mean that a competitor is not made faster by
 treating a construct in this particular input as plain text.
+
+The [table-free JavaScript comparison](reports/commonmark-js.md) includes
+commonmark.js, which has no pipe-table extension. That workload removes the
+three grid points and one alignment point, leaving 14 points for all four
+libraries. Its projected HTML check runs before timing. The configuration
+breadth table below describes the historical table-capable comparison.
 
 ## Core capability breadth
 

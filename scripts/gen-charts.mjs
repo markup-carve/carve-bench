@@ -33,7 +33,7 @@ const FAMILY_COLORS = [
   [/^carve-php\b/, CARVE_PURPLE[1]],
   [/^carve-js\b/, CARVE_PURPLE[2]],
   [/^(djot\.js|djot-php|jotdown)\b/, '#24a37a'],
-  [/^(markdown-it|comrak|pulldown-cmark|league\/commonmark)/, '#e58b25'],
+  [/^(commonmark\.js|markdown-it|comrak|pulldown-cmark|league\/commonmark)/, '#e58b25'],
 ]
 const barColor = (name, index) =>
   FAMILY_COLORS.find(([pattern]) => pattern.test(name))?.[1] ??
@@ -126,3 +126,16 @@ writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   sections(resolve(root, 'RESULTS.md'), 3)
     .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))
+
+const commonmarkGroups = [2, 3].map((column, index) => ({
+  name: `Round ${index + 1}`,
+  rows: sections(resolve(root, 'reports/commonmark-js.md'), column)
+    .find(group => group.name === 'Reused public conversion APIs')?.rows ?? [],
+}))
+if (commonmarkGroups.every(group => group.rows.length)) {
+  writeFileSync(resolve(root, 'charts/commonmark-js.svg'), chart(
+    'Shared JavaScript core including commonmark.js',
+    'Table-free workload, 14 exercised points. Separate from the 18-point table-capable comparison.',
+    commonmarkGroups,
+  ))
+}

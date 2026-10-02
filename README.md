@@ -12,6 +12,18 @@ Engines covered: [carve-js](https://github.com/markup-carve/carve-js) (TypeScrip
 carve-py / carve-rb bindings wrap the carve-rs engine, so their core render speed
 tracks carve-rs plus a thin FFI/IPC layer.
 
+## JavaScript comparison including commonmark.js
+
+The [shared JavaScript core report](reports/commonmark-js.md) compares Carve,
+Djot, markdown-it and commonmark.js 0.31.2 on equivalent table-free content.
+Its runner checks projected HTML before timing and records two reversed-order rounds,
+plus a CommonMark parser/renderer constructor control. This 14-point workload
+is separate from the historical 18-point table-capable comparison below. No new
+timing snapshot is published yet; measurements from a loaded host remain local.
+
+Run `npm ci` in `engines/js`, then `node scripts/compare-commonmark.mjs`
+from the repository root. Generate its chart with `node scripts/gen-charts.mjs`.
+
 ## Results
 
 The [benchmark site](https://markup-carve.github.io/carve-bench/) presents the
