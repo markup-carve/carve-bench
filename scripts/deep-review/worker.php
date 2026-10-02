@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require $argv[1] . '/vendor/autoload.php';
+require __DIR__ . '/verify-source.php';
 
 use MarkupCarve\Carve\Ast\AstCodec;
 use MarkupCarve\Carve\CarveConverter;
@@ -47,6 +48,7 @@ if ($stage === 'decode') {
     $output = $codec->encode($output);
 }
 echo json_encode([
+    'loaded_sources' => $loadedSources,
     'samples' => $samples,
     'hash' => hash('sha256', serialize($output)),
     'warmups' => 3,

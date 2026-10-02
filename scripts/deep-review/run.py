@@ -153,9 +153,16 @@ def main():
     for engine in ("js", "php", "rs"):
         if identities[f"{engine}-main"]["revision"] == identities[f"{engine}-candidate"]["revision"]:
             parser.error(f"{engine}: main and candidate revisions must differ")
+    selected_cases = [(e, k, n, stage, source) for e, k, n, stage, source in cases()
+                      if e in args.engines and (not args.kinds or k in args.kinds) and (not args.sizes or n in args.sizes)]
+    if not selected_cases:
+        parser.error('No cases match the selected engines, kinds and sizes')
     repo = HERE.parent.parent
+    output = args.output.resolve()
+    if output.is_relative_to(repo.resolve()) and subprocess.run(['git', 'check-ignore', '--quiet', str(output)], cwd=repo).returncode != 0:
+        parser.error('Write measurements outside the benchmark source tree or into an ignored directory')
     bench = source_identity(repo)
-    workers = {name: digest(HERE / name) for name in ("run.py", "worker.mjs", "worker.php", "worker.rs")}
+    workers = {name: digest(HERE / name) for name in ("run.py", "worker.mjs", "worker.php", "worker.rs", "verify-source.php")}
     binaries = {}
     with tempfile.TemporaryDirectory(prefix="carve-deep-review-") as temporary:
         build = Path(temporary)
@@ -207,7 +214,7 @@ def main():
         output_hashes = {}
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
-            for engine, kind, n, stage, source in cases():
+            for engine, kind, n, stage, source in selected_cases:
                 if engine not in args.engines or (args.kinds and kind not in args.kinds) or (args.sizes and n not in args.sizes):
                     continue
                 fixture = build / "fixture.txt"

@@ -24,7 +24,7 @@ def main():
     if identities['main']['revision'] == identities['candidate']['revision']:
         parser.error('Main and candidate revisions must differ')
     bench = source_identity(HERE.parent.parent)
-    hashes = {name: digest(HERE / name) for name in ('run.py', 'php-citations.py', 'php-citations.php')}
+    hashes = {name: digest(HERE / name) for name in ('run.py', 'php-citations.py', 'php-citations.php', 'verify-source.php')}
     artifacts = {v: tree_digest(root / 'vendor/composer') for v, root in roots.items()}
     session = {'started_at': timestamp(), 'sources': identities, 'driver': bench,
                'worker_hashes': hashes, 'composer_artifact_hashes': artifacts,

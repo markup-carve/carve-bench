@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require $argv[1] . '/vendor/autoload.php';
+require __DIR__ . '/verify-source.php';
 
 use MarkupCarve\Carve\Parser\Block\ListParser;
 
@@ -22,6 +23,7 @@ for ($i = 0; $i < $count; $i++) {
 unset($id, $marker);
 gc_collect_cycles();
 echo json_encode([
+    'loaded_sources' => $loadedSources,
     'count' => $count,
     'retained_bytes' => memory_get_usage(false) - $before,
     'output_hash' => hash_final($hash),
