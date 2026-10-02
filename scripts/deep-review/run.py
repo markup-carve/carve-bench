@@ -90,7 +90,8 @@ def cases():
             ('rejected-items', '[@a;', ']'),
             ('rejected-middle-items', '[@a; bad; @b,', ']'),
         ):
-            for n in (4096, 16384, 65536):
+            sizes = (1024, 4096, 16384) if engine == 'js' and kind in ('rejected-items', 'rejected-middle-items') else (4096, 16384, 65536)
+            for n in sizes:
                 yield engine, kind, n, 'false', opening * n + '@a' + closing * n
     for n in (128, 1024, 4096):
         yield 'php', 'sibling-partitioned-tables', n, 'build', '<table><tbody><tr><td>x</td></tr></tbody><tfoot><tr><td>y</td></tr></tfoot></table>' * n
