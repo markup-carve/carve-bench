@@ -22,6 +22,19 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def tree_digest(root):
+    digestor = hashlib.sha256()
+    for path in sorted(root.rglob("*")):
+        if path.is_file():
+            digestor.update(str(path.relative_to(root)).encode())
+            digestor.update(bytes.fromhex(digest(path)))
+    return digestor.hexdigest()
+
+
+def optional_text(path):
+    return path.read_text().strip() if path.exists() else None
+
+
 def timestamp():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
@@ -55,7 +68,7 @@ def cases():
                          ("definition", "<dl>" + "<dt>Term</dt><dd><p>Definition</p></dd>" * 1024 + "</dl>")):
         for stage in ("encode", "decode", "import"):
             yield "php", kind, 1024, stage, source
-    yield "php", "plain", 1024, "plain", "A paragraph with *emphasis*.\n\n" * 1024
+    yield "php", "plain", 1024, "parse+encode", "A paragraph with *emphasis*.\n\n" * 1024
 
 
 def summarize(rows):
@@ -72,7 +85,9 @@ def summarize(rows):
         results.append(dict(zip(("engine", "kind", "n", "stage"), key),
                             main_ms=times["main"], candidate_ms=times["candidate"],
                             change_percent=(times["candidate"] / times["main"] - 1) * 100,
-                            hash=next(iter(hashes))))
+                            hash=next(iter(hashes)),
+                            round_medians={v: [statistics.median(r["samples"]) for r in rs] for v, rs in variants.items()},
+                            ranges={v: [min(s for r in rs for s in r["samples"]), max(s for r in rs for s in r["samples"])] for v, rs in variants.items()}))
     return results
 
 
@@ -93,6 +108,9 @@ def main():
         parser.error("Output already exists; choose a new session path")
     roots = {(e, v): getattr(args, f"{e}_{v}").resolve() for e in ("js", "php", "rs") for v in ("main", "candidate")}
     identities = {f"{e}-{v}": source_identity(root) for (e, v), root in roots.items()}
+    for engine in ("js", "php", "rs"):
+        if identities[f"{engine}-main"]["revision"] == identities[f"{engine}-candidate"]["revision"]:
+            parser.error(f"{engine}: main and candidate revisions must differ")
     repo = HERE.parent.parent
     bench = source_identity(repo)
     workers = {name: digest(HERE / name) for name in ("run.py", "worker.mjs", "worker.php", "worker.rs")}
@@ -101,21 +119,29 @@ def main():
         build = Path(temporary)
         (build / "src").mkdir()
         shutil.copyfile(HERE / "worker.rs", build / "src/main.rs")
+        shutil.copyfile(roots["rs", "main"] / "Cargo.lock", build / "Cargo.lock")
         for variant in ("main", "candidate"):
             root = roots["rs", variant]
-            (build / "Cargo.toml").write_text('[package]\nname="carve-deep-review"\nversion="0.0.0"\nedition="2021"\n'
+            bin_name = f"carve-deep-review-{os.getpid()}-{variant}"
+            (build / "Cargo.toml").write_text(f'[package]\nname="carve-deep-review-{os.getpid()}"\nversion="0.0.0"\nedition="2021"\n'
                 + '[dependencies]\ncarve={package="carve-lang",path=' + json.dumps(str(root)) + '}\n'
+                + f'[[bin]]\nname="{bin_name}"\npath="src/main.rs"\n'
                 + '[profile.release]\nlto="thin"\ncodegen-units=1\n')
             env = dict(os.environ, CARGO_TARGET_DIR=str(args.cargo_target.resolve()))
-            subprocess.run(["cargo", "build", "--release", "--manifest-path", str(build / "Cargo.toml")], env=env, check=True)
+            command = ["cargo", "build", "--release", "--manifest-path", str(build / "Cargo.toml")]
+            if variant == "candidate":
+                command.append("--locked")
+            subprocess.run(command, env=env, check=True)
             binary = build / f"worker-{variant}"
-            shutil.copyfile(args.cargo_target / "release/carve-deep-review", binary)
+            shutil.copyfile(args.cargo_target.resolve() / "release" / bin_name, binary)
             binaries[variant] = binary
         rust_lockfile = (build / "Cargo.lock").read_text()
         for variant in ("main", "candidate"):
             subprocess.run(["npm", "run", "build"], cwd=roots["js", variant], check=True)
         for root in roots.values():
             source_identity(root)
+        artifacts = {f"js-{v}": tree_digest(roots["js", v] / "dist") for v in ("main", "candidate")}
+        artifacts.update({f"php-{v}": tree_digest(roots["php", v] / "vendor/composer") for v in ("main", "candidate")})
         session = {"started_at": timestamp(), "driver": bench, "worker_hashes": workers,
                    "sources": identities, "rounds": args.rounds, "samples_per_round": args.samples,
                    "cpu": args.cpu, "invocation": sys.argv, "runtimes": {"js": execute(["node", "--version"]).strip(),
@@ -123,9 +149,16 @@ def main():
                    "rust_binary_hashes": {v: digest(p) for v, p in binaries.items()}, "rows": []}
         session["rust_worker_lockfile"] = rust_lockfile
         session["rust_worker_lockfile_hash"] = digest(build / "Cargo.lock")
+        session["artifact_hashes"] = artifacts
+        session["dependency_lock_hashes"] = {f"{e}-{v}": digest(root / ("package-lock.json" if e == "js" else "composer.lock" if e == "php" else "Cargo.lock")) for (e, v), root in roots.items()}
+        session["rust_build_environment"] = {key: os.environ.get(key) for key in ("RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "RUSTUP_TOOLCHAIN")}
+        session["cargo_version"] = execute(["cargo", "--version"]).strip()
+        session["php_modules"] = execute(["php", "-m"])
         session["host"] = {"platform": execute(["uname", "-srmo"]).strip(),
-                           "cpu": execute(["lscpu", "-J"]), "initial_load_average": os.getloadavg()}
+                           "cpu": json.loads(execute(["lscpu", "-J"])), "initial_load_average": os.getloadavg(),
+                           "governor": optional_text(Path(f"/sys/devices/system/cpu/cpu{args.cpu}/cpufreq/scaling_governor"))}
         args.output.parent.mkdir(parents=True, exist_ok=True)
+        output_hashes = {}
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
             for engine, kind, n, stage, source in cases():
@@ -138,7 +171,7 @@ def main():
                     elif engine == "js":
                         command = ["node", str(HERE / "worker.mjs"), str(root), str(fixture), stage, str(args.samples)]
                     else:
-                        command = ["php", "-d", "opcache.enable_cli=0", "-d", "pcov.enabled=0", str(HERE / "worker.php"), str(root), str(fixture), stage, str(args.samples)]
+                        command = ["php", "-d", "opcache.enable_cli=0", "-d", "pcov.enabled=0", "-d", "xdebug.mode=off", str(HERE / "worker.php"), str(root), str(fixture), stage, str(args.samples)]
                     observed = timestamp()
                     load = os.getloadavg()
                     result = execute(["taskset", "-c", str(args.cpu), *command])
@@ -147,8 +180,13 @@ def main():
                         row = {"samples": [float(x) for x in samples.split(",")], "hash": hashlib.sha256(ast.encode()).hexdigest(), "warmups": 3}
                     else:
                         row = json.loads(result)
+                    key = engine, kind, n, stage
+                    expected_hash = output_hashes.setdefault(key, row["hash"])
+                    if row["hash"] != expected_hash:
+                        raise RuntimeError(f"Output mismatch: {key}, {variant}")
                     row.update(engine=engine, variant=variant, kind=kind, n=n, stage=stage, round=round_index,
                                observed_at=observed, load_average=load, fixture_hash=digest(fixture))
+                    row["cpu_frequency_khz"] = optional_text(Path(f"/sys/devices/system/cpu/cpu{args.cpu}/cpufreq/scaling_cur_freq"))
                     session["rows"].append(row)
                     args.output.write_text(json.dumps(session, indent=2) + "\n")
             print(f"Completed round {round_index + 1}/{args.rounds}", flush=True)
@@ -157,6 +195,9 @@ def main():
                 raise RuntimeError(f"Source changed during measurement: {root}")
         if source_identity(repo) != bench or any(digest(HERE / name) != value for name, value in workers.items()):
             raise RuntimeError("Benchmark driver changed during measurement")
+        for variant in ("main", "candidate"):
+            if tree_digest(roots["js", variant] / "dist") != artifacts[f"js-{variant}"] or tree_digest(roots["php", variant] / "vendor/composer") != artifacts[f"php-{variant}"]:
+                raise RuntimeError(f"Build artifacts changed during measurement: {variant}")
         session["finished_at"] = timestamp()
         session["summary"] = summarize(session["rows"])
         args.output.write_text(json.dumps(session, indent=2) + "\n")
