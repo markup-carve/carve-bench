@@ -13,7 +13,7 @@ def render(session_path, output):
     rows = session['summary']
     columns = ['engine', 'kind', 'n', 'stage', 'main_ms', 'candidate_ms', 'change_percent', 'hash']
     with (output / 'deep-review.csv').open('w') as stream:
-        writer = csv.DictWriter(stream, fieldnames=columns, extrasaction='ignore')
+        writer = csv.DictWriter(stream, fieldnames=columns, extrasaction='ignore', lineterminator='\n')
         writer.writeheader()
         writer.writerows(rows)
     lines = ['# Focused engine review, ' + session['started_at'][:10], '',
@@ -86,7 +86,7 @@ def append_followups(output, citation_path, controls_path):
              '| Stage | n | Main ms | Draft ms | Change |', '|---|---:|---:|---:|---:|']
     columns = ['engine', 'kind', 'n', 'stage', 'main_ms', 'candidate_ms', 'change_percent', 'hash']
     with (output / 'php-citation-review.csv').open('w') as stream:
-        writer = csv.DictWriter(stream, fieldnames=columns, extrasaction='ignore')
+        writer = csv.DictWriter(stream, fieldnames=columns, extrasaction='ignore', lineterminator='\n')
         writer.writeheader()
         writer.writerows(citation['summary'])
     for row in citation['summary']:
