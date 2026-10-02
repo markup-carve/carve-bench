@@ -18,9 +18,13 @@ on:
       - 'scripts/check-pin-freshness.mjs'
       - '.github/workflows/pin-freshness.yml'
 
+# Every job declares timeout-minutes so a hung step fails in minutes
+# rather than inheriting the 360-minute GitHub default.
+
 jobs:
   freshness:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
