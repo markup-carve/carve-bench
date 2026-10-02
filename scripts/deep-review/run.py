@@ -111,6 +111,7 @@ def main():
             binary = build / f"worker-{variant}"
             shutil.copyfile(args.cargo_target / "release/carve-deep-review", binary)
             binaries[variant] = binary
+        rust_lockfile = (build / "Cargo.lock").read_text()
         for variant in ("main", "candidate"):
             subprocess.run(["npm", "run", "build"], cwd=roots["js", variant], check=True)
         for root in roots.values():
@@ -120,6 +121,10 @@ def main():
                    "cpu": args.cpu, "invocation": sys.argv, "runtimes": {"js": execute(["node", "--version"]).strip(),
                    "php": execute(["php", "-v"]).splitlines()[0], "rs": execute(["rustc", "--version"]).strip()},
                    "rust_binary_hashes": {v: digest(p) for v, p in binaries.items()}, "rows": []}
+        session["rust_worker_lockfile"] = rust_lockfile
+        session["rust_worker_lockfile_hash"] = digest(build / "Cargo.lock")
+        session["host"] = {"platform": execute(["uname", "-srmo"]).strip(),
+                           "cpu": execute(["lscpu", "-J"]), "initial_load_average": os.getloadavg()}
         args.output.parent.mkdir(parents=True, exist_ok=True)
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
