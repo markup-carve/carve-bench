@@ -96,6 +96,14 @@ def cases():
     for n in (128, 1024, 4096):
         yield 'php', 'sibling-partitioned-tables', n, 'build', '<table><tbody><tr><td>x</td></tr></tbody><tfoot><tr><td>y</td></tr></tfoot></table>' * n
 
+    for kind, prefix, suffix in (
+        ('captioned-blank-tables', '<table><caption>c</caption>', '</table>'),
+        ('quoted-blank-tables', '<blockquote><table>', '</table></blockquote>'),
+        ('listed-blank-tables', '<ul><li><table>', '</table></li></ul>'),
+    ):
+        for n in (128, 1024):
+            yield 'js', kind, n, 'html-import', (prefix + '<tr><td></td></tr><tr><td>a</td></tr>' + suffix) * n
+
 
 def summarize(rows):
     groups = {}
