@@ -48,31 +48,37 @@ def render(session_path, output):
     matplotlib.use('Agg')
     matplotlib.rcParams['svg.hashsalt'] = 'carve-bench-focused-v1'
     import matplotlib.pyplot as plt
-    figure, axes = plt.subplots(1, 3, figsize=(17, 5), constrained_layout=True)
-    colors = ['#2463a8', '#ca6733', '#238463']
-    for ax, engine, kinds, title in [(axes[0], 'js', ['nested', 'emphasis', 'link'], 'JavaScript citation parsing'),
-                                    (axes[1], 'rs', ['group', 'unclosed'], 'Rust citation parsing')]:
-        for color, kind in zip(colors, kinds):
-            selected = sorted([r for r in rows if r['engine'] == engine and r['kind'] == kind and r['stage'] == 'true'], key=lambda r: r['n'])
-            for variant, style in [('main', '-'), ('candidate', '--')]:
-                ax.plot([r['n'] for r in selected], [r[variant + '_ms'] for r in selected], style, marker='o', color=color, label=kind + ' ' + variant)
-        ax.set_xscale('log', base=2)
+    panels = list(dict.fromkeys((row['engine'], row['kind']) for row in rows))
+    columns = min(3, len(panels))
+    height = (len(panels) + columns - 1) // columns
+    figure, axes = plt.subplots(height, columns, figsize=(5 * columns, 4 * height), squeeze=False, constrained_layout=True)
+    for ax, (engine, kind) in zip(axes.flat, panels):
+        selected = [row for row in rows if row['engine'] == engine and row['kind'] == kind]
+        stages = list(dict.fromkeys(row['stage'] for row in selected))
+        if len({row['n'] for row in selected}) == 1:
+            x = list(range(len(stages)))
+            for variant, offset in [('main', -.18), ('candidate', .18)]:
+                ax.bar([value + offset for value in x],
+                       [next(row[variant + '_ms'] for row in selected if row['stage'] == stage) for stage in stages],
+                       width=.36, label=variant)
+            ax.set_xticks(x, stages)
+            ax.set_xlabel('Stage')
+        else:
+            for stage in stages:
+                values = sorted([row for row in selected if row['stage'] == stage], key=lambda row: row['n'])
+                for variant, style in [('main', '-'), ('candidate', '--')]:
+                    ax.plot([row['n'] for row in values], [row[variant + '_ms'] for row in values], style,
+                            marker='o', label=stage + ' ' + variant)
+            ax.set_xscale('log', base=2)
+            ax.set_xlabel('Repeated items')
         ax.set_yscale('log')
-        ax.set_title(title)
-        ax.set_xlabel('Repeated items')
+        ax.set_title(engine + ': ' + kind)
         ax.set_ylabel('Median milliseconds, log scale')
         ax.grid(alpha=.2)
         ax.legend(fontsize=8)
-    selected = [r for r in rows if r['engine'] == 'php' and r['kind'] != 'plain']
-    x = list(range(len(selected)))
-    axes[2].bar([i - .18 for i in x], [r['main_ms'] for r in selected], width=.36, label='main', color=colors[0])
-    axes[2].bar([i + .18 for i in x], [r['candidate_ms'] for r in selected], width=.36, label='candidate', color=colors[2])
-    axes[2].set_xticks(x, [r['kind'] + '\n' + r['stage'] for r in selected], fontsize=8, rotation=25)
-    axes[2].set_ylabel('Median milliseconds')
-    axes[2].set_title('PHP import and AST stages, n=1024')
-    axes[2].legend(fontsize=8)
-    axes[2].grid(axis='y', alpha=.2)
-    figure.suptitle('Pinned main vs proposed changes; lower is faster; compare within each engine')
+    for ax in list(axes.flat)[len(panels):]:
+        ax.set_visible(False)
+    figure.suptitle('Earlier drafts versus pinned main, including controls and regressions')
     chart = output.parent / 'charts'
     chart.mkdir(exist_ok=True)
     save_chart(figure, chart / 'deep-review.svg')
@@ -82,8 +88,13 @@ def render(session_path, output):
 def append_followups(output, citation_path, controls_path):
     citation = json.loads(citation_path.read_text())
     controls = json.loads(controls_path.read_text())
-    if 'finished_at' not in citation or controls['rounds_complete'] < 2:
+    if 'finished_at' not in citation or controls['rounds_complete'] != 8:
         raise ValueError('Follow-up measurement is incomplete')
+    for row in controls['summary']:
+        for variant in ['main', 'candidate']:
+            measured = [r for r in controls['rows'] if (r['kind'], r['n'], r['positions'], r['variant']) == (row['kind'], row['n'], row['positions'], variant)]
+            if len(measured) != 8 or {r['round'] for r in measured} != set(range(8)) or any(len(r['samples']) != controls['samples_per_round'] for r in measured):
+                raise ValueError('Historical Rust diagnostic is incomplete')
     lines = ['', '## PHP citation follow-up', '',
              'This separate session measures the citation position fix against the same PHP main. The encoding measurements above use a different draft. Both changes are independent.', '',
              'Main: `' + citation['sources']['main']['revision'] + '`. Citation draft: `' + citation['sources']['candidate']['revision'] + '`.', '',
@@ -99,7 +110,8 @@ def append_followups(output, citation_path, controls_path):
         lines.append(f"| {row['stage']} | {row['n']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
     lines += ['', '## Longer Rust controls', '',
               'A local diagnostic repeated the original Rust worker binaries with longer sampling for the five cases listed below. These repeats cover plain parsing and unpositioned citation groups. They do not cover nested citation prefixes: the initial map allocation caused a repeatable slowdown there, addressed by the final Rust short-scan follow-up below.', '',
-              '[Diagnostic raw samples](deep-review-rust-controls.json)', '',
+              '[Diagnostic raw samples](deep-review-rust-controls.json) · [Archived binary verification](rust-control-binary-verification.json)',
+              '', 'The diagnostic producer inherited binary hashes from the original session. Hashes of the archived binaries were checked after the run, not by the diagnostic producer at run time. Formal follow-ups below have stronger provenance.', '',
               '| Case | n | Positions | Main ms | Draft ms | Change |', '|---|---:|---|---:|---:|---:|']
     for row in controls['summary']:
         lines.append(f"| {row['kind']} | {row['n']} | {row['positions']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
@@ -197,6 +209,8 @@ def append_session(output, path):
 
 def append_retention(output, path):
     session = json.loads(path.read_text())
+    if 'finished_at' not in session or len(session['rows']) != 6:
+        raise ValueError('Cache retention measurement is incomplete')
     rows = session['rows']
     counts = sorted({row['count'] for row in rows})
     for count in counts:
@@ -205,7 +219,7 @@ def append_retention(output, path):
             raise ValueError('Cache retention outputs differ or a pair is missing')
     lines = ['', '## PHP marker cache retention', '',
              'Fresh PHP processes parse unique attribute payloads longer than 4 KB. A short marker warms the parser before the live-memory baseline. The final result is released and cycles collected. These are retained bytes, not peak memory or throughput. Complete marker output hashes match.', '',
-             f"Main: `{session['sources']['main']}`. Candidate: `{session['sources']['candidate']}`.", '',
+             f"Main: `{session['sources']['main']['revision']}`. Candidate: `{session['sources']['candidate']['revision']}`.", '',
              '[Raw retention measurement](php-cache-retention.json) · [Graph](../charts/php-cache-retention.svg)', '',
              '| Unique payloads | Main bytes | Candidate bytes |', '|---:|---:|---:|']
     import matplotlib.pyplot as plt

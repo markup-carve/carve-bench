@@ -1,46 +1,211 @@
 {
-  "worker_sha256": "5382ef77590f4ae2fed0df90a6c005dd41b9e274e1e04446682db4e479773af4",
-  "stage": "live retained bytes after parsing unique >4KB payloads, after result release and cycle collection",
-  "sources": {
-    "main": "d14268ab2bc5ed579b834a73def0ba993dceae20",
-    "candidate": "4c1cf690ea57e6ce035dfbecce932d42684c1018"
+  "started_at": "2026-10-02T11:39:15.580505+00:00",
+  "driver": {
+    "root": "/tmp/carve-bench-final-review-20261002",
+    "revision": "04389c003ec4e2c8aa77140d55cea9d32b32400f"
   },
+  "sources": {
+    "main": {
+      "root": "/tmp/carve-php-round2-20261002",
+      "revision": "d14268ab2bc5ed579b834a73def0ba993dceae20"
+    },
+    "candidate": {
+      "root": "/tmp/carve-php-merged-review-20261002",
+      "revision": "4c1cf690ea57e6ce035dfbecce932d42684c1018"
+    }
+  },
+  "worker_hashes": {
+    "run.py": "47baa223d641ab49b09739806e3b19234ee424024e0829683238af89a8e63697",
+    "cache-retention.py": "e28bafb6f24262af18fdee071b92df97a2a31d8cf564037d42733599f5a8c784",
+    "cache-memory.php": "cc5c94ea7a0757a3bdb0889283de1597f3365b5bf71ea20ae327ab15e3532398",
+    "verify-source.php": "b5cef8a06c535d0de0d0a39227f1123247f4bf23f3278419ab2b83bf0fe5a32a"
+  },
+  "runtime": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)\nCopyright (c) The PHP Group\nBuilt by Ubuntu\nZend Engine v4.5.11, Copyright (c) Zend Technologies\n    with Zend OPcache v8.5.11, Copyright (c), by Zend Technologies\n",
+  "php_modules": "[PHP Modules]\nbcmath\ncalendar\nCore\nctype\ncurl\ndate\ndom\nexif\nFFI\nfileinfo\nfilter\nftp\ngd\ngettext\nhash\niconv\nigbinary\nimagick\nintl\njson\nlexbor\nlibxml\nmbstring\nmysqli\nmysqlnd\nopenssl\npcntl\npcov\npcre\nPDO\npdo_mysql\npdo_pgsql\npdo_sqlite\npgsql\nPhar\nposix\nrandom\nreadline\nredis\nReflection\nsession\nshmop\nSimpleXML\nsockets\nsodium\nSPL\nsqlite3\nstandard\nsysvmsg\nsysvsem\nsysvshm\ntokenizer\nuri\nxml\nxmlreader\nxmlwriter\nxsl\nyaml\nZend OPcache\nzip\nzlib\n\n[Zend Modules]\nZend OPcache\n\n",
+  "composer_artifact_hashes": {
+    "main": "50a805a2fba82bc7a31111f6744e5ce491cc63910dfd4cb77288d233addf628a",
+    "candidate": "50a805a2fba82bc7a31111f6744e5ce491cc63910dfd4cb77288d233addf628a"
+  },
+  "installed_metadata_hashes": {
+    "main": "61b3a49347879b3f444667a4e0ec9fe0a039e7a99b5db4361cf62af179692baa",
+    "candidate": "61b3a49347879b3f444667a4e0ec9fe0a039e7a99b5db4361cf62af179692baa"
+  },
+  "stage": "live retained bytes after unique >4KB payloads and result release",
   "rows": [
     {
+      "loaded_sources": {
+        "MarkupCarve\\Carve\\Ast\\AstCodec": {
+          "path": "/tmp/carve-php-round2-20261002/src/Ast/AstCodec.php",
+          "sha256": "a10419c5abb6789a5937182e73829fe254815e7fd05aa2e141d5b41f97d11227"
+        },
+        "MarkupCarve\\Carve\\CarveConverter": {
+          "path": "/tmp/carve-php-round2-20261002/src/CarveConverter.php",
+          "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+        },
+        "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+          "path": "/tmp/carve-php-round2-20261002/src/Converter/HtmlAstBuilder.php",
+          "sha256": "d79f1feed3d6dd921a66ea3922d86139b058e1c43b9e630585323221ac3d9509"
+        },
+        "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+          "path": "/tmp/carve-php-round2-20261002/src/Extension/CitationsExtension.php",
+          "sha256": "fbcb4efe7efe2f10b022684a4e65783c295823c2fbc01c308cd2e1cedbda8123"
+        },
+        "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+          "path": "/tmp/carve-php-round2-20261002/src/Parser/Block/ListParser.php",
+          "sha256": "d665a3837e5e98f156a251079c60bf6fb6a881de734b71ffe1091309985abeba"
+        }
+      },
       "count": 128,
       "retained_bytes": 2157624,
       "output_hash": "01ab20c896a694ee46f4e7d8c7e816d39812ceefba28ca4aedf08b95982293cd",
-      "variant": "main"
+      "variant": "main",
+      "observed_at": "2026-10-02T11:39:15.771677+00:00"
     },
     {
+      "loaded_sources": {
+        "MarkupCarve\\Carve\\Ast\\AstCodec": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Ast/AstCodec.php",
+          "sha256": "a10419c5abb6789a5937182e73829fe254815e7fd05aa2e141d5b41f97d11227"
+        },
+        "MarkupCarve\\Carve\\CarveConverter": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/CarveConverter.php",
+          "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+        },
+        "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Converter/HtmlAstBuilder.php",
+          "sha256": "749a9d7d17e731e6962b768397aa637d38d3ee0aa78886eb326cb365109e7823"
+        },
+        "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Extension/CitationsExtension.php",
+          "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+        },
+        "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Parser/Block/ListParser.php",
+          "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+        }
+      },
       "count": 128,
       "retained_bytes": 376,
       "output_hash": "01ab20c896a694ee46f4e7d8c7e816d39812ceefba28ca4aedf08b95982293cd",
-      "variant": "candidate"
+      "variant": "candidate",
+      "observed_at": "2026-10-02T11:39:15.833679+00:00"
     },
     {
+      "loaded_sources": {
+        "MarkupCarve\\Carve\\Ast\\AstCodec": {
+          "path": "/tmp/carve-php-round2-20261002/src/Ast/AstCodec.php",
+          "sha256": "a10419c5abb6789a5937182e73829fe254815e7fd05aa2e141d5b41f97d11227"
+        },
+        "MarkupCarve\\Carve\\CarveConverter": {
+          "path": "/tmp/carve-php-round2-20261002/src/CarveConverter.php",
+          "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+        },
+        "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+          "path": "/tmp/carve-php-round2-20261002/src/Converter/HtmlAstBuilder.php",
+          "sha256": "d79f1feed3d6dd921a66ea3922d86139b058e1c43b9e630585323221ac3d9509"
+        },
+        "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+          "path": "/tmp/carve-php-round2-20261002/src/Extension/CitationsExtension.php",
+          "sha256": "fbcb4efe7efe2f10b022684a4e65783c295823c2fbc01c308cd2e1cedbda8123"
+        },
+        "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+          "path": "/tmp/carve-php-round2-20261002/src/Parser/Block/ListParser.php",
+          "sha256": "d665a3837e5e98f156a251079c60bf6fb6a881de734b71ffe1091309985abeba"
+        }
+      },
       "count": 512,
       "retained_bytes": 8622136,
       "output_hash": "e3adf34621fba3be9727efcf292fdae78e8bd454979fc505e31d9c00f65c625e",
-      "variant": "main"
+      "variant": "main",
+      "observed_at": "2026-10-02T11:39:15.906634+00:00"
     },
     {
+      "loaded_sources": {
+        "MarkupCarve\\Carve\\Ast\\AstCodec": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Ast/AstCodec.php",
+          "sha256": "a10419c5abb6789a5937182e73829fe254815e7fd05aa2e141d5b41f97d11227"
+        },
+        "MarkupCarve\\Carve\\CarveConverter": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/CarveConverter.php",
+          "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+        },
+        "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Converter/HtmlAstBuilder.php",
+          "sha256": "749a9d7d17e731e6962b768397aa637d38d3ee0aa78886eb326cb365109e7823"
+        },
+        "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Extension/CitationsExtension.php",
+          "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+        },
+        "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Parser/Block/ListParser.php",
+          "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+        }
+      },
       "count": 512,
       "retained_bytes": 376,
       "output_hash": "e3adf34621fba3be9727efcf292fdae78e8bd454979fc505e31d9c00f65c625e",
-      "variant": "candidate"
+      "variant": "candidate",
+      "observed_at": "2026-10-02T11:39:15.979085+00:00"
     },
     {
+      "loaded_sources": {
+        "MarkupCarve\\Carve\\Ast\\AstCodec": {
+          "path": "/tmp/carve-php-round2-20261002/src/Ast/AstCodec.php",
+          "sha256": "a10419c5abb6789a5937182e73829fe254815e7fd05aa2e141d5b41f97d11227"
+        },
+        "MarkupCarve\\Carve\\CarveConverter": {
+          "path": "/tmp/carve-php-round2-20261002/src/CarveConverter.php",
+          "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+        },
+        "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+          "path": "/tmp/carve-php-round2-20261002/src/Converter/HtmlAstBuilder.php",
+          "sha256": "d79f1feed3d6dd921a66ea3922d86139b058e1c43b9e630585323221ac3d9509"
+        },
+        "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+          "path": "/tmp/carve-php-round2-20261002/src/Extension/CitationsExtension.php",
+          "sha256": "fbcb4efe7efe2f10b022684a4e65783c295823c2fbc01c308cd2e1cedbda8123"
+        },
+        "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+          "path": "/tmp/carve-php-round2-20261002/src/Parser/Block/ListParser.php",
+          "sha256": "d665a3837e5e98f156a251079c60bf6fb6a881de734b71ffe1091309985abeba"
+        }
+      },
       "count": 1024,
       "retained_bytes": 17244216,
       "output_hash": "d1bea9a5c23b5eb412cdca9b9d8c7f39fd2c9323a72fcba8b0855a1a9676f8b8",
-      "variant": "main"
+      "variant": "main",
+      "observed_at": "2026-10-02T11:39:16.075674+00:00"
     },
     {
+      "loaded_sources": {
+        "MarkupCarve\\Carve\\Ast\\AstCodec": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Ast/AstCodec.php",
+          "sha256": "a10419c5abb6789a5937182e73829fe254815e7fd05aa2e141d5b41f97d11227"
+        },
+        "MarkupCarve\\Carve\\CarveConverter": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/CarveConverter.php",
+          "sha256": "6e8c5ebb751e16a20b0fb5973e18799422bb94f548c17a8f510ad2769483b104"
+        },
+        "MarkupCarve\\Carve\\Converter\\HtmlAstBuilder": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Converter/HtmlAstBuilder.php",
+          "sha256": "749a9d7d17e731e6962b768397aa637d38d3ee0aa78886eb326cb365109e7823"
+        },
+        "MarkupCarve\\Carve\\Extension\\CitationsExtension": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Extension/CitationsExtension.php",
+          "sha256": "4c9b0435227942e6c6e16de984868178acdf731fc28c647dbfecd30328558c02"
+        },
+        "MarkupCarve\\Carve\\Parser\\Block\\ListParser": {
+          "path": "/tmp/carve-php-merged-review-20261002/src/Parser/Block/ListParser.php",
+          "sha256": "2588d9032158f5095df68bed53292ea0e44dc070865c9bcef02e453ca32bfe0f"
+        }
+      },
       "count": 1024,
       "retained_bytes": 376,
       "output_hash": "d1bea9a5c23b5eb412cdca9b9d8c7f39fd2c9323a72fcba8b0855a1a9676f8b8",
-      "variant": "candidate"
+      "variant": "candidate",
+      "observed_at": "2026-10-02T11:39:16.152551+00:00"
     }
-  ]
+  ],
+  "finished_at": "2026-10-02T11:39:16.206683+00:00"
 }
