@@ -18,7 +18,7 @@ def graph(engine, data):
     n = max(row['n'] for row in data['rows'])
     cases = list(dict.fromkeys(row['case'] for row in data['rows']))
     index = {(r['revision'],r['case'],r['n']):r for r in data['rows']}
-    ratios = [index[label,case,n]['median_ms']/index[revisions[0],case,n]['median_ms'] for label in revisions for case in cases]
+    ratios = [index[label,case,n][field]/index[revisions[0],case,n]['median_ms'] for label in revisions for case in cases for field in ('min_ms', 'median_ms', 'max_ms')]
     low,high = math.log10(min(ratios))-.08,math.log10(max(ratios))+.08
     x = lambda i: 85+i*680/max(1,len(revisions)-1)
     y = lambda value: 310-(math.log10(value)-low)/(high-low)*240
@@ -36,13 +36,14 @@ def graph(engine, data):
             row=index[label,case,n];xx,yy=x(i),y(row['median_ms']/baseline['median_ms'])
             if previous and previous[2]==row['output_sha256']:
                 parts.append(f'<line x1="{previous[0]}" y1="{previous[1]}" x2="{xx}" y2="{yy}" stroke="{color}" stroke-width="2"/>')
+            parts.append(f'<line x1="{xx}" x2="{xx}" y1="{y(row["min_ms"]/baseline["median_ms"])}" y2="{y(row["max_ms"]/baseline["median_ms"])}" stroke="{color}" stroke-width="3" opacity=".3"/>')
             fill=color if row['output_sha256']==baseline['output_sha256'] else 'none'
             parts.append(f'<circle cx="{xx}" cy="{yy}" r="5" fill="{fill}" stroke="{color}" stroke-width="2"><title>{html.escape(case)} {html.escape(label)}: {row["median_ms"]:.3f} ms</title></circle>')
             previous=xx,yy,row['output_sha256']
         lx=35+(ci%2)*410;ly=380+(ci//2)*26
         case_label=html.escape(case+' (import)' if case.startswith('html_') else case)
         parts.append(f'<line x1="{lx}" x2="{lx+20}" y1="{ly}" y2="{ly}" stroke="{color}" stroke-width="3"/><text x="{lx+28}" y="{ly+4}">{case_label} ({baseline["median_ms"]:.3f} ms)</text>')
-    parts.append('<text x="35" y="530">Hollow points differ from oldest-tag output. Gaps mark output changes.</text></svg>')
+    parts.append('<text x="35" y="530">Whiskers show sample ranges. Hollow points and gaps mark output changes.</text></svg>')
     return ''.join(parts)
 
 
@@ -85,7 +86,7 @@ def build(path):
     if data['schema']!=1: raise ValueError('Unknown history schema')
     validate_measurements(data)
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
-    report=['# Engine release history','',f"Sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag. Candidate PR points are included when requested.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
+    report=['# Engine release history','',f"Sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
     if data.get('session_note'):
         report += ['## Measurement sessions', '', data['session_note'], '']
         for engine, snapshot in data['engines'].items():
@@ -93,7 +94,13 @@ def build(path):
             report += [f"{engine}: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
     if not data.get('session_note'):
         report += [f"Timing driver: `{data.get('benchmark_commit','unknown')}`; CPU affinity: {data.get('cpu_affinity')}; dirty benchmark tree: {data.get('benchmark_dirty')}. Report generation may use later metadata-only corrections.", '']
+    report += ['## Shared-host spread', '', f"Initial load average: {data.get('initial_load', 'not recorded')}. Final load average: {data.get('final_load', 'not recorded')}. Whiskers show sample ranges; medians from noisy sessions are descriptive readings, not confirmed speed changes.", '']
+    for engine, snapshot in data['engines'].items():
+        ranges = [(row['max_ms'] / row['min_ms'], row) for row in snapshot['rows']]
+        ratio, row = max(ranges, key=lambda item: item[0])
+        report += [f"{engine}: widest sample range is {ratio:.1f}x for {row['revision']} {row['case']} n={row['n']} ({row['min_ms']:.3f} to {row['max_ms']:.3f} ms). Inspect round medians in the JSON before attributing a difference to code.", '']
     watchpoints=[]
+    uncertain=[]
     for engine, snapshot in data['engines'].items():
         tags=[r['label'] for r in snapshot['revisions'] if r['label']!='dev-main' and r.get('kind')!='candidate']
         points={r['label'] for r in snapshot['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {tags[-1]}
@@ -105,9 +112,16 @@ def build(path):
                 previous=index[label,row['case'],row['n']]
                 change=100*(row['median_ms']/previous['median_ms']-1)
                 if change>=100 and row['output_sha256']==previous['output_sha256']:
-                    watchpoints.append(f"- {engine} {row['revision']} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%). Output hashes match; investigate the additional cost against this older baseline.")
+                    reading = f"- {engine} {row['revision']} {row['case']} n={row['n']}: {row['median_ms']:.3f} ms versus {previous['median_ms']:.3f} ms on {label} ({change:+.1f}%)."
+                    if row['min_ms'] <= previous['max_ms'] and previous['min_ms'] <= row['max_ms']:
+                        uncertain.append(reading + ' Sample ranges overlap; this session does not establish a +100% regression.')
+                    else:
+                        watchpoints.append(reading + ' Output hashes match and sample ranges are separate; investigate this older-baseline cost.')
+    checks = '[Longer paired cost checks](history-watchpoint-controls.md)' if (directory / 'history-watchpoint-controls.md').exists() else ''
     if watchpoints:
-        report += ['## Watchpoints', '', *watchpoints, '']
+        report += ['## Watchpoints', '', checks, '', *watchpoints, '']
+    if uncertain:
+        report += ['## Uncertain +100% readings', '', checks, '', *uncertain, '']
     csvrows=[]
     for engine,d in data['engines'].items():
         if not d['rows']: raise ValueError('Missing measured rows')
@@ -117,7 +131,7 @@ def build(path):
         for candidate in d.get('candidate_aliases',[]):
             report += [f"{candidate['label']} `{candidate['sha']}` has the same measured source as {candidate['same_source_as']}; it reuses that point.",'']
         for note in d.get('measurement_notes',[]):report += [note,'']
-        report += ['| Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag |','|---|---|---:|---:|---:|---:|---:|---:|:---:|']
+        report += ['| Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |','|---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|']
         points={r['label'] for r in d['revisions'] if r['label']=='dev-main' or r.get('kind')=='candidate'} or {latest}
         if d.get('main_alias'):points.add(d['main_alias']['same_source_as'])
         for r in d['rows']:
@@ -130,10 +144,10 @@ def build(path):
                 main=index.get((main_label,r['case'],r['n']))
                 main_ms=f'{main["median_ms"]:.3f}' if main else 'n/a'
                 main_change=(f'{100*(r["median_ms"]/main["median_ms"]-1):+.1f}%' if r['output_sha256']==main['output_sha256'] else 'different output') if main else 'n/a'
-                report.append(f'| {r["revision"]} | {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {main_ms} | {main_change} | {"yes" if same else "no"} |')
+                report.append(f'| {r["revision"]} | {r["case"]} | {r["n"]} | {tag["median_ms"]:.3f} | {r["median_ms"]:.3f} | {change_text} | {main_ms} | {main_change} | {"yes" if same else "no"} | {tag["min_ms"]:.3f} to {tag["max_ms"]:.3f} | {r["min_ms"]:.3f} to {r["max_ms"]:.3f} |')
         report.append('');(directory/f'{prefix.name}-{engine}.svg').write_text(graph(engine,d))
     with prefix.with_suffix('.csv').open('w',newline='') as f:
-        writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(csvrows)
+        writer=csv.DictWriter(f,fieldnames=fields,lineterminator='\n');writer.writeheader();writer.writerows(csvrows)
     prefix.with_suffix('.md').write_text(('\n'.join(report)+'\n').replace('engine-history.', prefix.name + '.').replace('engine-history-', prefix.name + '-'))
     template=(Path(__file__).parent/'viewer.html').read_text()
     template=template.replace('Four release tags',f"{data.get('tags_per_engine',4)} release tags").replace('engine-history.', prefix.name + '.').replace('HISTORY_DATA',json.dumps(data).replace('<','\\u003c'))

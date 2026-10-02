@@ -330,8 +330,6 @@ output because timings across a behavior change can represent different work.
 
 ```bash
 python3 scripts/history/run.py --cpu 0
-# Include an unmerged PR alongside tags and main:
-python3 scripts/history/run.py --cpu 6 --candidate php=proposal=perf/verse-import-followup-20261001
 ```
 
 Omit `--cpu` when affinity is unavailable, or select a CPU allowed on your host.
@@ -372,3 +370,7 @@ older tags and main retain the same body; the original verse case is also kept
 and may produce different output across revisions.
 
 The history signature covers the fixture and measurement functions. Worker hashes and source/build records identify the remaining execution context. Report generation also verifies sample counts, output hashes and summaries against the raw timings.
+
+The [latest main comparison](reports/latest-main-comparison.md) lists current merged main against the two most recent tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
+
+Release-history graphs show sample ranges; overlapping +100% readings are marked uncertain.
