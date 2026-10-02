@@ -117,10 +117,11 @@ def build(path):
                         uncertain.append(reading + ' Sample ranges overlap; this session does not establish a +100% regression.')
                     else:
                         watchpoints.append(reading + ' Output hashes match and sample ranges are separate; investigate this older-baseline cost.')
+    checks = '[Longer paired cost checks](history-watchpoint-controls.md)' if (directory / 'history-watchpoint-controls.md').exists() else ''
     if watchpoints:
-        report += ['## Watchpoints', '', *watchpoints, '']
+        report += ['## Watchpoints', '', checks, '', *watchpoints, '']
     if uncertain:
-        report += ['## Uncertain +100% readings', '', *uncertain, '']
+        report += ['## Uncertain +100% readings', '', checks, '', *uncertain, '']
     csvrows=[]
     for engine,d in data['engines'].items():
         if not d['rows']: raise ValueError('Missing measured rows')

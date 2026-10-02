@@ -22,10 +22,11 @@ for ($i = 0; $i < $count; $i++) {
 }
 unset($id, $marker);
 gc_collect_cycles();
+$retainedBytes = memory_get_usage(false) - $before;
 $loadedSources = verifyLoadedSources($argv[1]);
 echo json_encode([
     'loaded_sources' => $loadedSources,
     'count' => $count,
-    'retained_bytes' => memory_get_usage(false) - $before,
+    'retained_bytes' => $retainedBytes,
     'output_hash' => hash_final($hash),
 ], JSON_THROW_ON_ERROR), "\n";

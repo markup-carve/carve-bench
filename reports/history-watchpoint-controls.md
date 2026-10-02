@@ -8,7 +8,7 @@ The diagnostic producer did not enforce source/artifact checks itself. Cached so
 
 ## Results
 
-PHP parser costs against 0.1.9 measure about +21% to +58%, below the earlier +100% readings. At n=1024, verse_definitions measures 23.086 to 34.629 ms (+50.0%), compared with 826.618 ms on 0.1.10. PHP full imports improve against 0.1.9 and 0.1.10, but remain much slower than 0.1.7. That version wrote directly from the DOM; current imports build and validate an AST, render it, then inspect loss decisions. The new decoder and comment-cache drafts address removable work within this pipeline.
+Most PHP parser cases against 0.1.9 measure about +21% to +58%, below the earlier +100% readings. The larger mixed_document case improves by 35.2%. At n=1024, verse_definitions measures 23.086 to 34.629 ms (+50.0%), compared with 826.618 ms on 0.1.10. PHP full imports improve against 0.1.9 and 0.1.10, but remain much slower than 0.1.7. That version wrote directly from the DOM; current imports build and validate an AST, render it, then inspect loss decisions. Code reading suggests that the decoder draft can reduce part of this cost; it is measured separately in the focused sessions. These history fixtures contain no comments, so the comment-cache draft does not affect them.
 
 Rust verse_equivalent at n=1024 measures 0.951 to 1.842 ms against 0.1.4 (+93.7%). It is 1.898 ms on 0.1.7. The increased cost predates the current review fixes; code reading found no safe shortcut in the ownership checks. This remains a control to monitor, without treating the earlier +116.9% reading as a repeatable percentage.
 
