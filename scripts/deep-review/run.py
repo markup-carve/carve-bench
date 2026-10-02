@@ -101,6 +101,8 @@ def main():
     parser.add_argument("--cpu", type=int, default=6)
     parser.add_argument("--rounds", type=int, default=4)
     parser.add_argument("--samples", type=int, default=11)
+    parser.add_argument("--engines", nargs='+', choices=['js', 'php', 'rs'], default=['js', 'php', 'rs'])
+    parser.add_argument("--control-samples", type=int)
     args = parser.parse_args()
     if args.rounds < 2 or args.rounds % 2 or args.samples < 1:
         parser.error("Use an even number of rounds >= 2 and at least one sample")
@@ -124,7 +126,7 @@ def main():
         (build / "src").mkdir()
         shutil.copyfile(HERE / "worker.rs", build / "src/main.rs")
         shutil.copyfile(roots["rs", "main"] / "Cargo.lock", build / "Cargo.lock")
-        for variant in ("main", "candidate"):
+        for variant in ("main", "candidate") if 'rs' in args.engines else ():
             root = roots["rs", variant]
             bin_name = f"carve-deep-review-{os.getpid()}-{variant}"
             (build / "Cargo.toml").write_text(f'[package]\nname="carve-deep-review-{os.getpid()}"\nversion="0.0.0"\nedition="2021"\n'
@@ -139,8 +141,8 @@ def main():
             binary = build / f"worker-{variant}"
             shutil.copy2(args.cargo_target.resolve() / "release" / bin_name, binary)
             binaries[variant] = binary
-        rust_lockfile = (build / "Cargo.lock").read_text()
-        for variant in ("main", "candidate"):
+        rust_lockfile = (build / "Cargo.lock").read_text() if 'rs' in args.engines else None
+        for variant in ("main", "candidate") if 'js' in args.engines else ():
             subprocess.run(["npm", "run", "build"], cwd=roots["js", variant], check=True)
         for root in roots.values():
             source_identity(root)
@@ -152,7 +154,9 @@ def main():
                    "php": execute(["php", "-v"]).splitlines()[0], "rs": execute(["rustc", "--version"]).strip()},
                    "rust_binary_hashes": {v: digest(p) for v, p in binaries.items()}, "rows": []}
         session["rust_worker_lockfile"] = rust_lockfile
-        session["rust_worker_lockfile_hash"] = digest(build / "Cargo.lock")
+        session["rust_worker_lockfile_hash"] = digest(build / "Cargo.lock") if 'rs' in args.engines else None
+        session["selected_engines"] = args.engines
+        session["control_samples_per_round"] = args.control_samples
         session["artifact_hashes"] = artifacts
         session["dependency_files"] = dependency_files
         session["node_modules_paths"] = {v: str((roots["js", v] / "node_modules").resolve()) for v in ("main", "candidate")}
@@ -168,12 +172,15 @@ def main():
         for round_index in range(args.rounds):
             variants = ("main", "candidate") if round_index % 2 == 0 else ("candidate", "main")
             for engine, kind, n, stage, source in cases():
+                if engine not in args.engines:
+                    continue
                 fixture = build / "fixture.txt"
                 fixture.write_text(source)
+                count = args.control_samples if args.control_samples and engine == 'rs' and (kind in ('nested', 'plain') or (kind == 'group' and stage == 'false')) else args.samples
                 for variant in variants:
                     root = roots[engine, variant]
                     if engine == "rs":
-                        command = [str(binaries[variant]), str(fixture), str(args.samples), stage]
+                        command = [str(binaries[variant]), str(fixture), str(count), stage]
                     elif engine == "js":
                         command = ["node", str(HERE / "worker.mjs"), str(root), str(fixture), stage, str(args.samples)]
                     else:
@@ -192,6 +199,7 @@ def main():
                         raise RuntimeError(f"Output mismatch: {key}, {variant}")
                     row.update(engine=engine, variant=variant, kind=kind, n=n, stage=stage, round=round_index,
                                observed_at=observed, load_average=load, fixture_hash=digest(fixture))
+                    row['sample_count'] = count
                     row["cpu_frequency_khz"] = optional_text(Path(f"/sys/devices/system/cpu/cpu{args.cpu}/cpufreq/scaling_cur_freq"))
                     session["rows"].append(row)
                     args.output.write_text(json.dumps(session, indent=2) + "\n")
