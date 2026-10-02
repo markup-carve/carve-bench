@@ -22,7 +22,7 @@ def render(session_path, output):
         writer.writeheader()
         writer.writerows(rows)
     lines = ['# Focused engine review, ' + session['started_at'][:10], '',
-             'Four alternating rounds of eleven samples compare pinned main with the proposed changes. Lower milliseconds are faster. Every case has the same complete output hash across both revisions and all rounds.', '',
+             f"{session['rounds']} alternating rounds of {session['samples_per_round']} samples compare pinned main with the earlier drafts. Lower milliseconds are faster. Every case has the same complete output hash across both revisions and all rounds. Final Rust and current-main follow-ups appear below; the original session remains intact.", '',
              '[Raw session](deep-review.json) · [CSV](deep-review.csv) · [Graph](../charts/deep-review.svg)', '',
              '## Sources', '', '| Engine | Main | Candidate |', '|---|---|---|']
     for engine in ['js', 'php', 'rs']:
@@ -32,7 +32,7 @@ def render(session_path, output):
     lines += ['', '## Scope and timing', '',
               'JS and Rust measure parsing with the citations extension enabled. PHP measures AST encoding, importer AST decoding, full HTML import with its report, and a parse plus encode control. These are comparisons within each engine; their timing boundaries differ.', '',
               'Node warms each case for at least 500 ms and three calls. PHP and Rust warm three calls. Rust uses a release build seeded from the main engine dependency lock; the final worker lock and binary hashes are recorded. PHP CLI opcache, coverage and Xdebug are disabled. Serialization used to check output parity is outside the timed citation parsing.', '',
-              'All workers, including Node helper threads, run on CPU 6. The shared host can still interrupt them. Raw samples, round medians, ranges, load, frequency, runtime versions, dependency metadata and artifact hashes are recorded. Small changes need more evidence. The earlier release history remains a separate measurement session.', '',
+              f"All workers, including Node helper threads, run on CPU {session['cpu']}. The shared host can still interrupt them. Raw samples, round medians, ranges, load, frequency, runtime versions, dependency metadata and artifact hashes are recorded. Small changes need more evidence. The earlier release history remains a separate measurement session.", '',
               '## Findings', '',
               'JS now keeps citation bracket maps with the parse context. Nested citation prefixes, emphasis and link labels reuse the outer map, and completed parses release the maps. The guards fail on the previous implementation.', '',
               'Rust caches raw citation bracket matches for each inline run and stores only matched openers. It also removes a redundant position pass that repeatedly counted source prefixes. The existing position map remains responsible for item spans, including Unicode and multiline sources.', '',
@@ -82,13 +82,13 @@ def render(session_path, output):
 def append_followups(output, citation_path, controls_path):
     citation = json.loads(citation_path.read_text())
     controls = json.loads(controls_path.read_text())
-    if 'finished_at' not in citation or controls['rounds_complete'] != 8:
+    if 'finished_at' not in citation or controls['rounds_complete'] < 2:
         raise ValueError('Follow-up measurement is incomplete')
     lines = ['', '## PHP citation follow-up', '',
              'This separate session measures the citation position fix against the same PHP main. The encoding measurements above use a different draft. Both changes are independent.', '',
              'Main: `' + citation['sources']['main']['revision'] + '`. Citation draft: `' + citation['sources']['candidate']['revision'] + '`.', '',
              '[Citation raw session](php-citation-review.json) · [Citation CSV](php-citation-review.csv) · [Citation graph](../charts/php-citation-review.svg)', '',
-             'Four alternating rounds of eleven samples use three warmups. Parsing with positions enabled includes the whole parser. The setter case measures the public setPos() method on a prepared group. Output serialization remains outside timing. Unpositioned controls show mixed small changes, including +11.1% at n=4096 and −16.7% at n=1024; the changed loop is not entered on this path.', '',
+             f"{citation['rounds']} alternating rounds of {citation['samples_per_round']} samples use three warmups. Parsing with positions enabled includes the whole parser. The setter case measures the public setPos() method on a prepared group. Output serialization remains outside timing. Unpositioned controls show mixed changes; the changed loop is not entered on this path.", '',
              '| Stage | n | Main ms | Draft ms | Change |', '|---|---:|---:|---:|---:|']
     columns = ['engine', 'kind', 'n', 'stage', 'main_ms', 'candidate_ms', 'change_percent', 'hash']
     with (output / 'php-citation-review.csv').open('w') as stream:
@@ -98,7 +98,7 @@ def append_followups(output, citation_path, controls_path):
     for row in citation['summary']:
         lines.append(f"| {row['stage']} | {row['n']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
     lines += ['', '## Longer Rust controls', '',
-              'Some short controls in the primary session read +10–41%. A local diagnostic repeated the same worker binaries for eight alternating rounds of 401 samples. The revised readings range from −2.0% to +4.0%. Keep the primary raw session intact; these repeats suggest sampling and host effects rather than the initial large regression.', '',
+              'A local diagnostic repeated the original Rust worker binaries with longer sampling for the five cases listed below. These repeats cover plain parsing and unpositioned citation groups. They do not cover nested citation prefixes: the initial map allocation caused a repeatable slowdown there, addressed by the final Rust short-scan follow-up below.', '',
               '[Diagnostic raw samples](deep-review-rust-controls.json)', '',
               '| Case | n | Positions | Main ms | Draft ms | Change |', '|---|---:|---|---:|---:|---:|']
     for row in controls['summary']:
@@ -122,13 +122,68 @@ def append_followups(output, citation_path, controls_path):
     plt.close(figure)
 
 
+def append_session(output, path):
+    session = json.loads(path.read_text())
+    if 'finished_at' not in session:
+        raise ValueError('Follow-up session is incomplete')
+    stem = path.stem
+    rows = session['summary']
+    columns = ['engine', 'kind', 'n', 'stage', 'main_ms', 'candidate_ms', 'change_percent', 'hash']
+    with (output / (stem + '.csv')).open('w') as stream:
+        writer = csv.DictWriter(stream, fieldnames=columns, extrasaction='ignore', lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(rows)
+    titles = {
+        'rust-hybrid-session': 'Final Rust fix versus pre-review main',
+        'rust-current-main-session': 'Rust short scan versus newly merged main',
+        'php-import-current-main-session': 'PHP table and definition-list building versus newly merged main',
+    }
+    lines = ['', '## ' + titles.get(stem, stem), '',
+             f"{session['rounds']} alternating rounds on CPU {session['cpu']} use {session['samples_per_round']} samples per case. Longer control sampling, when enabled, uses {session.get('control_samples_per_round')} samples per round. Every output hash matches.", '',
+             f'[Raw session]({stem}.json) · [CSV]({stem}.csv) · [Graph](../charts/{stem}.svg)', '',
+             '| Engine | Main | Candidate |', '|---|---|---|']
+    for engine in session['selected_engines']:
+        lines.append(f"| {engine} | `{session['sources'][engine + '-main']['revision']}` | `{session['sources'][engine + '-candidate']['revision']}` |")
+    if stem.startswith('rust'):
+        lines += ['', 'A bounded 64-byte scan avoids allocating a whole-run map for short citations. Longer or unmatched spans still build the shared map once. The first Rust draft slowed ordinary nested citations; this follow-up removes that allocation cost. Positions and all output hashes are preserved.']
+    if stem.startswith('php-import'):
+        lines += ['', 'This session measures HTML-to-AST building only, including DOM loading. Row and section indexes replace full-row searches, section paths reuse the table path, and adjacent definition lists append items. It does not measure full import and report generation. The later invariant check validates each merge target once; that small review correction is not included in this pinned measurement.']
+    lines += ['', '| Case | n | Stage / positions | Main ms | Candidate ms | Change |', '|---|---:|---|---:|---:|---:|']
+    for row in rows:
+        lines.append(f"| {row['kind']} | {row['n']} | {row['stage']} | {row['main_ms']:.3f} | {row['candidate_ms']:.3f} | {row['change_percent']:+.1f}% |")
+    with (output / 'deep-review.md').open('a') as stream:
+        stream.write('\n'.join(lines) + '\n')
+    import matplotlib.pyplot as plt
+    kinds = list(dict.fromkeys(row['kind'] for row in rows))
+    figure, axes = plt.subplots(1, len(kinds), figsize=(5 * len(kinds), 4), squeeze=False, constrained_layout=True)
+    for ax, kind in zip(axes[0], kinds):
+        selected = [row for row in rows if row['kind'] == kind]
+        for stage in dict.fromkeys(row['stage'] for row in selected):
+            values = sorted([row for row in selected if row['stage'] == stage], key=lambda row: row['n'])
+            for variant, style in [('main', '-'), ('candidate', '--')]:
+                ax.plot([row['n'] for row in values], [row[variant + '_ms'] for row in values], style, marker='o', label=stage + ' ' + variant)
+        ax.set_xscale('log', base=2)
+        ax.set_yscale('log')
+        ax.set_title(kind)
+        ax.set_xlabel('Repeated items')
+        ax.set_ylabel('Median milliseconds, log scale')
+        ax.grid(alpha=.2)
+        ax.legend(fontsize=8)
+    figure.suptitle(titles.get(stem, stem))
+    save_chart(figure, output.parent / 'charts' / (stem + '.svg'))
+    plt.close(figure)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('session', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('--php-citations', type=Path)
     parser.add_argument('--rust-controls', type=Path)
+    parser.add_argument('--followup', action='append', type=Path, default=[])
     args = parser.parse_args()
     render(args.session, args.output)
     if args.php_citations and args.rust_controls:
         append_followups(args.output, args.php_citations, args.rust_controls)
+    for followup in args.followup:
+        append_session(args.output, followup)

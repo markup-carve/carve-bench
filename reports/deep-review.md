@@ -1,6 +1,6 @@
 # Focused engine review, 2026-10-02
 
-Four alternating rounds of eleven samples compare pinned main with the proposed changes. Lower milliseconds are faster. Every case has the same complete output hash across both revisions and all rounds.
+4 alternating rounds of 11 samples compare pinned main with the earlier drafts. Lower milliseconds are faster. Every case has the same complete output hash across both revisions and all rounds. Final Rust and current-main follow-ups appear below; the original session remains intact.
 
 [Raw session](deep-review.json) · [CSV](deep-review.csv) · [Graph](../charts/deep-review.svg)
 
@@ -98,7 +98,7 @@ Main: `9558a932e0944ea71e9eb2cb9327a8bf3ffda896`. Citation draft: `99b4231eb1be3
 
 [Citation raw session](php-citation-review.json) · [Citation CSV](php-citation-review.csv) · [Citation graph](../charts/php-citation-review.svg)
 
-Four alternating rounds of eleven samples use three warmups. Parsing with positions enabled includes the whole parser. The setter case measures the public setPos() method on a prepared group. Output serialization remains outside timing. Unpositioned controls show mixed small changes, including +11.1% at n=4096 and −16.7% at n=1024; the changed loop is not entered on this path.
+4 alternating rounds of 11 samples use three warmups. Parsing with positions enabled includes the whole parser. The setter case measures the public setPos() method on a prepared group. Output serialization remains outside timing. Unpositioned controls show mixed changes; the changed loop is not entered on this path.
 
 | Stage | n | Main ms | Draft ms | Change |
 |---|---:|---:|---:|---:|
@@ -114,7 +114,7 @@ Four alternating rounds of eleven samples use three warmups. Parsing with positi
 
 ## Longer Rust controls
 
-Some short controls in the primary session read +10–41%. A local diagnostic repeated the same worker binaries for eight alternating rounds of 401 samples. The revised readings range from −2.0% to +4.0%. Keep the primary raw session intact; these repeats suggest sampling and host effects rather than the initial large regression.
+A local diagnostic repeated the original Rust worker binaries with longer sampling for the five cases listed below. These repeats cover plain parsing and unpositioned citation groups. They do not cover nested citation prefixes: the initial map allocation caused a repeatable slowdown there, addressed by the final Rust short-scan follow-up below.
 
 [Diagnostic raw samples](deep-review-rust-controls.json)
 
@@ -125,3 +125,106 @@ Some short controls in the primary session read +10–41%. A local diagnostic re
 | plain | 128 | false | 0.311 | 0.309 | -0.6% |
 | plain | 1024 | false | 2.747 | 2.858 | +4.0% |
 | plain | 1024 | true | 3.195 | 3.187 | -0.3% |
+
+## Final Rust fix versus pre-review main
+
+4 alternating rounds on CPU 6 use 11 samples per case. Longer control sampling, when enabled, uses 401 samples per round. Every output hash matches.
+
+[Raw session](rust-hybrid-session.json) · [CSV](rust-hybrid-session.csv) · [Graph](../charts/rust-hybrid-session.svg)
+
+| Engine | Main | Candidate |
+|---|---|---|
+| rs | `7ed272c59455b59593823bf5cf7837689b6491bb` | `2f84a90c8812a169a0ac12cac2a7ff7ff56adae8` |
+
+A bounded 64-byte scan avoids allocating a whole-run map for short citations. Longer or unmatched spans still build the shared map once. The first Rust draft slowed ordinary nested citations; this follow-up removes that allocation cost. Positions and all output hashes are preserved.
+
+| Case | n | Stage / positions | Main ms | Candidate ms | Change |
+|---|---:|---|---:|---:|---:|
+| group | 128 | true | 0.021 | 0.016 | -23.0% |
+| group | 128 | false | 0.014 | 0.014 | -0.2% |
+| group | 1024 | true | 0.255 | 0.106 | -58.4% |
+| group | 1024 | false | 0.098 | 0.096 | -2.4% |
+| group | 4096 | true | 3.358 | 1.182 | -64.8% |
+| group | 4096 | false | 1.183 | 1.186 | +0.3% |
+| group | 8192 | true | 11.241 | 2.730 | -75.7% |
+| group | 8192 | false | 0.792 | 0.808 | +1.9% |
+| unclosed | 128 | true | 0.018 | 0.009 | -48.3% |
+| unclosed | 128 | false | 0.020 | 0.009 | -55.9% |
+| unclosed | 1024 | true | 0.549 | 0.058 | -89.5% |
+| unclosed | 1024 | false | 0.544 | 0.054 | -90.1% |
+| unclosed | 4096 | true | 8.020 | 0.220 | -97.3% |
+| unclosed | 4096 | false | 8.003 | 0.204 | -97.4% |
+| unclosed | 8192 | true | 32.046 | 0.650 | -98.0% |
+| unclosed | 8192 | false | 32.152 | 0.512 | -98.4% |
+| nested | 128 | true | 0.142 | 0.132 | -7.0% |
+| nested | 128 | false | 0.134 | 0.133 | -1.3% |
+| nested | 1024 | true | 1.755 | 1.627 | -7.3% |
+| nested | 1024 | false | 1.648 | 1.582 | -4.0% |
+| nested | 4096 | true | 8.958 | 9.076 | +1.3% |
+| nested | 4096 | false | 8.582 | 8.244 | -3.9% |
+| plain | 128 | true | 0.303 | 0.306 | +0.8% |
+| plain | 128 | false | 0.266 | 0.259 | -2.8% |
+| plain | 1024 | true | 2.663 | 2.672 | +0.3% |
+| plain | 1024 | false | 2.229 | 2.217 | -0.6% |
+
+## Rust short scan versus newly merged main
+
+4 alternating rounds on CPU 6 use 11 samples per case. Longer control sampling, when enabled, uses 401 samples per round. Every output hash matches.
+
+[Raw session](rust-current-main-session.json) · [CSV](rust-current-main-session.csv) · [Graph](../charts/rust-current-main-session.svg)
+
+| Engine | Main | Candidate |
+|---|---|---|
+| rs | `3b2a24a8e2b6f9e730b42490573db19b846c8aa6` | `852cc1e517044981783eef9bae1aef74cf628ce3` |
+
+A bounded 64-byte scan avoids allocating a whole-run map for short citations. Longer or unmatched spans still build the shared map once. The first Rust draft slowed ordinary nested citations; this follow-up removes that allocation cost. Positions and all output hashes are preserved.
+
+| Case | n | Stage / positions | Main ms | Candidate ms | Change |
+|---|---:|---|---:|---:|---:|
+| group | 128 | true | 0.029 | 0.028 | -5.5% |
+| group | 128 | false | 0.026 | 0.025 | -4.7% |
+| group | 1024 | true | 0.201 | 0.196 | -2.5% |
+| group | 1024 | false | 0.186 | 0.177 | -4.8% |
+| group | 4096 | true | 1.948 | 1.899 | -2.5% |
+| group | 4096 | false | 1.861 | 1.822 | -2.1% |
+| group | 8192 | true | 4.231 | 4.193 | -0.9% |
+| group | 8192 | false | 1.467 | 1.406 | -4.2% |
+| unclosed | 128 | true | 0.018 | 0.018 | +0.4% |
+| unclosed | 128 | false | 0.017 | 0.017 | -0.1% |
+| unclosed | 1024 | true | 0.120 | 0.120 | -0.5% |
+| unclosed | 1024 | false | 0.112 | 0.110 | -1.3% |
+| unclosed | 4096 | true | 0.466 | 0.456 | -2.2% |
+| unclosed | 4096 | false | 0.435 | 0.428 | -1.6% |
+| unclosed | 8192 | true | 1.245 | 1.252 | +0.6% |
+| unclosed | 8192 | false | 1.022 | 1.022 | +0.0% |
+| nested | 128 | true | 0.278 | 0.236 | -15.0% |
+| nested | 128 | false | 0.266 | 0.229 | -13.8% |
+| nested | 1024 | true | 2.986 | 2.665 | -10.7% |
+| nested | 1024 | false | 2.910 | 2.527 | -13.2% |
+| nested | 4096 | true | 14.345 | 13.165 | -8.2% |
+| nested | 4096 | false | 14.090 | 12.677 | -10.0% |
+| plain | 128 | true | 0.537 | 0.561 | +4.5% |
+| plain | 128 | false | 0.491 | 0.490 | -0.2% |
+| plain | 1024 | true | 5.018 | 4.802 | -4.3% |
+| plain | 1024 | false | 4.160 | 4.057 | -2.5% |
+
+## PHP table and definition-list building versus newly merged main
+
+4 alternating rounds on CPU 6 use 11 samples per case. Longer control sampling, when enabled, uses None samples per round. Every output hash matches.
+
+[Raw session](php-import-current-main-session.json) · [CSV](php-import-current-main-session.csv) · [Graph](../charts/php-import-current-main-session.svg)
+
+| Engine | Main | Candidate |
+|---|---|---|
+| php | `d14268ab2bc5ed579b834a73def0ba993dceae20` | `8aa397a5b448222eb7cd1c500cd34a1ad34d3e09` |
+
+This session measures HTML-to-AST building only, including DOM loading. Row and section indexes replace full-row searches, section paths reuse the table path, and adjacent definition lists append items. It does not measure full import and report generation. The later invariant check validates each merge target once; that small review correction is not included in this pinned measurement.
+
+| Case | n | Stage / positions | Main ms | Candidate ms | Change |
+|---|---:|---|---:|---:|---:|
+| table-sections | 128 | build | 5.564 | 4.094 | -26.4% |
+| table-sections | 1024 | build | 142.466 | 52.318 | -63.3% |
+| table-sections | 4096 | build | 1919.733 | 288.994 | -84.9% |
+| adjacent-definitions | 128 | build | 9.233 | 6.213 | -32.7% |
+| adjacent-definitions | 1024 | build | 261.831 | 87.741 | -66.5% |
+| adjacent-definitions | 4096 | build | 4698.225 | 317.423 | -93.2% |

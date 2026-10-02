@@ -23,4 +23,6 @@ Rendering requires Matplotlib and a completed session:
 python3 scripts/deep-review/render.py /tmp/focused-session.json /tmp/focused-report
 ```
 
-The committed October 2 report also includes a separate PHP citation session and longer Rust diagnostics. The diagnostics reuse the original worker binaries; their producer was saved after the run. They do not replace the primary session.
+Use `--engines rs --control-samples 401` for longer Rust controls, or `--engines php --kinds table-sections adjacent-definitions` for importer building. All six prepared source paths remain required. `--control-samples` applies to Rust plain text, nested citations and unpositioned groups.
+
+The committed October 2 report also includes separate PHP citation, Rust short-scan and PHP importer sessions, plus longer Rust diagnostics. The diagnostics reuse the original worker binaries; their producer was saved after the run. They do not replace the primary session.

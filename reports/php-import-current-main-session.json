@@ -1,0 +1,2067 @@
+{
+  "started_at": "2026-10-02T09:14:50.986022+00:00",
+  "driver": {
+    "root": "/tmp/carve-bench-deep-20261002",
+    "revision": "5e634adaf661b6b35c6d978149b6a3de71be62b8"
+  },
+  "worker_hashes": {
+    "run.py": "4f5a4034604549bb1e8365ae83aa207b1ad659e6f07f6d245e0dadc933fd0c63",
+    "worker.mjs": "85a9e18c775bed39c3cad5be03675db9c5b366ca0c84ee612a11fcf76543b9ce",
+    "worker.php": "137df180db18a943f557d4dc6f8929388bbe2fb0fa0bc44f5e7c56c8a176bd35",
+    "worker.rs": "4554bdc0a8f9f2d3339376993badf31205d9ebf79701803b2d14e7129004acd2"
+  },
+  "sources": {
+    "js-main": {
+      "root": "/tmp/carve-js-deep-base-20261002",
+      "revision": "8dcafd7c2248fb8b8db94e573ab28c84cec385e2"
+    },
+    "js-candidate": {
+      "root": "/tmp/carve-js-deep-20261002",
+      "revision": "df6ec4662f726218881a5887174f1848fd809bd6"
+    },
+    "php-main": {
+      "root": "/tmp/carve-php-round2-20261002",
+      "revision": "d14268ab2bc5ed579b834a73def0ba993dceae20"
+    },
+    "php-candidate": {
+      "root": "/tmp/carve-php-round2-fix-20261002",
+      "revision": "8aa397a5b448222eb7cd1c500cd34a1ad34d3e09"
+    },
+    "rs-main": {
+      "root": "/tmp/carve-rs-round2-base-20261002",
+      "revision": "3b2a24a8e2b6f9e730b42490573db19b846c8aa6"
+    },
+    "rs-candidate": {
+      "root": "/tmp/carve-rs-round2-20261002",
+      "revision": "852cc1e517044981783eef9bae1aef74cf628ce3"
+    }
+  },
+  "rounds": 4,
+  "samples_per_round": 11,
+  "cpu": 6,
+  "invocation": [
+    "scripts/deep-review/run.py",
+    "--js-main",
+    "/tmp/carve-js-deep-base-20261002",
+    "--js-candidate",
+    "/tmp/carve-js-deep-20261002",
+    "--php-main",
+    "/tmp/carve-php-round2-20261002",
+    "--php-candidate",
+    "/tmp/carve-php-round2-fix-20261002",
+    "--rs-main",
+    "/tmp/carve-rs-round2-base-20261002",
+    "--rs-candidate",
+    "/tmp/carve-rs-round2-20261002",
+    "--output",
+    "/media/mark/data/work/carve-quality-measurements-2026-10-02/deep-review/php-import-current-main-session.json",
+    "--cargo-target",
+    "/tmp/cargo-shared/carve-deep-probe-20261002",
+    "--engines",
+    "php",
+    "--kinds",
+    "table-sections",
+    "adjacent-definitions"
+  ],
+  "runtimes": {
+    "js": "v22.22.2",
+    "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "rs": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
+  },
+  "rust_binary_hashes": {},
+  "rows": [
+    {
+      "samples": [
+        6.389452,
+        7.081339,
+        7.052956,
+        6.140801,
+        10.195637,
+        6.291947,
+        6.636038,
+        6.14543,
+        6.244537,
+        6.910236,
+        5.88621
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:14:51.127589+00:00",
+      "load_average": [
+        15.26416015625,
+        11.8583984375,
+        9.4853515625
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4317218"
+    },
+    {
+      "samples": [
+        4.26774,
+        4.378339,
+        4.411441,
+        4.653489,
+        7.939001,
+        3.91885,
+        4.159524,
+        4.068062,
+        4.867804,
+        5.16692,
+        4.475071
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:14:51.307800+00:00",
+      "load_average": [
+        15.26416015625,
+        11.8583984375,
+        9.4853515625
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3843115"
+    },
+    {
+      "samples": [
+        161.606272,
+        182.394589,
+        165.274858,
+        184.929472,
+        163.771466,
+        181.619376,
+        163.470053,
+        182.77708,
+        160.681429,
+        176.069387,
+        158.416638
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:14:51.457535+00:00",
+      "load_average": [
+        15.26416015625,
+        11.8583984375,
+        9.4853515625
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4042740"
+    },
+    {
+      "samples": [
+        55.86198,
+        82.915657,
+        49.590141,
+        67.372637,
+        50.572689,
+        66.300359,
+        52.781866,
+        74.182152,
+        49.047686,
+        71.458864,
+        53.293125
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:14:54.128189+00:00",
+      "load_average": [
+        15.26416015625,
+        11.8583984375,
+        9.4853515625
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4192505"
+    },
+    {
+      "samples": [
+        2118.267216,
+        2182.058465,
+        2146.97914,
+        2003.98958,
+        1981.136657,
+        1893.744589,
+        1886.487786,
+        1954.778453,
+        1984.6661,
+        1943.397968,
+        1905.413468
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:14:55.137592+00:00",
+      "load_average": [
+        14.92236328125,
+        11.84375,
+        9.49365234375
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4242477"
+    },
+    {
+      "samples": [
+        266.176254,
+        282.587687,
+        267.812976,
+        265.789371,
+        286.10904,
+        288.975964,
+        276.590418,
+        289.012523,
+        307.091032,
+        310.99064,
+        293.887899
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:15:25.455164+00:00",
+      "load_average": [
+        12.16748046875,
+        11.47412109375,
+        9.4443359375
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4092639"
+    },
+    {
+      "samples": [
+        9.374549,
+        8.349479,
+        19.231091,
+        8.573354,
+        9.244653,
+        8.398262,
+        8.1219,
+        19.618905,
+        8.48199,
+        9.733017,
+        7.595604
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:15:29.904809+00:00",
+      "load_average": [
+        12.16748046875,
+        11.47412109375,
+        9.4443359375
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3851885"
+    },
+    {
+      "samples": [
+        4.926192,
+        4.763403,
+        12.992035,
+        4.785776,
+        4.610094,
+        4.367926,
+        4.428941,
+        10.421581,
+        5.172007,
+        4.749918,
+        6.043266
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:15:30.144616+00:00",
+      "load_average": [
+        11.83349609375,
+        11.416015625,
+        9.4365234375
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3938300"
+    },
+    {
+      "samples": [
+        240.950826,
+        262.052487,
+        232.197713,
+        223.565448,
+        226.079793,
+        245.058107,
+        230.624413,
+        216.379447,
+        211.136892,
+        224.249778,
+        227.800468
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:15:30.313673+00:00",
+      "load_average": [
+        11.83349609375,
+        11.416015625,
+        9.4365234375
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4017758"
+    },
+    {
+      "samples": [
+        60.250189,
+        62.050196,
+        59.12529,
+        62.14197,
+        59.235719,
+        62.271323,
+        62.790136,
+        69.409352,
+        56.911821,
+        62.382534,
+        64.772487
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:15:33.875721+00:00",
+      "load_average": [
+        11.83349609375,
+        11.416015625,
+        9.4365234375
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4042724"
+    },
+    {
+      "samples": [
+        4511.257988,
+        4079.656446,
+        5716.130774,
+        8419.051529,
+        4614.356889,
+        4774.011396,
+        7874.041367,
+        6522.073972,
+        4565.322213,
+        4760.715139,
+        3841.380669
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:15:34.910365+00:00",
+      "load_average": [
+        11.83349609375,
+        11.416015625,
+        9.4365234375
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392133"
+    },
+    {
+      "samples": [
+        301.625816,
+        319.256147,
+        312.793173,
+        310.071297,
+        298.554458,
+        309.442313,
+        312.431035,
+        342.600596,
+        309.818553,
+        311.551326,
+        305.499101
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 0,
+      "observed_at": "2026-10-02T09:16:52.630786+00:00",
+      "load_average": [
+        8.080078125,
+        10.34033203125,
+        9.22119140625
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392112"
+    },
+    {
+      "samples": [
+        3.707395,
+        3.742472,
+        3.692677,
+        4.2004,
+        13.851497,
+        4.247278,
+        3.846899,
+        3.733354,
+        3.584723,
+        3.486817,
+        3.603428
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:16:57.490051+00:00",
+      "load_average": [
+        7.6728515625,
+        10.21826171875,
+        9.1875
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392099"
+    },
+    {
+      "samples": [
+        5.269215,
+        5.591245,
+        5.812344,
+        5.241442,
+        9.507245,
+        5.537723,
+        5.77345,
+        6.306781,
+        5.252443,
+        5.079074,
+        5.318709
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:16:57.632646+00:00",
+      "load_average": [
+        7.6728515625,
+        10.21826171875,
+        9.1875
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392123"
+    },
+    {
+      "samples": [
+        42.764424,
+        57.369059,
+        42.494814,
+        54.616212,
+        41.699096,
+        54.460618,
+        41.528532,
+        50.934145,
+        44.020686,
+        58.501475,
+        41.893855
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:16:57.790488+00:00",
+      "load_average": [
+        7.6728515625,
+        10.21826171875,
+        9.1875
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392086"
+    },
+    {
+      "samples": [
+        140.587765,
+        153.372651,
+        139.599732,
+        157.586977,
+        134.050107,
+        148.119537,
+        136.081479,
+        158.498448,
+        136.970493,
+        162.910449,
+        133.150815
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:16:58.622567+00:00",
+      "load_average": [
+        7.6728515625,
+        10.21826171875,
+        9.1875
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392100"
+    },
+    {
+      "samples": [
+        280.786006,
+        278.194051,
+        277.326706,
+        273.508542,
+        275.364592,
+        267.834225,
+        272.074701,
+        284.901138,
+        282.415834,
+        293.91167,
+        282.462423
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:00.900646+00:00",
+      "load_average": [
+        7.61865234375,
+        10.16455078125,
+        9.17529296875
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392158"
+    },
+    {
+      "samples": [
+        1778.72705,
+        1741.070905,
+        1737.456608,
+        1754.393882,
+        1847.676742,
+        2031.308007,
+        2286.866374,
+        2123.262121,
+        2438.907728,
+        2654.131682,
+        2118.348942
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:05.250233+00:00",
+      "load_average": [
+        7.48876953125,
+        10.09521484375,
+        9.158203125
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3917970"
+    },
+    {
+      "samples": [
+        5.551805,
+        5.904674,
+        20.997808,
+        12.836986,
+        6.031815,
+        5.276954,
+        7.46421,
+        15.812737,
+        5.664749,
+        9.421852,
+        6.381829
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:35.382115+00:00",
+      "load_average": [
+        13.4697265625,
+        11.22119140625,
+        9.55859375
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3704968"
+    },
+    {
+      "samples": [
+        8.61367,
+        9.053303,
+        21.023345,
+        8.637415,
+        8.488111,
+        8.114364,
+        8.574284,
+        22.646914,
+        13.284064,
+        12.357907,
+        13.61396
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:35.632545+00:00",
+      "load_average": [
+        13.4697265625,
+        11.22119140625,
+        9.55859375
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3987517"
+    },
+    {
+      "samples": [
+        114.721699,
+        91.470118,
+        91.568866,
+        87.982026,
+        95.810647,
+        87.499673,
+        86.985899,
+        84.302592,
+        82.498903,
+        87.158977,
+        91.423853
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:35.928772+00:00",
+      "load_average": [
+        13.4697265625,
+        11.22119140625,
+        9.55859375
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4042696"
+    },
+    {
+      "samples": [
+        267.029564,
+        268.910392,
+        338.703383,
+        355.163309,
+        304.808887,
+        261.608718,
+        276.074533,
+        253.314794,
+        254.13373,
+        255.101837,
+        261.124245
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:37.729393+00:00",
+      "load_average": [
+        13.4697265625,
+        11.22119140625,
+        9.55859375
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3917975"
+    },
+    {
+      "samples": [
+        345.228894,
+        340.549763,
+        351.657557,
+        327.510878,
+        336.447592,
+        341.543931,
+        342.37147,
+        376.053402,
+        352.912674,
+        339.880023,
+        338.274632
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:42.046242+00:00",
+      "load_average": [
+        13.75244140625,
+        11.3173828125,
+        9.5986328125
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3493720"
+    },
+    {
+      "samples": [
+        4534.183299,
+        6255.725933,
+        12055.999121,
+        2535.565147,
+        2525.100073,
+        10212.972527,
+        3487.127702,
+        3136.515603,
+        2647.200055,
+        3626.751562,
+        2671.37459
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 1,
+      "observed_at": "2026-10-02T09:17:47.533917+00:00",
+      "load_average": [
+        13.29150390625,
+        11.26220703125,
+        9.58984375
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392103"
+    },
+    {
+      "samples": [
+        3.923153,
+        3.841588,
+        4.073979,
+        3.860764,
+        6.077692,
+        5.329572,
+        4.867735,
+        4.186072,
+        4.476143,
+        4.027502,
+        3.881695
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:18:57.194369+00:00",
+      "load_average": [
+        11.244140625,
+        11.1357421875,
+        9.6708984375
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392157"
+    },
+    {
+      "samples": [
+        2.732745,
+        2.67237,
+        2.747593,
+        2.715332,
+        4.420036,
+        2.676758,
+        2.875115,
+        3.227824,
+        3.92684,
+        4.200629,
+        3.795411
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:18:57.324968+00:00",
+      "load_average": [
+        11.244140625,
+        11.1357421875,
+        9.6708984375
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392122"
+    },
+    {
+      "samples": [
+        102.215913,
+        119.151856,
+        108.234143,
+        115.530426,
+        102.352995,
+        110.139077,
+        105.712389,
+        116.909082,
+        105.343338,
+        116.074819,
+        109.332727
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:18:57.441783+00:00",
+      "load_average": [
+        11.244140625,
+        11.1357421875,
+        9.6708984375
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392172"
+    },
+    {
+      "samples": [
+        31.763987,
+        37.943431,
+        32.643986,
+        40.952711,
+        28.011817,
+        41.973988,
+        30.731718,
+        33.640817,
+        35.448006,
+        33.811892,
+        31.372243
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:18:59.163545+00:00",
+      "load_average": [
+        11.244140625,
+        11.1357421875,
+        9.6708984375
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4392192"
+    },
+    {
+      "samples": [
+        1610.506959,
+        1390.149711,
+        1381.605592,
+        1429.577284,
+        1387.865137,
+        1457.752878,
+        2970.171023,
+        2746.918195,
+        3020.034693,
+        3484.501669,
+        3399.512536
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:18:59.774451+00:00",
+      "load_average": [
+        11.244140625,
+        11.1357421875,
+        9.6708984375
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4067713"
+    },
+    {
+      "samples": [
+        451.060633,
+        401.572837,
+        394.913869,
+        486.782268,
+        652.050748,
+        441.212769,
+        869.78751,
+        982.840213,
+        555.738681,
+        542.720711,
+        493.419032
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:19:33.984238+00:00",
+      "load_average": [
+        14.82958984375,
+        11.89990234375,
+        9.97265625
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3507663"
+    },
+    {
+      "samples": [
+        23.490083,
+        11.446074,
+        29.974961,
+        16.726305,
+        17.792499,
+        13.138606,
+        10.993014,
+        20.408414,
+        11.774107,
+        10.89575,
+        12.739038
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:19:42.673966+00:00",
+      "load_average": [
+        17.482421875,
+        12.56298828125,
+        10.20947265625
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3593531"
+    },
+    {
+      "samples": [
+        9.033876,
+        6.84958,
+        20.13722,
+        22.053566,
+        16.825074,
+        13.89968,
+        17.679234,
+        44.855232,
+        12.62386,
+        16.745783,
+        13.985163
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:19:43.243604+00:00",
+      "load_average": [
+        17.482421875,
+        12.56298828125,
+        10.20947265625
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3618560"
+    },
+    {
+      "samples": [
+        506.117127,
+        713.125038,
+        578.473084,
+        477.906947,
+        527.146994,
+        496.304011,
+        620.134605,
+        586.570406,
+        389.953543,
+        433.459152,
+        354.852994
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:19:43.654045+00:00",
+      "load_average": [
+        17.482421875,
+        12.56298828125,
+        10.20947265625
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3568635"
+    },
+    {
+      "samples": [
+        97.492726,
+        112.902234,
+        223.736856,
+        223.819122,
+        194.580806,
+        175.708346,
+        131.767032,
+        99.615837,
+        218.21563,
+        189.166152,
+        103.72616
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:19:51.294710+00:00",
+      "load_average": [
+        19.58642578125,
+        13.17138671875,
+        10.4326171875
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3668362"
+    },
+    {
+      "samples": [
+        3418.800954,
+        3423.335036,
+        4635.734754,
+        10637.067124,
+        28060.878076,
+        24621.070331,
+        13843.884063,
+        21103.572599,
+        22693.492757,
+        23243.38249,
+        17645.145493
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:19:53.656447+00:00",
+      "load_average": [
+        19.58642578125,
+        13.17138671875,
+        10.4326171875
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3493637"
+    },
+    {
+      "samples": [
+        359.197815,
+        350.466898,
+        368.387316,
+        335.053144,
+        319.073445,
+        325.110485,
+        357.001076,
+        320.901019,
+        315.771873,
+        322.405358,
+        312.646538
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 2,
+      "observed_at": "2026-10-02T09:23:28.418858+00:00",
+      "load_average": [
+        33.818359375,
+        24.74267578125,
+        15.6318359375
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3768242"
+    },
+    {
+      "samples": [
+        6.207183,
+        4.623093,
+        4.70559,
+        5.633163,
+        9.613715,
+        5.683057,
+        3.814818,
+        3.848863,
+        4.119416,
+        3.619857,
+        4.327201
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:23:33.928603+00:00",
+      "load_average": [
+        32.07080078125,
+        24.53076171875,
+        15.6123046875
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3809635"
+    },
+    {
+      "samples": [
+        5.7315,
+        5.027081,
+        7.404187,
+        6.512093,
+        7.525338,
+        5.053261,
+        5.284701,
+        6.93142,
+        5.428193,
+        4.709117,
+        4.542951
+      ],
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:23:34.090165+00:00",
+      "load_average": [
+        32.07080078125,
+        24.53076171875,
+        15.6123046875
+      ],
+      "fixture_hash": "dbe6f63eace99f8311ec8e2cbe51b5e9c57c93666534d52e8c3365b9448a4668",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3593600"
+    },
+    {
+      "samples": [
+        67.779847,
+        95.203732,
+        66.010175,
+        93.570999,
+        61.542917,
+        96.612107,
+        61.728351,
+        88.255351,
+        53.532919,
+        71.259639,
+        51.854351
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:23:34.252318+00:00",
+      "load_average": [
+        32.07080078125,
+        24.53076171875,
+        15.6123046875
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3815762"
+    },
+    {
+      "samples": [
+        142.88274,
+        165.677308,
+        139.73536,
+        159.595363,
+        138.05084,
+        188.410631,
+        134.081028,
+        168.174944,
+        140.778383,
+        160.556962,
+        142.049428
+      ],
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:23:35.504912+00:00",
+      "load_average": [
+        31.18408203125,
+        24.4716796875,
+        15.6416015625
+      ],
+      "fixture_hash": "5b1b3fc979cf6aff855e462f862cd8537ebe357e671bf10beb60453868310010",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3704445"
+    },
+    {
+      "samples": [
+        307.112752,
+        292.966285,
+        300.120188,
+        297.208816,
+        289.637994,
+        288.089702,
+        333.657249,
+        282.854847,
+        256.644648,
+        273.622806,
+        259.382831
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:23:37.933192+00:00",
+      "load_average": [
+        31.18408203125,
+        24.4716796875,
+        15.6416015625
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4115481"
+    },
+    {
+      "samples": [
+        1694.339323,
+        1700.323778,
+        1634.180117,
+        1670.776244,
+        1716.192421,
+        1657.287073,
+        1673.759144,
+        1727.894488,
+        2079.782208,
+        1961.50943,
+        1934.051545
+      ],
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:23:42.399726+00:00",
+      "load_average": [
+        30.1279296875,
+        24.36376953125,
+        15.654296875
+      ],
+      "fixture_hash": "f129ca3b2cd1cb864bb0280313c3ca1e279cc628d2a10ffd6eacd839e8c5432a",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4011856"
+    },
+    {
+      "samples": [
+        6.39435,
+        5.723606,
+        8.872439,
+        3.707235,
+        5.759093,
+        4.849103,
+        3.86804,
+        8.373771,
+        5.678279,
+        4.553513,
+        4.274843
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:24:08.959168+00:00",
+      "load_average": [
+        22.68408203125,
+        23.0537109375,
+        15.4501953125
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4017835"
+    },
+    {
+      "samples": [
+        6.774522,
+        6.548523,
+        9.824588,
+        6.894,
+        6.659764,
+        7.12046,
+        5.827603,
+        9.221913,
+        6.034156,
+        6.280203,
+        5.763962
+      ],
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:24:09.151291+00:00",
+      "load_average": [
+        22.68408203125,
+        23.0537109375,
+        15.4501953125
+      ],
+      "fixture_hash": "24799d3e8797348e912e70886d7409aa93d6307b7d42409cfd8f725df48644ee",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3983669"
+    },
+    {
+      "samples": [
+        73.89028,
+        89.446619,
+        78.003796,
+        91.655816,
+        95.618336,
+        98.896345,
+        92.559514,
+        82.682908,
+        84.938924,
+        70.799197,
+        69.412803
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:24:09.366364+00:00",
+      "load_average": [
+        22.68408203125,
+        23.0537109375,
+        15.4501953125
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4102775"
+    },
+    {
+      "samples": [
+        327.048672,
+        269.545269,
+        238.832202,
+        210.971322,
+        287.131546,
+        245.071867,
+        291.992744,
+        203.179888,
+        171.960627,
+        183.648767,
+        250.909993
+      ],
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:24:10.725984+00:00",
+      "load_average": [
+        22.228515625,
+        22.953125,
+        15.458984375
+      ],
+      "fixture_hash": "bb1ac8af212368b21ffeaabe70f603bb06099cb3cc8d94c136caf9f42cb87b30",
+      "sample_count": 11,
+      "cpu_frequency_khz": "4317809"
+    },
+    {
+      "samples": [
+        260.117619,
+        284.606241,
+        297.154446,
+        282.929347,
+        279.688008,
+        270.769131,
+        256.423903,
+        252.408364,
+        239.169878,
+        245.87537,
+        247.411289
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "candidate",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:24:14.489495+00:00",
+      "load_average": [
+        22.228515625,
+        22.953125,
+        15.458984375
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3882564"
+    },
+    {
+      "samples": [
+        3618.012191,
+        3397.119801,
+        4802.216431,
+        5221.161072,
+        6697.576717,
+        4144.02086,
+        6873.879905,
+        4838.063889,
+        3737.448572,
+        4076.346288,
+        4330.998258
+      ],
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "warmups": 3,
+      "engine": "php",
+      "variant": "main",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "round": 3,
+      "observed_at": "2026-10-02T09:24:18.700165+00:00",
+      "load_average": [
+        21.0888671875,
+        22.70458984375,
+        15.41845703125
+      ],
+      "fixture_hash": "a4b4db03a7cdd65cde60881769a1ffc6f09d299574457c3ba0e8f2a37980973c",
+      "sample_count": 11,
+      "cpu_frequency_khz": "3298222"
+    }
+  ],
+  "rust_worker_lockfile": null,
+  "rust_worker_lockfile_hash": null,
+  "selected_engines": [
+    "php"
+  ],
+  "control_samples_per_round": null,
+  "artifact_hashes": {
+    "js-main": "41f6a8237b5bb740aaea9279f59682ed6c52588ee28123c9d22c670498e3f7ca",
+    "js-candidate": "7f2c18d12347f1f32863b58fe80b6259c4dec92c2d900b5eba67cc8a8aa8ba71",
+    "php-main": "50a805a2fba82bc7a31111f6744e5ce491cc63910dfd4cb77288d233addf628a",
+    "php-candidate": "50a805a2fba82bc7a31111f6744e5ce491cc63910dfd4cb77288d233addf628a"
+  },
+  "dependency_files": {
+    "js-main": {
+      "path": "package-lock.json",
+      "hash": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528"
+    },
+    "js-candidate": {
+      "path": "package-lock.json",
+      "hash": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528"
+    },
+    "php-main": {
+      "path": "vendor/composer/installed.json",
+      "hash": "61b3a49347879b3f444667a4e0ec9fe0a039e7a99b5db4361cf62af179692baa"
+    },
+    "php-candidate": {
+      "path": "vendor/composer/installed.json",
+      "hash": "61b3a49347879b3f444667a4e0ec9fe0a039e7a99b5db4361cf62af179692baa"
+    },
+    "rs-main": {
+      "path": "Cargo.lock",
+      "hash": "fa969b9398a18b7c731e59d5995276baa59aa767f5706d98e581429fb2fc2e2d"
+    },
+    "rs-candidate": {
+      "path": "Cargo.lock",
+      "hash": "fa969b9398a18b7c731e59d5995276baa59aa767f5706d98e581429fb2fc2e2d"
+    }
+  },
+  "node_modules_paths": {
+    "main": "/tmp/carve-js-deep-20261002/node_modules",
+    "candidate": "/tmp/carve-js-deep-20261002/node_modules"
+  },
+  "cargo_config_hashes": {
+    "/home/mark/.cargo/config.toml": "755e8cd5addca205990f8fd424816367cee984df23adc2dcf9b31f4cdd00cfb8",
+    "/tmp/carve-bench-deep-20261002/.cargo/config.toml": null
+  },
+  "rust_build_environment": {
+    "RUSTFLAGS": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "RUSTUP_TOOLCHAIN": null
+  },
+  "cargo_version": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "php_modules": "[PHP Modules]\nbcmath\ncalendar\nCore\nctype\ncurl\ndate\ndom\nexif\nFFI\nfileinfo\nfilter\nftp\ngd\ngettext\nhash\niconv\nigbinary\nimagick\nintl\njson\nlexbor\nlibxml\nmbstring\nmysqli\nmysqlnd\nopenssl\npcntl\npcov\npcre\nPDO\npdo_mysql\npdo_pgsql\npdo_sqlite\npgsql\nPhar\nposix\nrandom\nreadline\nredis\nReflection\nsession\nshmop\nSimpleXML\nsockets\nsodium\nSPL\nsqlite3\nstandard\nsysvmsg\nsysvsem\nsysvshm\ntokenizer\nuri\nxml\nxmlreader\nxmlwriter\nxsl\nyaml\nZend OPcache\nzip\nzlib\n\n[Zend Modules]\nZend OPcache\n\n",
+  "host": {
+    "platform": "Linux 7.0.0-31-generic x86_64 GNU/Linux",
+    "cpu": {
+      "lscpu": [
+        {
+          "field": "Architecture:",
+          "data": "x86_64"
+        },
+        {
+          "field": "CPU op-mode(s):",
+          "data": "32-bit, 64-bit"
+        },
+        {
+          "field": "Address sizes:",
+          "data": "48 bits physical, 48 bits virtual"
+        },
+        {
+          "field": "Byte Order:",
+          "data": "Little Endian"
+        },
+        {
+          "field": "CPU(s):",
+          "data": "16"
+        },
+        {
+          "field": "On-line CPU(s) list:",
+          "data": "0-15"
+        },
+        {
+          "field": "Vendor ID:",
+          "data": "AuthenticAMD"
+        },
+        {
+          "field": "Model name:",
+          "data": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics"
+        },
+        {
+          "field": "CPU family:",
+          "data": "25"
+        },
+        {
+          "field": "Model:",
+          "data": "116"
+        },
+        {
+          "field": "Thread(s) per core:",
+          "data": "2"
+        },
+        {
+          "field": "Core(s) per socket:",
+          "data": "8"
+        },
+        {
+          "field": "Socket(s):",
+          "data": "1"
+        },
+        {
+          "field": "Stepping:",
+          "data": "1"
+        },
+        {
+          "field": "Frequency boost:",
+          "data": "enabled"
+        },
+        {
+          "field": "CPU(s) scaling MHz:",
+          "data": "73%"
+        },
+        {
+          "field": "CPU max MHz:",
+          "data": "5263.0610"
+        },
+        {
+          "field": "CPU min MHz:",
+          "data": "402.7860"
+        },
+        {
+          "field": "BogoMIPS:",
+          "data": "7985.68"
+        },
+        {
+          "field": "Flags:",
+          "data": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpuid_fault cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca flush_l1d amd_lbr_pmc_freeze"
+        },
+        {
+          "field": "Virtualization:",
+          "data": "AMD-V"
+        },
+        {
+          "field": "L1d cache:",
+          "data": "256 KiB (8 instances)"
+        },
+        {
+          "field": "L1i cache:",
+          "data": "256 KiB (8 instances)"
+        },
+        {
+          "field": "L2 cache:",
+          "data": "8 MiB (8 instances)"
+        },
+        {
+          "field": "L3 cache:",
+          "data": "16 MiB (1 instance)"
+        },
+        {
+          "field": "NUMA node(s):",
+          "data": "1"
+        },
+        {
+          "field": "NUMA node0 CPU(s):",
+          "data": "0-15"
+        },
+        {
+          "field": "Vulnerability Gather data sampling:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Ghostwrite:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Indirect target selection:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Itlb multihit:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability L1tf:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Meltdown:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Mmio stale data:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Old microcode:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Reg file data sampling:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Retbleed:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Spec rstack overflow:",
+          "data": "Mitigation; Safe RET"
+        },
+        {
+          "field": "Vulnerability Spec store bypass:",
+          "data": "Mitigation; Speculative Store Bypass disabled via prctl"
+        },
+        {
+          "field": "Vulnerability Spectre v1:",
+          "data": "Mitigation; usercopy/swapgs barriers and __user pointer sanitization"
+        },
+        {
+          "field": "Vulnerability Spectre v2:",
+          "data": "Mitigation; Enhanced / Automatic IBRS; IBPB conditional; STIBP always-on; PBRSB-eIBRS Not affected; BHI Not affected"
+        },
+        {
+          "field": "Vulnerability Srbds:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Tsa:",
+          "data": "Mitigation; Clear CPU buffers"
+        },
+        {
+          "field": "Vulnerability Tsx async abort:",
+          "data": "Not affected"
+        },
+        {
+          "field": "Vulnerability Vmscape:",
+          "data": "Mitigation; IBPB before exit to userspace"
+        }
+      ]
+    },
+    "initial_load_average": [
+      15.26416015625,
+      11.8583984375,
+      9.4853515625
+    ],
+    "governor": "performance"
+  },
+  "finished_at": "2026-10-02T09:25:24.265400+00:00",
+  "summary": [
+    {
+      "engine": "php",
+      "kind": "table-sections",
+      "n": 128,
+      "stage": "build",
+      "main_ms": 5.564484,
+      "candidate_ms": 4.093739,
+      "change_percent": -26.430932320049806,
+      "hash": "084c15042dff48a8a0b28ce85301896ee68d87d83ae1b5d312d55257c75593d0",
+      "round_medians": {
+        "main": [
+          6.389452,
+          5.537723,
+          4.073979,
+          5.428193
+        ],
+        "candidate": [
+          4.411441,
+          3.733354,
+          2.875115,
+          4.623093
+        ]
+      },
+      "ranges": {
+        "main": [
+          3.841588,
+          10.195637
+        ],
+        "candidate": [
+          2.67237,
+          13.851497
+        ]
+      }
+    },
+    {
+      "engine": "php",
+      "kind": "table-sections",
+      "n": 1024,
+      "stage": "build",
+      "main_ms": 142.46608400000002,
+      "candidate_ms": 52.3181085,
+      "change_percent": -63.2767975148387,
+      "hash": "08be6c80462b137147cfcff37c2f0b3e7f37098ad93604f42cb9acfd5952dc0a",
+      "round_medians": {
+        "main": [
+          165.274858,
+          140.587765,
+          109.332727,
+          142.88274
+        ],
+        "candidate": [
+          55.86198,
+          44.020686,
+          33.640817,
+          67.779847
+        ]
+      },
+      "ranges": {
+        "main": [
+          102.215913,
+          188.410631
+        ],
+        "candidate": [
+          28.011817,
+          96.612107
+        ]
+      }
+    },
+    {
+      "engine": "php",
+      "kind": "table-sections",
+      "n": 4096,
+      "stage": "build",
+      "main_ms": 1919.7325065,
+      "candidate_ms": 288.9942435,
+      "change_percent": -84.94611918475633,
+      "hash": "411a69ec605c849b12c2bd189191957b49a98a6756969ec6e6f3179a799a3791",
+      "round_medians": {
+        "main": [
+          1981.136657,
+          2031.308007,
+          1610.506959,
+          1700.323778
+        ],
+        "candidate": [
+          286.10904,
+          278.194051,
+          493.419032,
+          289.637994
+        ]
+      },
+      "ranges": {
+        "main": [
+          1381.605592,
+          3484.501669
+        ],
+        "candidate": [
+          256.644648,
+          982.840213
+        ]
+      }
+    },
+    {
+      "engine": "php",
+      "kind": "adjacent-definitions",
+      "n": 128,
+      "stage": "build",
+      "main_ms": 9.233283,
+      "candidate_ms": 6.2125474999999994,
+      "change_percent": -32.71572527344825,
+      "hash": "deb6a0593788aa5e537ca48d4241abc0d14e59fa0b0a8e260e49730bc19c1bf3",
+      "round_medians": {
+        "main": [
+          8.573354,
+          9.053303,
+          13.138606,
+          6.659764
+        ],
+        "candidate": [
+          4.785776,
+          6.381829,
+          16.745783,
+          5.678279
+        ]
+      },
+      "ranges": {
+        "main": [
+          5.763962,
+          29.974961
+        ],
+        "candidate": [
+          3.707235,
+          44.855232
+        ]
+      }
+    },
+    {
+      "engine": "php",
+      "kind": "adjacent-definitions",
+      "n": 1024,
+      "stage": "build",
+      "main_ms": 261.8306025,
+      "candidate_ms": 87.7408495,
+      "change_percent": -66.48945972616016,
+      "hash": "831d8c3745d68f2fb601f6cdfd1c70bfe2f0191b198ca10ffaebad22aae2afc6",
+      "round_medians": {
+        "main": [
+          227.800468,
+          267.029564,
+          506.117127,
+          245.071867
+        ],
+        "candidate": [
+          62.14197,
+          87.982026,
+          175.708346,
+          84.938924
+        ]
+      },
+      "ranges": {
+        "main": [
+          171.960627,
+          713.125038
+        ],
+        "candidate": [
+          56.911821,
+          223.819122
+        ]
+      }
+    },
+    {
+      "engine": "php",
+      "kind": "adjacent-definitions",
+      "n": 4096,
+      "stage": "build",
+      "main_ms": 4698.2249465,
+      "candidate_ms": 317.422659,
+      "change_percent": -93.24377477420556,
+      "hash": "f6a9abd55d2a6e7351d15fb9d7199b26109a50077aea4d0f6d54f55393193db3",
+      "round_medians": {
+        "main": [
+          4760.715139,
+          3487.127702,
+          17645.145493,
+          4330.998258
+        ],
+        "candidate": [
+          310.071297,
+          341.543931,
+          325.110485,
+          260.117619
+        ]
+      },
+      "ranges": {
+        "main": [
+          2525.100073,
+          28060.878076
+        ],
+        "candidate": [
+          239.169878,
+          376.053402
+        ]
+      }
+    }
+  ]
+}
