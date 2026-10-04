@@ -321,9 +321,9 @@ That check compares the repo against itself, so a set of pins can agree in all
 four places and still name a release the registries superseded weeks ago - which
 is how the tables twice came to describe engines nobody installs any more.
 `node scripts/check-pin-freshness.mjs` asks each registry for its newest stable
-release instead, and the weekly `pin freshness` workflow runs it. A failure is
-not a defect in the tables; it means the pinned engine is old, and the fix is a
-bump **plus** a re-run of both tracks. A bump alone publishes the previous
+release instead. The daily `pin freshness` workflow runs it and keeps one
+tracking issue open while a pin is behind. A failure is not a defect in the
+tables; it means the pinned engine is old, and the fix is a bump **plus** a re-run of both tracks. A bump alone publishes the previous
 engine's numbers under the new version's name.
 
 The report says which of the two happened. Each harness resolves its engine,
