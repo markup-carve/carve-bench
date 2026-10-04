@@ -14,11 +14,15 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-04 Europe/Berlin; merged main snapshot, serial processes with the available CPUs; Node 22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; local shared host. Separate snapshots do not isolate engine speed changes.
+**Run:** 2026-10-04 Europe/Berlin; pinned merged main, serial processes; Node 22.22.2, PHP 8.5.11 tracing JIT, Rust 1.97.1; shared host. Full-run load was not recorded. Separate snapshots do not isolate engine speed changes.
+
+These pinned merged main commits include all performance fixes from this audit. Later conversion-handler refactors and release-tooling changes are outside this retained performance snapshot.
+
+The measured harness checkout, changed tracked paths and source hashes are recorded in the full-run JSON.
 
 Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout /tmp/carve-bench-engine-js @ 604c2223d)`, carve-php `markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)`, carve-rs `carve-lang 0.1.8 (local checkout /tmp/carve-bench-engine-rs @ bfe862698)`
+**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)`, carve-php `markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)`, carve-rs `carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)`
 
 **Corpus snapshot:** carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed corpus retained.
 
@@ -28,25 +32,25 @@ Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child proces
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 0.5776 | 2.04 | 5.50x |
-| carve-php | 1.3141 | 0.89 | 12.50x |
-| carve-rs | 0.1051 | 11.19 | 1.00x |
+| carve-js | 0.7144 | 1.65 | 5.03x |
+| carve-php | 1.7574 | 0.67 | 12.38x |
+| carve-rs | 0.1419 | 8.28 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 69.0814 | 0.90 | 2.52x |
-| carve-php | 133.5153 | 0.47 | 4.87x |
-| carve-rs | 27.4068 | 2.27 | 1.00x |
+| carve-js | 88.3940 | 0.70 | 2.64x |
+| carve-php | 186.6996 | 0.33 | 5.57x |
+| carve-rs | 33.5459 | 1.85 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 539.9727 | 0.92 | 1.65x |
-| carve-php | 1422.6725 | 0.35 | 4.35x |
-| carve-rs | 327.1183 | 1.52 | 1.00x |
+| carve-js | 665.5731 | 0.75 | 1.80x |
+| carve-php | 1674.9917 | 0.30 | 4.53x |
+| carve-rs | 369.7523 | 1.34 | 1.00x |
 
 ## PHP authoritative extension tiers
 
@@ -61,9 +65,9 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 2.68 | 17.53 | baseline |
-| Tier 2 stack | 8 | 3.01 | 15.62 | +12% |
-| Tier 3 stack | 20 | 3.32 | 14.13 | +24% |
+| Tier 1 core/default | 0 | 3.18 | 14.77 | baseline |
+| Tier 2 stack | 8 | 3.41 | 13.77 | +7% |
+| Tier 3 stack | 20 | 3.81 | 12.33 | +20% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 

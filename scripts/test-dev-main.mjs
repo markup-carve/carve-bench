@@ -17,7 +17,13 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   assert.equal(new Set(record.controls.map(row => row.projection_sha256)).size, 1)
   for (const [engine, value] of Object.entries(record.metadata.carve_main)) {
     assert.equal(value.kind, 'merged-main')
-    assert.equal(value.commit, value.latest_at_setup, 'Published current graph must use main at setup')
+    if (value.commit !== value.latest_at_setup) {
+      const retained = record.metadata.retained_main_snapshot?.[engine]
+      assert.equal(retained?.measured_commit, value.commit, 'Older pin needs an explicit retained-snapshot record')
+      assert.equal(retained.latest_at_setup, value.latest_at_setup)
+      assert.ok(retained.changed_paths.length > 0 && retained.reason.length > 0)
+      assert.ok(record.metadata.main_selection_note && readFileSync('reports/dev-main-core.md', 'utf8').includes(record.metadata.main_selection_note))
+    }
     assert.equal(value.repository, `https://github.com/markup-carve/carve-${engine}`)
     assert.match(value.commit, /^[a-f0-9]{40}$/)
     for (const round of record.rounds) {
@@ -45,4 +51,35 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   assert.equal(archive.metadata.package_versions['@markup-carve/carve'], '0.1.9')
   assert.ok(!archive.metadata.carve_main)
   assert.match(readFileSync('charts/core-throughput.svg', 'utf8'), /Carve dev-main in every panel/)
+})
+
+test('benchmark provenance distinguishes the measured checkout from remote main', async () => {
+  const { mkdtempSync, writeFileSync, rmSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
+  const { join } = await import('node:path')
+  const { execFileSync } = await import('node:child_process')
+  const { benchmarkCheckout } = await import('./benchmark-metadata.mjs')
+  const tree = mkdtempSync(join(tmpdir(), 'bench-checkout-'))
+  const git = (...args) => execFileSync('git', ['-C', tree, ...args], { encoding: 'utf8' }).trim()
+  try {
+    git('init', '-q')
+    writeFileSync(join(tree, 'fixture'), 'first')
+    git('add', 'fixture')
+    git('-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '-qm', 'first')
+    const remote = git('rev-parse', 'HEAD')
+    git('update-ref', 'refs/remotes/origin/main', remote)
+    writeFileSync(join(tree, 'fixture'), 'second')
+    git('-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '-qam', 'second')
+    assert.deepEqual(benchmarkCheckout(tree), {
+      benchmark_base_commit: remote,
+      benchmark_checkout_commit: git('rev-parse', 'HEAD'),
+      benchmark_dirty_paths: [],
+      benchmark_dirty: false,
+    })
+    writeFileSync(join(tree, 'fixture'), 'uncommitted')
+    assert.equal(benchmarkCheckout(tree).benchmark_dirty, true)
+    assert.deepEqual(benchmarkCheckout(tree).benchmark_dirty_paths, ['fixture'])
+  } finally {
+    rmSync(tree, { recursive: true, force: true })
+  }
 })

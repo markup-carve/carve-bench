@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync, statSync, readdirSync, realpathSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { cpus } from 'node:os'
-import { cpuAffinity } from './benchmark-metadata.mjs'
+import { cpuAffinity, benchmarkCheckout } from './benchmark-metadata.mjs'
 import { requestedOverrides } from './measured-sources.mjs'
 
 const git = (tree, ...args) => execFileSync('git', ['-C', tree, ...args], { encoding: 'utf8' }).trim()
@@ -63,7 +63,7 @@ export function fullResults(root, results, tiers, rustBinary, env = process.env)
   return {
     schema: 1,
     metadata: {
-      benchmark_base_commit: git(root, 'rev-parse', 'origin/main'), completed_at: new Date().toISOString(),
+      ...benchmarkCheckout(root), completed_at: new Date().toISOString(),
       cpu_affinity: cpuAffinity(), cpu: cpus()[0].model, logical_cpus: cpus().length,
       runtimes: { node: process.version, php: execFileSync('php', ['-n', '-v'], { encoding: 'utf8' }).split('\n')[0], rustc: execFileSync('rustc', ['--version'], { encoding: 'utf8' }).trim() },
       method: 'Serial full run.mjs workload. Corpus rows average in-process iterations after warm-up; PHP tier rows report minimum of five trials and retain every trial. Measurements are host-specific snapshots, not paired speedup evidence.',
