@@ -4,19 +4,22 @@ name: pin freshness
 # pins can agree perfectly and still name an engine the registries superseded
 # weeks ago. This job is the one that leaves the repo and asks.
 #
-# It is scheduled rather than run per push: a pin goes stale because an engine
-# released, which is an event in another repository that no push here follows.
+# Scheduled only, never per pull request: a pin goes stale because an engine
+# released in another repository, so a red here says nothing about the change
+# under review. The verdict is filed as one tracking issue instead.
 on:
   schedule:
-    - cron: '17 6 * * 1'
+    - cron: '17 6 * * *'
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'engines/js/package.json'
-      - 'engines/php/composer.json'
-      - 'engines/rs/Cargo.toml'
-      - 'scripts/check-pin-freshness.mjs'
-      - '.github/workflows/pin-freshness.yml'
+
+permissions:
+  contents: read
+  issues: write
+
+# One group for every trigger: all runs maintain the same tracking issue.
+concurrency:
+  group: pin-freshness
+  cancel-in-progress: false
 
 # Every job declares timeout-minutes so a hung step fails in minutes
 # rather than inheriting the 360-minute GitHub default.
@@ -30,5 +33,105 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
+
+      # Records its exit status before failing, so the reporter reads the verdict.
       - name: Compare each pin with its registry
-        run: node scripts/check-pin-freshness.mjs
+        id: measure
+        run: |
+          set -o pipefail
+          node scripts/check-pin-freshness.mjs 2>&1 | tee /tmp/pin-freshness.txt && status=0 || status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          {
+            echo '## Pin freshness'
+            echo
+            echo '```text'
+            cat /tmp/pin-freshness.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"
+
+      # One tracking issue: opened by the first red run, edited by later ones,
+      # closed by the first green one. Fails if it cannot file.
+      - name: File the verdict where someone reads it
+        if: ${{ !cancelled() }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          STATUS: ${{ steps.measure.outputs.status }}
+          HEAD_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          if [ "$REF_NAME" != "$DEFAULT_BRANCH" ]; then
+            echo "Pin freshness tickets are scoped to $DEFAULT_BRANCH; $REF_NAME keeps its Actions verdict only."
+            exit 0
+          fi
+
+          TITLE="An engine pin is behind its newest published release"
+          MARKER="<!-- pin-freshness-verdict ref=$REF_NAME -->"
+
+          # Listed rather than searched: the search index lags a fresh issue.
+          open_issues="$(gh api "repos/$REPO/issues?state=open&per_page=100" --paginate \
+            | jq -r --arg m "$MARKER" \
+                '.[] | select(.pull_request == null) | select((.body // "") | contains($m)) | .number')"
+          issue="${open_issues%%$'\n'*}"
+
+          # A registry outage also exits non-zero; it is no verdict, so leave the issue alone.
+          if [ "${STATUS:-1}" != "0" ] && ! grep -q 'A pin is behind its registry' /tmp/pin-freshness.txt; then
+            echo "The check could not reach a verdict; the tracking issue is left as it was."
+            exit 1
+          fi
+
+          if [ "${STATUS:-1}" = "0" ]; then
+            echo "Every engine pin is the newest published release on $HEAD_SHA."
+            if [ -n "$issue" ]; then
+              gh issue comment "$issue" --repo "$REPO" --body \
+                "Green again: run $RUN_URL on \`$HEAD_SHA\`. Closing. The next red run opens a fresh ticket rather than reopening this one."
+              gh issue close "$issue" --repo "$REPO"
+              echo "Closed #$issue."
+            fi
+            exit 0
+          fi
+
+          {
+            echo "$MARKER"
+            echo
+            echo "\`scripts/check-pin-freshness.mjs\` found an engine pin behind the newest"
+            echo "stable release its registry publishes, so the tables describe an engine"
+            echo "nobody installs any more."
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| run | $RUN_URL |"
+            echo "| commit | \`$HEAD_SHA\` |"
+            echo "| trigger | \`$EVENT_NAME\` |"
+            echo
+            echo "### What it reported"
+            echo
+            echo '```text'
+            cat /tmp/pin-freshness.txt
+            echo '```'
+            echo
+            echo "### How to clear it"
+            echo
+            echo "Bump the pin and re-run both tracks. A bump alone publishes the previous"
+            echo "engine's numbers under the new version's name. Reproduce locally with"
+            echo "\`node scripts/check-pin-freshness.mjs\`."
+            echo
+            echo "This ticket is filed and maintained by the workflow. It is EDITED by each"
+            echo "later red run and CLOSED by the first green one. Closing it by hand does"
+            echo "not silence it: the next red run files a new one."
+          } > /tmp/pin-freshness-verdict.md
+
+          if [ -n "$issue" ]; then
+            gh issue edit "$issue" --repo "$REPO" --body-file /tmp/pin-freshness-verdict.md
+            echo "Updated #$issue."
+          else
+            url="$(gh issue create --repo "$REPO" --title "$TITLE" \
+              --body-file /tmp/pin-freshness-verdict.md)"
+            echo "Filed $url."
+          fi
