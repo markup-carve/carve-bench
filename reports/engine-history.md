@@ -1,6 +1,6 @@
 # Engine release history
 
-Sessions began 2026-10-02T12:21:26.895588+00:00. 4 stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.
+Retained sessions began 2026-10-02T12:21:26.895588+00:00. 4 stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.
 
 Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.
 
@@ -18,15 +18,21 @@ php retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, se
 
 rs retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
-js dev-main refresh: 2026-10-04T13:22:08.948371+00:00 to 2026-10-04T13:22:35.409054+00:00. [Point provenance](engine-history.json).
+js dev-main refresh: 2026-10-04T13:22:08.948371+00:00 to 2026-10-04T13:22:35.409054+00:00; driver `f02c4cac4c1214d2abad04b06331b10f961d19bc`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
 
-php dev-main refresh: 2026-10-04T13:22:08.948371+00:00 to 2026-10-04T13:24:09.251968+00:00. [Point provenance](engine-history.json).
+php dev-main refresh: 2026-10-04T13:22:08.948371+00:00 to 2026-10-04T13:24:09.251968+00:00; driver `f02c4cac4c1214d2abad04b06331b10f961d19bc`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
 
-rs dev-main refresh: 2026-10-04T13:22:08.948371+00:00 to 2026-10-04T13:24:10.102882+00:00. [Point provenance](engine-history.json).
+rs dev-main refresh: 2026-10-04T13:22:08.948371+00:00 to 2026-10-04T13:24:10.102882+00:00; driver `f02c4cac4c1214d2abad04b06331b10f961d19bc`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
 
 ## Shared-host spread
 
-Initial load average: [5.18994140625, 5.53466796875, 5.52490234375]. Final load average: [7.6640625, 8.294921875, 7.34130859375]. Whiskers show sample ranges; medians from noisy sessions are descriptive readings, not confirmed speed changes.
+Retained session initial load average: [5.18994140625, 5.53466796875, 5.52490234375]. Final load average: [7.6640625, 8.294921875, 7.34130859375]. Whiskers show sample ranges; medians from noisy sessions are descriptive readings, not confirmed speed changes.
+
+js dev-main refresh load average: initial [3.6025390625, 4.7099609375, 5.34130859375]; final [3.8291015625, 4.65771484375, 5.3037109375].
+
+php dev-main refresh load average: initial [3.6025390625, 4.7099609375, 5.34130859375]; final [6.6318359375, 6.0439453125, 5.78466796875].
+
+rs dev-main refresh load average: initial [3.6025390625, 4.7099609375, 5.34130859375]; final [6.2607421875, 5.9765625, 5.76416015625].
 
 js: widest sample range is 12.9x for 0.1.8 verse_equivalent n=128 (0.748 to 9.631 ms). Inspect round medians in the JSON before attributing a difference to code.
 

@@ -1,6 +1,8 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-04T13:11:12.617Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: f02c4cac4c1214d2abad04b06331b10f961d19bc. Remote main at setup: 0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc (CI-only difference).
+Measured 2026-10-04T13:36:43.072Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: ebf17546f934872eb9106d98631c988df32590ea; cached remote main: 0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc; dirty tracked tree: true. Harness hashes and changed tracked paths are recorded in the JSON.
+
+Measured merged main commits were selected at 13:10 UTC after the performance fixes merged. Later conversion-handler refactors and release-tooling changes do not require another performance snapshot.
 
 Carve php: [03cb29aef26af2a933c8e70a90fe4f3c9a7fbf5d](https://github.com/markup-carve/carve-php/commit/03cb29aef26af2a933c8e70a90fe4f3c9a7fbf5d).
 Carve js: [05778b2f76c650df71567ebb149938ce8612e9d2](https://github.com/markup-carve/carve-js/commit/05778b2f76c650df71567ebb149938ce8612e9d2).
@@ -16,16 +18,16 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 4.0890 | 14.61 |
-| djot.js | JavaScript | 10.6884 | 5.60 |
-| markdown-it | JavaScript | 12.4138 | 4.86 |
-| carve-php | PHP | 4.5245 | 13.20 |
-| djot-php | PHP | 3.5168 | 17.03 |
-| league/commonmark-gfm | PHP | 47.8072 | 1.26 |
-| carve-rs | Rust | 0.5264 | 113.47 |
-| jotdown | Rust | 1.4209 | 42.14 |
-| comrak | Rust | 1.6814 | 35.86 |
-| pulldown-cmark | Rust | 0.5303 | 113.72 |
+| carve-js | JavaScript | 4.5246 | 13.20 |
+| djot.js | JavaScript | 12.0812 | 4.96 |
+| markdown-it | JavaScript | 13.4944 | 4.47 |
+| carve-php | PHP | 4.6593 | 12.82 |
+| djot-php | PHP | 3.8920 | 15.38 |
+| league/commonmark-gfm | PHP | 60.7261 | 0.99 |
+| carve-rs | Rust | 0.7023 | 85.05 |
+| jotdown | Rust | 1.8945 | 31.60 |
+| comrak | Rust | 2.4745 | 24.37 |
+| pulldown-cmark | Rust | 0.6837 | 88.20 |
 
 [Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 

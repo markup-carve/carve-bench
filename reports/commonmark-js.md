@@ -1,6 +1,6 @@
 # JavaScript core comparison including commonmark.js
 
-Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads. Measured 2026-10-04T13:19:37.597Z, Node v22.22.2, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark harness checkout: `f02c4cac4c1214d2abad04b06331b10f961d19bc`. Remote main at setup: `0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc` (CI-only difference).
+Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads. Measured 2026-10-04T13:45:20.365Z, Node v22.22.2, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark harness checkout: `ebf17546f934872eb9106d98631c988df32590ea`; cached remote main: `0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc`; dirty tracked tree: true. Harness hashes are recorded in the JSON.
 
 Carve JS merged main 0.1.10 at `05778b2f76c650df71567ebb149938ce8612e9d2`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
@@ -14,10 +14,10 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Median ms/op | MB/s |
 |---|---:|---:|
-| carve-js | 2.4151 | 19.64 |
-| djot.js | 7.3856 | 6.42 |
-| markdown-it | 6.0264 | 7.97 |
-| commonmark.js | 3.0419 | 15.78 |
+| carve-js | 2.4312 | 19.51 |
+| djot.js | 7.0601 | 6.72 |
+| markdown-it | 6.8451 | 7.01 |
+| commonmark.js | 3.1229 | 15.37 |
 
 ![Final JavaScript throughput](../charts/commonmark-js.svg)
 
@@ -25,21 +25,21 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Bytes | Round 1 fastest MB/s | Round 2 fastest MB/s |
 |---|---:|---:|---:|
-| carve-js | 49732 | 21.12 | 20.52 |
-| djot.js | 49732 | 6.52 | 7.60 |
-| markdown-it | 50332 | 7.98 | 8.27 |
-| commonmark.js | 50332 | 16.00 | 15.99 |
+| carve-js | 49732 | 19.97 | 19.84 |
+| djot.js | 49732 | 6.93 | 7.08 |
+| markdown-it | 50332 | 7.17 | 7.43 |
+| commonmark.js | 50332 | 15.74 | 15.78 |
 
 ## CommonMark constructor control
 
 | API lifetime | Round 1 fastest ms/op | Round 2 fastest ms/op |
 |---|---:|---:|
-| Reuse parser and renderer | 3.0001 | 3.0012 |
-| Construct both per call | 2.7182 | 2.7820 |
+| Reuse parser and renderer | 3.0501 | 3.0417 |
+| Construct both per call | 2.8684 | 2.8252 |
 
 The lifetime control investigates the parser-construction concern in [djot.js #13](https://github.com/jgm/djot.js/issues/13). markdown-it also reuses its instance; Carve and Djot use their public conversion functions. These are default API costs, not equal object lifetimes. The table records both lifetimes; it does not isolate constructor cost from runtime optimization.
 
-One-minute host load was 2.54 at start and 3.68 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
+One-minute host load was 4.54 at start and 3.75 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
 
 ## Reproduce
 

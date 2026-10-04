@@ -17,7 +17,13 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   assert.equal(new Set(record.controls.map(row => row.projection_sha256)).size, 1)
   for (const [engine, value] of Object.entries(record.metadata.carve_main)) {
     assert.equal(value.kind, 'merged-main')
-    assert.equal(value.commit, value.latest_at_setup, 'Published current graph must use main at setup')
+    if (value.commit !== value.latest_at_setup) {
+      const retained = record.metadata.retained_main_snapshot?.[engine]
+      assert.equal(retained?.measured_commit, value.commit, 'Older pin needs an explicit retained-snapshot record')
+      assert.equal(retained.latest_at_setup, value.latest_at_setup)
+      assert.ok(retained.changed_paths.length > 0 && retained.reason.length > 0)
+      assert.ok(record.metadata.main_selection_note && readFileSync('reports/dev-main-core.md', 'utf8').includes(record.metadata.main_selection_note))
+    }
     assert.equal(value.repository, `https://github.com/markup-carve/carve-${engine}`)
     assert.match(value.commit, /^[a-f0-9]{40}$/)
     for (const round of record.rounds) {

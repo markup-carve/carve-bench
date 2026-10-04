@@ -1,8 +1,21 @@
 {
   "schema": 1,
   "metadata": {
-    "benchmark_base_commit": "f02c4cac4c1214d2abad04b06331b10f961d19bc",
-    "completed_at": "2026-10-04T13:19:24.570Z",
+    "benchmark_base_commit": "0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc",
+    "benchmark_checkout_commit": "ebf17546f934872eb9106d98631c988df32590ea",
+    "benchmark_dirty_paths": [
+      "README.md",
+      "RESULTS.md",
+      "reports/commonmark-js.json",
+      "reports/commonmark-js.md",
+      "reports/dev-main-core.json",
+      "reports/dev-main-core.md",
+      "reports/dev-main-full.json",
+      "reports/engine-history.html",
+      "reports/engine-history.md"
+    ],
+    "benchmark_dirty": true,
+    "completed_at": "2026-10-04T13:45:05.137Z",
     "cpu_affinity": [
       0,
       1,
@@ -187,8 +200,8 @@
     },
     "harness_sha256": {
       "run.mjs": "7d4f00ccd1518915a39701727a6e19a5f384e62b20e0860d506ba0aa8a5846d3",
-      "scripts/full-results.mjs": "8a784358761659558ab660604633ad0159fb6ef577bcd9ceb586f93cebb64dc4",
-      "scripts/benchmark-metadata.mjs": "8b632b75921bbf799f8a443f915225fb82cdd5914d2f2994bf0d6b28da0a033f",
+      "scripts/full-results.mjs": "926ba944c23dedca2728afd47e14ed7f70e1eae7ad7fee2577baf554f8dd47f9",
+      "scripts/benchmark-metadata.mjs": "8fcb099b1f8183aed318259c7e6691eea89bebbef0dbe28fb406a7a20a9ee8b2",
       "engines/js/bench.mjs": "b40a48ee2dcff14f8a341650f5c2217958c1eb66e51c97ce1b7fdbfd28c9e15c",
       "engines/js/carve-src.mjs": "7ddd0fcc8d5c8960749851e12186fb2aeeacefc5a0871e0a71ac24a1c9683492",
       "engines/php/bench.php": "867e7688eebb4148a36e1d67950c1062926955422c1b83b753fbdec32490369f",
@@ -206,8 +219,6 @@
     },
     "rust_binary_sha256": "77cdf7ad15a6fa73b7301d3593d16428f90ec1db75bc3ed83bbe4a0e3e285491",
     "rust_dependency_lock_sha256": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90",
-    "benchmark_remote_main_at_setup": "0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc",
-    "benchmark_checkout_note": "Harness checkout f02c4ca; remote main 0a1a03d differs only in the pin-freshness CI workflow. Measurement sources and dependency locks are identical.",
     "corpus_snapshot": "carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed corpus retained",
     "host_note": "Shared host; full-run load was not recorded. Separate snapshots do not isolate engine speed changes."
   },
@@ -215,8 +226,8 @@
     {
       "document": "corpus/small.crv",
       "engine": "carve-js",
-      "ms_per_op": 0.6939,
-      "mb_per_s": 1.69,
+      "ms_per_op": 0.7144,
+      "mb_per_s": 1.65,
       "iters": 2000,
       "bytes": 1233,
       "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
@@ -224,8 +235,8 @@
     {
       "document": "corpus/small.crv",
       "engine": "carve-php",
-      "ms_per_op": 1.6276,
-      "mb_per_s": 0.72,
+      "ms_per_op": 1.7574,
+      "mb_per_s": 0.67,
       "iters": 2000,
       "bytes": 1233,
       "jit": true,
@@ -234,8 +245,8 @@
     {
       "document": "corpus/small.crv",
       "engine": "carve-rs",
-      "ms_per_op": 0.1335,
-      "mb_per_s": 8.81,
+      "ms_per_op": 0.1419,
+      "mb_per_s": 8.28,
       "iters": 2000,
       "bytes": 1233,
       "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
@@ -243,8 +254,8 @@
     {
       "document": "corpus/medium.crv",
       "engine": "carve-js",
-      "ms_per_op": 116.8528,
-      "mb_per_s": 0.53,
+      "ms_per_op": 88.394,
+      "mb_per_s": 0.7,
       "iters": 500,
       "bytes": 65105,
       "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
@@ -252,36 +263,36 @@
     {
       "document": "corpus/medium.crv",
       "engine": "carve-php",
-      "ms_per_op": 208.5059,
-      "mb_per_s": 0.3,
-      "iters": 500,
-      "bytes": 65105,
-      "jit": true,
-      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
-    },
-    {
-      "document": "corpus/medium.crv",
-      "engine": "carve-rs",
-      "ms_per_op": 31.4024,
-      "mb_per_s": 1.98,
-      "iters": 500,
-      "bytes": 65105,
-      "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
-    },
-    {
-      "document": "corpus/large.crv",
-      "engine": "carve-js",
-      "ms_per_op": 620.3029,
-      "mb_per_s": 0.8,
-      "iters": 50,
-      "bytes": 520855,
-      "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
-    },
-    {
-      "document": "corpus/large.crv",
-      "engine": "carve-php",
-      "ms_per_op": 1527.1667,
+      "ms_per_op": 186.6996,
       "mb_per_s": 0.33,
+      "iters": 500,
+      "bytes": 65105,
+      "jit": true,
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
+    },
+    {
+      "document": "corpus/medium.crv",
+      "engine": "carve-rs",
+      "ms_per_op": 33.5459,
+      "mb_per_s": 1.85,
+      "iters": 500,
+      "bytes": 65105,
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
+    },
+    {
+      "document": "corpus/large.crv",
+      "engine": "carve-js",
+      "ms_per_op": 665.5731,
+      "mb_per_s": 0.75,
+      "iters": 50,
+      "bytes": 520855,
+      "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
+    },
+    {
+      "document": "corpus/large.crv",
+      "engine": "carve-php",
+      "ms_per_op": 1674.9917,
+      "mb_per_s": 0.3,
       "iters": 50,
       "bytes": 520855,
       "jit": true,
@@ -290,8 +301,8 @@
     {
       "document": "corpus/large.crv",
       "engine": "carve-rs",
-      "ms_per_op": 344.3209,
-      "mb_per_s": 1.44,
+      "ms_per_op": 369.7523,
+      "mb_per_s": 1.34,
       "iters": 50,
       "bytes": 520855,
       "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
@@ -304,14 +315,14 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.3179004,
-        3.1615659999999997,
-        3.0676418,
-        2.9859687999999998,
-        3.1418886
+        3.6184292,
+        3.3874302,
+        3.4350166,
+        3.1984576000000002,
+        3.1816693999999996
       ],
-      "ms_per_op": 2.9859687999999998,
-      "mb_per_s": 15.73611002544164,
+      "ms_per_op": 3.1816693999999996,
+      "mb_per_s": 14.768201111446697,
       "jit": true,
       "tier2_extensions": 0,
       "tier3_extensions": 0,
@@ -323,14 +334,14 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.8348382,
-        3.3665566,
-        3.341954,
-        3.0216326,
-        3.0621876
+        3.9899226,
+        3.598301,
+        3.4888407999999997,
+        3.4112036000000003,
+        3.4190904000000004
       ],
-      "ms_per_op": 3.0216326,
-      "mb_per_s": 15.55037947675569,
+      "ms_per_op": 3.4112036000000003,
+      "mb_per_s": 13.774473493559848,
       "jit": true,
       "tier2_extensions": 8,
       "tier3_extensions": 0,
@@ -342,20 +353,20 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.834127,
-        3.6243352,
-        3.5818567999999997,
-        4.072737200000001,
-        3.6254894
+        3.9719363999999997,
+        3.8093858,
+        3.82848,
+        3.8381543999999996,
+        4.0492634
       ],
-      "ms_per_op": 3.5818567999999997,
-      "mb_per_s": 13.11820549870557,
+      "ms_per_op": 3.8093858,
+      "mb_per_s": 12.334674416368104,
       "jit": true,
       "tier2_extensions": 8,
       "tier3_extensions": 12,
       "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     }
   ],
-  "publication_exporter_sha256": "1514264c3ce71dcb1982392cd440c81362d0ca456be3d18b50677787b78baf4a",
+  "publication_exporter_sha256": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
   "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
 }

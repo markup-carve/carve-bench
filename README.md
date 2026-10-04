@@ -41,7 +41,7 @@ same reports with language filters and downloadable charts. See the
 The throughput charts use pinned Carve development main for JS, PHP and Rust,
 measured 2026-10-04 Europe/Berlin. See [the source commits and samples](reports/dev-main-core.md).
 The current tables below use median timing across fourteen samples.
-The shared host's one-minute load average rose from 3.79 to 4.54 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
+The shared host's one-minute load average changed from 7.19 to 8.01 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
 The PHP peer now uses Djot master `c770502` in place of the August
 `fab953f` snapshot. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
@@ -54,9 +54,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 113.47 | pulldown-cmark | 113.72 | 1.00x |
-| JavaScript | carve-js | 14.61 | djot.js | 5.60 | 2.61x |
-| PHP | carve-php | 13.20 | djot-php | 17.03 | 0.78x |
+| Rust | carve-rs | 85.05 | pulldown-cmark | 88.20 | 0.96x |
+| JavaScript | carve-js | 13.20 | djot.js | 4.96 | 2.66x |
+| PHP | carve-php | 12.82 | djot-php | 15.38 | 0.83x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -66,9 +66,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.0890 | 14.61 | 7.77x |
-| carve-php | PHP | 4.5245 | 13.20 | 8.60x |
-| carve-rs | Rust | 0.5264 | 113.47 | 1.00x |
+| carve-js | JavaScript | 4.5246 | 13.20 | 6.44x |
+| carve-php | PHP | 4.6593 | 12.82 | 6.63x |
+| carve-rs | Rust | 0.7023 | 85.05 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
