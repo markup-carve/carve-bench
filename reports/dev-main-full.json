@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "metadata": {
-    "benchmark_base_commit": "57b60fcc7df67087c66a4f76e8b1acf6397dcfa3",
-    "completed_at": "2026-10-04T03:38:59.511Z",
+    "benchmark_base_commit": "0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc",
+    "completed_at": "2026-10-04T13:19:24.570Z",
     "cpu_affinity": [
       0,
       1,
@@ -33,7 +33,7 @@
     "source_commits": {
       "js": {
         "repository": "https://github.com/markup-carve/carve-js",
-        "commit": "604c2223de4a2bfe6133adcc8cce9ac5a8ba0391",
+        "commit": "05778b2f76c650df71567ebb149938ce8612e9d2",
         "kind": "merged-main",
         "dist_sha256": {
           "abbr-budget.js": "6e9cac45d0c7c3d37f5de85611d0ee880f2f7aeb15596dfddb49a719b08d6c5e",
@@ -44,6 +44,7 @@
           "ast-patch.js": "bac71ce66fc494c531f2d8685689f692e9939113ab33f399c70e19d044423522",
           "ast-sidecars.js": "500341290b7790b5beb42ebf6a8abaffa3d330dec41654ca5261096435b512ee",
           "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
+          "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
           "attribute-merge.js": "a034ca57dbee6a65849c50cf9ed46e6b38bfffa2fb414c73d1955fbaca6a2012",
           "attribute-parser.js": "2203fbfe302977fc6045bee07cff7248b617efa9bd6e6e19af697c700ff4d53f",
           "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
@@ -113,7 +114,7 @@
           "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
           "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
           "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
-          "parse.js": "8166cb0dce4398890e1eb9ab0a4136212071f2f57795741ad498700b43c8fc9e",
+          "parse.js": "db28fb8e2fe5f7c026f9ab8f7fd5efe0ba5dfd2e6be69dfafc22879a7cf04b6d",
           "portability.js": "41690795988b1686e6b2a0cc7846ff4591f568a96396fb6b412a12efb4b15354",
           "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
           "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
@@ -128,6 +129,7 @@
           "render-loss.js": "656e162a6037f36967285135776b59ef9d97c79d02f78655b0171c46dca60f1e",
           "render-markdown.js": "1607c35bdacbdc536991655065a020621db8c273ba39efab277404d7d0cd84b5",
           "render-plain.js": "5050057a15e175e5770667bf1076ee5077be59f21600a44264ce86060f29a569",
+          "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
           "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
           "sentinel-run.js": "47f312adb27d24e145256e02f4fcf3c29b55eee85f23fa69381170cde01b971c",
           "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
@@ -160,12 +162,12 @@
       },
       "php": {
         "repository": "https://github.com/markup-carve/carve-php",
-        "commit": "363f0d3e26093857325255bef3497661c6ba5324",
+        "commit": "03cb29aef26af2a933c8e70a90fe4f3c9a7fbf5d",
         "kind": "merged-main"
       },
       "rs": {
         "repository": "https://github.com/markup-carve/carve-rs",
-        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "commit": "47dfe714ec0c90da12b300b87934e07688745041",
         "kind": "merged-main"
       }
     },
@@ -202,93 +204,93 @@
       "engines/php/composer.lock": "6cc8a8bbf8d60a9d33a1a90b91f8cb96c1ff4773ec3c8aeb58c85a8399fcf722",
       "reports/dev-main-rust.Cargo.lock": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90"
     },
-    "rust_binary_sha256": "301445aac0ba534d95295fef86b2096fd71b954f95c6dadf732fcb05b5371d68",
+    "rust_binary_sha256": "77cdf7ad15a6fa73b7301d3593d16428f90ec1db75bc3ed83bbe4a0e3e285491",
     "rust_dependency_lock_sha256": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90"
   },
   "corpus": [
     {
       "document": "corpus/small.crv",
       "engine": "carve-js",
-      "ms_per_op": 0.5776,
-      "mb_per_s": 2.04,
+      "ms_per_op": 0.6939,
+      "mb_per_s": 1.69,
       "iters": 2000,
       "bytes": 1233,
-      "carve_source": "@markup-carve/carve 0.1.10 (local checkout /tmp/carve-bench-engine-js @ 604c2223d)"
+      "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
     },
     {
       "document": "corpus/small.crv",
       "engine": "carve-php",
-      "ms_per_op": 1.3141,
-      "mb_per_s": 0.89,
+      "ms_per_op": 1.6276,
+      "mb_per_s": 0.72,
       "iters": 2000,
       "bytes": 1233,
       "jit": true,
-      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)"
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     },
     {
       "document": "corpus/small.crv",
       "engine": "carve-rs",
-      "ms_per_op": 0.1051,
-      "mb_per_s": 11.19,
+      "ms_per_op": 0.1335,
+      "mb_per_s": 8.81,
       "iters": 2000,
       "bytes": 1233,
-      "carve_source": "carve-lang 0.1.8 (local checkout /tmp/carve-bench-engine-rs @ bfe862698)"
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
     },
     {
       "document": "corpus/medium.crv",
       "engine": "carve-js",
-      "ms_per_op": 69.0814,
-      "mb_per_s": 0.9,
+      "ms_per_op": 116.8528,
+      "mb_per_s": 0.53,
       "iters": 500,
       "bytes": 65105,
-      "carve_source": "@markup-carve/carve 0.1.10 (local checkout /tmp/carve-bench-engine-js @ 604c2223d)"
+      "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
     },
     {
       "document": "corpus/medium.crv",
       "engine": "carve-php",
-      "ms_per_op": 133.5153,
-      "mb_per_s": 0.47,
+      "ms_per_op": 208.5059,
+      "mb_per_s": 0.3,
       "iters": 500,
       "bytes": 65105,
       "jit": true,
-      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)"
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     },
     {
       "document": "corpus/medium.crv",
       "engine": "carve-rs",
-      "ms_per_op": 27.4068,
-      "mb_per_s": 2.27,
+      "ms_per_op": 31.4024,
+      "mb_per_s": 1.98,
       "iters": 500,
       "bytes": 65105,
-      "carve_source": "carve-lang 0.1.8 (local checkout /tmp/carve-bench-engine-rs @ bfe862698)"
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
     },
     {
       "document": "corpus/large.crv",
       "engine": "carve-js",
-      "ms_per_op": 539.9727,
-      "mb_per_s": 0.92,
+      "ms_per_op": 620.3029,
+      "mb_per_s": 0.8,
       "iters": 50,
       "bytes": 520855,
-      "carve_source": "@markup-carve/carve 0.1.10 (local checkout /tmp/carve-bench-engine-js @ 604c2223d)"
+      "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)"
     },
     {
       "document": "corpus/large.crv",
       "engine": "carve-php",
-      "ms_per_op": 1422.6725,
-      "mb_per_s": 0.35,
+      "ms_per_op": 1527.1667,
+      "mb_per_s": 0.33,
       "iters": 50,
       "bytes": 520855,
       "jit": true,
-      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)"
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     },
     {
       "document": "corpus/large.crv",
       "engine": "carve-rs",
-      "ms_per_op": 327.1183,
-      "mb_per_s": 1.52,
+      "ms_per_op": 344.3209,
+      "mb_per_s": 1.44,
       "iters": 50,
       "bytes": 520855,
-      "carve_source": "carve-lang 0.1.8 (local checkout /tmp/carve-bench-engine-rs @ bfe862698)"
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)"
     }
   ],
   "tiers": [
@@ -298,18 +300,18 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        2.680148,
-        3.1189522,
-        2.898442,
-        2.7536846,
-        2.7807144
+        3.3179004,
+        3.1615659999999997,
+        3.0676418,
+        2.9859687999999998,
+        3.1418886
       ],
-      "ms_per_op": 2.680148,
-      "mb_per_s": 17.5316936114483,
+      "ms_per_op": 2.9859687999999998,
+      "mb_per_s": 15.73611002544164,
       "jit": true,
       "tier2_extensions": 0,
       "tier3_extensions": 0,
-      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)"
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     },
     {
       "profile": "tier2",
@@ -317,18 +319,18 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.417201,
-        3.2394787999999997,
-        3.1550871999999996,
-        3.0074666,
-        3.3482752
+        3.8348382,
+        3.3665566,
+        3.341954,
+        3.0216326,
+        3.0621876
       ],
-      "ms_per_op": 3.0074666,
-      "mb_per_s": 15.623626067646416,
+      "ms_per_op": 3.0216326,
+      "mb_per_s": 15.55037947675569,
       "jit": true,
       "tier2_extensions": 8,
       "tier3_extensions": 0,
-      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)"
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     },
     {
       "profile": "tier3",
@@ -336,18 +338,20 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.8183932,
-        3.8597164,
-        3.478775,
-        3.324738,
-        3.3631696
+        3.834127,
+        3.6243352,
+        3.5818567999999997,
+        4.072737200000001,
+        3.6254894
       ],
-      "ms_per_op": 3.324738,
-      "mb_per_s": 14.132702657874377,
+      "ms_per_op": 3.5818567999999997,
+      "mb_per_s": 13.11820549870557,
       "jit": true,
       "tier2_extensions": 8,
       "tier3_extensions": 12,
-      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)"
+      "carve_source": "markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)"
     }
-  ]
+  ],
+  "publication_exporter_sha256": "1514264c3ce71dcb1982392cd440c81362d0ca456be3d18b50677787b78baf4a",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
 }
