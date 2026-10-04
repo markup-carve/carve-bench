@@ -1,6 +1,6 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-04T13:11:12.617Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark main at setup: 0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc.
+Measured 2026-10-04T13:11:12.617Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: f02c4cac4c1214d2abad04b06331b10f961d19bc. Remote main at setup: 0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc (CI-only difference).
 
 Carve php: [03cb29aef26af2a933c8e70a90fe4f3c9a7fbf5d](https://github.com/markup-carve/carve-php/commit/03cb29aef26af2a933c8e70a90fe4f3c9a7fbf5d).
 Carve js: [05778b2f76c650df71567ebb149938ce8612e9d2](https://github.com/markup-carve/carve-js/commit/05778b2f76c650df71567ebb149938ce8612e9d2).

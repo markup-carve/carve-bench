@@ -1,6 +1,6 @@
 # JavaScript core comparison including commonmark.js
 
-Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads. Measured 2026-10-04T13:19:37.597Z, Node v22.22.2, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark main at setup: `0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc`.
+Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads. Measured 2026-10-04T13:19:37.597Z, Node v22.22.2, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark harness checkout: `f02c4cac4c1214d2abad04b06331b10f961d19bc`. Remote main at setup: `0a1a03d41941ed8a18a6f4c745b24ecd5876a5dc` (CI-only difference).
 
 Carve JS merged main 0.1.10 at `05778b2f76c650df71567ebb149938ce8612e9d2`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 

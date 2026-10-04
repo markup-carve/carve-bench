@@ -14,13 +14,15 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-04T13:19:24.570Z; serial processes; Node v22.22.2; PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS); rustc 1.97.1 (8bab26f4f 2026-07-14).
+**Run:** 2026-10-04T13:19:24.570Z; merged main snapshot, serial processes on a shared host; Node v22.22.2; PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS); rustc 1.97.1 (8bab26f4f 2026-07-14).
+
+PHP tracing JIT is active. Full-run load was not recorded. Separate snapshots do not isolate engine speed changes.
 
 Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads.
 
 **Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-bench-engine-js @ 05778b2f7)`, carve-php `markup-carve/carve-php (local checkout carve-bench-engine-php @ 03cb29aef)`, carve-rs `carve-lang 0.1.8 (local checkout carve-bench-engine-rs @ 47dfe714e)`
 
-**Corpus snapshot:** Fixed committed corpus; input hashes are recorded in the full-run JSON.
+**Corpus snapshot:** carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed corpus retained. Input hashes are recorded in the full-run JSON.
 
 ![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
 

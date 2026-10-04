@@ -10,7 +10,7 @@ The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/m
 
 ## Measurement sessions
 
-Release-tag measurements retain their original sessions. All three merged main points were refreshed on October 4, 2026 with the same fixtures, workers, sampling counts and CPU affinity. Main and tags were measured in separate sessions on a shared host; differences do not isolate code changes.
+Release-tag measurements retain their original sessions on CPU 12. All three merged main points were refreshed on October 4, 2026 on CPU 13 with the same fixtures, workers and sampling counts. Main and tags were measured in separate sessions on a shared host; differences do not isolate code changes.
 
 js retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
