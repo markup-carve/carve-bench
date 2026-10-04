@@ -14,7 +14,7 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-04 Europe/Berlin; pinned merged main; serial run on a shared host; runtime and source hashes in the full-run JSON
+**Run:** 2026-10-04T16:39:40.574Z; Node v22.22.2; PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS), tracing JIT; rustc 1.97.1 (8bab26f4f 2026-07-14); serial processes on a shared host. Full-run load was not recorded. Separate snapshots do not isolate engine speed changes.
 
 The measured harness checkout, changed tracked paths and source hashes are recorded in the full-run JSON.
 
