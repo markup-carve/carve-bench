@@ -16,6 +16,8 @@ with `node run.mjs`; see README for setup.
 
 **Run:** 2026-10-04 Europe/Berlin; pinned merged main, serial processes; Node 22.22.2, PHP 8.5.11 tracing JIT, Rust 1.97.1; shared host. Full-run load was not recorded. Separate snapshots do not isolate engine speed changes.
 
+These pinned merged main commits include all performance fixes from this audit. Later conversion-handler refactors and release-tooling changes are outside this retained performance snapshot.
+
 The measured harness checkout, changed tracked paths and source hashes are recorded in the full-run JSON.
 
 Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads.

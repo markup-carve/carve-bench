@@ -8,6 +8,8 @@ All three main points were refreshed on October 4, 2026. Release tags retain the
 | php | `03cb29aef26af2a933c8e70a90fe4f3c9a7fbf5d` | 0.1.9, 0.1.10 |
 | rs | `47dfe714ec0c90da12b300b87934e07688745041` | 0.1.6, 0.1.7 |
 
+These pinned merged main commits include all performance fixes from this audit. Later conversion-handler refactors and release-tooling changes are outside this retained performance snapshot.
+
 [CSV](latest-main-comparison.csv)
 
 | Engine | Case | n | Tag | Tag ms | Main ms | Change |
