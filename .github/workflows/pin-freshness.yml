@@ -6,7 +6,9 @@ name: pin freshness
 #
 # Scheduled only, never per pull request: a pin goes stale because an engine
 # released in another repository, so a red here says nothing about the change
-# under review. The verdict is filed as one tracking issue instead.
+# under review. The verdict is filed as one tracking issue instead, and the run
+# stays green once it is filed. A check that could not reach a verdict (registry
+# outage, crash) or a ticket that could not be filed is red.
 on:
   schedule:
     - cron: '17 6 * * *'
@@ -34,13 +36,18 @@ jobs:
         with:
           node-version: '24'
 
-      # Records its exit status before failing, so the reporter reads the verdict.
       - name: Compare each pin with its registry
         id: measure
         run: |
           set -o pipefail
           node scripts/check-pin-freshness.mjs 2>&1 | tee /tmp/pin-freshness.txt && status=0 || status=$?
+          case "$status" in
+            0) verdict=clean ;;
+            3) verdict=behind ;;
+            *) verdict=broken ;;
+          esac
           echo "status=$status" >> "$GITHUB_OUTPUT"
+          echo "verdict=$verdict" >> "$GITHUB_OUTPUT"
           {
             echo '## Pin freshness'
             echo
@@ -48,17 +55,20 @@ jobs:
             cat /tmp/pin-freshness.txt
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
-          exit "$status"
+          if [ "$verdict" = broken ]; then
+            echo "::error::The check could not reach a verdict (exit $status); the tracking issue is left as it was."
+            exit 1
+          fi
 
-      # One tracking issue: opened by the first red run, edited by later ones,
-      # closed by the first green one. Fails if it cannot file.
+      # One tracking issue: opened by the first stale-pin verdict, edited by later
+      # ones, closed by the first clean run. Fails if it cannot file.
       - name: File the verdict where someone reads it
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && (steps.measure.outputs.verdict == 'clean' || steps.measure.outputs.verdict == 'behind') }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          STATUS: ${{ steps.measure.outputs.status }}
+          VERDICT: ${{ steps.measure.outputs.verdict }}
           HEAD_SHA: ${{ github.sha }}
           REF_NAME: ${{ github.ref_name }}
           EVENT_NAME: ${{ github.event_name }}
@@ -80,17 +90,11 @@ jobs:
                 '.[] | select(.pull_request == null) | select((.body // "") | contains($m)) | .number')"
           issue="${open_issues%%$'\n'*}"
 
-          # A registry outage also exits non-zero; it is no verdict, so leave the issue alone.
-          if [ "${STATUS:-1}" != "0" ] && ! grep -q 'A pin is behind its registry' /tmp/pin-freshness.txt; then
-            echo "The check could not reach a verdict; the tracking issue is left as it was."
-            exit 1
-          fi
-
-          if [ "${STATUS:-1}" = "0" ]; then
+          if [ "$VERDICT" = clean ]; then
             echo "Every engine pin is the newest published release on $HEAD_SHA."
             if [ -n "$issue" ]; then
               gh issue comment "$issue" --repo "$REPO" --body \
-                "Green again: run $RUN_URL on \`$HEAD_SHA\`. Closing. The next red run opens a fresh ticket rather than reopening this one."
+                "Clean again: run $RUN_URL on \`$HEAD_SHA\`. Closing. The next stale-pin verdict opens a fresh ticket rather than reopening this one."
               gh issue close "$issue" --repo "$REPO"
               echo "Closed #$issue."
             fi
@@ -123,8 +127,8 @@ jobs:
             echo "\`node scripts/check-pin-freshness.mjs\`."
             echo
             echo "This ticket is filed and maintained by the workflow. It is EDITED by each"
-            echo "later red run and CLOSED by the first green one. Closing it by hand does"
-            echo "not silence it: the next red run files a new one."
+            echo "later stale-pin verdict and CLOSED by the first clean run. Closing it by"
+            echo "hand does not silence it: the next stale-pin verdict files a new one."
           } > /tmp/pin-freshness-verdict.md
 
           if [ -n "$issue" ]; then
