@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `05778b2` against released
+The current comparison measures Carve JS merged main `a0e9960` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -41,8 +41,8 @@ same reports with language filters and downloadable charts. See the
 The throughput charts use pinned Carve development main for JS, PHP and Rust,
 measured 2026-10-04 Europe/Berlin. See [the source commits and samples](reports/dev-main-core.md).
 The current tables below use median timing across fourteen samples.
-The shared host's one-minute load average changed from 7.19 to 8.01 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
-The PHP peer now uses Djot master `c770502` in place of the August
+The shared host's one-minute load average changed from 2.79 to 2.10 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
+The PHP peer now uses Djot master `c8416ee` in place of the August
 `fab953f` snapshot. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
 The September 30 development-main snapshot, taken after the PHP
@@ -54,9 +54,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 85.05 | pulldown-cmark | 88.20 | 0.96x |
-| JavaScript | carve-js | 13.20 | djot.js | 4.96 | 2.66x |
-| PHP | carve-php | 12.82 | djot-php | 15.38 | 0.83x |
+| Rust | carve-rs | 125.84 | pulldown-cmark | 130.10 | 0.97x |
+| JavaScript | carve-js | 16.55 | djot.js | 6.53 | 2.53x |
+| PHP | carve-php | 17.16 | djot-php | 19.71 | 0.87x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -66,9 +66,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.5246 | 13.20 | 6.44x |
-| carve-php | PHP | 4.6593 | 12.82 | 6.63x |
-| carve-rs | Rust | 0.7023 | 85.05 | 1.00x |
+| carve-js | JavaScript | 3.6100 | 16.55 | 7.61x |
+| carve-php | PHP | 3.4803 | 17.16 | 7.33x |
+| carve-rs | Rust | 0.4746 | 125.84 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
