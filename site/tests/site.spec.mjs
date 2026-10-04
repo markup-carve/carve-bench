@@ -74,9 +74,17 @@ test('dark mode exposes readable charts and downloads under the project path', a
   }
 })
 
-test('small-input caveat and diagnostic artifacts are published', async ({ page, request }) => {
+test('current corpus provenance and historical diagnostics are published', async ({ page, request }) => {
   await page.goto('./')
-  await expect(page.locator('#full')).toContainText('Small-input timings are unstable.')
+  const evidence = await (await request.get('evidence.json')).json()
+  if (evidence.smallInputNote) await expect(page.locator('#full')).toContainText(evidence.smallInputNote)
+  const full = await (await request.get('reports/dev-main-full.json')).json()
+  expect(full.corpus).toHaveLength(9)
+  expect(full.tiers).toHaveLength(3)
+  for (const engine of ['js', 'php', 'rs']) {
+    expect(full.metadata.source_commits[engine].commit).toBe(evidence.coreSources[engine].commit)
+  }
+  await expect(page.locator('#full a[href="reports/dev-main-full.json"]')).toBeVisible()
   for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json']) {
     expect((await request.get(`reports/${file}`)).ok()).toBeTruthy()
   }

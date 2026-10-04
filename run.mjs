@@ -22,8 +22,10 @@
 import { execFileSync } from 'node:child_process'
 import { readdirSync, writeFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { dirname, resolve, basename } from 'node:path'
+import { dirname, resolve, basename, relative } from 'node:path'
 import { assertMeasuredSources } from './scripts/measured-sources.mjs'
+import { fullResults, validateFullReportSources } from './scripts/full-results.mjs'
+import { cpuAffinity, affinityDescription } from './scripts/benchmark-metadata.mjs'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const quick = process.argv.includes('--quick')
@@ -87,6 +89,12 @@ const docs = readdirSync(corpusDir)
     return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b)
   })
 
+if (process.env.CARVE_FULL_REPORT) {
+  validateFullReportSources(root, RS_BIN, process.env, false)
+  execFileSync(process.execPath, [resolve(root, 'scripts/build-rs-engine.mjs'), '--carve-rs', process.env.CARVE_RS_SRC], { cwd: process.cwd(), stdio: 'pipe' })
+  validateFullReportSources(root, RS_BIN)
+}
+
 const results = {} // doc -> engine -> {ms_per_op, mb_per_s, bytes}
 for (const doc of docs) {
   const key = basename(doc, '.crv')
@@ -140,6 +148,11 @@ if (existsSync(TIER_DOC)) {
 // Before anything is written: if an override named a tree, that is the tree the
 // rows have to have come from.
 assertMeasuredSources(collectSources(), process.env, root)
+let fullRecord = null
+if (process.env.CARVE_FULL_REPORT) {
+  fullRecord = fullResults(root, results, tiers, RS_BIN)
+  writeFileSync(resolve(root, process.env.CARVE_FULL_REPORT), JSON.stringify(fullRecord, null, 2) + '\n')
+}
 
 // Render RESULTS.md
 const lines = []
@@ -151,7 +164,7 @@ lines.push(
   'how the three Carve implementations scale on their full language, not how their',
   'fastest core-only convenience API compares with another library.', '',
   'For **Track A**, the primary core source-to-HTML comparison against the',
-  'same-language libraries, see [`COMPARISON.md`](./COMPARISON.md).', '',
+  process.env.CARVE_FULL_REPORT ? 'same-language libraries, see [the current core report](reports/dev-main-core.md).' : 'same-language libraries, see [`COMPARISON.md`](./COMPARISON.md).', '',
 )
 lines.push(
   'Parse + render to HTML, in-process, averaged over many iterations. Lower',
@@ -161,8 +174,11 @@ lines.push(
   '',
 )
 if (process.env.CARVE_RUN_META) lines.push(`**Run:** ${process.env.CARVE_RUN_META}`, '')
+else if (fullRecord) lines.push(`**Run:** ${fullRecord.metadata.completed_at}; serial processes; Node ${process.version}; ${fullRecord.metadata.runtimes.php}; ${fullRecord.metadata.runtimes.rustc}.`, '')
+lines.push(affinityDescription(cpuAffinity()), '')
 lines.push(`**Engines measured:** ${describeEngines()}`, '')
 if (process.env.CARVE_CORPUS_SNAPSHOT) lines.push(`**Corpus snapshot:** ${process.env.CARVE_CORPUS_SNAPSHOT}`, '')
+else if (fullRecord) lines.push('**Corpus snapshot:** Fixed committed corpus; input hashes are recorded in the full-run JSON.', '')
 lines.push('![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)', '')
 for (const doc of docs) {
   const key = basename(doc, '.crv')
@@ -224,6 +240,9 @@ lines.push(
   'equivalent native-language fixtures for competitors.', '',
 )
 const out = resolve(root, 'RESULTS.md')
+if (process.env.CARVE_FULL_REPORT) {
+  lines.push('Worker results, source commits, input hashes and runtime settings are recorded', `in [the full-run JSON](${relative(root, resolve(root, process.env.CARVE_FULL_REPORT))}).`, '')
+}
 writeFileSync(out, lines.join('\n'))
 console.error(`\nwrote ${out}`)
 

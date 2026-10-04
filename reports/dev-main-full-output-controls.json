@@ -1,0 +1,527 @@
+{
+  "schema": 1,
+  "note": "The full mixed corpus produces different output on published releases and merged main. These cross-version timings do not measure equivalent work. The immediate pre-scaling Rust main and merged main outputs agree; their alternating paired control is retained below.",
+  "release_output_checks": {
+    "js": [
+      {
+        "size": "medium",
+        "label": "release",
+        "output_bytes": 144485,
+        "output_sha256": "58dbce6c35cf8b12bc4749dfdad4674134762fe0b1d05aee8256f374b1d96ec2"
+      },
+      {
+        "size": "medium",
+        "label": "main",
+        "output_bytes": 141559,
+        "output_sha256": "9dafae8efcaa125f0ef32870bf68e32d8bdc6e1d675c7b87136dc635cd3b5715"
+      },
+      {
+        "size": "large",
+        "label": "release",
+        "output_bytes": 1072247,
+        "output_sha256": "e91c44c040fdc7753d16adf1c42c7dc8d748d82f7480b14671c684af4c9d30c1"
+      },
+      {
+        "size": "large",
+        "label": "main",
+        "output_bytes": 1068241,
+        "output_sha256": "0fd86b211cb7eb5f081c21fe84cbf5a9cceb94eb62d5b9b86d0cc6000bc8c96e"
+      }
+    ],
+    "rs": [
+      {
+        "size": "medium",
+        "label": "release",
+        "samples": [
+          14.528233,
+          13.091937999999999,
+          13.136113
+        ],
+        "bytes": 168374,
+        "hash": "74f98941f17e66187ac30a27702d425909370591fb63ac5beb9004160895c5c4"
+      },
+      {
+        "size": "medium",
+        "label": "main",
+        "samples": [
+          26.794947,
+          23.371419,
+          27.210614
+        ],
+        "bytes": 164859,
+        "hash": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "size": "large",
+        "label": "release",
+        "samples": [
+          116.92747,
+          117.43092700000001,
+          118.952195
+        ],
+        "bytes": 1477664,
+        "hash": "9f7064cb7652ac9a6fee0a504d8bf498eabeabe1871963c678225d7499dcbb0f"
+      },
+      {
+        "size": "large",
+        "label": "main",
+        "samples": [
+          324.875737,
+          330.758174,
+          317.093007
+        ],
+        "bytes": 2389484,
+        "hash": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      }
+    ]
+  },
+  "source_commits": {
+    "js_release": "0.1.9",
+    "js_main": "604c2223de4a2bfe6133adcc8cce9ac5a8ba0391",
+    "rs_release": "9f3f334c7d5c91c57e4e6269b32599af1062fdde",
+    "rs_main": "bfe862698546268486f5cc19451a622801a176e8"
+  },
+  "rust_scaling_control": {
+    "schema": 1,
+    "method": "Same history worker and release profile, four alternating serial rounds of seven samples after five warm calls. No explicit CPU pinning. Pre-scaling main and merged main output hashes agree for all three fixed corpus inputs.",
+    "summary": [
+      {
+        "document": "corpus/small.crv",
+        "median_ms": {
+          "pre-scaling-main": 0.115205,
+          "merged-main": 0.11832599999999999
+        },
+        "change_percent": 2.7090838071264223,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "document": "corpus/medium.crv",
+        "median_ms": {
+          "pre-scaling-main": 28.722685,
+          "merged-main": 29.249873
+        },
+        "change_percent": 1.8354412200670023,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "document": "corpus/large.crv",
+        "median_ms": {
+          "pre-scaling-main": 331.068352,
+          "merged-main": 326.6683855
+        },
+        "change_percent": -1.329020570350381,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      }
+    ],
+    "rows": [
+      {
+        "round": 1,
+        "document": "corpus/small.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          0.12093499999999999,
+          0.120324,
+          0.1235,
+          0.12495200000000001,
+          0.130752,
+          0.118801,
+          0.115706
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 1,
+        "document": "corpus/small.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          0.124781,
+          0.137735,
+          0.130462,
+          0.228706,
+          0.200857,
+          0.177195,
+          0.16596499999999997
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 1,
+        "document": "corpus/medium.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          29.259286999999997,
+          27.766114,
+          25.964193,
+          26.673052,
+          29.611192000000003,
+          26.051257,
+          23.048633
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 1,
+        "document": "corpus/medium.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          27.385307,
+          26.180607000000002,
+          23.532542,
+          27.635462,
+          27.743744,
+          24.195821,
+          26.560532000000002
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 1,
+        "document": "corpus/large.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          323.611949,
+          324.677765,
+          333.54664499999996,
+          327.139195,
+          333.74579700000004,
+          329.295747,
+          325.331519
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 1,
+        "document": "corpus/large.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          323.392175,
+          335.647494,
+          326.72302399999995,
+          332.45593,
+          335.97537500000004,
+          329.97268099999997,
+          316.221612
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 2,
+        "document": "corpus/small.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          0.112921,
+          0.10555700000000001,
+          0.102663,
+          0.103664,
+          0.098175,
+          0.095861,
+          0.096081
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 2,
+        "document": "corpus/small.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          0.111087,
+          0.10726,
+          0.105097,
+          0.110647,
+          0.10074999999999999,
+          0.099276,
+          0.09855599999999999
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 2,
+        "document": "corpus/medium.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          26.510904,
+          23.584028,
+          27.303384,
+          26.622041999999997,
+          29.532371,
+          31.642657999999997,
+          29.010946999999998
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 2,
+        "document": "corpus/medium.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          23.223843000000002,
+          28.515787,
+          27.000922,
+          27.543657999999997,
+          26.260134,
+          28.929582999999997,
+          29.789202
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 2,
+        "document": "corpus/large.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          326.911586,
+          334.444279,
+          326.778022,
+          321.169984,
+          324.96934500000003,
+          339.989096,
+          329.115271
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 2,
+        "document": "corpus/large.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          329.97834,
+          330.11912,
+          338.861336,
+          330.187809,
+          328.839488,
+          344.983046,
+          335.69755699999996
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 3,
+        "document": "corpus/small.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          0.12294899999999999,
+          0.12621400000000002,
+          0.124031,
+          0.11746000000000001,
+          0.114974,
+          0.12781700000000001,
+          0.115436
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 3,
+        "document": "corpus/small.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          0.142194,
+          0.126856,
+          0.121276,
+          0.118571,
+          0.121496,
+          0.12369000000000001,
+          0.141742
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 3,
+        "document": "corpus/medium.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          34.55279,
+          32.886433,
+          30.923548,
+          30.628923,
+          30.700651,
+          29.224672,
+          29.952768000000003
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 3,
+        "document": "corpus/medium.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          27.767818,
+          31.259566000000003,
+          36.858083,
+          28.895491999999997,
+          29.488799,
+          31.886961,
+          30.410741
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 3,
+        "document": "corpus/large.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          333.47655599999996,
+          331.45530099999996,
+          327.220356,
+          330.952796,
+          329.568455,
+          327.54850600000003,
+          336.617142
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 3,
+        "document": "corpus/large.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          329.506135,
+          324.992745,
+          318.21643700000004,
+          332.07473300000004,
+          321.19396700000004,
+          319.14212,
+          317.78995399999997
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 4,
+        "document": "corpus/small.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          0.115215,
+          0.107512,
+          0.105828,
+          0.10437600000000001,
+          0.11808099999999999,
+          0.099548,
+          0.09713300000000001
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 4,
+        "document": "corpus/small.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          0.105227,
+          0.103334,
+          0.115556,
+          0.105077,
+          0.099147,
+          0.09923699999999999,
+          0.09517
+        ],
+        "output_bytes": 2938,
+        "output_sha256": "e1a9c45ca37aee4a735f8766b78db30f8c0fa723543d484c9534713cf7c20a92"
+      },
+      {
+        "round": 4,
+        "document": "corpus/medium.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          29.611031,
+          32.236833,
+          32.470128,
+          31.103051,
+          30.36759,
+          41.032092999999996,
+          33.881274000000005
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 4,
+        "document": "corpus/medium.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          26.106924,
+          24.960950999999998,
+          23.880744999999997,
+          29.909083,
+          28.373206000000003,
+          31.864147000000003,
+          31.965008000000005
+        ],
+        "output_bytes": 164859,
+        "output_sha256": "a3ea1d5361418b7f773c0f7df98310d39e1cfe00fd0a4477f4663cbd5ab87aa7"
+      },
+      {
+        "round": 4,
+        "document": "corpus/large.crv",
+        "label": "merged-main",
+        "commit": "bfe862698546268486f5cc19451a622801a176e8",
+        "samples_ms": [
+          324.377282,
+          340.136117,
+          317.862386,
+          324.546587,
+          323.122493,
+          330.52736799999997,
+          326.613747
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      },
+      {
+        "round": 4,
+        "document": "corpus/large.crv",
+        "label": "pre-scaling-main",
+        "commit": "10b4c940739eb5e0aeb6c8e6560499a0ac5e8178",
+        "samples_ms": [
+          331.18390800000003,
+          336.672979,
+          342.898255,
+          342.073804,
+          334.684131,
+          332.58441500000004,
+          327.109364
+        ],
+        "output_bytes": 2389484,
+        "output_sha256": "cb56edc3b5056119833006a0efe2aba75d60344087fc0fda720f5ad58b2f4739"
+      }
+    ]
+  }
+}
