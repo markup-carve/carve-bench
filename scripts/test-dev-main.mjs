@@ -46,3 +46,34 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   assert.ok(!archive.metadata.carve_main)
   assert.match(readFileSync('charts/core-throughput.svg', 'utf8'), /Carve dev-main in every panel/)
 })
+
+test('benchmark provenance distinguishes the measured checkout from remote main', async () => {
+  const { mkdtempSync, writeFileSync, rmSync } = await import('node:fs')
+  const { tmpdir } = await import('node:os')
+  const { join } = await import('node:path')
+  const { execFileSync } = await import('node:child_process')
+  const { benchmarkCheckout } = await import('./benchmark-metadata.mjs')
+  const tree = mkdtempSync(join(tmpdir(), 'bench-checkout-'))
+  const git = (...args) => execFileSync('git', ['-C', tree, ...args], { encoding: 'utf8' }).trim()
+  try {
+    git('init', '-q')
+    writeFileSync(join(tree, 'fixture'), 'first')
+    git('add', 'fixture')
+    git('-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '-qm', 'first')
+    const remote = git('rev-parse', 'HEAD')
+    git('update-ref', 'refs/remotes/origin/main', remote)
+    writeFileSync(join(tree, 'fixture'), 'second')
+    git('-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '-qam', 'second')
+    assert.deepEqual(benchmarkCheckout(tree), {
+      benchmark_base_commit: remote,
+      benchmark_checkout_commit: git('rev-parse', 'HEAD'),
+      benchmark_dirty_paths: [],
+      benchmark_dirty: false,
+    })
+    writeFileSync(join(tree, 'fixture'), 'uncommitted')
+    assert.equal(benchmarkCheckout(tree).benchmark_dirty, true)
+    assert.deepEqual(benchmarkCheckout(tree).benchmark_dirty_paths, ['fixture'])
+  } finally {
+    rmSync(tree, { recursive: true, force: true })
+  }
+})

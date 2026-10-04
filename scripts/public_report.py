@@ -43,7 +43,7 @@ def publish(path, root):
         published['published_producer_sha256'] = hashlib.sha256(published['producer_source'].encode()).hexdigest()
         published['producer_source_note'] = 'Path literals normalized in this copy; producer_sha256 identifies the original local source.'
     published['publication_exporter_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-    published['publication_note'] = 'Absolute paths removed from metadata for publication; original raw measurements remain local.'
+    published.setdefault('publication_note', 'Absolute paths removed from metadata for publication; original raw measurements remain local.')
     path.write_text(json.dumps(published, indent=2) + '\n')
 
 
