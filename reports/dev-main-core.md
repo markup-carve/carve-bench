@@ -1,12 +1,14 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-02T23:03:43.131Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v24.19.0. Benchmark main at setup: fba158d815d510e48b7962c3ea128c65a13cfdd3.
+Measured 2026-10-04T03:05:36.546Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark main at setup: 57b60fcc7df67087c66a4f76e8b1acf6397dcfa3.
 
-Carve js: [e45535d6189edda71d7e08b6f7077698e1bc30e3](https://github.com/markup-carve/carve-js/commit/e45535d6189edda71d7e08b6f7077698e1bc30e3).
-Carve php: [9529fe72093e79cc9cacf3e502339859b186e53e](https://github.com/markup-carve/carve-php/commit/9529fe72093e79cc9cacf3e502339859b186e53e).
-Carve rs: [4dfd8600161ffd5c68a1fd215c8ed3c7400dc492](https://github.com/markup-carve/carve-rs/commit/4dfd8600161ffd5c68a1fd215c8ed3c7400dc492).
+Carve php: [363f0d3e26093857325255bef3497661c6ba5324](https://github.com/markup-carve/carve-php/commit/363f0d3e26093857325255bef3497661c6ba5324).
+Carve js: [604c2223de4a2bfe6133adcc8cce9ac5a8ba0391](https://github.com/markup-carve/carve-js/commit/604c2223de4a2bfe6133adcc8cce9ac5a8ba0391).
+Carve rs: [bfe862698546268486f5cc19451a622801a176e8](https://github.com/markup-carve/carve-rs/commit/bfe862698546268486f5cc19451a622801a176e8).
 
-Djot PHP: [9c52e611202e7944c857a1d68c8c715b03b77a1b](https://github.com/php-collective/djot-php/commit/9c52e611202e7944c857a1d68c8c715b03b77a1b), installed from the Composer lock.
+Djot PHP: [c77050223a2c257ba8a790ee501a5a87e3a377cf](https://github.com/php-collective/djot-php/commit/c77050223a2c257ba8a790ee501a5a87e3a377cf), installed from the Composer lock.
+
+Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads.
 
 Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.
 
@@ -14,21 +16,21 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 3.6656 | 16.29 |
-| djot.js | JavaScript | 10.4374 | 5.74 |
-| markdown-it | JavaScript | 8.2029 | 7.35 |
-| carve-php | PHP | 3.4833 | 17.15 |
-| djot-php | PHP | 3.0307 | 19.76 |
-| league/commonmark-gfm | PHP | 39.6879 | 1.52 |
-| carve-rs | Rust | 0.4781 | 124.94 |
-| jotdown | Rust | 1.2992 | 46.09 |
-| comrak | Rust | 1.4244 | 42.34 |
-| pulldown-cmark | Rust | 0.4623 | 130.44 |
+| carve-js | JavaScript | 3.5792 | 16.69 |
+| djot.js | JavaScript | 9.3415 | 6.41 |
+| markdown-it | JavaScript | 9.9288 | 6.07 |
+| carve-php | PHP | 3.4609 | 17.26 |
+| djot-php | PHP | 3.0560 | 19.59 |
+| league/commonmark-gfm | PHP | 38.9147 | 1.55 |
+| carve-rs | Rust | 0.4914 | 121.55 |
+| jotdown | Rust | 1.3264 | 45.14 |
+| comrak | Rust | 1.3961 | 43.19 |
+| pulldown-cmark | Rust | 0.4715 | 127.89 |
 
 [Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 
 ## Reproduce
 
-Use Node v24.19.0 for this snapshot.
+Use Node v22.22.2 for this snapshot.
 
 Check out the three commits above and install the locked dependencies in `engines/js` and `engines/php`. Build Carve JS with `npm ci && npm run build` in its checkout. Build the Rust worker with `node scripts/build-rs-engine.mjs --carve-rs CHECKOUT`. Create a local JSON configuration with `js`, `php` and `rs` entries, each containing `path` and `commit`. Run `node scripts/compare-dev-main.mjs CONFIG.json`, then `node scripts/gen-charts.mjs`. The runner rebuilds JS and Rust and accepts the pinned commits as merged ancestors after main advances.

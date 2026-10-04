@@ -7,46 +7,46 @@ how the three Carve implementations scale on their full language, not how their
 fastest core-only convenience API compares with another library.
 
 For **Track A**, the primary core source-to-HTML comparison against the
-same-language libraries, see [`COMPARISON.md`](./COMPARISON.md).
+same-language libraries, see [the current core report](reports/dev-main-core.md).
 
 Parse + render to HTML, in-process, averaged over many iterations. Lower
 ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-09-30 Europe/Berlin; 16 logical CPUs, local shared host under other load (load average around 8 of 16), so read the cross-engine ratios rather than absolute throughput. Every lane on its pinned published release.
+**Run:** 2026-10-04 Europe/Berlin; merged main snapshot, serial processes with the available CPUs; Node 22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; local shared host. Separate snapshots do not isolate engine speed changes.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.9 (npm package)`, carve-php `markup-carve/carve-php 0.1.10 (Composer package, reference 6d94607e)`, carve-rs `carve-lang 0.1.7 (crates.io, checksum bade620457149d66)`
+Allowed CPUs: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Child processes inherit this affinity, including Node compiler and GC threads.
 
-**Corpus snapshot:** carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); byte-exact regeneration verified.
+**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout /tmp/carve-bench-engine-js @ 604c2223d)`, carve-php `markup-carve/carve-php (local checkout /tmp/carve-bench-engine-php @ 363f0d3e2)`, carve-rs `carve-lang 0.1.8 (local checkout /tmp/carve-bench-engine-rs @ bfe862698)`
+
+**Corpus snapshot:** carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed corpus retained.
 
 ![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
 
 ## small (1.2 KB)
 
-Small-input timings are unstable. Read the [recorded diagnostic](reports/performance-refresh.md#small-input-diagnostic) before comparing small-document speed.
-
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 0.7797 | 1.51 | 5.51x |
-| carve-php | 2.1370 | 0.55 | 15.09x |
-| carve-rs | 0.1416 | 8.30 | 1.00x |
+| carve-js | 0.5776 | 2.04 | 5.50x |
+| carve-php | 1.3141 | 0.89 | 12.50x |
+| carve-rs | 0.1051 | 11.19 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 63.9000 | 0.97 | 3.57x |
-| carve-php | 222.7445 | 0.28 | 12.46x |
-| carve-rs | 17.8804 | 3.47 | 1.00x |
+| carve-js | 69.0814 | 0.90 | 2.52x |
+| carve-php | 133.5153 | 0.47 | 4.87x |
+| carve-rs | 27.4068 | 2.27 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 477.8236 | 1.04 | 3.04x |
-| carve-php | 1674.7409 | 0.30 | 10.67x |
-| carve-rs | 156.9412 | 3.17 | 1.00x |
+| carve-js | 539.9727 | 0.92 | 1.65x |
+| carve-php | 1422.6725 | 0.35 | 4.35x |
+| carve-rs | 327.1183 | 1.52 | 1.00x |
 
 ## PHP authoritative extension tiers
 
@@ -61,9 +61,9 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 4.67 | 10.05 | baseline |
-| Tier 2 stack | 8 | 4.54 | 10.35 | -3% |
-| Tier 3 stack | 20 | 4.94 | 9.50 | +6% |
+| Tier 1 core/default | 0 | 2.68 | 17.53 | baseline |
+| Tier 2 stack | 8 | 3.01 | 15.62 | +12% |
+| Tier 3 stack | 20 | 3.32 | 14.13 | +24% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
@@ -77,3 +77,6 @@ The corpus uses Carve syntax and capabilities that peer libraries do not
 accept equivalently. Feeding it to Djot/CommonMark parsers would benchmark
 literal/error recovery rather than the same work. Track A therefore uses
 equivalent native-language fixtures for competitors.
+
+Worker results, source commits, input hashes and runtime settings are recorded
+in [the full-run JSON](reports/dev-main-full.json).

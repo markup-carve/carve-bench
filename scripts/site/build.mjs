@@ -5,6 +5,7 @@ import { mkdirSync, readFileSync, writeFileSync, cpSync, rmSync, existsSync } fr
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { affinityDescription } from '../benchmark-metadata.mjs'
 import { engineLabel } from '../engine-labels.mjs'
 import { finalCommonmarkResults } from '../commonmark-results.mjs'
 
@@ -34,7 +35,7 @@ export function sections(markdown) {
   return groups.filter(group => group.tables.length)
 }
 
-export function collect(comparison, results, revision) {
+export function collect(comparison, results, revision, fullRecord = null) {
   const core = sections(comparison)
   const full = sections(results)
   const headline = core.find(group => group.title.startsWith('Headline:'))?.tables[0]
@@ -62,7 +63,38 @@ export function collect(comparison, results, revision) {
   const identities = text => Object.fromEntries([...text.matchAll(/carve-(js|php|rs) `([^`]+)`/g)].map(match => [match[1], match[2]]))
   const coreIdentities = identities(comparison)
   assert.equal(Object.keys(coreIdentities).length, 3, 'Missing core engine identities')
-  assert.deepEqual(coreIdentities, identities(engines), 'Core and full engine sources differ')
+  if (fullRecord) {
+    assert.equal(fullRecord.corpus.length, 9, 'Missing full-corpus measurements')
+    assert.equal(fullRecord.tiers.length, 3, 'Missing PHP tier measurements')
+    assert.deepEqual(fullRecord.corpus.map(row => `${row.document}:${row.engine}`).sort(),
+      ['small', 'medium', 'large'].flatMap(size => ['js', 'php', 'rs'].map(engine => `corpus/${size}.crv:carve-${engine}`)).sort(), 'Invalid full-corpus coverage')
+    assert.deepEqual(fullRecord.tiers.map(row => row.profile).sort(), ['tier1', 'tier2', 'tier3'], 'Invalid PHP tier coverage')
+    const measured = {}
+    for (const row of [...fullRecord.corpus, ...fullRecord.tiers]) {
+      assert.ok(Number.isFinite(row.ms_per_op) && row.ms_per_op > 0 && Number.isFinite(row.mb_per_s) && row.mb_per_s > 0, 'Invalid full-corpus timing')
+      const engine = row.engine?.slice(6) ?? 'php'
+      assert.ok(['js', 'php', 'rs'].includes(engine), 'Invalid full-corpus engine')
+      const commit = row.carve_source.match(/ @ ([0-9a-f]{9,40})\)$/)?.[1]
+      assert.ok(commit && fullRecord.metadata.source_commits[engine].commit.startsWith(commit), 'Full worker and recorded commits differ')
+      assert.ok(!measured[engine] || measured[engine] === row.carve_source, 'Mixed full-corpus sources')
+      measured[engine] = row.carve_source
+    }
+    assert.deepEqual(measured, identities(engines), 'Full report and worker sources differ')
+    for (const row of fullRecord.corpus) {
+      const size = row.document.match(/corpus\/(\w+)\.crv$/)[1]
+      const table = full.find(group => group.title.startsWith(`${size} (`)).tables[0]
+      const published = table.rows.find(cells => cells[0] === row.engine)
+      assert.deepEqual(published?.slice(1, 3), [row.ms_per_op.toFixed(4), row.mb_per_s.toFixed(2)], 'Full report and worker timings differ')
+    }
+    const tiers = full.find(group => group.title === 'PHP authoritative extension tiers')?.tables[0]
+    assert.ok(tiers && tiers.rows.length === 3, 'Missing published PHP tiers')
+    for (const row of fullRecord.tiers) {
+      const index = ['tier1', 'tier2', 'tier3'].indexOf(row.profile)
+      assert.deepEqual(tiers.rows[index].slice(2, 4), [row.ms_per_op.toFixed(2), row.mb_per_s.toFixed(2)], 'PHP tier report and worker timings differ')
+    }
+  } else {
+    assert.deepEqual(coreIdentities, identities(engines), 'Core and full engine sources differ')
+  }
   const peerVersions = comparison.match(/Locked comparison versions: ([\s\S]+?)The Carve engines/)?.[1].trim().replace(/\s+/g, ' ')
   assert.ok(peerVersions, 'Missing core peer versions')
   const smallInputNote = results.includes('Small-input timings are unstable.') ? 'Small-input timings are unstable.' : null
@@ -76,9 +108,15 @@ const chart = (name, alt) => `<figure><img loading="lazy" src="charts/${name}.sv
 export function build(root, destination) {
   const read = file => readFileSync(resolve(root, file), 'utf8')
   const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
-  const data = collect(read('COMPARISON.md'), read('RESULTS.md'), revision)
+  const fullRecord = existsSync(resolve(root, 'reports/dev-main-full.json')) ? JSON.parse(read('reports/dev-main-full.json')) : null
+  const data = collect(read('COMPARISON.md'), read('RESULTS.md'), revision, fullRecord)
   const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(read('reports/dev-main-core.json')) : null
   if (mainRecord) {
+    if (fullRecord) {
+      for (const engine of ['js', 'php', 'rs']) {
+        assert.equal(fullRecord.metadata.source_commits[engine].commit, mainRecord.metadata.carve_main[engine].commit, 'Core and full main commits differ')
+      }
+    }
     const rows = finalCommonmarkResults(mainRecord)
     data.peers = rows.map(row => ({ language: mainRecord.final.find(item => item.engine === row.engine).language, engine: row.engine, throughput: row.mb_per_s }))
     data.coreTitle = `With pipe tables · 18 points (${mainRecord.metadata.generated_at.slice(0, 10)}, Carve dev-main)`
@@ -91,8 +129,9 @@ export function build(root, destination) {
       const best = peers.filter(row => !row.engine.startsWith('carve-')).sort((a, b) => b.throughput - a.throughput)[0]
       return [language, carve.engine, carve.throughput.toFixed(2), best.engine, best.throughput.toFixed(2)]
     }) }
-    data.host = `${mainRecord.metadata.generated_at}; ${mainRecord.metadata.cpu}; Node ${mainRecord.metadata.node}`
-    data.peerVersions += ' Current core Carve source commits: ' + Object.entries(mainRecord.metadata.carve_main).map(([engine, value]) => engine + ' ' + value.commit).join('; ')
+    data.host = `${mainRecord.metadata.generated_at}; ${mainRecord.metadata.cpu}; Node ${mainRecord.metadata.node}; PHP ${mainRecord.metadata.php}; ${mainRecord.metadata.rust}; ${affinityDescription(mainRecord.metadata.cpu_affinity)}`
+    const jsPackages = JSON.parse(read('engines/js/package-lock.json')).packages
+    data.peerVersions = 'djot.js ' + jsPackages['node_modules/@djot/djot'].version + '; markdown-it ' + jsPackages['node_modules/markdown-it'].version + '; Djot PHP ' + mainRecord.metadata.php_dependencies['php-collective/djot'].reference + '; league/commonmark ' + mainRecord.metadata.php_dependencies['league/commonmark'].version + '. Carve source commits: ' + Object.entries(mainRecord.metadata.carve_main).map(([engine, value]) => engine + ' ' + value.commit).join('; ') + '. Rust peer versions are recorded in the downloadable Cargo lock.'
   }
   const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json')) ? JSON.parse(read('reports/commonmark-js.json')) : null
   const finalRows = sharedRecord ? finalCommonmarkResults(sharedRecord) : []
@@ -116,7 +155,7 @@ export function build(root, destination) {
     writeFileSync(resolve(destination, 'reports', file), read(file).replaceAll('(reports/', '('))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) cpSync(resolve(root, file), resolve(destination, file))
   }
-  for (const file of ['dev-main-rust.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
+  for (const file of ['dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   const historyPath = resolve(root, 'reports/engine-history.json')
@@ -148,7 +187,7 @@ export function build(root, destination) {
 <div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>CSV with pipe tables</a><a href="evidence.json" download>Snapshot JSON</a></div>
 <p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput with and without pipe tables, in separate panels')}${chart('carve-core-throughput', 'Carve core throughput with pipe tables')}${coreTables}<p><a href="${source}/COMPARISON.md">Historical release comparison and capability scoring</a> · <a href="reports/dev-main-core.md">Current dev-main measurement report</a></p></section>
 ${commonmarkSection}
-<section id="full"><p class="eyebrow">Track B</p><h2>Full corpus and extension tiers</h2><p>The mixed corpus exercises the normal parser and public AST. Competitor parsers do not accept equivalent syntax, so this track compares Carve implementations and internal PHP tiers.</p><p class="provenance">${escape(data.corpus.replaceAll('`', ''))}</p>${smallInputNote}${chart('full-corpus', 'Throughput of the three Carve engines for each corpus size')}${fullTables}${chart('php-tiers', 'PHP throughput with core, Tier 2, and Tier 3 extension profiles')}<p><a href="${source}/RESULTS.md">Full corpus report</a></p></section>
+<section id="full"><p class="eyebrow">Track B</p><h2>Full corpus and extension tiers</h2><p>The mixed corpus exercises the normal parser and public AST. Competitor parsers do not accept equivalent syntax, so this track compares Carve implementations and internal PHP tiers.</p><p class="provenance">${escape(data.corpus.replaceAll('`', ''))}</p>${smallInputNote}${chart('full-corpus', 'Throughput of the three Carve engines for each corpus size')}${fullTables}${chart('php-tiers', 'PHP throughput with core, Tier 2, and Tier 3 extension profiles')}<p><a href="${source}/RESULTS.md">Full corpus report</a> · <a href="reports/dev-main-full.json" download>Worker results and provenance</a></p></section>
 ${historySection}
 <section id="method"><p class="eyebrow">Read the measurements</p><h2>Method and source commits</h2><p>Higher MB/s is better. Current core charts use median timing across fourteen warmed samples; full-corpus rows average many in-process iterations. The two tracks have different API costs and cannot be compared as equal work.</p><p>These are machine-specific snapshots. Shared host activity affects timings; controlled paired runs are needed to establish improvements or regressions.</p><h3>Core comparison host</h3><p>${escape(data.host)}</p><h3>Core peer versions</h3><p class="provenance">${escape(data.peerVersions)}</p><h3>Full-corpus engines measured</h3><p class="provenance">${escape(data.engines.replaceAll('`', ''))}</p><p>Site source: <a href="https://github.com/markup-carve/carve-bench/tree/${revision}"><code>${escape(revision)}</code></a>.</p><p><a href="${source}/README.md#running">Reproduce these runs</a> · <a href="${source}/FEATURES.md">Feature scoring</a> · <a href="${source}/docs/html-import-comparison.md">HTML import comparison</a></p><h3>Download reports</h3><p><a href="reports/COMPARISON.md" download>Core comparison</a> · <a href="reports/RESULTS.md" download>Full corpus</a> · <a href="reports/README.md" download>Reproduction guide</a> · <a href="reports/FEATURES.md" download>Feature scoring</a> · <a href="reports/FINDINGS.md" download>Historical findings</a> · <a href="evidence.json" download>All site data</a></p></section></main>
 <footer>Built from committed reports. This site does not run benchmarks during deployment.<nav class="related" aria-label="Related sites"><a href="https://markup-carve.github.io/carve/">Docs</a><a href="https://markup-carve.github.io/carve-proofs/">Proofs</a><a href="https://markup-carve.github.io/carve-compat/">Compat</a><a href="https://markup-carve.github.io/pandoc-format-fidelity/">Fidelity</a></nav></footer></body></html>`

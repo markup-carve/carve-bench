@@ -6,6 +6,7 @@ import { cpus, loadavg, platform, arch } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { coreSources, coreProjection } from '../engines/js/commonmark-core.mjs'
+import { cpuAffinity, affinityDescription } from './benchmark-metadata.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 execFileSync('git', ['fetch', 'origin', 'main'], { cwd: root, stdio: 'pipe' })
@@ -73,10 +74,10 @@ for (const [engine, flavor] of engines) {
   assert.deepEqual(coreProjection(result.html), baseline, `${engine}: shared core projection differs`)
   controls.push({ engine, source_sha256: result.source_sha256, output_sha256: result.output_sha256, projection_sha256: sha(JSON.stringify(coreProjection(result.html))) })
 }
-const metadata = { generated_at: new Date().toISOString(), benchmark_base_commit: execFileSync('git', ['rev-parse', 'origin/main'], { cwd: root, encoding: 'utf8' }).trim(),
+const metadata = { cpu_affinity: cpuAffinity(), generated_at: new Date().toISOString(), benchmark_base_commit: execFileSync('git', ['rev-parse', 'origin/main'], { cwd: root, encoding: 'utf8' }).trim(),
   node: process.version, platform: platform(), arch: arch(), cpu: cpus()[0].model, logical_cpus: cpus().length, load_start: loadavg(),
   package_versions: { ...manifest.dependencies, ...(carveMain ? { '@markup-carve/carve': 'merged-main ' + carveMain.commit } : {}) }, ...(carveMain ? { carve_main: carveMain } : {}), lock_sha256: sha(readFileSync(resolve(root, 'engines/js/package-lock.json'))),
-  harness_sha256: Object.fromEntries(['scripts/compare-commonmark.mjs', 'engines/js/compare.mjs', 'engines/js/commonmark-core.mjs'].map(path => [path, sha(readFileSync(resolve(root, path)))])),
+  harness_sha256: Object.fromEntries(['scripts/benchmark-metadata.mjs', 'scripts/compare-commonmark.mjs', 'engines/js/compare.mjs', 'engines/js/commonmark-core.mjs'].map(path => [path, sha(readFileSync(resolve(root, path)))])),
   method: 'Two serial fresh-worker rounds, reverse order in round two. Each worker warms 200 conversions, then records seven trials of 200 calls. Samples exclude process startup and output verification. Reused commonmark.js parser/renderer; separate per-call construction control. Default options. Raw round fields retain the fastest trial; final chart throughput uses median timing across all fourteen samples.',
   workload_points: 14, sections: 150, projection: 'Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.' }
 const rounds = []
@@ -104,7 +105,7 @@ metadata.load_end = loadavg()
 const record = { schema: 1, metadata, controls, rounds }
 writeFileSync(resolve(root, 'reports/commonmark-js.json'), JSON.stringify(record, null, 2) + '\n')
 const lines = ['# JavaScript core comparison including commonmark.js', '',
-  `Measured ${metadata.generated_at}, Node ${metadata.node}, ${metadata.cpu}, ${metadata.logical_cpus} logical CPUs. Benchmark main at setup: \`${metadata.benchmark_base_commit}\`.`, '',
+  `${affinityDescription(metadata.cpu_affinity)} Measured ${metadata.generated_at}, Node ${metadata.node}, ${metadata.cpu}, ${metadata.logical_cpus} logical CPUs. Benchmark main at setup: \`${metadata.benchmark_base_commit}\`.`, '',
   `${carveMain ? 'Carve JS merged main ' + carveMain.version + ' at `' + carveMain.commit + '`; fast path verified. Released peers:' : 'Released packages: Carve JS ' + manifest.dependencies['@markup-carve/carve'] + ','} Djot ${manifest.dependencies['@djot/djot']}, markdown-it ${manifest.dependencies['markdown-it']}, commonmark.js ${manifest.dependencies.commonmark}.`, '',
   'This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the table-capable comparison](../COMPARISON.md); their throughput values must not be mixed.', '',
   'Before timing, all engines agree under an HTML projection that ignores section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. It preserves element hierarchy, emphasis versus strong, resolved link destinations, code language and code bytes. This is scoped workload verification, not general language conformance.', '',
