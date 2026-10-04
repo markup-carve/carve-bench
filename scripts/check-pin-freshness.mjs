@@ -16,6 +16,9 @@
 // Pre-releases are ignored: a lane pins what an ordinary user would install.
 //
 // Usage: node scripts/check-pin-freshness.mjs [--json]
+//
+// Exit 0 every pin is current, 3 a pin is behind. Anything else, including the
+// 1 of an unreachable registry, means the check could not reach a verdict.
 
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -108,5 +111,5 @@ if (behind.length > 0) {
     process.stderr.write(`  ${row.lane}: pinned ${row.pinned}, published ${row.latest} (${row.registry})\n`)
   }
   process.stderr.write('A bump without a re-measure publishes the old engine\'s numbers under the new version.\n')
-  process.exit(1)
+  process.exit(3)
 }

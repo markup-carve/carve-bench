@@ -322,7 +322,8 @@ four places and still name a release the registries superseded weeks ago - which
 is how the tables twice came to describe engines nobody installs any more.
 `node scripts/check-pin-freshness.mjs` asks each registry for its newest stable
 release instead. The daily `pin freshness` workflow runs it and keeps one
-tracking issue open while a pin is behind. A failure is not a defect in the
+tracking issue open while a pin is behind; the run itself stays green once that
+issue is filed, and goes red only when the check cannot reach a verdict. A failure is not a defect in the
 tables; it means the pinned engine is old, and the fix is a bump **plus** a re-run of both tracks. A bump alone publishes the previous
 engine's numbers under the new version's name.
 
