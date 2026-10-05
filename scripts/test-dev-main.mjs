@@ -91,7 +91,7 @@ test('refreshed history points record the current worker and build driver', () =
     const point = snapshot.point_sessions?.['dev-main']
     if (!point) continue
     const worker = { js: 'worker.mjs', php: 'worker.php', rs: 'worker.rs' }[engine]
-    for (const file of [worker]) {
+    for (const file of [worker, 'run.py', 'refresh-main.py']) {
       assert.equal(point.harness_sha256[file], createHash('sha256').update(readFileSync(`scripts/history/${file}`)).digest('hex'), file)
     }
     assert.equal(point.source_commit, snapshot.revisions.find(row => row.label === 'dev-main').sha)
@@ -108,6 +108,10 @@ test('full output controls match the measured commits and control producers', ()
   assert.equal(new Set(controls.rows.map(row => `${row.engine}:${row.size}`)).size, 9)
   for (const row of controls.rows) {
     assert.equal(row.commit, full.metadata.source_commits[row.engine].commit)
+    if (row.engine === 'rs') {
+      assert.match(row.control_binary_sha256, /^[a-f0-9]{64}$/)
+      assert.equal(row.measured_binary_sha256, full.metadata.rust_binary_sha256)
+    }
     assert.equal(row.source_sha256, createHash('sha256').update(readFileSync(`corpus/${row.size}.crv`)).digest('hex'))
   }
   for (const file of ['scripts/check-full-outputs.mjs', 'scripts/full-output-control.php']) {

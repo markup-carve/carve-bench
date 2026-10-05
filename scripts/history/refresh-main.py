@@ -76,7 +76,10 @@ for engine in ['js', 'php', 'rs']:
     snapshot['main_alias'] = None
     snapshot['runtime'] = ' / '.join(sorted({r['runtime'] for r in snapshot['revisions']}))
     snapshot.setdefault('point_sessions', {})['dev-main'] = dict(session, finished_at=now(), final_load=run.load(), source_commit=revisions[engine]['sha'])
-    snapshot['measurement_notes'] = [note for note in snapshot.get('measurement_notes', []) if not note.startswith('Merged main refreshed ')]
+    snapshot['measurement_notes'] = [note for note in snapshot.get('measurement_notes', []) if not note.startswith(('Merged main refreshed ', 'The merged main point was refreshed on '))]
+    if engine == 'rs':
+        note = 'Rust main and retained tags record different Cargo configuration hashes and build recipes. Their timings do not isolate engine speed changes; compare build_configuration for each revision.'
+        if note not in snapshot['measurement_notes']: snapshot['measurement_notes'].append(note)
     snapshot['measurement_notes'].append(f'Merged main refreshed {now()}; release samples retained. Cross-session differences do not establish code speedups.')
     for k in ['js', 'php', 'rs']:
         assert run.command(['git', '-C', str(prepared[k]), 'status', '--porcelain', '--untracked-files=no']) == ''

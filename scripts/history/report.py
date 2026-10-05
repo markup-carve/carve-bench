@@ -173,21 +173,26 @@ def build(path):
 
 def latest_comparison(d, directory):
     rows=[]
-    body=['# Latest merged main versus the last two retained tags','','Release tags retain their original history measurements; each main point records its refresh session in the raw JSON. Check the recorded sessions and build configurations before attributing a difference to code. Lower milliseconds are faster. Percentage differences appear only when output hashes match; they do not isolate code speedups. Sample ranges and source/build provenance are in the [history report](engine-history.md) and [raw JSON](engine-history.json).','','| Engine | Main commit | Recent tags |','|---|---|---|']
+    session_notes=[]
+    body=['# Latest merged main versus the last two retained tags','','Release tags retain their original history measurements; each main point records its refresh session in the raw JSON. Check the recorded sessions and build configurations before attributing a difference to code. Lower milliseconds are faster. Percentage differences appear only when output hashes match and sample ranges do not overlap; they do not isolate code speedups. Sample ranges and source/build provenance are in the [history report](engine-history.md) and [raw JSON](engine-history.json).','','| Engine | Main commit | Recent tags |','|---|---|---|']
     for engine,s in d['engines'].items():
      if not any(x['label']=='dev-main' for x in s['revisions']):continue
      tags=[x['label'] for x in s['revisions'] if x['label']!='dev-main' and x.get('kind')!='candidate'][-2:];main=next(x for x in s['revisions'] if x['label']=='dev-main');body.append(f'| {engine} | `{main["sha"]}` | {", ".join(tags)} |')
+     session=s.get('measurement_session', {})
+     point=s.get('point_sessions', {}).get('dev-main', {})
+     session_notes += ['', f'{engine}: retained-tag load {session.get("initial_load", d.get("initial_load", "not recorded"))} to {session.get("final_load", d.get("final_load", "not recorded"))}; main load {point.get("initial_load", "not recorded")} to {point.get("final_load", "not recorded")}.', '']
      index={(x['revision'],x['case'],x['n']):x for x in s['rows']}
      for x in s['rows']:
       if x['revision']!='dev-main':continue
       for tag in tags:
-       old=index[tag,x['case'],x['n']];same=old['output_sha256']==x['output_sha256'];rows.append({'engine':engine,'case':x['case'],'n':x['n'],'tag':tag,'tag_ms':old['median_ms'],'main_ms':x['median_ms'],'change_percent':100*(x['median_ms']/old['median_ms']-1) if same else '', 'same_output':same})
+       old=index[tag,x['case'],x['n']];same=old['output_sha256']==x['output_sha256'];overlap=x['min_ms'] <= old['max_ms'] and old['min_ms'] <= x['max_ms'];rows.append({'engine':engine,'case':x['case'],'n':x['n'],'tag':tag,'tag_ms':old['median_ms'],'main_ms':x['median_ms'],'change_percent':100*(x['median_ms']/old['median_ms']-1) if same and not overlap else '', 'same_output':same, 'ranges_overlap':overlap})
+    body += session_notes
     body += ['', '[CSV](latest-main-comparison.csv)', '', '| Engine | Case | n | Tag | Tag ms | Main ms | Change |', '|---|---|---:|---|---:|---:|---:|']
     for x in rows:
-     change=f'{x["change_percent"]:+.1f}%' if x['same_output'] else 'n/a: different output';body.append(f'| {x["engine"]} | {x["case"]} | {x["n"]} | {x["tag"]} | {x["tag_ms"]:.3f} | {x["main_ms"]:.3f} | {change} |')
+     change='n/a: different output' if not x['same_output'] else ('ranges overlap' if x['ranges_overlap'] else f'{x["change_percent"]:+.1f}%');body.append(f'| {x["engine"]} | {x["case"]} | {x["n"]} | {x["tag"]} | {x["tag_ms"]:.3f} | {x["main_ms"]:.3f} | {change} |')
     (directory/'latest-main-comparison.md').write_text('\n'.join(body)+'\n')
     with (directory/'latest-main-comparison.csv').open('w') as f:
-     w=csv.DictWriter(f,fieldnames=["engine", "case", "n", "tag", "tag_ms", "main_ms", "change_percent", "same_output"],lineterminator='\n');w.writeheader();w.writerows(rows)
+     w=csv.DictWriter(f,fieldnames=["engine", "case", "n", "tag", "tag_ms", "main_ms", "change_percent", "same_output", "ranges_overlap"],lineterminator='\n');w.writeheader();w.writerows(rows)
 
 
 if __name__=='__main__':build(Path(sys.argv[1]))
