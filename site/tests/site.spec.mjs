@@ -111,3 +111,16 @@ test('history selections display measured samples and all tags', async ({ page, 
   await page.setViewportSize({ width: 390, height: 844 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
 })
+
+test('paired comparison displays every measured change and downloads its evidence', async ({ page, request }) => {
+  const raw = await (await request.get('reports/paired-full-feature.json')).json()
+  await page.goto('./')
+  await expect(page.locator('header a[href="#paired-full"]')).toBeVisible()
+  await expect(page.locator('#paired-full tbody tr')).toHaveCount(raw.summary.length)
+  for (const [index, row] of raw.summary.entries()) {
+    const percent = `${row.paired_change_percent >= 0 ? '+' : ''}${row.paired_change_percent.toFixed(1)}%`
+    await expect(page.locator('#paired-full tbody tr').nth(index)).toContainText(percent)
+  }
+  await expect(page.locator('#full h2')).toContainText('Concatenated corpus stress test')
+  expect((await request.get('reports/paired-full-feature.md')).ok()).toBeTruthy()
+})

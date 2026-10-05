@@ -93,6 +93,40 @@ The current `RESULTS.md` tables measure the same merged main commits as the core
 report, using runtime checkout overrides. The [full-run record](reports/dev-main-full.json)
 contains worker results, source commits, input hashes and runtime settings.
 
+The [paired full-feature comparison](reports/paired-full-feature.md) measures old
+and new merged commits in the same session. It checks exact HTML hashes within
+each engine before timing, alternates run order, and uses the same CPU affinity
+for both revisions. Its observed per-round ratios and ranges cover both gains
+and costs; they are not significance tests. The change column is the median of per-round ratios, which can differ from the
+ratio of the two median times. Its closed-block fixture exercises formatting, quotations,
+nested lists, definition lists, tables, code, raw HTML and footnotes.
+
+The concatenated conformance corpus is a stress workload. Independent examples
+can interact through open fences, containers and definitions when joined into
+one document. A correctness fix can change the output size and nesting, so these
+historical snapshots cannot establish a speed regression when output hashes or
+CPU settings differ.
+
+To reproduce a paired run, install the locked dependencies and provide a local
+JSON config with `before` and `after` maps. Include `baseline_benchmark_commit`, identifying the prior published full-corpus
+report whose source pins define before. Each map contains `js`, `php` and `rs`
+entries with an absolute checkout `path` and full merged `commit`. Run:
+
+```sh
+taskset -c CPU node scripts/compare-full-feature.mjs CONFIG.json
+```
+
+On Linux, choose an available CPU for `CPU`. The runner builds both revisions
+before timing, rejects pairs with different HTML, exports portable metadata and
+archives a prior committed paired report before replacing it. Keep CPU affinity and runtime settings unchanged across the pair. Pinning to one CPU
+also limits Node's compiler and GC threads; its results must not be compared
+directly with older unrestricted runs.
+
+Published paired reports are checked against the recorded producer hashes.
+Changing a measured producer requires a fresh run before publishing the new
+producer and report. The exporter applies the standard portable metadata note;
+a report may already contain no absolute paths.
+
 To reproduce the current full-corpus snapshot, check out the commits named in
 [the core report](reports/dev-main-core.md), build Carve JS, and build the Rust
 worker with `node scripts/build-rs-engine.mjs --carve-rs /tmp/carve-rs-main`.
