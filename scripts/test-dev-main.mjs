@@ -97,7 +97,7 @@ test('refreshed history points record the current worker and build driver', () =
     assert.equal(point.source_commit, snapshot.revisions.find(row => row.label === 'dev-main').sha)
   }
   assert.equal(record.publication_exporter_sha256, createHash('sha256').update(readFileSync('scripts/public_report.py')).digest('hex'))
-  if (record.publication_report_sha256) assert.match(record.publication_report_sha256, /^[a-f0-9]{64}$/)
+  if (record.publication_report_sha256) assert.equal(record.publication_report_sha256, createHash('sha256').update(readFileSync('scripts/history/report.py')).digest('hex'))
 })
 
 

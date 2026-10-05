@@ -92,6 +92,9 @@ def build(path):
     data=json.loads(path.read_text());prefix=path.with_suffix('');directory=path.parent
     if data['schema']!=1: raise ValueError('Unknown history schema')
     validate_measurements(data)
+    if 'publication_report_sha256' in data:
+        data['publication_report_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+        path.write_text(json.dumps(data, indent=2) + '\n')
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
     report=['# Engine release history','',f"Retained sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
     if data.get('session_note'):
@@ -153,7 +156,8 @@ def build(path):
             csvrows.append(dict(engine=engine,revision=r['revision'],sha=sha[r['revision']],case=r['case'],n=r['n'],median_ms=r['median_ms'],min_ms=r['min_ms'],max_ms=r['max_ms'],change_vs_oldest_pct=100*(r['median_ms']/oldest['median_ms']-1) if r['output_sha256']==oldest['output_sha256'] else '',same_output_as_oldest=r['output_sha256']==oldest['output_sha256'],same_output_as_latest_tag=r['output_sha256']==tag['output_sha256']))
             if r['revision'] in points:
                 change=100*(r['median_ms']/tag['median_ms']-1);same=r['output_sha256']==tag['output_sha256']
-                change_text=f'{change:+.1f}%' if same else 'n/a: different output'
+                overlap=r['min_ms'] <= tag['max_ms'] and tag['min_ms'] <= r['max_ms']
+                change_text='n/a: different output' if not same else ('ranges overlap' if overlap else f'{change:+.1f}%')
                 main_label=d['main_alias']['same_source_as'] if d.get('main_alias') else 'dev-main'
                 main=index.get((main_label,r['case'],r['n']))
                 main_ms=f'{main["median_ms"]:.3f}' if main else 'n/a'
