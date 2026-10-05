@@ -83,3 +83,34 @@ test('benchmark provenance distinguishes the measured checkout from remote main'
     rmSync(tree, { recursive: true, force: true })
   }
 })
+
+
+test('refreshed history points record the current worker and build driver', () => {
+  const record = JSON.parse(readFileSync('reports/engine-history.json'))
+  for (const [engine, snapshot] of Object.entries(record.engines)) {
+    const point = snapshot.point_sessions?.['dev-main']
+    if (!point) continue
+    const worker = { js: 'worker.mjs', php: 'worker.php', rs: 'worker.rs' }[engine]
+    for (const file of [worker]) {
+      assert.equal(point.harness_sha256[file], createHash('sha256').update(readFileSync(`scripts/history/${file}`)).digest('hex'), file)
+    }
+    assert.equal(point.source_commit, snapshot.revisions.find(row => row.label === 'dev-main').sha)
+  }
+  assert.equal(record.publication_exporter_sha256, createHash('sha256').update(readFileSync('scripts/public_report.py')).digest('hex'))
+  if (record.publication_report_sha256) assert.match(record.publication_report_sha256, /^[a-f0-9]{64}$/)
+})
+
+
+test('full output controls match the measured commits and control producers', () => {
+  const full = JSON.parse(readFileSync('reports/dev-main-full.json'))
+  const controls = JSON.parse(readFileSync('reports/dev-main-full-output-controls.json')).latest_merged_main_output_checks
+  assert.equal(controls.rows.length, 9)
+  assert.equal(new Set(controls.rows.map(row => `${row.engine}:${row.size}`)).size, 9)
+  for (const row of controls.rows) {
+    assert.equal(row.commit, full.metadata.source_commits[row.engine].commit)
+    assert.equal(row.source_sha256, createHash('sha256').update(readFileSync(`corpus/${row.size}.crv`)).digest('hex'))
+  }
+  for (const file of ['scripts/check-full-outputs.mjs', 'scripts/full-output-control.php']) {
+    assert.equal(controls.producer_sha256[file], createHash('sha256').update(readFileSync(file)).digest('hex'))
+  }
+})

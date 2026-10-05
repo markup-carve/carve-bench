@@ -24,8 +24,10 @@ import { readdirSync, writeFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, basename, relative } from 'node:path'
 import { assertMeasuredSources } from './scripts/measured-sources.mjs'
-import { fullResults, validateFullReportSources } from './scripts/full-results.mjs'
+import { publishedEngineSource, fullResults, validateFullReportSources } from './scripts/full-results.mjs'
 import { cpuAffinity, affinityDescription } from './scripts/benchmark-metadata.mjs'
+
+import { loadavg } from 'node:os'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const quick = process.argv.includes('--quick')
@@ -95,6 +97,7 @@ if (process.env.CARVE_FULL_REPORT) {
   validateFullReportSources(root, RS_BIN)
 }
 
+const fullLoadStart = loadavg()
 const results = {} // doc -> engine -> {ms_per_op, mb_per_s, bytes}
 for (const doc of docs) {
   const key = basename(doc, '.crv')
@@ -150,7 +153,7 @@ if (existsSync(TIER_DOC)) {
 assertMeasuredSources(collectSources(), process.env, root)
 let fullRecord = null
 if (process.env.CARVE_FULL_REPORT) {
-  fullRecord = fullResults(root, results, tiers, RS_BIN)
+  fullRecord = fullResults(root, results, tiers, RS_BIN, process.env, fullLoadStart)
   writeFileSync(resolve(root, process.env.CARVE_FULL_REPORT), JSON.stringify(fullRecord, null, 2) + '\n')
 }
 
@@ -173,9 +176,11 @@ lines.push(
   'with `node run.mjs`; see README for setup.',
   '',
 )
-if (process.env.CARVE_RUN_META) lines.push(`**Run:** ${process.env.CARVE_RUN_META}`, '')
+if (process.env.CARVE_RUN_META) lines.push(`**Run:** ${fullRecord ? fullRecord.metadata.completed_at + '; ' : ''}${process.env.CARVE_RUN_META}`, '')
 else if (fullRecord) lines.push(`**Run:** ${fullRecord.metadata.completed_at}; serial processes; Node ${process.version}; ${fullRecord.metadata.runtimes.php}; ${fullRecord.metadata.runtimes.rustc}.`, '')
 lines.push(affinityDescription(cpuAffinity()), '')
+if (fullRecord) lines.push(`One-minute host load was ${fullRecord.metadata.load_start[0].toFixed(2)} at start and ${fullRecord.metadata.load_end[0].toFixed(2)} at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.`, '')
+if (fullRecord) lines.push('The `rel` column compares elapsed time. Check the', '[output byte counts and hashes](reports/dev-main-full-output-controls.json)', 'before treating cross-engine results as equal work.', '')
 lines.push(`**Engines measured:** ${describeEngines()}`, '')
 if (process.env.CARVE_CORPUS_SNAPSHOT) lines.push(`**Corpus snapshot:** ${process.env.CARVE_CORPUS_SNAPSHOT}`, '')
 else if (fullRecord) lines.push('**Corpus snapshot:** Fixed committed corpus; input hashes are recorded in the full-run JSON.', '')
@@ -269,7 +274,7 @@ function describeEngines() {
   const sources = collectSources()
   return engines
     .map((engine) => {
-      const seen = [...(sources.get(engine.name) ?? [])]
+      const seen = [...(sources.get(engine.name) ?? [])].map(source => fullRecord ? publishedEngineSource(source, engine.name) : source)
       if (seen.length === 0) return `${engine.name} \`unreported\``
       if (seen.length > 1) {
         return `${engine.name} **MISMATCH** ${seen.map((source) => `\`${source}\``).join(' and ')}`
