@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync, statSync, readdirSync, realpathSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
-import { cpus } from 'node:os'
+import { cpus, loadavg } from 'node:os'
 import { cpuAffinity, benchmarkCheckout } from './benchmark-metadata.mjs'
 import { requestedOverrides } from './measured-sources.mjs'
 
@@ -43,7 +43,11 @@ export function validateFullReportSources(root, rustBinary, env = process.env, c
   return { sourceCommits, rustLock }
 }
 
-export function fullResults(root, results, tiers, rustBinary, env = process.env) {
+export function publishedEngineSource(source, engine) {
+  return source.replace(/local checkout [^)]*? @/, `local checkout ${engine}-main @`)
+}
+
+export function fullResults(root, results, tiers, rustBinary, env = process.env, loadStart = null) {
   const hash = file => createHash('sha256').update(readFileSync(resolve(root, file))).digest('hex')
   const { sourceCommits, rustLock } = validateFullReportSources(root, rustBinary, env)
   const corpus = Object.entries(results).flatMap(([name, rows]) => Object.entries(rows).map(([engine, row]) => {
@@ -67,6 +71,9 @@ export function fullResults(root, results, tiers, rustBinary, env = process.env)
       cpu_affinity: cpuAffinity(), cpu: cpus()[0].model, logical_cpus: cpus().length,
       runtimes: { node: process.version, php: execFileSync('php', ['-n', '-v'], { encoding: 'utf8' }).split('\n')[0], rustc: execFileSync('rustc', ['--version'], { encoding: 'utf8' }).trim() },
       method: 'Serial full run.mjs workload. Corpus rows average in-process iterations after warm-up; PHP tier rows report minimum of five trials and retain every trial. Measurements are host-specific snapshots, not paired speedup evidence.',
+      corpus_snapshot: env.CARVE_CORPUS_SNAPSHOT ?? null,
+      load_start: loadStart, load_end: loadavg(),
+      host_note: 'CPU affinity does not reserve a core. Separate shared-host snapshots do not isolate engine speed changes.',
       capture: 'Worker JSON stdout returned to run.mjs. Corpus times and throughput are rounded by the workers.',
       source_commits: sourceCommits,
       environment: { CARVE_JS: '<carve-js-checkout>/dist/index.js', CARVE_PHP_SRC: '<carve-php-checkout>/src', CARVE_RS_SRC: '<carve-rs-checkout>', CARVE_PHP_INI: env.CARVE_PHP_INI ?? null, NODE_OPTIONS: env.NODE_OPTIONS ?? null, RUSTFLAGS: env.RUSTFLAGS ?? null },
@@ -76,6 +83,7 @@ export function fullResults(root, results, tiers, rustBinary, env = process.env)
       rust_binary_sha256: hash(rustBinary),
       rust_dependency_lock_sha256: createHash('sha256').update(rustLock).digest('hex'),
     },
-    corpus, tiers,
+    corpus: corpus.map(row => ({ ...row, carve_source: publishedEngineSource(row.carve_source, row.engine) })),
+    tiers: tiers.map(row => ({ ...row, carve_source: publishedEngineSource(row.carve_source, 'carve-php') })),
   }
 }

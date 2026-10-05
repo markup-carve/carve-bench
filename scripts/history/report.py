@@ -92,6 +92,9 @@ def build(path):
     data=json.loads(path.read_text());prefix=path.with_suffix('');directory=path.parent
     if data['schema']!=1: raise ValueError('Unknown history schema')
     validate_measurements(data)
+    if 'publication_report_sha256' in data:
+        data['publication_report_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+        path.write_text(json.dumps(data, indent=2) + '\n')
     fields=['engine','revision','sha','case','n','median_ms','min_ms','max_ms','change_vs_oldest_pct','same_output_as_oldest','same_output_as_latest_tag']
     report=['# Engine release history','',f"Retained sessions began {data['generated_at']}. {data.get('tags_per_engine',4)} stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.",'','Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.','','The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/maximum times, load averages, source fingerprints, runtime versions and worker hashes are in the JSON. A changed output hash means the timing is for different work. Each case has its own oldest-tag baseline of 1×; equal starting ratios do not mean equal milliseconds. The legend lists those baseline times. Graphs use a logarithmic time ratio and connect points only when their output hashes agree.','','[Interactive history](engine-history.html) · [Raw JSON](engine-history.json) · [CSV](engine-history.csv)','']
     if data.get('session_note'):
@@ -101,6 +104,7 @@ def build(path):
             report += [f"{engine} retained measurements: driver `{session.get('benchmark_commit', data['benchmark_commit'])}`, session started {session.get('generated_at', data['generated_at'])}, CPU affinity {session.get('cpu_affinity', data.get('cpu_affinity'))}; dirty benchmark tree: {session.get('benchmark_dirty',data.get('benchmark_dirty'))}.", '']
     for engine, snapshot in data['engines'].items():
         for label, point in snapshot.get('point_sessions', {}).items():
+            if point.get("window_note"): report += [point["window_note"], ""]
             report += [f"{engine} {label} refresh: {point.get('started_at', point.get('generated_at', 'not recorded'))} to {point.get('finished_at', 'not recorded')}; driver `{point.get('benchmark_commit', 'unknown')}`, CPU affinity {point.get('cpu_affinity', 'not recorded')}; dirty benchmark tree: {point.get('benchmark_dirty', 'not recorded')}. [Point provenance]({point.get('file', 'engine-history.json')}).", '']
     if not data.get('session_note'):
         report += [f"Timing driver: `{data.get('benchmark_commit','unknown')}`; CPU affinity: {data.get('cpu_affinity')}; dirty benchmark tree: {data.get('benchmark_dirty')}. Report generation may use later metadata-only corrections.", '']
@@ -129,7 +133,7 @@ def build(path):
                     if row['min_ms'] <= previous['max_ms'] and previous['min_ms'] <= row['max_ms']:
                         uncertain.append(reading + ' Sample ranges overlap; this session does not establish a +100% regression.')
                     else:
-                        watchpoints.append(reading + ' Output hashes match and sample ranges are separate; investigate this older-baseline cost.')
+                        watchpoints.append(reading + ' Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.')
     checks = '[Longer paired cost checks](history-watchpoint-controls.md)' if (directory / 'history-watchpoint-controls.md').exists() else ''
     if watchpoints:
         report += ['## Watchpoints', '', checks, '', *watchpoints, '']
@@ -152,7 +156,8 @@ def build(path):
             csvrows.append(dict(engine=engine,revision=r['revision'],sha=sha[r['revision']],case=r['case'],n=r['n'],median_ms=r['median_ms'],min_ms=r['min_ms'],max_ms=r['max_ms'],change_vs_oldest_pct=100*(r['median_ms']/oldest['median_ms']-1) if r['output_sha256']==oldest['output_sha256'] else '',same_output_as_oldest=r['output_sha256']==oldest['output_sha256'],same_output_as_latest_tag=r['output_sha256']==tag['output_sha256']))
             if r['revision'] in points:
                 change=100*(r['median_ms']/tag['median_ms']-1);same=r['output_sha256']==tag['output_sha256']
-                change_text=f'{change:+.1f}%' if same else 'n/a: different output'
+                overlap=r['min_ms'] <= tag['max_ms'] and tag['min_ms'] <= r['max_ms']
+                change_text='n/a: different output' if not same else ('ranges overlap' if overlap else f'{change:+.1f}%')
                 main_label=d['main_alias']['same_source_as'] if d.get('main_alias') else 'dev-main'
                 main=index.get((main_label,r['case'],r['n']))
                 main_ms=f'{main["median_ms"]:.3f}' if main else 'n/a'
@@ -166,6 +171,32 @@ def build(path):
     template=template.replace('Four release tags',f"{data.get('tags_per_engine',4)} release tags").replace('engine-history.', prefix.name + '.').replace('HISTORY_DATA',json.dumps(data).replace('<','\\u003c'))
     template=template.replace('HISTORY_STATIC',''.join(f'<figure><img src="{prefix.name}-{e}.svg" alt="{html.escape(e)} history"><figcaption><a href="{prefix.name}-{e}.svg" download>Download {html.escape(e)} SVG</a></figcaption></figure>' for e in data['engines']))
     prefix.with_suffix('.html').write_text(template)
+    if prefix.name == "engine-history":
+        latest_comparison(data, directory)
+
+
+def latest_comparison(d, directory):
+    rows=[]
+    session_notes=[]
+    body=['# Latest merged main versus the last two retained tags','','Release tags retain their original history measurements; each main point records its refresh session in the raw JSON. Check the recorded sessions and build configurations before attributing a difference to code. Lower milliseconds are faster. Percentage differences appear only when output hashes match and sample ranges do not overlap; they do not isolate code speedups. Sample ranges and source/build provenance are in the [history report](engine-history.md) and [raw JSON](engine-history.json).','','| Engine | Main commit | Recent tags |','|---|---|---|']
+    for engine,s in d['engines'].items():
+     if not any(x['label']=='dev-main' for x in s['revisions']):continue
+     tags=[x['label'] for x in s['revisions'] if x['label']!='dev-main' and x.get('kind')!='candidate'][-2:];main=next(x for x in s['revisions'] if x['label']=='dev-main');body.append(f'| {engine} | `{main["sha"]}` | {", ".join(tags)} |')
+     session=s.get('measurement_session', {})
+     point=s.get('point_sessions', {}).get('dev-main', {})
+     session_notes += ['', f'{engine}: retained-tag load {session.get("initial_load", d.get("initial_load", "not recorded"))} to {session.get("final_load", d.get("final_load", "not recorded"))}; main load {point.get("initial_load", "not recorded")} to {point.get("final_load", "not recorded")}.', '']
+     index={(x['revision'],x['case'],x['n']):x for x in s['rows']}
+     for x in s['rows']:
+      if x['revision']!='dev-main':continue
+      for tag in tags:
+       old=index[tag,x['case'],x['n']];same=old['output_sha256']==x['output_sha256'];overlap=x['min_ms'] <= old['max_ms'] and old['min_ms'] <= x['max_ms'];rows.append({'engine':engine,'case':x['case'],'n':x['n'],'tag':tag,'tag_ms':old['median_ms'],'main_ms':x['median_ms'],'change_percent':100*(x['median_ms']/old['median_ms']-1) if same and not overlap else '', 'same_output':same, 'ranges_overlap':overlap})
+    body += session_notes
+    body += ['', '[CSV](latest-main-comparison.csv)', '', '| Engine | Case | n | Tag | Tag ms | Main ms | Change |', '|---|---|---:|---|---:|---:|---:|']
+    for x in rows:
+     change='n/a: different output' if not x['same_output'] else ('ranges overlap' if x['ranges_overlap'] else f'{x["change_percent"]:+.1f}%');body.append(f'| {x["engine"]} | {x["case"]} | {x["n"]} | {x["tag"]} | {x["tag_ms"]:.3f} | {x["main_ms"]:.3f} | {change} |')
+    (directory/'latest-main-comparison.md').write_text('\n'.join(body)+'\n')
+    with (directory/'latest-main-comparison.csv').open('w') as f:
+     w=csv.DictWriter(f,fieldnames=["engine", "case", "n", "tag", "tag_ms", "main_ms", "change_percent", "same_output", "ranges_overlap"],lineterminator='\n');w.writeheader();w.writerows(rows)
 
 
 if __name__=='__main__':build(Path(sys.argv[1]))

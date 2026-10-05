@@ -2,32 +2,44 @@
   "schema": 1,
   "metadata": {
     "cpu_affinity": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15
+      13
     ],
-    "generated_at": "2026-10-04T16:39:53.593Z",
-    "benchmark_base_commit": "442633c4ba9d32d7b8b0e9469b7e04a8353e66db",
-    "benchmark_checkout_commit": "0dcf34e96a3c25b37a451d99ec8ffdcafc6e4a78",
+    "generated_at": "2026-10-05T18:15:26.142Z",
+    "benchmark_base_commit": "ed2d02d031d1427f428a632568b9e9f4637ce1e8",
+    "benchmark_checkout_commit": "ed2d02d031d1427f428a632568b9e9f4637ce1e8",
     "benchmark_dirty_paths": [
       "README.md",
       "RESULTS.md",
+      "charts/carve-core-throughput.svg",
+      "charts/commonmark-js.svg",
+      "charts/core-throughput.svg",
+      "charts/full-corpus.svg",
+      "charts/php-tiers.svg",
+      "engines/php/composer.lock",
+      "reports/commonmark-js.json",
+      "reports/commonmark-js.md",
       "reports/dev-main-core.json",
       "reports/dev-main-core.md",
-      "reports/dev-main-full.json"
+      "reports/dev-main-full-output-controls.json",
+      "reports/dev-main-full.json",
+      "reports/engine-history-js.svg",
+      "reports/engine-history-php.svg",
+      "reports/engine-history-rs.svg",
+      "reports/engine-history.csv",
+      "reports/engine-history.html",
+      "reports/engine-history.json",
+      "reports/engine-history.md",
+      "reports/latest-main-comparison.csv",
+      "reports/latest-main-comparison.md",
+      "run.mjs",
+      "scripts/check-full-outputs.mjs",
+      "scripts/compare-commonmark.mjs",
+      "scripts/full-output-control.php",
+      "scripts/full-results.mjs",
+      "scripts/history/refresh-main.py",
+      "scripts/history/report.py",
+      "scripts/site/build.mjs",
+      "scripts/test-dev-main.mjs"
     ],
     "benchmark_dirty": true,
     "node": "v22.22.2",
@@ -36,13 +48,13 @@
     "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
     "logical_cpus": 16,
     "load_start": [
-      1.47,
-      1.94,
-      3.15
+      2.55,
+      2.04,
+      1.81
     ],
     "package_versions": {
       "@djot/djot": "0.3.2",
-      "@markup-carve/carve": "merged-main a0e996083129b9d51e63be6982d79843fd35ea32",
+      "@markup-carve/carve": "merged-main a7c80d37fb322d28bc5061175bbd9c7f7638c175",
       "commonmark": "0.31.2",
       "markdown-it": "15.0.0",
       "parse5": "7.3.0"
@@ -50,7 +62,7 @@
     "carve_main": {
       "kind": "merged-main",
       "repository": "https://github.com/markup-carve/carve-js",
-      "commit": "a0e996083129b9d51e63be6982d79843fd35ea32",
+      "commit": "a7c80d37fb322d28bc5061175bbd9c7f7638c175",
       "version": "0.1.10",
       "lock_sha256": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528",
       "dist_sha256": {
@@ -63,21 +75,24 @@
         "ast-sidecars.js": "500341290b7790b5beb42ebf6a8abaffa3d330dec41654ca5261096435b512ee",
         "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
         "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
-        "attribute-merge.js": "a034ca57dbee6a65849c50cf9ed46e6b38bfffa2fb414c73d1955fbaca6a2012",
+        "attribute-merge.js": "c14381d6a5a7bc22628bf95f8d14e8a916902942fa34dae64328fa81ae0c3625",
         "attribute-parser.js": "2203fbfe302977fc6045bee07cff7248b617efa9bd6e6e19af697c700ff4d53f",
         "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
-        "bbcode-migrate.js": "88c150c8345f1a402681ef30cd2c842b07cdd8a22f37ce6e42aba2eb16d9dd9d",
+        "backtick-run-index.js": "9e1767d3e60263bca009dfcc233cc19a9f96c824104fc81c3840d15c9e1dc78d",
+        "bbcode-migrate.js": "5c08884d9429c9700124a2eceeae1ed8c3ca129ee2e7edf0f385078a4b3d8fc1",
         "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
         "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
         "bracket-escapes.js": "00af96ffd1542cd393e2ac35366d39656ea531daac92adb1b5f4d49c392c6b60",
         "carve-escape.js": "367a162f1d9dcc4b934c99989529b766f779278053098465c375c0a6563fc814",
+        "case-migrate.js": "a408acf4dae504ee38adcf593116e95b566a4ef596b72124ed0e295f6532c828",
         "citations.js": "6295f37c84bbf6605b9689047ea4bdfd8fd1a52d2da32f9951a5263593dd1c7f",
-        "cli.js": "828aa100de2971df5365eb6f92711e3d52db472e364cce7d946aeb73b9eb5f89",
+        "cli.js": "e58978184e94a32954a90d980d68bc7eb4c02c351da90643593552cd7ab96dff",
         "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
         "code-callouts.js": "ab189a312fdef6eb0bac6380edbb2d91068e16a3cf95f9deeb0cc3f8ba00a03c",
         "code-group.js": "463f9273026e898de1dde262b2b8dc7721ddcfd2f14324dc8ea5c7e68172a229",
         "colon-fences.js": "234902a4ad2a22c6da5128e42b7ef2a93a6068b49c5837201cf2760e7750d0d5",
         "color-swatch.js": "9c7997cfe6c82961e44719c2aae07cb85661fbfe51634b49979db7fe8fd0a125",
+        "column-reservations.js": "6d28b9dbed985549ff4232cfc6c6a884abd2c55c41c20c939d6bdad5eab09293",
         "conversion-diagnostics.js": "b4589cdd981814e5da64b5f90abe96d8d31448997b905a018502055e906d3d29",
         "default-attributes.js": "2c18caa10a5dd5c6de170d10a855044e073e0c83b577e4accaf2d30469cce7cb",
         "definition-list-wire.js": "05b2438e1df7bef9a441caabe26278ea4afad659c79d37bc0a412d5859279ef9",
@@ -89,16 +104,17 @@
         "djot-import.js": "67043181109a82e1f85dfb6f572d21965b79e872ca371051d727b1db3509eea7",
         "djot-migrate.js": "ca3c83dfad96e55a1e8d50869119648ee73a28aece4cece13de4e48db9379eac",
         "djot-word-attributes.js": "3e72bde242c0b023033c9e463bb4008d4b2818d3d04872fe4fa7e08ed6680ef4",
-        "document-ids.js": "ead53aa62396efb430be8cd6d7ebce6bcee67d714b0009b2924e0601c392baee",
+        "document-ids.js": "8a315e9894905d9d049364301f39ba93c7c777a5b0c2da17267d7b21806ae11f",
         "editor-session.js": "93667f951b2918ae47c771da42c40712a743a14e56a3f22010d2d8a3dd46a04d",
         "escape-window.js": "3fe171086a138c5319cccccd3332869673fe44381305afafeaf892d881871c69",
+        "extension-transforms.js": "72139bed15022f304ae566ad3ee7ba3cfa55202a465f76ba9bfe3927f6ed786c",
         "extension.js": "3249fbb94ebcfd1f2dbb5992aefec4af3ae641757191703bfc305573a3ee76ea",
         "external-links.js": "0ee8835b44b998395496bacdcdc561d5430b97a6eb3db1b14595f3a5cfa2f0da",
         "fast-html.js": "5fa62e955385368a8544809acad4e29f342750e4e7c9a49580d677d6020905f7",
         "fenced-render.js": "695d462eeef8eb51ac7d46cd7700dcbc92bc6cd0ab6449725df03d2094313fcd",
         "footnote-numbering.js": "b0d953c0cb6f1641a9fc448808210d28d36a30f91d2c26e6b245b2d60c0cc341",
-        "glossary.js": "703db37672e2ba24bd72b8a0be51cf1c7aa4328864d1e67a1bfa9acbfa29fd44",
-        "heading-ids.js": "6e43ffd168fb3c0919615c9e14e6a92ec227ad47f7124a679323cfd7584ee866",
+        "glossary.js": "be33b75420abbf7d2ed8d6a1265e11508715a13ae02f697cd7fdf5562adfcbfd",
+        "heading-ids.js": "e415c1e7029d5f7c09aaa64effaf45da547c34eceec6062cd3c4756b91118515",
         "heading-level-shift.js": "c167ab8955d4f6b9caf433363973fb53dba881b01673594a1806061a22b2c964",
         "heading-numbers.js": "de844b0039923625a7ad90875a2ffbcdbb21cab44c39b102d4d5dc54f89d90ae",
         "heading-permalinks.js": "ec541a64725bf20675129f477564c2109092ec2afd2702a32a736c2cfb071551",
@@ -106,20 +122,20 @@
         "html-import-code-language.js": "d3664086c0ab345d3c754b9810691d6b53fe0dd2a734a5d913e781ba4de29a7f",
         "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
         "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
-        "html-import.js": "bd8d1bf9599ddacd7bfb004b48e4b680d8a0b3c608f235d24b3ad778fac8b6ef",
+        "html-import.js": "6047a6a832ef1c4b80167e39785af8f411378ac00cf6115f25f9d3df58129e58",
         "import-report-messages.js": "cbb3842b000ff46acee3f083b8e8bb225bdee8c46b2c0132c581d7ecd027996d",
-        "include-directive.js": "faa24ad33ae2d38d9093f6854f49dcb92e625fa28053ea7602c7e6e142f903b6",
+        "include-directive.js": "be3e7487b86f6caa54c340b704920ec68962e1b94b96acb3177eb3b9a959f1bd",
         "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
-        "includes.js": "a051ab88f9ee845c5b5237044f0a04a0fb2eb5202d3bbf87a33aaffc0ee27df0",
+        "includes.js": "10398a42393d37337e278fb632c8187f83e5ebce349e80c42e909495ab6e4e78",
         "index-terms.js": "418eb0e101d3225d303a9bb155d3256fbd2492cf91373a9ba420b1d648471a98",
-        "index.js": "3f9092a092b830f976c8936a7c136cce8dabac047331db2398b32b9364ed8320",
+        "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
         "inline-children.js": "6dccd86c1f50e547fe193a946ad0d331f2d31453479ceea292e49e4c2b72ebf2",
         "inline-resolution.js": "5542cb104331a05c73500e617f6382f6274e853ddf585514725735103781a644",
         "label-key.js": "16fffd7fc7706a6746117a0a892dc664cba8907dc8ae1025f5c8cd586e0ff58b",
         "legacy-nodes.js": "1c25b0f25cd0696f888e5df84609bf71637af62c9653074e2209ac5be3e8f87e",
         "link-destination.js": "bb4033ecda7ffb6e0ced05c5b8671c580725cf7f37dcc58fd1f0393f65aa8f06",
-        "lint.js": "4c62a78d4170174e148ccf511cd79c4d5610620d6b5d5ed3221b5d640c9ec102",
-        "list-table.js": "d13ef7bc200f3b1bcd78d7a96c28415b16f6cbaa52e22444aa6477f54570842f",
+        "lint.js": "7a0af496c596b0d551e1171418a1c33dbe9e6266045951b59a3b99f16a46a502",
+        "list-table.js": "dbfdb629e6ceab513faf29b8737a27378fe6200340ed37542f919d5d723cf09d",
         "markdown-emphasis.js": "36d7cd24f63488fe113d523b9b6e644641f62a63ec0a7e0620f7337525be0d02",
         "markdown-empty-destination.js": "39f7ed4c937b63bc1a62885c17bea5f20ea95c03589dc2cab22a9d88129bb2b7",
         "markdown-link-scopes.js": "9d4fda04e7f871cdc20c43e7ea6216d98b1bc91fb26e06adc8b87c0de4518f9a",
@@ -132,15 +148,16 @@
         "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
         "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
         "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
-        "parse.js": "8e6354bc65b44b241b9b62673a1cbc9962f86ed517ba197a8f4c61fda5ae842b",
+        "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
+        "parse.js": "0dc3c14a13e3d2d3794c30d6508b12d2e0356211c53745f1108bb851bd39b4d1",
         "portability.js": "41690795988b1686e6b2a0cc7846ff4591f568a96396fb6b412a12efb4b15354",
         "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
         "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
-        "profile.js": "434f55b4d172093c07603905acfbeb816a79a86f0f292e78713a2475d7a3bc3e",
+        "profile.js": "463ad4b0a3e5411ba94541ec7900c21f463bf161b1c3f5389bf90c889341bdd7",
         "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
         "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
         "render-ansi.js": "5abedeb11790ea631e7ca08ec4d21ccae501301f280d902922097494e3c25eab",
-        "render-carve.js": "b534d9641adfad58f2def39600762e876f7a790103ef471948e06a8ece04fa96",
+        "render-carve.js": "4c7d66e9902e69d9cabfbf7d21588940b1a00ad3e91b9cb239224dec07340661",
         "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
         "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
         "render-html.js": "f7b2251a67a2c8b5f91446ab643bbffd9339e11def4a2fd69134321c6f8aafec",
@@ -153,11 +170,12 @@
         "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
         "source-layout.js": "16da445cc0a65f27837e58b9ec187f866d1911736f9add6a83cac29cb58382cb",
         "source-patch.js": "079fcf71f600f6d0e92b9d213803a36b96957b2948755bec811c4c8e9591bf01",
-        "source-positions.js": "f38cea407a7a25a7bc386a029e735851adddf829e85bab750dcd90eee7ab9938",
+        "source-positions.js": "7a734b36b0cf87bd589153f99fccfd589326c32a3c4da41f20423509234a48a2",
         "source-unspellable-error.js": "198887895ec70b411459761cc10bcc6b12d11b25e14c503ad9e4c4997eb2cd5f",
         "spoiler.js": "546fb3afbc97e2686c5ac44dd8d9c64bc1d871403a1bd5e2740ad7acfe0aface",
         "stamp.js": "4891c367c9c0f373f770a6d92724d9b25caf2185287a426f8f0ab0211881a58c",
         "stream.js": "adc7048e6c11fd794676b3dc763086fd1a7c41ada71fcfe71c5aac4955a7be96",
+        "substitution-scanner.js": "909aa8f51f24da73c865caf4bcd4caffd7ee24912e1ee5d788e9648203d506f1",
         "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
         "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
         "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
@@ -181,7 +199,7 @@
     "lock_sha256": "1cf31844f248a5dfe65181c39aacf11bb363a1ece4f02adda10b5590af2ee20c",
     "harness_sha256": {
       "scripts/benchmark-metadata.mjs": "8fcb099b1f8183aed318259c7e6691eea89bebbef0dbe28fb406a7a20a9ee8b2",
-      "scripts/compare-commonmark.mjs": "122f63ff5d10da86889beb349773602099941592b77b100de92e88ca89b493a0",
+      "scripts/compare-commonmark.mjs": "ab74d9b58f85e10f223631ceaf4b44c8115dbf01c15c056e503316c3cc6d10df",
       "engines/js/compare.mjs": "351fab3aae28645c4e5b48e7b48e50914b5488b812b50e98c8e32bb8278cfe64",
       "engines/js/commonmark-core.mjs": "13fec435537fdb9b3212defe4dcae39a1d4019ff9cd199e9b1fbb18e974db4b4"
     },
@@ -190,9 +208,9 @@
     "sections": 150,
     "projection": "Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.",
     "load_end": [
-      1.55,
-      1.87,
-      3.05
+      3.7,
+      2.58,
+      2.02
     ]
   },
   "controls": [
@@ -238,9 +256,9 @@
         "commonmark.js-fresh"
       ],
       "load_end": [
-        1.6,
-        1.93,
-        3.11
+        5.4,
+        2.68,
+        2.03
       ],
       "rows": [
         {
@@ -251,17 +269,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.218984295,
-            2.229156325,
-            2.1642442650000002,
-            2.199981675,
-            2.21363127,
-            2.18738168,
-            2.247915925
+            2.451839595,
+            2.367940125,
+            2.41082337,
+            2.311052155,
+            2.33230148,
+            2.327572815,
+            2.335488735
           ],
-          "ms_per_op": 2.1642442650000002,
-          "mb_per_s": 21.914407662073955,
-          "carve_source": "@markup-carve/carve 0.1.10 (merged main a0e996083129b9d51e63be6982d79843fd35ea32)"
+          "ms_per_op": 2.311052155,
+          "mb_per_s": 20.52231101790761,
+          "carve_source": "@markup-carve/carve 0.1.10 (merged main a7c80d37fb322d28bc5061175bbd9c7f7638c175)"
         },
         {
           "engine": "djot.js",
@@ -271,16 +289,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            6.21372964,
-            6.53258816,
-            6.760224825,
-            6.4343652350000005,
-            6.21667983,
-            6.01727617,
-            6.02791739
+            8.838788135,
+            7.889637635000001,
+            7.960911525,
+            7.641686225,
+            8.032455915,
+            8.032418735,
+            8.53839105
           ],
-          "ms_per_op": 6.01727617,
-          "mb_per_s": 7.881993407577905
+          "ms_per_op": 7.641686225,
+          "mb_per_s": 6.206500726024723
         },
         {
           "engine": "markdown-it",
@@ -290,16 +308,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            6.208650905,
-            6.1633084799999995,
-            6.209178205,
-            6.41308742,
-            6.12034262,
-            6.24313429,
-            6.2171228350000005
+            6.19113159,
+            6.146791545,
+            6.247496744999999,
+            6.064707705,
+            6.047685265,
+            6.129836875,
+            6.173543125
           ],
-          "ms_per_op": 6.12034262,
-          "mb_per_s": 7.842753040737346
+          "ms_per_op": 6.047685265,
+          "mb_per_s": 7.936976477786229
         },
         {
           "engine": "commonmark.js",
@@ -309,16 +327,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.903377375,
-            2.83267656,
-            2.865912475,
-            2.807747335,
-            2.84797909,
-            2.8904492499999996,
-            2.838368175
+            3.1200439949999996,
+            3.137796705,
+            3.109926945,
+            3.11475642,
+            3.057740235,
+            3.002133375,
+            3.115849355
           ],
-          "ms_per_op": 2.807747335,
-          "mb_per_s": 17.09567491882576
+          "ms_per_op": 3.002133375,
+          "mb_per_s": 15.98874190370019
         },
         {
           "engine": "commonmark.js-fresh",
@@ -328,16 +346,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.6958108,
-            2.61745749,
-            2.58629637,
-            2.628775595,
-            2.5601214750000003,
-            2.77811641,
-            2.638455595
+            2.9029940950000004,
+            3.033400215,
+            3.046226795,
+            2.8007714399999997,
+            2.858753595,
+            2.82793046,
+            2.729921775
           ],
-          "ms_per_op": 2.5601214750000003,
-          "mb_per_s": 18.749241456739615
+          "ms_per_op": 2.729921775,
+          "mb_per_s": 17.583044368866346
         }
       ]
     },
@@ -351,9 +369,9 @@
         "carve-js"
       ],
       "load_end": [
-        1.55,
-        1.87,
-        3.05
+        3.7,
+        2.58,
+        2.02
       ],
       "rows": [
         {
@@ -364,16 +382,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.68424261,
-            2.60202431,
-            2.65874926,
-            2.622657165,
-            2.706241615,
-            2.656813625,
-            2.6976795900000003
+            2.75861045,
+            2.7285029200000004,
+            2.7728333750000003,
+            2.82184773,
+            2.92857645,
+            2.856570805,
+            2.89635609
           ],
-          "ms_per_op": 2.60202431,
-          "mb_per_s": 18.447304857562752
+          "ms_per_op": 2.7285029200000004,
+          "mb_per_s": 17.592187767700597
         },
         {
           "engine": "commonmark.js",
@@ -383,16 +401,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.868637035,
-            2.94850587,
-            2.974620195,
-            2.857384345,
-            2.92670163,
-            2.90776479,
-            2.92833899
+            3.1775277,
+            3.1317667549999997,
+            3.12846966,
+            3.18194096,
+            3.306754615,
+            3.25595859,
+            3.16600329
           ],
-          "ms_per_op": 2.857384345,
-          "mb_per_s": 16.79869765415103
+          "ms_per_op": 3.12846966,
+          "mb_per_s": 15.343072143892671
         },
         {
           "engine": "markdown-it",
@@ -402,16 +420,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            5.75065113,
-            5.760337985,
-            5.730562245,
-            5.6932627049999995,
-            5.73431697,
-            5.776791445,
-            5.702144225
+            6.137873025,
+            5.962008535,
+            5.98293043,
+            6.09724088,
+            6.011712035,
+            6.076646275000001,
+            5.935125074999999
           ],
-          "ms_per_op": 5.6932627049999995,
-          "mb_per_s": 8.431076902740497
+          "ms_per_op": 5.935125074999999,
+          "mb_per_s": 8.087501962771928
         },
         {
           "engine": "djot.js",
@@ -421,16 +439,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            5.963950115,
-            6.10847663,
-            5.90141982,
-            5.88167635,
-            6.09363992,
-            6.010821075,
-            5.819462755
+            8.607693915,
+            8.80768882,
+            8.61677642,
+            8.675723894999999,
+            8.562239995,
+            8.59113281,
+            8.42283713
           ],
-          "ms_per_op": 5.819462755,
-          "mb_per_s": 8.14991573969024
+          "ms_per_op": 8.42283713,
+          "mb_per_s": 5.630897329664456
         },
         {
           "engine": "carve-js",
@@ -440,17 +458,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.17528709,
-            2.237360655,
-            2.187263645,
-            2.24536176,
-            2.224391605,
-            2.17278328,
-            2.248870825
+            2.359690575,
+            2.57477352,
+            2.347685995,
+            2.3245971599999997,
+            2.3479100550000003,
+            2.36088526,
+            2.483880235
           ],
-          "ms_per_op": 2.17278328,
-          "mb_per_s": 21.828284274865933,
-          "carve_source": "@markup-carve/carve 0.1.10 (merged main a0e996083129b9d51e63be6982d79843fd35ea32)"
+          "ms_per_op": 2.3245971599999997,
+          "mb_per_s": 20.402731242911624,
+          "carve_source": "@markup-carve/carve 0.1.10 (merged main a7c80d37fb322d28bc5061175bbd9c7f7638c175)"
         }
       ]
     }

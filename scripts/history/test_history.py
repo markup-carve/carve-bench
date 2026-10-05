@@ -62,6 +62,9 @@ class HistoryTests(unittest.TestCase):
             self.assertIn('Sample ranges overlap',noisy_report)
             self.assertIn('Tag range ms | Point range ms',noisy_report)
             self.assertIn('opacity=".3"',path.with_name('engine-history-js.svg').read_text())
+            comparison=path.with_name('latest-main-comparison.md').read_text()
+            self.assertIn('ranges overlap',comparison)
+            self.assertIn('retained-tag load',comparison)
 
             aliased=copy.deepcopy(data);snapshot=aliased['engines']['js']
             snapshot['revisions']=snapshot['revisions'][:2];snapshot['rows']=snapshot['rows'][:2]

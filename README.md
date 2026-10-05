@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `a0e9960` against released
+The current comparison measures Carve JS merged main `a7c80d3` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -39,11 +39,10 @@ same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
 The throughput charts use pinned Carve development main for JS, PHP and Rust,
-measured 2026-10-04 Europe/Berlin. See [the source commits and samples](reports/dev-main-core.md).
+measured 2026-10-05 Europe/Berlin. See [the source commits and samples](reports/dev-main-core.md).
 The current tables below use median timing across fourteen samples.
-The shared host's one-minute load average changed from 2.79 to 2.10 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
-The PHP peer now uses Djot master `c8416ee` in place of the August
-`fab953f` snapshot. Exact sources are recorded in the report.
+The shared host's one-minute load average changed from 2.22 to 1.79 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
+The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
 The September 30 development-main snapshot, taken after the PHP
 parser and renderer changes and naming its exact commits and input hashes, is in
@@ -54,9 +53,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 125.84 | pulldown-cmark | 130.10 | 0.97x |
-| JavaScript | carve-js | 16.55 | djot.js | 6.53 | 2.53x |
-| PHP | carve-php | 17.16 | djot-php | 19.71 | 0.87x |
+| Rust | carve-rs | 121.38 | pulldown-cmark | 131.87 | 0.92x |
+| JavaScript | carve-js | 16.92 | markdown-it | 5.28 | 3.20x |
+| PHP | carve-php | 17.35 | djot-php | 19.72 | 0.88x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -66,9 +65,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 3.6100 | 16.55 | 7.61x |
-| carve-php | PHP | 3.4803 | 17.16 | 7.33x |
-| carve-rs | Rust | 0.4746 | 125.84 | 1.00x |
+| carve-js | JavaScript | 3.5303 | 16.92 | 7.17x |
+| carve-php | PHP | 3.4428 | 17.35 | 7.00x |
+| carve-rs | Rust | 0.4921 | 121.38 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -105,17 +104,32 @@ CARVE_PHP_SRC=/tmp/carve-php-main/src \
 CARVE_RS_SRC=/tmp/carve-rs-main \
 CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring" \
 CARVE_FULL_REPORT=reports/dev-main-full.json \
-node run.mjs
+CARVE_RUN_META="2026-10-05 Europe/Berlin; pinned merged main; serial run on a shared host; Node v22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; source hashes in the full-run JSON. Shared-host snapshots do not isolate engine speed changes." \
+CARVE_CORPUS_SNAPSHOT='carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed committed corpus retained' \
+taskset -c 13 node run.mjs
+node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
+python3 scripts/public_report.py reports/dev-main-full.json
 node scripts/gen-charts.mjs
 ```
 
 Report freshness checks require a new measurement after changing the recorded
 measurement code or dependency locks.
 
-The runners record the process CPU affinity. Headline and full-corpus snapshots
-allow the available CPUs so Node compiler and GC threads can run concurrently.
-New history main points use CPU 13. Retained release-tag samples used CPU 12;
+The runners record the process CPU affinity. This refresh pins headline,
+full-corpus and history main measurements to CPU 13.
+The previous headline and full-corpus session allowed CPUs 0 through 15, so its
+JavaScript compiler and GC threads could run concurrently. These sessions are
+not a controlled comparison. Retained release-tag samples used CPU 12;
 the report records both measurement sessions.
+
+To refresh only merged main history points and retain release samples, use the
+same pinned engine config as the core run:
+
+```sh
+python3 scripts/history/refresh-main.py /tmp/carve-main-config.json --cpu 13
+python3 scripts/public_report.py reports/engine-history.json
+python3 scripts/history/report.py reports/engine-history.json
+```
 
 The mixed corpus produces different HTML on published releases and current
 main. See the [output checks and paired Rust control](reports/dev-main-full-output-controls.json)
