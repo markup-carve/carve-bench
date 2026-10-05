@@ -36,7 +36,10 @@ jobs:
           node --check scripts/gen-corpus.mjs
           node --check scripts/gen-comparison-corpus.mjs
           node --check scripts/compare-commonmark.mjs
-          node --test scripts/test-commonmark.mjs scripts/test-dev-main.mjs scripts/test-full-results.mjs
+          node --check scripts/compare-full-feature.mjs
+          node --check scripts/full-feature-fixture.mjs
+          node --check scripts/paired-full-results.mjs
+          node --test scripts/test-commonmark.mjs scripts/test-dev-main.mjs scripts/test-full-results.mjs scripts/test-paired-full.mjs
           node --check scripts/gen-charts.mjs
           node --check scripts/build-rs-engine.mjs
           node --check scripts/measured-sources.mjs
