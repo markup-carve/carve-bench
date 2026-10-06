@@ -178,7 +178,8 @@ def build(path):
 def latest_comparison(d, directory):
     rows=[]
     session_notes=[]
-    body=['# Latest merged main versus the last two retained tags','','Release tags retain their original history measurements; each main point records its refresh session in the raw JSON. Check the recorded sessions and build configurations before attributing a difference to code. Lower milliseconds are faster. Percentage differences appear only when output hashes match and sample ranges do not overlap; they do not isolate code speedups. Sample ranges and source/build provenance are in the [history report](engine-history.md) and [raw JSON](engine-history.json).','','| Engine | Main commit | Recent tags |','|---|---|---|']
+    heading = '# Pinned merged main commits versus the last two retained tags' if d.get('main_selection_note') else '# Latest merged main versus the last two retained tags'
+    body=[heading,'','Release tags retain their original history measurements; each main point records its refresh session in the raw JSON. Check the recorded sessions and build configurations before attributing a difference to code. Lower milliseconds are faster. Percentage differences appear only when output hashes match and sample ranges do not overlap; they do not isolate code speedups. Sample ranges and source/build provenance are in the [history report](engine-history.md) and [raw JSON](engine-history.json).','','| Engine | Main commit | Recent tags |','|---|---|---|']
     if d.get('main_selection_note'):
         body[2:2] = [d['main_selection_note'], '']
     for engine,s in d['engines'].items():

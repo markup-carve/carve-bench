@@ -65,6 +65,7 @@ class HistoryTests(unittest.TestCase):
             self.assertIn('opacity=".3"',path.with_name('engine-history-js.svg').read_text())
             comparison=path.with_name('latest-main-comparison.md').read_text()
             self.assertIn(data['main_selection_note'],comparison)
+            self.assertTrue(comparison.startswith('# Pinned merged main commits'))
             self.assertIn('ranges overlap',comparison)
             self.assertIn('retained-tag load',comparison)
 

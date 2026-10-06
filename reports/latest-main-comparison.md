@@ -1,4 +1,4 @@
-# Latest merged main versus the last two retained tags
+# Pinned merged main commits versus the last two retained tags
 
 JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
 
