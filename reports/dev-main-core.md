@@ -1,20 +1,16 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-05T23:44:50.004Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: 5d6a5fe056f3f2ddca50abec9f89d28f5fc847d7; cached remote main: 5d6a5fe056f3f2ddca50abec9f89d28f5fc847d7; dirty tracked tree: true. Harness hashes are recorded in the JSON.
+Pinned to the October 6 audit merges. Later main changes affect documentation, tests and release tooling; runtime source and dependency manifests match those pins.
 
-Carve js: [a7c80d37fb322d28bc5061175bbd9c7f7638c175](https://github.com/markup-carve/carve-js/commit/a7c80d37fb322d28bc5061175bbd9c7f7638c175).
-Carve php: [49c235d768ea6faec074d4b561ed3783d99b6fbd](https://github.com/markup-carve/carve-php/commit/49c235d768ea6faec074d4b561ed3783d99b6fbd).
-Carve rs: [ae44de38b6ecf468212cac117f83158f7c3988c2](https://github.com/markup-carve/carve-rs/commit/ae44de38b6ecf468212cac117f83158f7c3988c2).
+Measured 2026-10-06T21:11:38.970Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63; cached remote main: b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63; dirty tracked tree: true. Harness hashes are recorded in the JSON.
 
-JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
+Carve js: [355d6de61406342d8aa989afed358f0d004ff586](https://github.com/markup-carve/carve-js/commit/355d6de61406342d8aa989afed358f0d004ff586).
+Carve php: [45de896cea3d8944287f28ca155dea3afe04feec](https://github.com/markup-carve/carve-php/commit/45de896cea3d8944287f28ca155dea3afe04feec).
+Carve rs: [5b7bea1ada2a507867d62278145fd7f9fd3f000d](https://github.com/markup-carve/carve-rs/commit/5b7bea1ada2a507867d62278145fd7f9fd3f000d).
 
 Djot PHP: [77e5b6c83978b28b72f314fe52c0a200856ad3f9](https://github.com/php-collective/djot-php/commit/77e5b6c83978b28b72f314fe52c0a200856ad3f9), installed from the Composer lock.
 
-Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
-
-The shared host's one-minute load average changed from 3.40 to 2.21. CPU affinity does not reserve a core. Carve Rust and pulldown-cmark are effectively tied in this snapshot; this does not establish an engine-only speedup.
-
-Two earlier runs were excluded before publication because competing test jobs caused large within-session slowdowns in Rust and peer engines. Their raw records remain local. This run began after those jobs ended.
+Allowed CPUs: 6. Child processes inherit this affinity, including Node compiler and GC threads.
 
 Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.
 
@@ -22,16 +18,18 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 3.7409 | 15.97 |
-| djot.js | JavaScript | 12.7363 | 4.70 |
-| markdown-it | JavaScript | 11.9665 | 5.04 |
-| carve-php | PHP | 3.6015 | 16.58 |
-| djot-php | PHP | 3.1340 | 19.10 |
-| league/commonmark-gfm | PHP | 40.4285 | 1.49 |
-| carve-rs | Rust | 0.4626 | 129.12 |
-| jotdown | Rust | 1.3262 | 45.15 |
-| comrak | Rust | 1.4302 | 42.16 |
-| pulldown-cmark | Rust | 0.4680 | 128.85 |
+| carve-js | JavaScript | 4.0743 | 14.66 |
+| djot.js | JavaScript | 13.6050 | 4.40 |
+| markdown-it | JavaScript | 12.9439 | 4.66 |
+| carve-php | PHP | 3.8845 | 15.38 |
+| djot-php | PHP | 3.2926 | 18.18 |
+| league/commonmark-gfm | PHP | 46.5551 | 1.30 |
+| carve-rs | Rust | 0.5165 | 115.65 |
+| jotdown | Rust | 1.4182 | 42.22 |
+| comrak | Rust | 1.5571 | 38.73 |
+| pulldown-cmark | Rust | 0.5018 | 120.17 |
+
+An initial core attempt ran under higher shared-host load and remains in local evidence. This snapshot uses the later complete rerun; samples and load are recorded in the linked JSON.
 
 [Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 
