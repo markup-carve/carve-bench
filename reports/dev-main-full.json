@@ -1,44 +1,19 @@
 {
   "schema": 1,
   "metadata": {
-    "benchmark_base_commit": "ed2d02d031d1427f428a632568b9e9f4637ce1e8",
-    "benchmark_checkout_commit": "ed2d02d031d1427f428a632568b9e9f4637ce1e8",
+    "benchmark_base_commit": "5d6a5fe056f3f2ddca50abec9f89d28f5fc847d7",
+    "benchmark_checkout_commit": "5d6a5fe056f3f2ddca50abec9f89d28f5fc847d7",
     "benchmark_dirty_paths": [
       "README.md",
-      "RESULTS.md",
       "charts/carve-core-throughput.svg",
-      "charts/commonmark-js.svg",
       "charts/core-throughput.svg",
-      "charts/full-corpus.svg",
-      "charts/php-tiers.svg",
-      "engines/php/composer.lock",
-      "reports/commonmark-js.json",
-      "reports/commonmark-js.md",
       "reports/dev-main-core.json",
       "reports/dev-main-core.md",
-      "reports/dev-main-full-output-controls.json",
       "reports/dev-main-full.json",
-      "reports/engine-history-js.svg",
-      "reports/engine-history-php.svg",
-      "reports/engine-history-rs.svg",
-      "reports/engine-history.csv",
-      "reports/engine-history.html",
-      "reports/engine-history.json",
-      "reports/engine-history.md",
-      "reports/latest-main-comparison.csv",
-      "reports/latest-main-comparison.md",
-      "run.mjs",
-      "scripts/check-full-outputs.mjs",
-      "scripts/compare-commonmark.mjs",
-      "scripts/full-output-control.php",
-      "scripts/full-results.mjs",
-      "scripts/history/refresh-main.py",
-      "scripts/history/report.py",
-      "scripts/site/build.mjs",
-      "scripts/test-dev-main.mjs"
+      "reports/dev-main-rust.Cargo.lock"
     ],
     "benchmark_dirty": true,
-    "completed_at": "2026-10-05T18:15:05.846Z",
+    "completed_at": "2026-10-05T23:57:04.965Z",
     "cpu_affinity": [
       13
     ],
@@ -52,14 +27,14 @@
     "method": "Serial full run.mjs workload. Corpus rows average in-process iterations after warm-up; PHP tier rows report minimum of five trials and retain every trial. Measurements are host-specific snapshots, not paired speedup evidence.",
     "corpus_snapshot": "carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed committed corpus retained",
     "load_start": [
-      1.48,
-      1.3,
-      1.56
+      2.15,
+      4.14,
+      7.24
     ],
     "load_end": [
-      2.44,
-      1.98,
-      1.79
+      2.41,
+      3.21,
+      5.72
     ],
     "host_note": "CPU affinity does not reserve a core. Separate shared-host snapshots do not isolate engine speed changes.",
     "capture": "Worker JSON stdout returned to run.mjs. Corpus times and throughput are rounded by the workers.",
@@ -206,7 +181,7 @@
       },
       "rs": {
         "repository": "https://github.com/markup-carve/carve-rs",
-        "commit": "8ee78ecb83d82ed81c544c17483e0eb111398f9d",
+        "commit": "ae44de38b6ecf468212cac117f83158f7c3988c2",
         "kind": "merged-main"
       }
     },
@@ -241,17 +216,59 @@
     "dependency_sha256": {
       "engines/js/package-lock.json": "1cf31844f248a5dfe65181c39aacf11bb363a1ece4f02adda10b5590af2ee20c",
       "engines/php/composer.lock": "1f7030137b7d28f3ea82b65b8036e570e006338067e882b08431c01c0658c42e",
-      "reports/dev-main-rust.Cargo.lock": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90"
+      "reports/dev-main-rust.Cargo.lock": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b"
     },
-    "rust_binary_sha256": "093408567ef04a0dd20f348b2406d15870023eb5283d714a6761720ceaf6c08d",
-    "rust_dependency_lock_sha256": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90"
+    "rust_binary_sha256": "a4e9b367319a2bb99cfd55d1c863b0be482ce7cc2165363c979662fd9a76039e",
+    "rust_dependency_lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
+    "retained_main_snapshot": {
+      "js": {
+        "measured_commit": "a7c80d37fb322d28bc5061175bbd9c7f7638c175",
+        "latest_at_setup": "4fae7184598e9add49a27f2f75225086abc40d26",
+        "changed_paths": [
+          "docs/migration.md",
+          "spec",
+          "src/case-migrate.ts",
+          "src/lint.ts",
+          "src/parse.ts",
+          "test/a-description-body-folds-past-its-nested-lead-s-block-kind.test.ts",
+          "test/a-line-below-a-description-item-s-content-column-opens-nothing.test.ts",
+          "test/a-quoted-list-on-a-description-lead-dies-with-its-quote.test.ts",
+          "test/an-over-indented-block-below-a-quoted-description-lead-is-the-body-s.test.ts",
+          "test/corpus.test.ts",
+          "test/lint.test.ts"
+        ],
+        "reason": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
+      },
+      "php": {
+        "measured_commit": "49c235d768ea6faec074d4b561ed3783d99b6fbd",
+        "latest_at_setup": "323468bbe58115f97686c46d76eb9bc48e6bfbda",
+        "changed_paths": [
+          "docs/lint.md",
+          "src/Lint/ReferenceLinter.php",
+          "src/Parser/BlockContinuationScanner.php",
+          "src/Parser/BlockParser.php",
+          "src/Parser/DefinitionListBuilder.php",
+          "src/Parser/InlineParser.php",
+          "src/Parser/TrailingBlockState.php",
+          "tests/CarveCorpusTest.php",
+          "tests/TestCase/AClosedNestedFenceFoldsAColumnZeroLineWhereAHeadingDoesNotTest.php",
+          "tests/TestCase/ACollapsedReferenceImageDoesNotResolveAgainstAHeadingTest.php",
+          "tests/TestCase/ADescriptionBodyFoldsAFlushLeftLineForEveryLeadKindTest.php",
+          "tests/TestCase/AParagraphOpenBelowAClosedNestedFenceTakesTheLineTest.php",
+          "tests/TestCase/Lint/ReferenceLinterTest.php",
+          "tests/spec"
+        ],
+        "reason": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
+      }
+    },
+    "main_selection_note": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
   },
   "corpus": [
     {
       "document": "corpus/small.crv",
       "engine": "carve-js",
-      "ms_per_op": 0.8234,
-      "mb_per_s": 1.43,
+      "ms_per_op": 0.8168,
+      "mb_per_s": 1.44,
       "iters": 2000,
       "bytes": 1233,
       "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-js-main @ a7c80d37f)"
@@ -259,8 +276,8 @@
     {
       "document": "corpus/small.crv",
       "engine": "carve-php",
-      "ms_per_op": 1.4286,
-      "mb_per_s": 0.82,
+      "ms_per_op": 1.4763,
+      "mb_per_s": 0.8,
       "iters": 2000,
       "bytes": 1233,
       "jit": true,
@@ -269,17 +286,17 @@
     {
       "document": "corpus/small.crv",
       "engine": "carve-rs",
-      "ms_per_op": 0.1166,
-      "mb_per_s": 10.09,
+      "ms_per_op": 0.1124,
+      "mb_per_s": 10.47,
       "iters": 2000,
       "bytes": 1233,
-      "carve_source": "carve-lang 0.1.8 (local checkout carve-rs-main @ 8ee78ecb8)"
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-rs-main @ ae44de38b)"
     },
     {
       "document": "corpus/medium.crv",
       "engine": "carve-js",
-      "ms_per_op": 94.4984,
-      "mb_per_s": 0.66,
+      "ms_per_op": 98.8697,
+      "mb_per_s": 0.63,
       "iters": 500,
       "bytes": 65105,
       "carve_source": "@markup-carve/carve 0.1.10 (local checkout carve-js-main @ a7c80d37f)"
@@ -287,7 +304,7 @@
     {
       "document": "corpus/medium.crv",
       "engine": "carve-php",
-      "ms_per_op": 156.5393,
+      "ms_per_op": 153.895,
       "mb_per_s": 0.4,
       "iters": 500,
       "bytes": 65105,
@@ -297,16 +314,16 @@
     {
       "document": "corpus/medium.crv",
       "engine": "carve-rs",
-      "ms_per_op": 28.0886,
+      "ms_per_op": 28.1016,
       "mb_per_s": 2.21,
       "iters": 500,
       "bytes": 65105,
-      "carve_source": "carve-lang 0.1.8 (local checkout carve-rs-main @ 8ee78ecb8)"
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-rs-main @ ae44de38b)"
     },
     {
       "document": "corpus/large.crv",
       "engine": "carve-js",
-      "ms_per_op": 1180.3813,
+      "ms_per_op": 1173.6643,
       "mb_per_s": 0.42,
       "iters": 50,
       "bytes": 520855,
@@ -315,7 +332,7 @@
     {
       "document": "corpus/large.crv",
       "engine": "carve-php",
-      "ms_per_op": 1895.7285,
+      "ms_per_op": 1901.7255,
       "mb_per_s": 0.26,
       "iters": 50,
       "bytes": 520855,
@@ -325,11 +342,11 @@
     {
       "document": "corpus/large.crv",
       "engine": "carve-rs",
-      "ms_per_op": 342.1794,
-      "mb_per_s": 1.45,
+      "ms_per_op": 336.5027,
+      "mb_per_s": 1.48,
       "iters": 50,
       "bytes": 520855,
-      "carve_source": "carve-lang 0.1.8 (local checkout carve-rs-main @ 8ee78ecb8)"
+      "carve_source": "carve-lang 0.1.8 (local checkout carve-rs-main @ ae44de38b)"
     }
   ],
   "tiers": [
@@ -339,14 +356,14 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.1947821999999997,
-        3.0095752,
-        2.9729356,
-        2.8715724000000002,
-        2.8889351999999997
+        2.9645088,
+        2.9539587999999997,
+        2.8046678,
+        2.8207782000000003,
+        2.7225702
       ],
-      "ms_per_op": 2.8715724000000002,
-      "mb_per_s": 16.36299804571737,
+      "ms_per_op": 2.7225702,
+      "mb_per_s": 17.258520485288475,
       "jit": true,
       "tier2_extensions": 0,
       "tier3_extensions": 0,
@@ -358,14 +375,14 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        3.3593778,
-        3.2506126,
-        3.1183845999999997,
-        3.094431,
-        2.9901502
+        3.3636474,
+        3.1543566,
+        3.1261652,
+        3.0076907999999998,
+        2.9436071999999998
       ],
-      "ms_per_op": 2.9901502,
-      "mb_per_s": 15.714104786219748,
+      "ms_per_op": 2.9436071999999998,
+      "mb_per_s": 15.962569180200383,
       "jit": true,
       "tier2_extensions": 8,
       "tier3_extensions": 0,
@@ -377,14 +394,14 @@
       "iterations": 5,
       "trials": 5,
       "samples": [
-        4.0027298,
-        3.6583556,
-        3.4757998,
-        3.3943004,
-        3.4075456
+        3.9784166,
+        3.5269565999999997,
+        3.329725,
+        3.3418098,
+        3.3416436
       ],
-      "ms_per_op": 3.3943004,
-      "mb_per_s": 13.843068683412918,
+      "ms_per_op": 3.329725,
+      "mb_per_s": 14.111535808313281,
       "jit": true,
       "tier2_extensions": 8,
       "tier3_extensions": 12,

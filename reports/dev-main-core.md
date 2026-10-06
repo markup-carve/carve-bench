@@ -1,14 +1,20 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-05T18:05:43.267Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: ed2d02d031d1427f428a632568b9e9f4637ce1e8; cached remote main: ed2d02d031d1427f428a632568b9e9f4637ce1e8; dirty tracked tree: true. Harness hashes are recorded in the JSON.
+Measured 2026-10-05T23:44:50.004Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: 5d6a5fe056f3f2ddca50abec9f89d28f5fc847d7; cached remote main: 5d6a5fe056f3f2ddca50abec9f89d28f5fc847d7; dirty tracked tree: true. Harness hashes are recorded in the JSON.
 
 Carve js: [a7c80d37fb322d28bc5061175bbd9c7f7638c175](https://github.com/markup-carve/carve-js/commit/a7c80d37fb322d28bc5061175bbd9c7f7638c175).
 Carve php: [49c235d768ea6faec074d4b561ed3783d99b6fbd](https://github.com/markup-carve/carve-php/commit/49c235d768ea6faec074d4b561ed3783d99b6fbd).
-Carve rs: [8ee78ecb83d82ed81c544c17483e0eb111398f9d](https://github.com/markup-carve/carve-rs/commit/8ee78ecb83d82ed81c544c17483e0eb111398f9d).
+Carve rs: [ae44de38b6ecf468212cac117f83158f7c3988c2](https://github.com/markup-carve/carve-rs/commit/ae44de38b6ecf468212cac117f83158f7c3988c2).
+
+JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
 
 Djot PHP: [77e5b6c83978b28b72f314fe52c0a200856ad3f9](https://github.com/php-collective/djot-php/commit/77e5b6c83978b28b72f314fe52c0a200856ad3f9), installed from the Composer lock.
 
 Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
+
+The shared host's one-minute load average changed from 3.40 to 2.21. CPU affinity does not reserve a core. Carve Rust and pulldown-cmark are effectively tied in this snapshot; this does not establish an engine-only speedup.
+
+Two earlier runs were excluded before publication because competing test jobs caused large within-session slowdowns in Rust and peer engines. Their raw records remain local. This run began after those jobs ended.
 
 Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.
 
@@ -16,16 +22,16 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 3.5303 | 16.92 |
-| djot.js | JavaScript | 11.6733 | 5.13 |
-| markdown-it | JavaScript | 11.4126 | 5.28 |
-| carve-php | PHP | 3.4428 | 17.35 |
-| djot-php | PHP | 3.0366 | 19.72 |
-| league/commonmark-gfm | PHP | 37.4694 | 1.61 |
-| carve-rs | Rust | 0.4921 | 121.38 |
-| jotdown | Rust | 1.2942 | 46.26 |
-| comrak | Rust | 1.4023 | 43.00 |
-| pulldown-cmark | Rust | 0.4573 | 131.87 |
+| carve-js | JavaScript | 3.7409 | 15.97 |
+| djot.js | JavaScript | 12.7363 | 4.70 |
+| markdown-it | JavaScript | 11.9665 | 5.04 |
+| carve-php | PHP | 3.6015 | 16.58 |
+| djot-php | PHP | 3.1340 | 19.10 |
+| league/commonmark-gfm | PHP | 40.4285 | 1.49 |
+| carve-rs | Rust | 0.4626 | 129.12 |
+| jotdown | Rust | 1.3262 | 45.15 |
+| comrak | Rust | 1.4302 | 42.16 |
+| pulldown-cmark | Rust | 0.4680 | 128.85 |
 
 [Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 
