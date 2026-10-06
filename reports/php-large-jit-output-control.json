@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "metadata": {
+    "cpu_affinity": [
+      13
+    ],
+    "input": "corpus/large.crv",
+    "warmups": 20,
+    "runtime": "PHP 8.5.11",
+    "worker_sha256": "ff3dd40f877353a74f5fc3dac273266048a155b2f2467d1012c843e839313361",
+    "source_override_sha256": "e65982e185204b2f1ffc47cd9d541c69ed58ca7c07fd053d1c7581b62909a9d9",
+    "sources": {
+      "before": "49c235d768ea6faec074d4b561ed3783d99b6fbd",
+      "after": "45de896cea3d8944287f28ca155dea3afe04feec"
+    },
+    "php_flags": [
+      "-n",
+      "-d",
+      "extension=ctype",
+      "-d",
+      "extension=mbstring",
+      "-d",
+      "opcache.enable_cli=1"
+    ],
+    "tracing_flags": [
+      "-d",
+      "opcache.jit_buffer_size=128M",
+      "-d",
+      "opcache.jit=tracing"
+    ],
+    "disabled_flags": [
+      "-d",
+      "opcache.jit_buffer_size=0",
+      "-d",
+      "opcache.jit=disable"
+    ],
+    "note": "Output controls for the same worker and input. The old tracing-JIT output differs from the new output and from the old output with JIT disabled. These observations do not establish a cause or prove what every timed conversion rendered. Timings are observations, not a paired speed comparison.",
+    "input_sha256": "3b97269724132551ee49466b474f75c9df9f95e228d73153d81e0d25c971c755"
+  },
+  "rows": [
+    {
+      "engine": "carve-php",
+      "source_sha256": "3b97269724132551ee49466b474f75c9df9f95e228d73153d81e0d25c971c755",
+      "output_sha256": "5f06322c35cbad2493ad5ecd761bea982cc923ccd7aa8cc8915781b5e949e479",
+      "bytes": 520855,
+      "iterations": 1,
+      "trials": 1,
+      "samples": [
+        2222.535481
+      ],
+      "ms_per_op": 2222.535481,
+      "mb_per_s": 0.2234952109058264,
+      "jit_on": true,
+      "jit": true,
+      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-previous-php @ 49c235d76)",
+      "revision": "before",
+      "jit_mode": "tracing",
+      "output_bytes": 2318117,
+      "completed_at": "2026-10-06T22:00:29.648433+00:00"
+    },
+    {
+      "engine": "carve-php",
+      "source_sha256": "3b97269724132551ee49466b474f75c9df9f95e228d73153d81e0d25c971c755",
+      "output_sha256": "2905dd9826fa682b47cf329b17f8a3360ff5ba11a2bdb5b954ceb45268a34fc0",
+      "bytes": 520855,
+      "iterations": 1,
+      "trials": 1,
+      "samples": [
+        2026.651794
+      ],
+      "ms_per_op": 2026.651794,
+      "mb_per_s": 0.2450968822282933,
+      "jit_on": true,
+      "jit": true,
+      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-merged-php @ 45de896ce)",
+      "revision": "after",
+      "jit_mode": "tracing",
+      "output_bytes": 2318165,
+      "completed_at": "2026-10-06T22:01:17.471636+00:00"
+    },
+    {
+      "engine": "carve-php",
+      "source_sha256": "3b97269724132551ee49466b474f75c9df9f95e228d73153d81e0d25c971c755",
+      "output_sha256": "2905dd9826fa682b47cf329b17f8a3360ff5ba11a2bdb5b954ceb45268a34fc0",
+      "bytes": 520855,
+      "iterations": 1,
+      "trials": 1,
+      "samples": [
+        2412.586996
+      ],
+      "ms_per_op": 2412.586996,
+      "mb_per_s": 0.2058893780391484,
+      "jit_on": false,
+      "jit": false,
+      "carve_source": "markup-carve/carve-php (local checkout /tmp/carve-bench-previous-php @ 49c235d76)",
+      "revision": "before",
+      "jit_mode": "disabled",
+      "output_bytes": 2318165,
+      "completed_at": "2026-10-06T22:04:59.997844+00:00"
+    }
+  ],
+  "publication_exporter_sha256": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
+}

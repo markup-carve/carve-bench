@@ -15,6 +15,11 @@ const sha = value => createHash('sha256').update(value).digest('hex')
 const command = (program, args, options = {}) => execFileSync(program, args, { cwd: root, encoding: 'utf8', timeout: 1800000, maxBuffer: 16000000, ...options }).trim()
 const git = (tree, ...args) => command('git', ['-C', tree, ...args])
 const cache = mkdtempSync(resolve(tmpdir(), 'carve-paired-full-'))
+const artifacts = config.artifact_directory ? resolve(config.artifact_directory) : undefined
+if (artifacts) {
+  assert.ok(!existsSync(artifacts), 'Use a new artifact export directory')
+  mkdirSync(artifacts, { recursive: true })
+}
 const cleanEnv = { ...process.env }
 for (const key of Object.keys(cleanEnv)) if (key.startsWith('CARVE_')) delete cleanEnv[key]
 const phpFlags = ['-n', '-d', 'extension=ctype', '-d', 'extension=mbstring', '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
@@ -70,6 +75,7 @@ try {
         prepared[revision].rsBinary = binary
         identity.binary_sha256 = sha(readFileSync(binary))
         identity.control_binary_sha256 = sha(readFileSync(binary + '-compare'))
+        if (artifacts) cpSync(binary + '-compare', resolve(artifacts, `${revision}-rs-compare`))
         identity.lock_sha256 = sha(readFileSync(resolve(target, 'crate/Cargo.lock')))
         identity.manifest_sha256 = sha(readFileSync(resolve(target, 'crate/Cargo.toml')))
       }

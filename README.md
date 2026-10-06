@@ -143,6 +143,37 @@ Changing a measured producer requires a fresh run before publishing the new
 producer and report. The exporter applies the standard portable metadata note;
 a report may already contain no absolute paths.
 
+The [exact-corpus revision checks](reports/conversion-snapshot-pairs.md) compare
+these same merged revisions on the committed core, small, medium and large
+inputs. JS also includes the core input without pipe tables. Two reversed
+rounds use fixed iterations within each pair. PHP's large
+input produces different HTML under the old revision's tracing JIT, so that
+row has no comparable timing change. The [JIT output control](reports/php-large-jit-output-control.json)
+records the old revision with JIT disabled and both revisions with tracing JIT.
+It records output observations under those settings, without attributing a cause.
+
+The [Rust ranking check](reports/rust-core-ranking.md) runs Carve and pulldown in
+both Rust builds, alternating order across eight rounds. Both checks retain
+samples and source hashes. They measure the pinned audit revisions, before
+later parser follow-ups, and do not establish statistical significance.
+
+The interim CPU 6 audit refresh is preserved in the [core report](reports/dev-main-core-audit-20261006.md),
+[JS report](reports/commonmark-js-audit-20261006.md), [full-corpus record](reports/dev-main-full-audit-20261006.json)
+and [Rust dependency lock](reports/dev-main-rust-audit-20261006.Cargo.lock).
+
+For these checks, add a fresh `artifact_directory` to the paired config. The
+paired runner retains both Rust comparison binaries there. Then run:
+
+```sh
+taskset -c CPU python3 scripts/check-conversion-snapshots.py CONFIG.json --rust-binaries ARTIFACT_DIRECTORY
+taskset -c CPU python3 scripts/check-rust-core-ranking.py --rust-binaries ARTIFACT_DIRECTORY --core-controls reports/dev-main-core-audit-20261006.json
+python3 scripts/public_report.py reports/conversion-snapshot-pairs.json reports/rust-core-ranking.json
+```
+
+The scripts check the binaries against the paired build manifest. Output and checkpoint paths
+must be fresh. The first check also verifies JS build hashes and PHP settings.
+Raw measurements remain local before portable publication.
+
 To reproduce the current full-corpus snapshot, check out the commits named in
 [the core report](reports/dev-main-core.md), build Carve JS, and build the Rust
 worker with `node scripts/build-rs-engine.mjs --carve-rs /tmp/carve-rs-main`.
