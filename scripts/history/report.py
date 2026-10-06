@@ -179,6 +179,8 @@ def latest_comparison(d, directory):
     rows=[]
     session_notes=[]
     body=['# Latest merged main versus the last two retained tags','','Release tags retain their original history measurements; each main point records its refresh session in the raw JSON. Check the recorded sessions and build configurations before attributing a difference to code. Lower milliseconds are faster. Percentage differences appear only when output hashes match and sample ranges do not overlap; they do not isolate code speedups. Sample ranges and source/build provenance are in the [history report](engine-history.md) and [raw JSON](engine-history.json).','','| Engine | Main commit | Recent tags |','|---|---|---|']
+    if d.get('main_selection_note'):
+        body[2:2] = [d['main_selection_note'], '']
     for engine,s in d['engines'].items():
      if not any(x['label']=='dev-main' for x in s['revisions']):continue
      tags=[x['label'] for x in s['revisions'] if x['label']!='dev-main' and x.get('kind')!='candidate'][-2:];main=next(x for x in s['revisions'] if x['label']=='dev-main');body.append(f'| {engine} | `{main["sha"]}` | {", ".join(tags)} |')

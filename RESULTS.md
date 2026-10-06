@@ -16,6 +16,8 @@ with `node run.mjs`; see README for setup.
 
 **Run:** 2026-10-05T23:57:04.965Z; 2026-10-06 Europe/Berlin; pinned merged performance commits; serial run on a shared host; Node v22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; source hashes in the full-run JSON. Separate snapshots do not isolate engine speed changes.
 
+JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
+
 Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
 
 One-minute host load was 2.15 at start and 2.41 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.

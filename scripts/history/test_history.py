@@ -43,6 +43,7 @@ class HistoryTests(unittest.TestCase):
             for row in rows:
                 row['fixture_sha256']=hashlib.sha256(run.fixture(row['case'],row['n']).encode()).hexdigest()
                 row['samples']=[{'samples_ms':[row['median_ms']]*7,'hash':row['output_sha256']} for _ in range(3)]
+            data['main_selection_note']='JS retains a measured performance commit behind main.'
             path.write_text(json.dumps(data));report.build(path)
             svg=path.with_name('engine-history-js.svg').read_text()
             self.assertEqual(svg.count('stroke-width="2"/>'),2)
@@ -63,6 +64,7 @@ class HistoryTests(unittest.TestCase):
             self.assertIn('Tag range ms | Point range ms',noisy_report)
             self.assertIn('opacity=".3"',path.with_name('engine-history-js.svg').read_text())
             comparison=path.with_name('latest-main-comparison.md').read_text()
+            self.assertIn(data['main_selection_note'],comparison)
             self.assertIn('ranges overlap',comparison)
             self.assertIn('retained-tag load',comparison)
 

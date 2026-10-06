@@ -261,7 +261,7 @@
           "test/corpus.test.ts",
           "test/lint.test.ts"
         ],
-        "reason": "Retain the last measured performance commit. Subsequent main changes fix description-list or reference behavior and update lint or corpus coverage; this core fixture does not exercise those cases."
+        "reason": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
       },
       "php": {
         "measured_commit": "49c235d768ea6faec074d4b561ed3783d99b6fbd",
@@ -282,10 +282,10 @@
           "tests/TestCase/Lint/ReferenceLinterTest.php",
           "tests/spec"
         ],
-        "reason": "Retain the last measured performance commit. Subsequent main changes fix description-list or reference behavior and update lint or corpus coverage; this core fixture does not exercise those cases."
+        "reason": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
       }
     },
-    "main_selection_note": "JS and PHP retain their last measured performance commits; later main changes concern description lists, references, lint, and corpus coverage outside this core fixture.",
+    "main_selection_note": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.",
     "measurement_attempt_note": "Two earlier runs were excluded before publication because competing test jobs caused large within-session slowdowns in Rust and peer engines. Their raw records remain local. This run began after those jobs ended."
   },
   "controls": [

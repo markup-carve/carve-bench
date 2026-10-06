@@ -6,7 +6,7 @@ Carve js: [a7c80d37fb322d28bc5061175bbd9c7f7638c175](https://github.com/markup-c
 Carve php: [49c235d768ea6faec074d4b561ed3783d99b6fbd](https://github.com/markup-carve/carve-php/commit/49c235d768ea6faec074d4b561ed3783d99b6fbd).
 Carve rs: [ae44de38b6ecf468212cac117f83158f7c3988c2](https://github.com/markup-carve/carve-rs/commit/ae44de38b6ecf468212cac117f83158f7c3988c2).
 
-JS and PHP retain their last measured performance commits; later main changes concern description lists, references, lint, and corpus coverage outside this core fixture.
+JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
 
 Djot PHP: [77e5b6c83978b28b72f314fe52c0a200856ad3f9](https://github.com/php-collective/djot-php/commit/77e5b6c83978b28b72f314fe52c0a200856ad3f9), installed from the Composer lock.
 

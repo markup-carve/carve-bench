@@ -10,7 +10,7 @@ The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/m
 
 ## Measurement sessions
 
-Release-tag measurements retain their original sessions. All three merged main points were refreshed 2026-10-06T00:04:00.832526+00:00 with the same fixtures, workers and sampling counts on CPU 13. Separate shared-host sessions and build configurations do not isolate code speedups.
+Release-tag measurements retain their original sessions. All three merged main points were refreshed 2026-10-06T00:04:00.832526+00:00 with the same fixtures, workers and sampling counts on CPU 13. Separate shared-host sessions and build configurations do not isolate code speedups. JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
 
 js retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
@@ -63,6 +63,8 @@ Runtime: v22.22.2. Latest tag: 0.1.9.
 
 Merged main refreshed 2026-10-06T00:02:52.090408+00:00; release samples retained. Cross-session differences do not establish code speedups.
 
+JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
+
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|
 | dev-main | quoted_fences | 128 | 0.311 | 0.232 | ranges overlap | 0.232 | +0.0% | yes | 0.254 to 1.718 | 0.197 to 1.025 |
@@ -91,6 +93,8 @@ Runtime: 8.5.11. Latest tag: 0.1.10.
 | dev-main | `49c235d768ea6faec074d4b561ed3783d99b6fbd` |
 
 Merged main refreshed 2026-10-06T00:04:00.011042+00:00; release samples retained. Cross-session differences do not establish code speedups.
+
+JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|

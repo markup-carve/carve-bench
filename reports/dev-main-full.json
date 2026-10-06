@@ -219,7 +219,49 @@
       "reports/dev-main-rust.Cargo.lock": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b"
     },
     "rust_binary_sha256": "a4e9b367319a2bb99cfd55d1c863b0be482ce7cc2165363c979662fd9a76039e",
-    "rust_dependency_lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b"
+    "rust_dependency_lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
+    "retained_main_snapshot": {
+      "js": {
+        "measured_commit": "a7c80d37fb322d28bc5061175bbd9c7f7638c175",
+        "latest_at_setup": "4fae7184598e9add49a27f2f75225086abc40d26",
+        "changed_paths": [
+          "docs/migration.md",
+          "spec",
+          "src/case-migrate.ts",
+          "src/lint.ts",
+          "src/parse.ts",
+          "test/a-description-body-folds-past-its-nested-lead-s-block-kind.test.ts",
+          "test/a-line-below-a-description-item-s-content-column-opens-nothing.test.ts",
+          "test/a-quoted-list-on-a-description-lead-dies-with-its-quote.test.ts",
+          "test/an-over-indented-block-below-a-quoted-description-lead-is-the-body-s.test.ts",
+          "test/corpus.test.ts",
+          "test/lint.test.ts"
+        ],
+        "reason": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
+      },
+      "php": {
+        "measured_commit": "49c235d768ea6faec074d4b561ed3783d99b6fbd",
+        "latest_at_setup": "323468bbe58115f97686c46d76eb9bc48e6bfbda",
+        "changed_paths": [
+          "docs/lint.md",
+          "src/Lint/ReferenceLinter.php",
+          "src/Parser/BlockContinuationScanner.php",
+          "src/Parser/BlockParser.php",
+          "src/Parser/DefinitionListBuilder.php",
+          "src/Parser/InlineParser.php",
+          "src/Parser/TrailingBlockState.php",
+          "tests/CarveCorpusTest.php",
+          "tests/TestCase/AClosedNestedFenceFoldsAColumnZeroLineWhereAHeadingDoesNotTest.php",
+          "tests/TestCase/ACollapsedReferenceImageDoesNotResolveAgainstAHeadingTest.php",
+          "tests/TestCase/ADescriptionBodyFoldsAFlushLeftLineForEveryLeadKindTest.php",
+          "tests/TestCase/AParagraphOpenBelowAClosedNestedFenceTakesTheLineTest.php",
+          "tests/TestCase/Lint/ReferenceLinterTest.php",
+          "tests/spec"
+        ],
+        "reason": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
+      }
+    },
+    "main_selection_note": "JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes."
   },
   "corpus": [
     {

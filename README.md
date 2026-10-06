@@ -138,7 +138,7 @@ CARVE_PHP_SRC=/tmp/carve-php-main/src \
 CARVE_RS_SRC=/tmp/carve-rs-main \
 CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring" \
 CARVE_FULL_REPORT=reports/dev-main-full.json \
-CARVE_RUN_META="2026-10-05 Europe/Berlin; pinned merged main; serial run on a shared host; Node v22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; source hashes in the full-run JSON. Shared-host snapshots do not isolate engine speed changes." \
+CARVE_RUN_META="2026-10-06 Europe/Berlin; pinned merged performance commits; serial run on a shared host; Node v22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; source hashes in the full-run JSON. Separate snapshots do not isolate engine speed changes." \
 CARVE_CORPUS_SNAPSHOT='carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed committed corpus retained' \
 taskset -c 13 node run.mjs
 node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
