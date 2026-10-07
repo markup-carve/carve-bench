@@ -1,5 +1,7 @@
 # Benchmark results: authoritative/full parser
 
+PHP is pinned to merged commit 40653c424; the newer main at setup changes only CHANGELOG.md. Runtime sources and dependency manifests are identical.
+
 This is **Track B**, the Carve-owned authoritative/full-parser view. The mixed
 corpus falls outside the conservative borrowed facades and therefore exercises
 normal AST construction, extension-capable parsing, and rendering. It answers
@@ -14,21 +16,21 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-05T23:57:04.965Z; 2026-10-06 Europe/Berlin; pinned merged performance commits; serial run on a shared host; Node v22.22.2, PHP 8.5.11 tracing JIT, rustc 1.97.1; source hashes in the full-run JSON. Separate snapshots do not isolate engine speed changes.
-
-JS and PHP use retained merged performance commits, not current main heads. Later main changes fix description-list or reference correctness and update lint or corpus coverage. They were excluded from this Rust performance refresh; these fixtures do not validate the newer fixes.
+**Run:** 2026-10-07T11:01:57.522Z; Fresh merged-main benchmark after the October 6 parser and URL-allocation fixes; CPU 13; PHP memory limit 512M for the concatenated corpus.
 
 Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
 
-One-minute host load was 2.15 at start and 2.41 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
+One-minute host load was 2.98 at start and 1.88 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
 
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
-before treating cross-engine results as equal work.
+before treating cross-engine results as equal work. PHP controls use a clean
+configuration without JIT, while these timings use tracing JIT. The controls
+do not establish what every timed conversion rendered.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-js-main @ a7c80d37f)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 49c235d76)`, carve-rs `carve-lang 0.1.8 (local checkout carve-rs-main @ ae44de38b)`
+**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-js-main @ 5b9ca1632)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 40653c424)`, carve-rs `carve-lang 0.1.8 (local checkout carve-rs-main @ 2246a9b2b)`
 
-**Corpus snapshot:** carve `9db91206d1a4a8a8cf795c48210bca49d66f14d6` (2,134 documents); fixed committed corpus retained
+**Corpus snapshot:** carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.
 
 ![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
 
@@ -36,25 +38,25 @@ before treating cross-engine results as equal work.
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 0.8168 | 1.44 | 7.27x |
-| carve-php | 1.4763 | 0.80 | 13.13x |
-| carve-rs | 0.1124 | 10.47 | 1.00x |
+| carve-js | 0.8972 | 1.31 | 7.62x |
+| carve-php | 1.4927 | 0.79 | 12.68x |
+| carve-rs | 0.1177 | 9.99 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 98.8697 | 0.63 | 3.52x |
-| carve-php | 153.8950 | 0.40 | 5.48x |
-| carve-rs | 28.1016 | 2.21 | 1.00x |
+| carve-js | 101.4201 | 0.61 | 3.53x |
+| carve-php | 174.6947 | 0.36 | 6.09x |
+| carve-rs | 28.6932 | 2.16 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1173.6643 | 0.42 | 3.49x |
-| carve-php | 1901.7255 | 0.26 | 5.65x |
-| carve-rs | 336.5027 | 1.48 | 1.00x |
+| carve-js | 1174.7894 | 0.42 | 3.46x |
+| carve-php | 2560.1258 | 0.19 | 7.54x |
+| carve-rs | 339.6045 | 1.46 | 1.00x |
 
 ## PHP authoritative extension tiers
 
@@ -69,9 +71,9 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 2.72 | 17.26 | baseline |
-| Tier 2 stack | 8 | 2.94 | 15.96 | +8% |
-| Tier 3 stack | 20 | 3.33 | 14.11 | +22% |
+| Tier 1 core/default | 0 | 2.67 | 17.60 | baseline |
+| Tier 2 stack | 8 | 2.90 | 16.22 | +9% |
+| Tier 3 stack | 20 | 3.30 | 14.24 | +24% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 

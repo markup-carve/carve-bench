@@ -1,21 +1,26 @@
 {
   "schema": 1,
   "metadata": {
-    "benchmark_base_commit": "b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63",
-    "benchmark_checkout_commit": "b53baed0ad0a0f777ed1df59b75fbbf378427a1b",
+    "benchmark_base_commit": "ad1999a8abdd5818473fe52650d15d0675911f8a",
+    "benchmark_checkout_commit": "ad1999a8abdd5818473fe52650d15d0675911f8a",
     "benchmark_dirty_paths": [
-      "reports/paired-full-feature-20261005T204417842.json",
-      "reports/paired-full-feature-20261005T204417842.md",
+      ".github/workflows/smoke.yml",
+      "README.md",
+      "corpus/full-feature/128.crv",
+      "corpus/full-feature/512.crv",
       "reports/paired-full-feature.json",
       "reports/paired-full-feature.md",
-      "reports/php-large-jit-output-control.json",
-      "scripts/check-conversion-snapshots.py",
-      "scripts/compare-full-feature.mjs"
+      "scripts/compare-full-feature.mjs",
+      "scripts/full-feature-fixture.mjs",
+      "scripts/paired-full-output.php",
+      "scripts/paired-full-results.mjs",
+      "scripts/site/build.mjs",
+      "scripts/test-paired-full.mjs"
     ],
     "benchmark_dirty": true,
-    "started_at": "2026-10-06T22:08:18.919Z",
-    "measurement_started_at": "2026-10-06T22:11:52.113Z",
-    "completed_at": "2026-10-06T22:18:02.552Z",
+    "started_at": "2026-10-05T20:41:23.535Z",
+    "measurement_started_at": "2026-10-05T20:44:17.842Z",
+    "completed_at": "2026-10-05T20:49:34.645Z",
     "cpu_affinity": [
       13
     ],
@@ -23,8 +28,8 @@
     "logical_cpus": 16,
     "platform": "linux",
     "arch": "x64",
-    "baseline_benchmark_commit": "b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63",
-    "previous_snapshot": "paired-full-feature-20261005T204417842",
+    "baseline_benchmark_commit": "ed2d02d031d1427f428a632568b9e9f4637ce1e8",
+    "previous_snapshot": null,
     "node": "v22.22.2",
     "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
     "php_ini_flags": [
@@ -49,6 +54,151 @@
     },
     "sources": {
       "before": {
+        "js": {
+          "repository": "https://github.com/markup-carve/carve-js",
+          "commit": "a0e996083129b9d51e63be6982d79843fd35ea32",
+          "source_sha256": "613efb7b1e8edddece1038cfdb63018d85f926af2551a3b2a6669c68b21b5ed3",
+          "lock_sha256": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528",
+          "dist_sha256": {
+            "abbr-budget.js": "6e9cac45d0c7c3d37f5de85611d0ee880f2f7aeb15596dfddb49a719b08d6c5e",
+            "abbr-expansion-emitted.js": "b61083d2dc19f628f3102d9e066f4ad5f79af5027427bb27ec73a6535b7eb870",
+            "accessibility.js": "2877ed43d42cc46970304b63bd623955ff172e693f49a33fa25517e7dded898f",
+            "ast-envelope.js": "c1fcb67400c5b18568720c12119ad87884529c4389b6b9ff60e166b23a804b32",
+            "ast-json.js": "5f86fe08c6c5035da33bf3edd4f156031547fc190d3c41cf74bbf2de13c73f4b",
+            "ast-patch.js": "bac71ce66fc494c531f2d8685689f692e9939113ab33f399c70e19d044423522",
+            "ast-sidecars.js": "500341290b7790b5beb42ebf6a8abaffa3d330dec41654ca5261096435b512ee",
+            "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
+            "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
+            "attribute-merge.js": "a034ca57dbee6a65849c50cf9ed46e6b38bfffa2fb414c73d1955fbaca6a2012",
+            "attribute-parser.js": "2203fbfe302977fc6045bee07cff7248b617efa9bd6e6e19af697c700ff4d53f",
+            "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
+            "bbcode-migrate.js": "88c150c8345f1a402681ef30cd2c842b07cdd8a22f37ce6e42aba2eb16d9dd9d",
+            "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
+            "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
+            "bracket-escapes.js": "00af96ffd1542cd393e2ac35366d39656ea531daac92adb1b5f4d49c392c6b60",
+            "carve-escape.js": "367a162f1d9dcc4b934c99989529b766f779278053098465c375c0a6563fc814",
+            "citations.js": "6295f37c84bbf6605b9689047ea4bdfd8fd1a52d2da32f9951a5263593dd1c7f",
+            "cli.js": "828aa100de2971df5365eb6f92711e3d52db472e364cce7d946aeb73b9eb5f89",
+            "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
+            "code-callouts.js": "ab189a312fdef6eb0bac6380edbb2d91068e16a3cf95f9deeb0cc3f8ba00a03c",
+            "code-group.js": "463f9273026e898de1dde262b2b8dc7721ddcfd2f14324dc8ea5c7e68172a229",
+            "colon-fences.js": "234902a4ad2a22c6da5128e42b7ef2a93a6068b49c5837201cf2760e7750d0d5",
+            "color-swatch.js": "9c7997cfe6c82961e44719c2aae07cb85661fbfe51634b49979db7fe8fd0a125",
+            "conversion-diagnostics.js": "b4589cdd981814e5da64b5f90abe96d8d31448997b905a018502055e906d3d29",
+            "default-attributes.js": "2c18caa10a5dd5c6de170d10a855044e073e0c83b577e4accaf2d30469cce7cb",
+            "definition-list-wire.js": "05b2438e1df7bef9a441caabe26278ea4afad659c79d37bc0a412d5859279ef9",
+            "deny-listed-destination.js": "ef61966f4a204d215e7329f4804cb99377c2fb3abf90796fb9cd4b70d5598334",
+            "details.js": "0ad84827cae1351680078dd301beec9b304cb3233502766f6b7a9e4584627094",
+            "diff.js": "4c362e2e99b171543e34ece4c0eb4b4d282c6b3ffc88ce8d12669bbea8106bc1",
+            "djot-attributed-strong.js": "8eb008c893e89c444a9403f2147eb0f20692713e0bcf1dce98127452704c8b4f",
+            "djot-emphasis.js": "d6fb61de4dab88269572311d429e1ed7fb8184fac4a6f4f24eb01f5becb82a00",
+            "djot-import.js": "67043181109a82e1f85dfb6f572d21965b79e872ca371051d727b1db3509eea7",
+            "djot-migrate.js": "ca3c83dfad96e55a1e8d50869119648ee73a28aece4cece13de4e48db9379eac",
+            "djot-word-attributes.js": "3e72bde242c0b023033c9e463bb4008d4b2818d3d04872fe4fa7e08ed6680ef4",
+            "document-ids.js": "ead53aa62396efb430be8cd6d7ebce6bcee67d714b0009b2924e0601c392baee",
+            "editor-session.js": "93667f951b2918ae47c771da42c40712a743a14e56a3f22010d2d8a3dd46a04d",
+            "escape-window.js": "3fe171086a138c5319cccccd3332869673fe44381305afafeaf892d881871c69",
+            "extension.js": "3249fbb94ebcfd1f2dbb5992aefec4af3ae641757191703bfc305573a3ee76ea",
+            "external-links.js": "0ee8835b44b998395496bacdcdc561d5430b97a6eb3db1b14595f3a5cfa2f0da",
+            "fast-html.js": "5fa62e955385368a8544809acad4e29f342750e4e7c9a49580d677d6020905f7",
+            "fenced-render.js": "695d462eeef8eb51ac7d46cd7700dcbc92bc6cd0ab6449725df03d2094313fcd",
+            "footnote-numbering.js": "b0d953c0cb6f1641a9fc448808210d28d36a30f91d2c26e6b245b2d60c0cc341",
+            "glossary.js": "703db37672e2ba24bd72b8a0be51cf1c7aa4328864d1e67a1bfa9acbfa29fd44",
+            "heading-ids.js": "6e43ffd168fb3c0919615c9e14e6a92ec227ad47f7124a679323cfd7584ee866",
+            "heading-level-shift.js": "c167ab8955d4f6b9caf433363973fb53dba881b01673594a1806061a22b2c964",
+            "heading-numbers.js": "de844b0039923625a7ad90875a2ffbcdbb21cab44c39b102d4d5dc54f89d90ae",
+            "heading-permalinks.js": "ec541a64725bf20675129f477564c2109092ec2afd2702a32a736c2cfb071551",
+            "heading-reference.js": "f479c5a83dc429f2342240b3116ab98a5457002b40a410a6c219ecc7357c4d5c",
+            "html-import-code-language.js": "d3664086c0ab345d3c754b9810691d6b53fe0dd2a734a5d913e781ba4de29a7f",
+            "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
+            "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
+            "html-import.js": "bd8d1bf9599ddacd7bfb004b48e4b680d8a0b3c608f235d24b3ad778fac8b6ef",
+            "import-report-messages.js": "cbb3842b000ff46acee3f083b8e8bb225bdee8c46b2c0132c581d7ecd027996d",
+            "include-directive.js": "faa24ad33ae2d38d9093f6854f49dcb92e625fa28053ea7602c7e6e142f903b6",
+            "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
+            "includes.js": "a051ab88f9ee845c5b5237044f0a04a0fb2eb5202d3bbf87a33aaffc0ee27df0",
+            "index-terms.js": "418eb0e101d3225d303a9bb155d3256fbd2492cf91373a9ba420b1d648471a98",
+            "index.js": "3f9092a092b830f976c8936a7c136cce8dabac047331db2398b32b9364ed8320",
+            "inline-children.js": "6dccd86c1f50e547fe193a946ad0d331f2d31453479ceea292e49e4c2b72ebf2",
+            "inline-resolution.js": "5542cb104331a05c73500e617f6382f6274e853ddf585514725735103781a644",
+            "label-key.js": "16fffd7fc7706a6746117a0a892dc664cba8907dc8ae1025f5c8cd586e0ff58b",
+            "legacy-nodes.js": "1c25b0f25cd0696f888e5df84609bf71637af62c9653074e2209ac5be3e8f87e",
+            "link-destination.js": "bb4033ecda7ffb6e0ced05c5b8671c580725cf7f37dcc58fd1f0393f65aa8f06",
+            "lint.js": "4c62a78d4170174e148ccf511cd79c4d5610620d6b5d5ed3221b5d640c9ec102",
+            "list-table.js": "d13ef7bc200f3b1bcd78d7a96c28415b16f6cbaa52e22444aa6477f54570842f",
+            "markdown-emphasis.js": "36d7cd24f63488fe113d523b9b6e644641f62a63ec0a7e0620f7337525be0d02",
+            "markdown-empty-destination.js": "39f7ed4c937b63bc1a62885c17bea5f20ea95c03589dc2cab22a9d88129bb2b7",
+            "markdown-link-scopes.js": "9d4fda04e7f871cdc20c43e7ea6216d98b1bc91fb26e06adc8b87c0de4518f9a",
+            "markdown-migrate.js": "3dc80039104f04c71497cc837734fc62c4799773f8484bdc3070ab4b06ce016a",
+            "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
+            "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
+            "merge.js": "a8f66233d6bcfa4736a091d65c66bb3d2d82189135124afc9e4eedc145087ffe",
+            "migration.js": "0fa9919847a191b457050c0621725b7315a033dce1e108f2752bb05609651f38",
+            "node.js": "515130342c38ff335bf53b9c85a3646f80bceb58cf3e186e367447aa88598abe",
+            "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
+            "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
+            "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
+            "parse.js": "8e6354bc65b44b241b9b62673a1cbc9962f86ed517ba197a8f4c61fda5ae842b",
+            "portability.js": "41690795988b1686e6b2a0cc7846ff4591f568a96396fb6b412a12efb4b15354",
+            "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
+            "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
+            "profile.js": "434f55b4d172093c07603905acfbeb816a79a86f0f292e78713a2475d7a3bc3e",
+            "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
+            "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
+            "render-ansi.js": "5abedeb11790ea631e7ca08ec4d21ccae501301f280d902922097494e3c25eab",
+            "render-carve.js": "b534d9641adfad58f2def39600762e876f7a790103ef471948e06a8ece04fa96",
+            "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
+            "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
+            "render-html.js": "f7b2251a67a2c8b5f91446ab643bbffd9339e11def4a2fd69134321c6f8aafec",
+            "render-loss.js": "656e162a6037f36967285135776b59ef9d97c79d02f78655b0171c46dca60f1e",
+            "render-markdown.js": "1607c35bdacbdc536991655065a020621db8c273ba39efab277404d7d0cd84b5",
+            "render-plain.js": "5050057a15e175e5770667bf1076ee5077be59f21600a44264ce86060f29a569",
+            "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
+            "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
+            "sentinel-run.js": "47f312adb27d24e145256e02f4fcf3c29b55eee85f23fa69381170cde01b971c",
+            "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
+            "source-layout.js": "16da445cc0a65f27837e58b9ec187f866d1911736f9add6a83cac29cb58382cb",
+            "source-patch.js": "079fcf71f600f6d0e92b9d213803a36b96957b2948755bec811c4c8e9591bf01",
+            "source-positions.js": "f38cea407a7a25a7bc386a029e735851adddf829e85bab750dcd90eee7ab9938",
+            "source-unspellable-error.js": "198887895ec70b411459761cc10bcc6b12d11b25e14c503ad9e4c4997eb2cd5f",
+            "spoiler.js": "546fb3afbc97e2686c5ac44dd8d9c64bc1d871403a1bd5e2740ad7acfe0aface",
+            "stamp.js": "4891c367c9c0f373f770a6d92724d9b25caf2185287a426f8f0ab0211881a58c",
+            "stream.js": "adc7048e6c11fd794676b3dc763086fd1a7c41ada71fcfe71c5aac4955a7be96",
+            "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
+            "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
+            "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
+            "table-of-contents.js": "794917c8cf6f0f23e1e607a8d1feb311fab0e653b566ae04cfe7289176503035",
+            "table-preservation.js": "781535dbe452cd5ce8a1aaf5304380a1bbc062d940f77643188025dff37b068e",
+            "table-source-metadata.js": "d2b993906b1c1ef8b5ef8805723d76866e2f0849bc12d657e6a52061e9574237",
+            "table-spans.js": "a39069e1d1d354de9a05f0cfbe0d46eb19447748316a21d2debdc74f61a60e51",
+            "tabs.js": "03537fa1cd7669ea6b19172703efe6d3741b059b3c89316c67af83f8462cdfe9",
+            "thematic-break-marker.js": "bac377f0928499feb37e1fefc241dc952c3c4c0fd1532b983f29ddacc295a42c",
+            "translit-map.js": "3bf3e46b2e8356d9acd1182a1712a27938e88a922fce4e9f994f9b259d24a640",
+            "trim-non-nbsp.js": "db52aaf0ba8f465d77cf64611529a6ebf5c51437d207e065475d07518ae3649a",
+            "unresolved-reference.js": "d9cf9f3f983634d09c3259b7da6df5e8e0cb426ee0bb93c10375cddf2aadd86f",
+            "verbatim-payload.js": "7ba32ad8bfcfd804593f3842f5b67f16c3d5ec02ca7fe3038f652bb1b4508a3d",
+            "verse-whitespace.js": "b01504d15818be3358282e8dfc9da7909ad6d12df1b5b07ee2e7ca880e8207c8",
+            "version.js": "7b1a6bb9fc1c6c88cdee913c9c42456b7d0970c14963ff1e1771a514a3a050e2",
+            "wikilinks.js": "8a3e1782990a575a4cdec9932728d891ea04c256f0576225dc150513f1776277",
+            "wire-fields.js": "5139b558713843dba3d02ffc78d92354f50dd580b78cc0859f502dcb35a8ee05"
+          }
+        },
+        "php": {
+          "repository": "https://github.com/markup-carve/carve-php",
+          "commit": "41c9fe6026e91ee0396dc98ee65be64b6080d3b3",
+          "source_sha256": "9262cf8146bf377af4aef4452ea310b65e5206f65aa920ddeb9414d6a0c42195"
+        },
+        "rs": {
+          "repository": "https://github.com/markup-carve/carve-rs",
+          "commit": "914704f80c08bc3b52703c9bc06dc3ff89ded7f4",
+          "source_sha256": "b2e3ba74da39c603793c8d38cc8d13d9971b0bb09bfb2bd1a86625c05f95275f",
+          "binary_sha256": "096597e98f7288b901e4b8c6d0009262e5fa76d39777fcaafdf005949b95ec88",
+          "control_binary_sha256": "63144becb953fd3fee49f80959a2725c3b2b41b4465c16c252b6e419b4f01894",
+          "lock_sha256": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90",
+          "manifest_sha256": "d15c482101de604df6eaf23dfe415e6fe09a58f1e21e974ccda9ace7e2eab683"
+        }
+      },
+      "after": {
         "js": {
           "repository": "https://github.com/markup-carve/carve-js",
           "commit": "a7c80d37fb322d28bc5061175bbd9c7f7638c175",
@@ -191,169 +341,17 @@
         },
         "rs": {
           "repository": "https://github.com/markup-carve/carve-rs",
-          "commit": "ae44de38b6ecf468212cac117f83158f7c3988c2",
-          "source_sha256": "2b637c90f170a1bb4333786b6d5601e3120476e71c381f684608c192247682e0",
-          "binary_sha256": "20a1fbded471541c27980ceefd138b05904ebb5c68978711f2e9583a373b8625",
-          "control_binary_sha256": "528039c4f2228623f190d7533c1669b13a1080a58b51fd86e203db9152305d8c",
-          "lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
-          "manifest_sha256": "b93a3d795111159a17f3e172a716f4a23d25119451d790cbf21c26ec4ef65ecc"
-        }
-      },
-      "after": {
-        "js": {
-          "repository": "https://github.com/markup-carve/carve-js",
-          "commit": "355d6de61406342d8aa989afed358f0d004ff586",
-          "source_sha256": "5885edaed612b4cba3d377cf987ee6377cf3f931c414eb5821045a55e11a33d2",
-          "lock_sha256": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528",
-          "dist_sha256": {
-            "abbr-budget.js": "6e9cac45d0c7c3d37f5de85611d0ee880f2f7aeb15596dfddb49a719b08d6c5e",
-            "abbr-expansion-emitted.js": "b61083d2dc19f628f3102d9e066f4ad5f79af5027427bb27ec73a6535b7eb870",
-            "accessibility.js": "2877ed43d42cc46970304b63bd623955ff172e693f49a33fa25517e7dded898f",
-            "ast-envelope.js": "d5ede31e4e63a016932df3cd5f690c651dc78551880090f3924c93d404ee9b96",
-            "ast-json.js": "ffd00a757402b13e08ef8cedd72a1211b247345a2201cc4d9cf77e3883a66b0d",
-            "ast-patch.js": "90fe0081fcb23f429c25c0f2dceb97d8fa9958374a73758cd17c94e8095e4cf3",
-            "ast-sidecars.js": "3d4bdb7071e05a7a90ebbdc453294776b4976de521da87b4a37a8defe4a56099",
-            "ast-structural-index.js": "4e55fbed0de321f227d260688dfa6745e7642e61a2be01c14de4a29e5f80a833",
-            "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
-            "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
-            "attribute-merge.js": "c14381d6a5a7bc22628bf95f8d14e8a916902942fa34dae64328fa81ae0c3625",
-            "attribute-parser.js": "2203fbfe302977fc6045bee07cff7248b617efa9bd6e6e19af697c700ff4d53f",
-            "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
-            "backtick-run-index.js": "9e1767d3e60263bca009dfcc233cc19a9f96c824104fc81c3840d15c9e1dc78d",
-            "bbcode-migrate.js": "5c08884d9429c9700124a2eceeae1ed8c3ca129ee2e7edf0f385078a4b3d8fc1",
-            "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
-            "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
-            "bracket-escapes.js": "00af96ffd1542cd393e2ac35366d39656ea531daac92adb1b5f4d49c392c6b60",
-            "carve-escape.js": "367a162f1d9dcc4b934c99989529b766f779278053098465c375c0a6563fc814",
-            "case-migrate.js": "1cb5eeba73340f7d511904cdd513a8bb0f72d2c51981a283999286d1de484ba0",
-            "citations.js": "6295f37c84bbf6605b9689047ea4bdfd8fd1a52d2da32f9951a5263593dd1c7f",
-            "cli.js": "e58978184e94a32954a90d980d68bc7eb4c02c351da90643593552cd7ab96dff",
-            "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
-            "code-callouts.js": "ab189a312fdef6eb0bac6380edbb2d91068e16a3cf95f9deeb0cc3f8ba00a03c",
-            "code-group.js": "463f9273026e898de1dde262b2b8dc7721ddcfd2f14324dc8ea5c7e68172a229",
-            "colon-fences.js": "234902a4ad2a22c6da5128e42b7ef2a93a6068b49c5837201cf2760e7750d0d5",
-            "color-swatch.js": "9c7997cfe6c82961e44719c2aae07cb85661fbfe51634b49979db7fe8fd0a125",
-            "column-reservations.js": "6d28b9dbed985549ff4232cfc6c6a884abd2c55c41c20c939d6bdad5eab09293",
-            "conversion-diagnostics.js": "b4589cdd981814e5da64b5f90abe96d8d31448997b905a018502055e906d3d29",
-            "default-attributes.js": "67bdafdd8d217956a2102ef9b7c588187f032b73093d5185bbfe6639fb116b1f",
-            "definition-list-wire.js": "05b2438e1df7bef9a441caabe26278ea4afad659c79d37bc0a412d5859279ef9",
-            "deny-listed-destination.js": "ef61966f4a204d215e7329f4804cb99377c2fb3abf90796fb9cd4b70d5598334",
-            "details.js": "0ad84827cae1351680078dd301beec9b304cb3233502766f6b7a9e4584627094",
-            "diff.js": "029feef5b9fbc7603b4b74f6738ea27c6ede188672090424837f0cab94a80136",
-            "djot-attributed-strong.js": "8eb008c893e89c444a9403f2147eb0f20692713e0bcf1dce98127452704c8b4f",
-            "djot-emphasis.js": "d6fb61de4dab88269572311d429e1ed7fb8184fac4a6f4f24eb01f5becb82a00",
-            "djot-import.js": "67043181109a82e1f85dfb6f572d21965b79e872ca371051d727b1db3509eea7",
-            "djot-migrate.js": "ca3c83dfad96e55a1e8d50869119648ee73a28aece4cece13de4e48db9379eac",
-            "djot-word-attributes.js": "3e72bde242c0b023033c9e463bb4008d4b2818d3d04872fe4fa7e08ed6680ef4",
-            "document-ids.js": "8a315e9894905d9d049364301f39ba93c7c777a5b0c2da17267d7b21806ae11f",
-            "editor-session.js": "12a605d35d4e0f4e5f1bcbf675cc026a50b5fb5f3dd4f39a7f22b22ff4a86c54",
-            "escape-window.js": "3fe171086a138c5319cccccd3332869673fe44381305afafeaf892d881871c69",
-            "extension-transforms.js": "72139bed15022f304ae566ad3ee7ba3cfa55202a465f76ba9bfe3927f6ed786c",
-            "extension.js": "3249fbb94ebcfd1f2dbb5992aefec4af3ae641757191703bfc305573a3ee76ea",
-            "external-links.js": "0ee8835b44b998395496bacdcdc561d5430b97a6eb3db1b14595f3a5cfa2f0da",
-            "fast-html.js": "5fa62e955385368a8544809acad4e29f342750e4e7c9a49580d677d6020905f7",
-            "fenced-render.js": "695d462eeef8eb51ac7d46cd7700dcbc92bc6cd0ab6449725df03d2094313fcd",
-            "footnote-numbering.js": "b0d953c0cb6f1641a9fc448808210d28d36a30f91d2c26e6b245b2d60c0cc341",
-            "glossary.js": "be33b75420abbf7d2ed8d6a1265e11508715a13ae02f697cd7fdf5562adfcbfd",
-            "heading-ids.js": "e415c1e7029d5f7c09aaa64effaf45da547c34eceec6062cd3c4756b91118515",
-            "heading-level-shift.js": "c167ab8955d4f6b9caf433363973fb53dba881b01673594a1806061a22b2c964",
-            "heading-numbers.js": "de844b0039923625a7ad90875a2ffbcdbb21cab44c39b102d4d5dc54f89d90ae",
-            "heading-permalinks.js": "ec541a64725bf20675129f477564c2109092ec2afd2702a32a736c2cfb071551",
-            "heading-reference.js": "f479c5a83dc429f2342240b3116ab98a5457002b40a410a6c219ecc7357c4d5c",
-            "html-import-code-language.js": "d3664086c0ab345d3c754b9810691d6b53fe0dd2a734a5d913e781ba4de29a7f",
-            "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
-            "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
-            "html-import.js": "6047a6a832ef1c4b80167e39785af8f411378ac00cf6115f25f9d3df58129e58",
-            "import-report-messages.js": "cbb3842b000ff46acee3f083b8e8bb225bdee8c46b2c0132c581d7ecd027996d",
-            "include-directive.js": "be3e7487b86f6caa54c340b704920ec68962e1b94b96acb3177eb3b9a959f1bd",
-            "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
-            "includes.js": "10398a42393d37337e278fb632c8187f83e5ebce349e80c42e909495ab6e4e78",
-            "index-terms.js": "418eb0e101d3225d303a9bb155d3256fbd2492cf91373a9ba420b1d648471a98",
-            "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
-            "inline-children.js": "6dccd86c1f50e547fe193a946ad0d331f2d31453479ceea292e49e4c2b72ebf2",
-            "inline-resolution.js": "5542cb104331a05c73500e617f6382f6274e853ddf585514725735103781a644",
-            "label-key.js": "16fffd7fc7706a6746117a0a892dc664cba8907dc8ae1025f5c8cd586e0ff58b",
-            "legacy-nodes.js": "1c25b0f25cd0696f888e5df84609bf71637af62c9653074e2209ac5be3e8f87e",
-            "link-destination.js": "41c6c94b2980961963f420e62c5028cfc119f1af42e1f289bd0f50cff8ae75f7",
-            "lint.js": "58b4703eb12450913c3b4a866cd2869e52bcf83d798dfadceb3d4ad0b26f4f25",
-            "list-table.js": "dbfdb629e6ceab513faf29b8737a27378fe6200340ed37542f919d5d723cf09d",
-            "markdown-emphasis.js": "36d7cd24f63488fe113d523b9b6e644641f62a63ec0a7e0620f7337525be0d02",
-            "markdown-empty-destination.js": "9ba3880d89c33281eddfc95ff72516c59960fd86b222c313886c2f39097f1ede",
-            "markdown-link-scopes.js": "9d4fda04e7f871cdc20c43e7ea6216d98b1bc91fb26e06adc8b87c0de4518f9a",
-            "markdown-migrate.js": "3dc80039104f04c71497cc837734fc62c4799773f8484bdc3070ab4b06ce016a",
-            "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
-            "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
-            "merge.js": "763787921c1deaa2ba1b0b35d0acef4a2306b5d3491d5eef8313a90f46811da1",
-            "migration.js": "0fa9919847a191b457050c0621725b7315a033dce1e108f2752bb05609651f38",
-            "node.js": "515130342c38ff335bf53b9c85a3646f80bceb58cf3e186e367447aa88598abe",
-            "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
-            "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
-            "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
-            "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
-            "parse.js": "16193944bf98bc65599e5467fbb291639a61c5859d91dc85488bf3a27bbccff2",
-            "portability.js": "41690795988b1686e6b2a0cc7846ff4591f568a96396fb6b412a12efb4b15354",
-            "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
-            "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
-            "profile.js": "463ad4b0a3e5411ba94541ec7900c21f463bf161b1c3f5389bf90c889341bdd7",
-            "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
-            "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
-            "render-ansi.js": "5abedeb11790ea631e7ca08ec4d21ccae501301f280d902922097494e3c25eab",
-            "render-carve.js": "4c7d66e9902e69d9cabfbf7d21588940b1a00ad3e91b9cb239224dec07340661",
-            "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
-            "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
-            "render-html.js": "f7b2251a67a2c8b5f91446ab643bbffd9339e11def4a2fd69134321c6f8aafec",
-            "render-loss.js": "656e162a6037f36967285135776b59ef9d97c79d02f78655b0171c46dca60f1e",
-            "render-markdown.js": "1607c35bdacbdc536991655065a020621db8c273ba39efab277404d7d0cd84b5",
-            "render-plain.js": "5050057a15e175e5770667bf1076ee5077be59f21600a44264ce86060f29a569",
-            "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
-            "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
-            "sentinel-run.js": "47f312adb27d24e145256e02f4fcf3c29b55eee85f23fa69381170cde01b971c",
-            "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
-            "source-layout.js": "ce2b8655548ca252a0fd475a37f1d131c8d6b90f7ba7b954320b16574f6512d4",
-            "source-patch.js": "079fcf71f600f6d0e92b9d213803a36b96957b2948755bec811c4c8e9591bf01",
-            "source-positions.js": "7a734b36b0cf87bd589153f99fccfd589326c32a3c4da41f20423509234a48a2",
-            "source-unspellable-error.js": "198887895ec70b411459761cc10bcc6b12d11b25e14c503ad9e4c4997eb2cd5f",
-            "spoiler.js": "546fb3afbc97e2686c5ac44dd8d9c64bc1d871403a1bd5e2740ad7acfe0aface",
-            "stamp.js": "4891c367c9c0f373f770a6d92724d9b25caf2185287a426f8f0ab0211881a58c",
-            "stream.js": "adc7048e6c11fd794676b3dc763086fd1a7c41ada71fcfe71c5aac4955a7be96",
-            "substitution-scanner.js": "909aa8f51f24da73c865caf4bcd4caffd7ee24912e1ee5d788e9648203d506f1",
-            "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
-            "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
-            "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
-            "table-of-contents.js": "794917c8cf6f0f23e1e607a8d1feb311fab0e653b566ae04cfe7289176503035",
-            "table-preservation.js": "781535dbe452cd5ce8a1aaf5304380a1bbc062d940f77643188025dff37b068e",
-            "table-source-metadata.js": "d2b993906b1c1ef8b5ef8805723d76866e2f0849bc12d657e6a52061e9574237",
-            "table-spans.js": "a39069e1d1d354de9a05f0cfbe0d46eb19447748316a21d2debdc74f61a60e51",
-            "tabs.js": "03537fa1cd7669ea6b19172703efe6d3741b059b3c89316c67af83f8462cdfe9",
-            "thematic-break-marker.js": "bac377f0928499feb37e1fefc241dc952c3c4c0fd1532b983f29ddacc295a42c",
-            "translit-map.js": "3bf3e46b2e8356d9acd1182a1712a27938e88a922fce4e9f994f9b259d24a640",
-            "trim-non-nbsp.js": "db52aaf0ba8f465d77cf64611529a6ebf5c51437d207e065475d07518ae3649a",
-            "unresolved-reference.js": "d9cf9f3f983634d09c3259b7da6df5e8e0cb426ee0bb93c10375cddf2aadd86f",
-            "verbatim-payload.js": "7ba32ad8bfcfd804593f3842f5b67f16c3d5ec02ca7fe3038f652bb1b4508a3d",
-            "verse-whitespace.js": "b01504d15818be3358282e8dfc9da7909ad6d12df1b5b07ee2e7ca880e8207c8",
-            "version.js": "7b1a6bb9fc1c6c88cdee913c9c42456b7d0970c14963ff1e1771a514a3a050e2",
-            "wikilinks.js": "8a3e1782990a575a4cdec9932728d891ea04c256f0576225dc150513f1776277",
-            "wire-fields.js": "5139b558713843dba3d02ffc78d92354f50dd580b78cc0859f502dcb35a8ee05"
-          }
-        },
-        "php": {
-          "repository": "https://github.com/markup-carve/carve-php",
-          "commit": "45de896cea3d8944287f28ca155dea3afe04feec",
-          "source_sha256": "0d31f88129e309e7bab4d0b937cd0690341bb586e6711e01a61e5ba107832b3f"
-        },
-        "rs": {
-          "repository": "https://github.com/markup-carve/carve-rs",
-          "commit": "5b7bea1ada2a507867d62278145fd7f9fd3f000d",
-          "source_sha256": "f274ae01159674236e6e2971d74fdd624cb11188c691a70cccb4882ecfba52dd",
-          "binary_sha256": "34bdb1757369061a95c885047e50150296d5fd8f54508b1bf644148a977f34e5",
-          "control_binary_sha256": "3f1e3c6c641144929b4fd4bfd4883f67cad590322cc259efcb2c250dcb36445e",
-          "lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
-          "manifest_sha256": "18cc7f85be8e5519b71b575265896278d008e1d5af049eb5da57a37b83264a2b"
+          "commit": "8ee78ecb83d82ed81c544c17483e0eb111398f9d",
+          "source_sha256": "6ce7fc35eb1432c131db630b80294929f98e8bdefa38e25445dbfd6b52f35e5b",
+          "binary_sha256": "093408567ef04a0dd20f348b2406d15870023eb5283d714a6761720ceaf6c08d",
+          "control_binary_sha256": "6c145c50a7dc1923a97f62093e1cb55a1a4cbe28c078464749a074ad57fa750f",
+          "lock_sha256": "1c9c5a049e180f6dc69bf1b4c0405c18ff0f3e3dc6d4fd49e2c2c4e4a35fbb90",
+          "manifest_sha256": "748adfcf3aaedacbaf5e786e005f3943ed5df553159fc33ca0a79a62ae805347"
         }
       }
     },
     "harness_sha256": {
-      "scripts/compare-full-feature.mjs": "2ae19b2c184f391f8c65ac5226640f23a0efc82cbae82151d0f027285fc2d80e",
+      "scripts/compare-full-feature.mjs": "790f3fe85211a5ddf11361df17c6fdf86f1191890fcd0813707aee2792c56c32",
       "scripts/full-feature-fixture.mjs": "aca1dfc3ebea29ae8ac73c81f0b58ab182537a5c8a6a63c5b28edbe5f9422ddb",
       "scripts/paired-full-results.mjs": "ee999cc2bb0a1d36846a04626e53e8d9f987a7866fa5f789f5e30e63ee65e057",
       "scripts/paired-full-output.php": "a8e64da14b28fee853d6f31d5307deb074f608efa1188c6a86ed4de740f7123e",
@@ -372,14 +370,14 @@
     "php_dependency_lock_sha256": "1f7030137b7d28f3ea82b65b8036e570e006338067e882b08431c01c0658c42e",
     "php_installed_sha256": "b9ed6e06dd6ae94968089bb3a999319c4b75b4f8dd811059957fc84dd9e655ad",
     "load_start": [
-      11.83,
-      6.49,
-      4.85
+      3.08,
+      2.91,
+      3.47
     ],
     "load_end": [
-      18.85,
-      11.43,
-      7.09
+      2.21,
+      2.65,
+      3.2
     ],
     "method": "Eight serial rounds alternate before/after order. A pilot calibrates identical iteration counts within each pair for a 1.5-second target; every timed window must exceed one second. Workers warm up to 20 calls. Exact output hashes must match within each engine. PHP tracing JIT is required. Median per-round ratios and their full ranges describe these samples; they are not significance tests. Six cases are reported without multiple-comparison adjustment. The host is shared and CPU affinity applies to compiler and GC threads."
   },
@@ -490,14 +488,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 53.9349
+          "ms_per_op": 42.5589
         },
         {
           "revision": "after",
-          "ms_per_op": 49.7665
+          "ms_per_op": 44.8206
         }
       ],
-      "iters": 31
+      "iters": 36
     },
     {
       "engine": "js",
@@ -505,14 +503,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 168.3416
+          "ms_per_op": 152.3794
         },
         {
           "revision": "after",
-          "ms_per_op": 173.479
+          "ms_per_op": 162.5682
         }
       ],
-      "iters": 9
+      "iters": 10
     },
     {
       "engine": "php",
@@ -520,14 +518,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 95.0479
+          "ms_per_op": 88.2229
         },
         {
           "revision": "after",
-          "ms_per_op": 99.3506
+          "ms_per_op": 105.6467
         }
       ],
-      "iters": 16
+      "iters": 18
     },
     {
       "engine": "php",
@@ -535,14 +533,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 1016.7102
+          "ms_per_op": 518.547
         },
         {
           "revision": "after",
-          "ms_per_op": 547.1339
+          "ms_per_op": 486.546
         }
       ],
-      "iters": 3
+      "iters": 4
     },
     {
       "engine": "rs",
@@ -550,14 +548,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 7.8991
+          "ms_per_op": 7.0126
         },
         {
           "revision": "after",
-          "ms_per_op": 8.0167
+          "ms_per_op": 6.7491
         }
       ],
-      "iters": 190
+      "iters": 223
     },
     {
       "engine": "rs",
@@ -565,14 +563,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 38.8026
+          "ms_per_op": 35.3431
         },
         {
           "revision": "after",
-          "ms_per_op": 40.799
+          "ms_per_op": 38.0248
         }
       ],
-      "iters": 39
+      "iters": 43
     }
   ],
   "rows": [
@@ -581,13 +579,13 @@
       "revision": "before",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 49.9136,
-      "iters": 31,
+      "ms_per_op": 43.3543,
+      "iters": 36,
       "jit": null,
       "load": [
-        11.83,
-        6.49,
-        4.85
+        3.08,
+        2.91,
+        3.47
       ]
     },
     {
@@ -595,13 +593,13 @@
       "revision": "after",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 55.0136,
-      "iters": 31,
+      "ms_per_op": 40.0727,
+      "iters": 36,
       "jit": null,
       "load": [
-        11.2,
-        6.44,
-        4.84
+        3.07,
+        2.91,
+        3.46
       ]
     },
     {
@@ -609,13 +607,13 @@
       "revision": "before",
       "sections": 512,
       "round": 0,
-      "ms_per_op": 213.9781,
-      "iters": 9,
+      "ms_per_op": 165.577,
+      "iters": 10,
       "jit": null,
       "load": [
-        10.86,
-        6.45,
-        4.85
+        3.07,
+        2.91,
+        3.46
       ]
     },
     {
@@ -623,13 +621,13 @@
       "revision": "after",
       "sections": 512,
       "round": 0,
-      "ms_per_op": 223.2418,
-      "iters": 9,
+      "ms_per_op": 175.606,
+      "iters": 10,
       "jit": null,
       "load": [
-        10.19,
-        6.45,
-        4.87
+        3.38,
+        2.98,
+        3.48
       ]
     },
     {
@@ -637,13 +635,13 @@
       "revision": "before",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 125.0592,
-      "iters": 16,
+      "ms_per_op": 86.8362,
+      "iters": 18,
       "jit": true,
       "load": [
-        9.85,
-        6.45,
-        4.88
+        3.35,
+        2.98,
+        3.48
       ]
     },
     {
@@ -651,13 +649,13 @@
       "revision": "after",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 136.2966,
-      "iters": 16,
+      "ms_per_op": 93.4504,
+      "iters": 18,
       "jit": true,
       "load": [
-        9.62,
-        6.46,
-        4.89
+        3.24,
+        2.96,
+        3.47
       ]
     },
     {
@@ -665,13 +663,13 @@
       "revision": "before",
       "sections": 512,
       "round": 0,
-      "ms_per_op": 446.1771,
-      "iters": 3,
+      "ms_per_op": 474.0975,
+      "iters": 4,
       "jit": true,
       "load": [
-        9.62,
-        6.46,
-        4.89
+        3.24,
+        2.96,
+        3.47
       ]
     },
     {
@@ -679,13 +677,13 @@
       "revision": "after",
       "sections": 512,
       "round": 0,
-      "ms_per_op": 490.4002,
-      "iters": 3,
+      "ms_per_op": 442.5971,
+      "iters": 4,
       "jit": true,
       "load": [
-        9.25,
-        6.43,
-        4.89
+        3.38,
+        3,
+        3.48
       ]
     },
     {
@@ -693,13 +691,13 @@
       "revision": "before",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 8.2644,
-      "iters": 190,
+      "ms_per_op": 7.7143,
+      "iters": 223,
       "jit": null,
       "load": [
-        9.25,
-        6.43,
-        4.89
+        3.38,
+        3,
+        3.48
       ]
     },
     {
@@ -707,13 +705,13 @@
       "revision": "after",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 8.4133,
-      "iters": 190,
+      "ms_per_op": 7.7955,
+      "iters": 223,
       "jit": null,
       "load": [
-        9.25,
-        6.43,
-        4.89
+        3.27,
+        2.98,
+        3.47
       ]
     },
     {
@@ -721,13 +719,13 @@
       "revision": "before",
       "sections": 512,
       "round": 0,
-      "ms_per_op": 42.3898,
-      "iters": 39,
+      "ms_per_op": 37.7611,
+      "iters": 43,
       "jit": null,
       "load": [
-        8.91,
-        6.41,
-        4.89
+        3.27,
+        2.98,
+        3.47
       ]
     },
     {
@@ -735,13 +733,13 @@
       "revision": "after",
       "sections": 512,
       "round": 0,
-      "ms_per_op": 41.1862,
-      "iters": 39,
+      "ms_per_op": 38.0442,
+      "iters": 43,
       "jit": null,
       "load": [
-        8.91,
-        6.41,
-        4.89
+        3.17,
+        2.96,
+        3.46
       ]
     },
     {
@@ -749,13 +747,13 @@
       "revision": "after",
       "sections": 128,
       "round": 1,
-      "ms_per_op": 55.1601,
-      "iters": 31,
+      "ms_per_op": 43.9006,
+      "iters": 36,
       "jit": null,
       "load": [
-        9.08,
-        6.48,
-        4.92
+        3.17,
+        2.96,
+        3.46
       ]
     },
     {
@@ -763,13 +761,13 @@
       "revision": "before",
       "sections": 128,
       "round": 1,
-      "ms_per_op": 49.0864,
-      "iters": 31,
+      "ms_per_op": 41.9663,
+      "iters": 36,
       "jit": null,
       "load": [
-        9.07,
-        6.53,
-        4.95
+        3.4,
+        3.02,
+        3.47
       ]
     },
     {
@@ -777,13 +775,13 @@
       "revision": "after",
       "sections": 512,
       "round": 1,
-      "ms_per_op": 191.1871,
-      "iters": 9,
+      "ms_per_op": 174.408,
+      "iters": 10,
       "jit": null,
       "load": [
-        8.75,
-        6.5,
-        4.95
+        3.53,
+        3.05,
+        3.48
       ]
     },
     {
@@ -791,13 +789,13 @@
       "revision": "before",
       "sections": 512,
       "round": 1,
-      "ms_per_op": 195.5475,
-      "iters": 9,
+      "ms_per_op": 163.6782,
+      "iters": 10,
       "jit": null,
       "load": [
-        8.53,
-        6.49,
-        4.95
+        3.4,
+        3.03,
+        3.47
       ]
     },
     {
@@ -805,13 +803,13 @@
       "revision": "after",
       "sections": 128,
       "round": 1,
-      "ms_per_op": 111.0974,
-      "iters": 16,
+      "ms_per_op": 86.1704,
+      "iters": 18,
       "jit": true,
       "load": [
-        8.32,
-        6.48,
-        4.96
+        3.21,
+        3,
+        3.46
       ]
     },
     {
@@ -819,13 +817,13 @@
       "revision": "before",
       "sections": 128,
       "round": 1,
-      "ms_per_op": 105.765,
-      "iters": 16,
+      "ms_per_op": 77.0006,
+      "iters": 18,
       "jit": true,
       "load": [
-        7.98,
-        6.44,
-        4.95
+        3.03,
+        2.96,
+        3.45
       ]
     },
     {
@@ -833,13 +831,13 @@
       "revision": "after",
       "sections": 512,
       "round": 1,
-      "ms_per_op": 455.263,
-      "iters": 3,
+      "ms_per_op": 415.6158,
+      "iters": 4,
       "jit": true,
       "load": [
-        7.98,
-        6.44,
-        4.95
+        3.03,
+        2.96,
+        3.45
       ]
     },
     {
@@ -847,13 +845,13 @@
       "revision": "before",
       "sections": 512,
       "round": 1,
-      "ms_per_op": 444.7164,
-      "iters": 3,
+      "ms_per_op": 440.5181,
+      "iters": 4,
       "jit": true,
       "load": [
-        7.5,
-        6.37,
-        4.94
+        3.11,
+        2.98,
+        3.45
       ]
     },
     {
@@ -861,13 +859,13 @@
       "revision": "after",
       "sections": 128,
       "round": 1,
-      "ms_per_op": 7.6705,
-      "iters": 190,
+      "ms_per_op": 6.8583,
+      "iters": 223,
       "jit": null,
       "load": [
-        7.5,
-        6.37,
-        4.94
+        3.11,
+        2.98,
+        3.45
       ]
     },
     {
@@ -875,13 +873,13 @@
       "revision": "before",
       "sections": 128,
       "round": 1,
-      "ms_per_op": 7.5177,
-      "iters": 190,
+      "ms_per_op": 6.8752,
+      "iters": 223,
       "jit": null,
       "load": [
-        6.98,
-        6.28,
-        4.91
+        2.94,
+        2.95,
+        3.44
       ]
     },
     {
@@ -889,13 +887,13 @@
       "revision": "after",
       "sections": 512,
       "round": 1,
-      "ms_per_op": 42.1362,
-      "iters": 39,
+      "ms_per_op": 34.9026,
+      "iters": 43,
       "jit": null,
       "load": [
-        6.98,
-        6.28,
-        4.91
+        2.94,
+        2.95,
+        3.44
       ]
     },
     {
@@ -903,13 +901,13 @@
       "revision": "before",
       "sections": 512,
       "round": 1,
-      "ms_per_op": 41.5441,
-      "iters": 39,
+      "ms_per_op": 34.4041,
+      "iters": 43,
       "jit": null,
       "load": [
-        6.82,
-        6.26,
-        4.92
+        2.79,
+        2.92,
+        3.42
       ]
     },
     {
@@ -917,13 +915,13 @@
       "revision": "before",
       "sections": 128,
       "round": 2,
-      "ms_per_op": 46.3521,
-      "iters": 31,
+      "ms_per_op": 38.77,
+      "iters": 36,
       "jit": null,
       "load": [
-        6.82,
-        6.26,
-        4.92
+        2.79,
+        2.92,
+        3.42
       ]
     },
     {
@@ -931,13 +929,13 @@
       "revision": "after",
       "sections": 128,
       "round": 2,
-      "ms_per_op": 47.2939,
-      "iters": 31,
+      "ms_per_op": 39.8838,
+      "iters": 36,
       "jit": null,
       "load": [
-        6.75,
-        6.25,
-        4.92
+        2.8,
+        2.92,
+        3.42
       ]
     },
     {
@@ -945,13 +943,13 @@
       "revision": "before",
       "sections": 512,
       "round": 2,
-      "ms_per_op": 191.3588,
-      "iters": 9,
+      "ms_per_op": 160.1868,
+      "iters": 10,
       "jit": null,
       "load": [
-        6.29,
-        6.17,
-        4.9
+        2.74,
+        2.9,
+        3.41
       ]
     },
     {
@@ -959,13 +957,13 @@
       "revision": "after",
       "sections": 512,
       "round": 2,
-      "ms_per_op": 191.123,
-      "iters": 9,
+      "ms_per_op": 158.3077,
+      "iters": 10,
       "jit": null,
       "load": [
-        5.95,
-        6.1,
-        4.88
+        2.68,
+        2.89,
+        3.4
       ]
     },
     {
@@ -973,13 +971,13 @@
       "revision": "before",
       "sections": 128,
       "round": 2,
-      "ms_per_op": 90.4396,
-      "iters": 16,
+      "ms_per_op": 76.4562,
+      "iters": 18,
       "jit": true,
       "load": [
-        5.63,
-        6.03,
-        4.87
+        2.68,
+        2.89,
+        3.4
       ]
     },
     {
@@ -987,13 +985,13 @@
       "revision": "after",
       "sections": 128,
       "round": 2,
-      "ms_per_op": 91.9897,
-      "iters": 16,
+      "ms_per_op": 84.4936,
+      "iters": 18,
       "jit": true,
       "load": [
-        5.63,
-        6.03,
-        4.87
+        2.62,
+        2.87,
+        3.4
       ]
     },
     {
@@ -1001,13 +999,13 @@
       "revision": "before",
       "sections": 512,
       "round": 2,
-      "ms_per_op": 430.2703,
-      "iters": 3,
+      "ms_per_op": 492.906,
+      "iters": 4,
       "jit": true,
       "load": [
-        5.34,
-        5.96,
-        4.85
+        2.81,
+        2.91,
+        3.41
       ]
     },
     {
@@ -1015,13 +1013,13 @@
       "revision": "after",
       "sections": 512,
       "round": 2,
-      "ms_per_op": 443.405,
-      "iters": 3,
+      "ms_per_op": 421.8796,
+      "iters": 4,
       "jit": true,
       "load": [
-        5.34,
-        5.96,
-        4.85
+        2.81,
+        2.91,
+        3.41
       ]
     },
     {
@@ -1029,13 +1027,13 @@
       "revision": "before",
       "sections": 128,
       "round": 2,
-      "ms_per_op": 7.5241,
-      "iters": 190,
+      "ms_per_op": 6.8389,
+      "iters": 223,
       "jit": null,
       "load": [
-        5.23,
-        5.93,
-        4.85
+        2.67,
+        2.87,
+        3.39
       ]
     },
     {
@@ -1043,13 +1041,13 @@
       "revision": "after",
       "sections": 128,
       "round": 2,
-      "ms_per_op": 7.2313,
-      "iters": 190,
+      "ms_per_op": 6.8286,
+      "iters": 223,
       "jit": null,
       "load": [
-        5.23,
-        5.93,
-        4.85
+        2.67,
+        2.87,
+        3.39
       ]
     },
     {
@@ -1057,13 +1055,13 @@
       "revision": "before",
       "sections": 512,
       "round": 2,
-      "ms_per_op": 35.6424,
-      "iters": 39,
+      "ms_per_op": 35.4502,
+      "iters": 43,
       "jit": null,
       "load": [
-        5.05,
-        5.88,
-        4.84
+        2.54,
+        2.84,
+        3.38
       ]
     },
     {
@@ -1071,13 +1069,13 @@
       "revision": "after",
       "sections": 512,
       "round": 2,
-      "ms_per_op": 36.2299,
-      "iters": 39,
+      "ms_per_op": 34.633,
+      "iters": 43,
       "jit": null,
       "load": [
-        5.05,
-        5.88,
-        4.84
+        2.54,
+        2.84,
+        3.38
       ]
     },
     {
@@ -1085,13 +1083,13 @@
       "revision": "after",
       "sections": 128,
       "round": 3,
-      "ms_per_op": 43.5147,
-      "iters": 31,
+      "ms_per_op": 41.2293,
+      "iters": 36,
       "jit": null,
       "load": [
-        4.81,
-        5.82,
-        4.82
+        2.73,
+        2.88,
+        3.39
       ]
     },
     {
@@ -1099,13 +1097,13 @@
       "revision": "before",
       "sections": 128,
       "round": 3,
-      "ms_per_op": 43.7201,
-      "iters": 31,
+      "ms_per_op": 43.0309,
+      "iters": 36,
       "jit": null,
       "load": [
-        4.81,
-        5.82,
-        4.82
+        2.73,
+        2.88,
+        3.39
       ]
     },
     {
@@ -1113,13 +1111,13 @@
       "revision": "after",
       "sections": 512,
       "round": 3,
-      "ms_per_op": 195.2803,
-      "iters": 9,
+      "ms_per_op": 170.388,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.66,
-        5.77,
-        4.81
+        2.67,
+        2.87,
+        3.38
       ]
     },
     {
@@ -1127,13 +1125,13 @@
       "revision": "before",
       "sections": 512,
       "round": 3,
-      "ms_per_op": 184.4158,
-      "iters": 9,
+      "ms_per_op": 155.7976,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.61,
-        5.74,
-        4.81
+        2.78,
+        2.88,
+        3.38
       ]
     },
     {
@@ -1141,13 +1139,13 @@
       "revision": "after",
       "sections": 128,
       "round": 3,
-      "ms_per_op": 93.6875,
-      "iters": 16,
+      "ms_per_op": 98.139,
+      "iters": 18,
       "jit": true,
       "load": [
-        5.12,
-        5.83,
-        4.84
+        2.72,
+        2.87,
+        3.38
       ]
     },
     {
@@ -1155,13 +1153,13 @@
       "revision": "before",
       "sections": 128,
       "round": 3,
-      "ms_per_op": 94.4376,
-      "iters": 16,
+      "ms_per_op": 93.9241,
+      "iters": 18,
       "jit": true,
       "load": [
-        4.87,
-        5.76,
-        4.83
+        2.66,
+        2.85,
+        3.37
       ]
     },
     {
@@ -1169,13 +1167,13 @@
       "revision": "after",
       "sections": 512,
       "round": 3,
-      "ms_per_op": 473.0193,
-      "iters": 3,
+      "ms_per_op": 431.5589,
+      "iters": 4,
       "jit": true,
       "load": [
-        4.87,
-        5.76,
-        4.83
+        2.61,
+        2.84,
+        3.36
       ]
     },
     {
@@ -1183,13 +1181,13 @@
       "revision": "before",
       "sections": 512,
       "round": 3,
-      "ms_per_op": 452.461,
-      "iters": 3,
+      "ms_per_op": 478.2606,
+      "iters": 4,
       "jit": true,
       "load": [
-        4.64,
-        5.7,
-        4.81
+        2.61,
+        2.84,
+        3.36
       ]
     },
     {
@@ -1197,13 +1195,13 @@
       "revision": "after",
       "sections": 128,
       "round": 3,
-      "ms_per_op": 9.2709,
-      "iters": 190,
+      "ms_per_op": 7.1292,
+      "iters": 223,
       "jit": null,
       "load": [
-        4.64,
-        5.7,
-        4.81
+        2.56,
+        2.83,
+        3.35
       ]
     },
     {
@@ -1211,13 +1209,13 @@
       "revision": "before",
       "sections": 128,
       "round": 3,
-      "ms_per_op": 7.433,
-      "iters": 190,
+      "ms_per_op": 7.2924,
+      "iters": 223,
       "jit": null,
       "load": [
-        4.35,
-        5.62,
-        4.79
+        2.56,
+        2.83,
+        3.35
       ]
     },
     {
@@ -1225,13 +1223,13 @@
       "revision": "after",
       "sections": 512,
       "round": 3,
-      "ms_per_op": 39.5714,
-      "iters": 39,
+      "ms_per_op": 37.8197,
+      "iters": 43,
       "jit": null,
       "load": [
-        4.35,
-        5.62,
-        4.79
+        2.59,
+        2.83,
+        3.35
       ]
     },
     {
@@ -1239,13 +1237,13 @@
       "revision": "before",
       "sections": 512,
       "round": 3,
-      "ms_per_op": 39.7576,
-      "iters": 39,
+      "ms_per_op": 37.6157,
+      "iters": 43,
       "jit": null,
       "load": [
-        4.35,
-        5.62,
-        4.79
+        2.59,
+        2.83,
+        3.35
       ]
     },
     {
@@ -1253,13 +1251,13 @@
       "revision": "before",
       "sections": 128,
       "round": 4,
-      "ms_per_op": 52.0193,
-      "iters": 31,
+      "ms_per_op": 40.9963,
+      "iters": 36,
       "jit": null,
       "load": [
-        4.24,
-        5.58,
-        4.78
+        2.55,
+        2.81,
+        3.34
       ]
     },
     {
@@ -1267,13 +1265,13 @@
       "revision": "after",
       "sections": 128,
       "round": 4,
-      "ms_per_op": 48.9229,
-      "iters": 31,
+      "ms_per_op": 47.0444,
+      "iters": 36,
       "jit": null,
       "load": [
-        4.14,
-        5.53,
-        4.77
+        2.55,
+        2.81,
+        3.34
       ]
     },
     {
@@ -1281,13 +1279,13 @@
       "revision": "before",
       "sections": 512,
       "round": 4,
-      "ms_per_op": 182.8852,
-      "iters": 9,
+      "ms_per_op": 167.7743,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.13,
-        5.51,
-        4.77
+        2.74,
+        2.85,
+        3.35
       ]
     },
     {
@@ -1295,13 +1293,13 @@
       "revision": "after",
       "sections": 512,
       "round": 4,
-      "ms_per_op": 198.1527,
-      "iters": 9,
+      "ms_per_op": 181.605,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.36,
-        5.53,
-        4.78
+        2.63,
+        2.82,
+        3.34
       ]
     },
     {
@@ -1309,13 +1307,13 @@
       "revision": "before",
       "sections": 128,
       "round": 4,
-      "ms_per_op": 115.0561,
-      "iters": 16,
+      "ms_per_op": 91.1263,
+      "iters": 18,
       "jit": true,
       "load": [
-        4.09,
-        5.46,
-        4.76
+        2.63,
+        2.82,
+        3.34
       ]
     },
     {
@@ -1323,13 +1321,13 @@
       "revision": "after",
       "sections": 128,
       "round": 4,
-      "ms_per_op": 136.4182,
-      "iters": 16,
+      "ms_per_op": 95.8867,
+      "iters": 18,
       "jit": true,
       "load": [
-        4.08,
-        5.43,
-        4.75
+        2.58,
+        2.81,
+        3.33
       ]
     },
     {
@@ -1337,13 +1335,13 @@
       "revision": "before",
       "sections": 512,
       "round": 4,
-      "ms_per_op": 489.6782,
-      "iters": 3,
+      "ms_per_op": 487.8076,
+      "iters": 4,
       "jit": true,
       "load": [
-        4.08,
-        5.43,
-        4.75
+        2.53,
+        2.8,
+        3.32
       ]
     },
     {
@@ -1351,13 +1349,13 @@
       "revision": "after",
       "sections": 512,
       "round": 4,
-      "ms_per_op": 514.7686,
-      "iters": 3,
+      "ms_per_op": 443.3109,
+      "iters": 4,
       "jit": true,
       "load": [
-        4,
-        5.39,
-        4.74
+        2.41,
+        2.77,
+        3.31
       ]
     },
     {
@@ -1365,13 +1363,13 @@
       "revision": "before",
       "sections": 128,
       "round": 4,
-      "ms_per_op": 8.5983,
-      "iters": 190,
+      "ms_per_op": 7.5571,
+      "iters": 223,
       "jit": null,
       "load": [
-        3.92,
-        5.35,
-        4.73
+        2.41,
+        2.77,
+        3.31
       ]
     },
     {
@@ -1379,13 +1377,13 @@
       "revision": "after",
       "sections": 128,
       "round": 4,
-      "ms_per_op": 9.2505,
-      "iters": 190,
+      "ms_per_op": 7.4099,
+      "iters": 223,
       "jit": null,
       "load": [
-        3.92,
-        5.35,
-        4.73
+        2.41,
+        2.77,
+        3.31
       ]
     },
     {
@@ -1393,13 +1391,13 @@
       "revision": "before",
       "sections": 512,
       "round": 4,
-      "ms_per_op": 42.7868,
-      "iters": 39,
+      "ms_per_op": 37.8121,
+      "iters": 43,
       "jit": null,
       "load": [
-        3.92,
-        5.35,
-        4.73
+        2.46,
+        2.77,
+        3.31
       ]
     },
     {
@@ -1407,13 +1405,13 @@
       "revision": "after",
       "sections": 512,
       "round": 4,
-      "ms_per_op": 39.8377,
-      "iters": 39,
+      "ms_per_op": 36.9291,
+      "iters": 43,
       "jit": null,
       "load": [
-        3.76,
-        5.3,
-        4.72
+        2.46,
+        2.77,
+        3.31
       ]
     },
     {
@@ -1421,13 +1419,13 @@
       "revision": "after",
       "sections": 128,
       "round": 5,
-      "ms_per_op": 52.691,
-      "iters": 31,
+      "ms_per_op": 43.5731,
+      "iters": 36,
       "jit": null,
       "load": [
-        3.78,
-        5.27,
-        4.71
+        2.66,
+        2.81,
+        3.32
       ]
     },
     {
@@ -1435,13 +1433,13 @@
       "revision": "before",
       "sections": 128,
       "round": 5,
-      "ms_per_op": 46.6099,
-      "iters": 31,
+      "ms_per_op": 42.6013,
+      "iters": 36,
       "jit": null,
       "load": [
-        3.78,
-        5.27,
-        4.71
+        2.69,
+        2.81,
+        3.32
       ]
     },
     {
@@ -1449,13 +1447,13 @@
       "revision": "after",
       "sections": 512,
       "round": 5,
-      "ms_per_op": 199.9557,
-      "iters": 9,
+      "ms_per_op": 174.4669,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.04,
-        5.28,
-        4.72
+        2.79,
+        2.83,
+        3.32
       ]
     },
     {
@@ -1463,13 +1461,13 @@
       "revision": "before",
       "sections": 512,
       "round": 5,
-      "ms_per_op": 191.0351,
-      "iters": 9,
+      "ms_per_op": 173.3562,
+      "iters": 10,
       "jit": null,
       "load": [
-        3.87,
-        5.23,
-        4.71
+        2.81,
+        2.83,
+        3.32
       ]
     },
     {
@@ -1477,13 +1475,13 @@
       "revision": "after",
       "sections": 128,
       "round": 5,
-      "ms_per_op": 122.3994,
-      "iters": 16,
+      "ms_per_op": 87.7595,
+      "iters": 18,
       "jit": true,
       "load": [
-        3.87,
-        5.23,
-        4.71
+        2.81,
+        2.83,
+        3.32
       ]
     },
     {
@@ -1491,13 +1489,13 @@
       "revision": "before",
       "sections": 128,
       "round": 5,
-      "ms_per_op": 105.1304,
-      "iters": 16,
+      "ms_per_op": 80.3094,
+      "iters": 18,
       "jit": true,
       "load": [
-        3.8,
-        5.19,
-        4.7
+        2.74,
+        2.82,
+        3.31
       ]
     },
     {
@@ -1505,13 +1503,13 @@
       "revision": "after",
       "sections": 512,
       "round": 5,
-      "ms_per_op": 450.3669,
-      "iters": 3,
+      "ms_per_op": 450.9753,
+      "iters": 4,
       "jit": true,
       "load": [
-        3.9,
-        5.19,
-        4.7
+        2.85,
+        2.84,
+        3.31
       ]
     },
     {
@@ -1519,13 +1517,13 @@
       "revision": "before",
       "sections": 512,
       "round": 5,
-      "ms_per_op": 460.8973,
-      "iters": 3,
+      "ms_per_op": 474.4031,
+      "iters": 4,
       "jit": true,
       "load": [
-        3.9,
-        5.19,
-        4.7
+        2.78,
+        2.82,
+        3.31
       ]
     },
     {
@@ -1533,13 +1531,13 @@
       "revision": "after",
       "sections": 128,
       "round": 5,
-      "ms_per_op": 8.7137,
-      "iters": 190,
+      "ms_per_op": 7.457,
+      "iters": 223,
       "jit": null,
       "load": [
-        3.91,
-        5.17,
-        4.7
+        2.78,
+        2.82,
+        3.31
       ]
     },
     {
@@ -1547,13 +1545,13 @@
       "revision": "before",
       "sections": 128,
       "round": 5,
-      "ms_per_op": 7.7702,
-      "iters": 190,
+      "ms_per_op": 7.2896,
+      "iters": 223,
       "jit": null,
       "load": [
-        3.91,
-        5.17,
-        4.7
+        2.78,
+        2.82,
+        3.31
       ]
     },
     {
@@ -1561,13 +1559,13 @@
       "revision": "after",
       "sections": 512,
       "round": 5,
-      "ms_per_op": 39.2115,
-      "iters": 39,
+      "ms_per_op": 37.8227,
+      "iters": 43,
       "jit": null,
       "load": [
-        3.91,
-        5.17,
-        4.7
+        2.71,
+        2.81,
+        3.3
       ]
     },
     {
@@ -1575,13 +1573,13 @@
       "revision": "before",
       "sections": 512,
       "round": 5,
-      "ms_per_op": 40.2402,
-      "iters": 39,
+      "ms_per_op": 36.8719,
+      "iters": 43,
       "jit": null,
       "load": [
-        3.75,
-        5.11,
-        4.68
+        2.71,
+        2.81,
+        3.3
       ]
     },
     {
@@ -1589,13 +1587,13 @@
       "revision": "before",
       "sections": 128,
       "round": 6,
-      "ms_per_op": 61.7094,
-      "iters": 31,
+      "ms_per_op": 43.254,
+      "iters": 36,
       "jit": null,
       "load": [
-        3.93,
-        5.13,
-        4.69
+        2.74,
+        2.81,
+        3.3
       ]
     },
     {
@@ -1603,13 +1601,13 @@
       "revision": "after",
       "sections": 128,
       "round": 6,
-      "ms_per_op": 57.5918,
-      "iters": 31,
+      "ms_per_op": 42.5496,
+      "iters": 36,
       "jit": null,
       "load": [
-        4.26,
-        5.18,
-        4.71
+        2.76,
+        2.82,
+        3.3
       ]
     },
     {
@@ -1617,13 +1615,13 @@
       "revision": "before",
       "sections": 512,
       "round": 6,
-      "ms_per_op": 217.4923,
-      "iters": 9,
+      "ms_per_op": 170.1083,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.24,
-        5.16,
-        4.7
+        2.7,
+        2.8,
+        3.29
       ]
     },
     {
@@ -1631,13 +1629,13 @@
       "revision": "after",
       "sections": 512,
       "round": 6,
-      "ms_per_op": 209.4613,
-      "iters": 9,
+      "ms_per_op": 175.0237,
+      "iters": 10,
       "jit": null,
       "load": [
-        4.46,
-        5.19,
-        4.72
+        2.72,
+        2.81,
+        3.29
       ]
     },
     {
@@ -1645,13 +1643,13 @@
       "revision": "before",
       "sections": 128,
       "round": 6,
-      "ms_per_op": 107.067,
-      "iters": 16,
+      "ms_per_op": 81.3864,
+      "iters": 18,
       "jit": true,
       "load": [
-        4.58,
-        5.2,
-        4.72
+        2.72,
+        2.81,
+        3.29
       ]
     },
     {
@@ -1659,13 +1657,13 @@
       "revision": "after",
       "sections": 128,
       "round": 6,
-      "ms_per_op": 138.1367,
-      "iters": 16,
+      "ms_per_op": 100.1216,
+      "iters": 18,
       "jit": true,
       "load": [
-        4.78,
-        5.23,
-        4.74
+        2.75,
+        2.81,
+        3.29
       ]
     },
     {
@@ -1673,13 +1671,13 @@
       "revision": "before",
       "sections": 512,
       "round": 6,
-      "ms_per_op": 563.6204,
-      "iters": 3,
+      "ms_per_op": 497.5417,
+      "iters": 4,
       "jit": true,
       "load": [
-        4.78,
-        5.23,
-        4.74
+        2.77,
+        2.81,
+        3.28
       ]
     },
     {
@@ -1687,13 +1685,13 @@
       "revision": "after",
       "sections": 512,
       "round": 6,
-      "ms_per_op": 695.0147,
-      "iters": 3,
+      "ms_per_op": 411.9663,
+      "iters": 4,
       "jit": true,
       "load": [
-        5.44,
-        5.36,
-        4.78
+        2.62,
+        2.78,
+        3.27
       ]
     },
     {
@@ -1701,13 +1699,13 @@
       "revision": "before",
       "sections": 128,
       "round": 6,
-      "ms_per_op": 23.2225,
-      "iters": 190,
+      "ms_per_op": 7.1898,
+      "iters": 223,
       "jit": null,
       "load": [
-        7.16,
-        5.72,
-        4.9
+        2.62,
+        2.78,
+        3.27
       ]
     },
     {
@@ -1715,13 +1713,13 @@
       "revision": "after",
       "sections": 128,
       "round": 6,
-      "ms_per_op": 29.6487,
-      "iters": 190,
+      "ms_per_op": 6.8548,
+      "iters": 223,
       "jit": null,
       "load": [
-        11.8,
-        6.7,
-        5.22
+        2.62,
+        2.78,
+        3.27
       ]
     },
     {
@@ -1729,13 +1727,13 @@
       "revision": "before",
       "sections": 512,
       "round": 6,
-      "ms_per_op": 117.3379,
-      "iters": 39,
+      "ms_per_op": 36.5125,
+      "iters": 43,
       "jit": null,
       "load": [
-        19.48,
-        8.52,
-        5.83
+        2.49,
+        2.75,
+        3.26
       ]
     },
     {
@@ -1743,13 +1741,13 @@
       "revision": "after",
       "sections": 512,
       "round": 6,
-      "ms_per_op": 124.9219,
-      "iters": 39,
+      "ms_per_op": 34.9318,
+      "iters": 43,
       "jit": null,
       "load": [
-        20.97,
-        9.01,
-        6.01
+        2.49,
+        2.75,
+        3.26
       ]
     },
     {
@@ -1757,13 +1755,13 @@
       "revision": "after",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 56.6681,
-      "iters": 31,
+      "ms_per_op": 40.602,
+      "iters": 36,
       "jit": null,
       "load": [
-        21.16,
-        9.47,
-        6.19
+        2.45,
+        2.74,
+        3.25
       ]
     },
     {
@@ -1771,13 +1769,13 @@
       "revision": "before",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 51.0619,
-      "iters": 31,
+      "ms_per_op": 43.2634,
+      "iters": 36,
       "jit": null,
       "load": [
-        21.16,
-        9.47,
-        6.19
+        2.58,
+        2.76,
+        3.26
       ]
     },
     {
@@ -1785,13 +1783,13 @@
       "revision": "after",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 604.4579,
-      "iters": 9,
+      "ms_per_op": 160.7345,
+      "iters": 10,
       "jit": null,
       "load": [
-        23.53,
-        10.52,
-        6.58
+        2.53,
+        2.75,
+        3.25
       ]
     },
     {
@@ -1799,13 +1797,13 @@
       "revision": "before",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 247.4039,
-      "iters": 9,
+      "ms_per_op": 159.8885,
+      "iters": 10,
       "jit": null,
       "load": [
-        26.97,
-        11.96,
-        7.12
+        2.49,
+        2.74,
+        3.24
       ]
     },
     {
@@ -1813,13 +1811,13 @@
       "revision": "after",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 168.8963,
-      "iters": 16,
+      "ms_per_op": 81.4861,
+      "iters": 18,
       "jit": true,
       "load": [
-        25.21,
-        11.84,
-        7.1
+        2.49,
+        2.74,
+        3.24
       ]
     },
     {
@@ -1827,13 +1825,13 @@
       "revision": "before",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 151.7903,
-      "iters": 16,
+      "ms_per_op": 83.7794,
+      "iters": 18,
       "jit": true,
       "load": [
-        23.91,
-        11.79,
-        7.11
+        2.37,
+        2.71,
+        3.23
       ]
     },
     {
@@ -1841,13 +1839,13 @@
       "revision": "after",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 577.499,
-      "iters": 3,
+      "ms_per_op": 423.2339,
+      "iters": 4,
       "jit": true,
       "load": [
-        22.72,
-        11.75,
-        7.12
+        2.34,
+        2.69,
+        3.22
       ]
     },
     {
@@ -1855,13 +1853,13 @@
       "revision": "before",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 518.4511,
-      "iters": 3,
+      "ms_per_op": 473.8161,
+      "iters": 4,
       "jit": true,
       "load": [
-        21.46,
-        11.67,
-        7.12
+        2.34,
+        2.69,
+        3.22
       ]
     },
     {
@@ -1869,13 +1867,13 @@
       "revision": "after",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 9.9805,
-      "iters": 190,
+      "ms_per_op": 7.1396,
+      "iters": 223,
       "jit": null,
       "load": [
-        21.46,
-        11.67,
-        7.12
+        2.31,
+        2.68,
+        3.22
       ]
     },
     {
@@ -1883,13 +1881,13 @@
       "revision": "before",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 10.0618,
-      "iters": 190,
+      "ms_per_op": 7.2038,
+      "iters": 223,
       "jit": null,
       "load": [
-        20.14,
-        11.56,
-        7.11
+        2.31,
+        2.68,
+        3.22
       ]
     },
     {
@@ -1897,13 +1895,13 @@
       "revision": "after",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 46.7165,
-      "iters": 39,
+      "ms_per_op": 35.4461,
+      "iters": 43,
       "jit": null,
       "load": [
-        20.14,
-        11.56,
-        7.11
+        2.21,
+        2.65,
+        3.2
       ]
     },
     {
@@ -1911,13 +1909,13 @@
       "revision": "before",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 45.9586,
-      "iters": 39,
+      "ms_per_op": 36.8654,
+      "iters": 43,
       "jit": null,
       "load": [
-        18.85,
-        11.43,
-        7.09
+        2.21,
+        2.65,
+        3.2
       ]
     }
   ],
@@ -1925,115 +1923,115 @@
     {
       "engine": "js",
       "sections": 128,
-      "before_ms": 49.5,
-      "after_ms": 53.8523,
-      "paired_change_percent": 6.124747506208972,
-      "min_paired_change_percent": -6.672565281788511,
-      "max_paired_change_percent": 13.046799070583726,
+      "before_ms": 42.816100000000006,
+      "after_ms": 41.88945,
+      "paired_change_percent": 0.3263155695064801,
+      "min_paired_change_percent": -7.569260719236626,
+      "max_paired_change_percent": 14.752794764405586,
       "paired_changes_percent": [
-        10.217656109757645,
-        12.373488379673404,
-        2.031838902660299,
-        -0.46980679367156775,
-        -5.952406126187782,
-        13.046799070583726,
-        -6.672565281788511,
-        10.97922325647891
+        -7.569260719236626,
+        4.609174504304647,
+        2.8728398246066433,
+        -4.1867588175009125,
+        14.752794764405586,
+        2.2811510446864247,
+        -1.6285199056734645,
+        -6.151620076092035
       ]
     },
     {
       "engine": "js",
       "sections": 512,
-      "before_ms": 193.45315,
-      "after_ms": 199.0542,
-      "paired_change_percent": 4.4994439447083145,
-      "min_paired_change_percent": -3.692544517667984,
-      "max_paired_change_percent": 144.32027951054934,
+      "before_ms": 164.6276,
+      "after_ms": 174.43745,
+      "paired_change_percent": 4.473285804213278,
+      "min_paired_change_percent": -1.1730679431763424,
+      "max_paired_change_percent": 9.364970962325492,
       "paired_changes_percent": [
-        4.3292748183108465,
-        -2.229841854280945,
-        -0.12322401687302476,
-        5.891306493261439,
-        8.348133145820436,
-        4.669613071105783,
-        -3.692544517667984,
-        144.32027951054934
+        6.057000670382973,
+        6.555423996598186,
+        -1.1730679431763424,
+        9.364970962325492,
+        8.243634454144622,
+        0.6407039379035862,
+        2.889570938043584,
+        0.5291187296146971
       ]
     },
     {
       "engine": "php",
       "sections": 128,
-      "before_ms": 106.416,
-      "after_ms": 129.348,
-      "paired_change_percent": 10.127579606068448,
-      "min_paired_change_percent": -0.7942810914296827,
-      "max_paired_change_percent": 29.018932070572625,
+      "before_ms": 82.5829,
+      "after_ms": 90.60495,
+      "paired_change_percent": 8.44680832127761,
+      "min_paired_change_percent": -2.737307739133965,
+      "max_paired_change_percent": 23.020062319994494,
       "paired_changes_percent": [
-        8.985664389345205,
-        5.041743487921324,
-        1.7139615832002741,
-        -0.7942810914296827,
-        18.566681818695407,
-        16.426266807697875,
-        29.018932070572625,
-        11.269494822791692
+        7.6168694622749555,
+        11.90873837346722,
+        10.512424106874274,
+        4.487559635918781,
+        5.223958396203954,
+        9.276747180280264,
+        23.020062319994494,
+        -2.737307739133965
       ]
     },
     {
       "engine": "php",
       "sections": 512,
-      "before_ms": 456.67915,
-      "after_ms": 481.70975,
-      "paired_change_percent": 4.833758567917834,
-      "min_paired_change_percent": -2.2847606180378954,
-      "max_paired_change_percent": 23.312552207123783,
+      "before_ms": 476.33185000000003,
+      "after_ms": 427.39639999999997,
+      "paired_change_percent": -9.443339506728066,
+      "min_paired_change_percent": -17.199643768552463,
+      "max_paired_change_percent": -4.938374137943025,
       "paired_changes_percent": [
-        9.911557540716442,
-        2.3715338584320067,
-        3.052662477517032,
-        4.543662326697762,
-        5.123854809137907,
-        -2.2847606180378954,
-        23.312552207123783,
-        11.389290137488373
+        -6.6442873037719,
+        -5.652957279167426,
+        -14.409725180866129,
+        -9.76490641294725,
+        -9.121772600508882,
+        -4.938374137943025,
+        -17.199643768552463,
+        -10.67549203161311
       ]
     },
     {
       "engine": "rs",
       "sections": 128,
-      "before_ms": 8.0173,
-      "after_ms": 8.982099999999999,
-      "paired_change_percent": 4.808878440667175,
-      "min_paired_change_percent": -3.8914953283449183,
-      "max_paired_change_percent": 27.672300570567355,
+      "before_ms": 7.246700000000001,
+      "after_ms": 7.134399999999999,
+      "paired_change_percent": -0.5685036720044223,
+      "min_paired_change_percent": -4.6593785640768886,
+      "max_paired_change_percent": 2.29642230026339,
       "paired_changes_percent": [
-        1.8017036929480534,
-        2.03253654708222,
-        -3.8914953283449183,
-        24.726220906767104,
-        7.58522033425213,
-        12.142544593446747,
-        27.672300570567355,
-        -0.8080065197082043
+        1.0525906433506593,
+        -0.24581103095183687,
+        -0.1506090160698359,
+        -2.2379463551094214,
+        -1.9478371332918631,
+        2.29642230026339,
+        -4.6593785640768886,
+        -0.8911963130570077
       ]
     },
     {
       "engine": "rs",
       "sections": 512,
-      "before_ms": 41.96695,
-      "after_ms": 40.51195,
-      "paired_change_percent": 0.4784471673767221,
-      "min_paired_change_percent": -6.892546299325963,
-      "max_paired_change_percent": 6.463384805761807,
+      "before_ms": 36.86865,
+      "after_ms": 36.1876,
+      "paired_change_percent": -0.8814394355762201,
+      "min_paired_change_percent": -4.329202327969872,
+      "max_paired_change_percent": 2.5786574600169754,
       "paired_changes_percent": [
-        -2.8393622994210888,
-        1.4252324638155622,
-        1.6483177339348565,
-        -0.468338129062118,
-        -6.892546299325963,
-        -2.556398825055539,
-        6.463384805761807,
-        1.6490928792435078
+        0.7497133293256741,
+        1.4489552117334936,
+        -2.305205612380179,
+        0.5423267412277388,
+        -2.3352313148436665,
+        2.5786574600169754,
+        -4.329202327969872,
+        -3.8499514449863548
       ]
     }
   ],
