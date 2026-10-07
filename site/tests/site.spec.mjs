@@ -113,7 +113,7 @@ test('history selections display measured samples and all tags', async ({ page, 
 })
 
 test('paired comparison displays every measured change and downloads its evidence', async ({ page, request }) => {
-  const raw = await (await request.get('reports/paired-full-feature.json')).json()
+  const raw = await (await request.get('reports/final-audit-pairs.json')).json()
   await page.goto('./')
   await expect(page.locator('header a[href="#paired-full"]')).toBeVisible()
   await expect(page.locator('#paired-full tbody tr')).toHaveCount(raw.summary.length)
@@ -122,5 +122,12 @@ test('paired comparison displays every measured change and downloads its evidenc
     await expect(page.locator('#paired-full tbody tr').nth(index)).toContainText(percent)
   }
   await expect(page.locator('#full h2')).toContainText('Concatenated corpus stress test')
-  expect((await request.get('reports/paired-full-feature.md')).ok()).toBeTruthy()
+  for (const file of ['final-audit-pairs.md', 'final-audit-conversion-checks.md', 'final-audit-conversion-checks.json',
+    'paired-full-feature.md', 'paired-full-feature.json', 'dev-main-core-pre-final-audit-20261007.md',
+    'dev-main-full-pre-final-audit-20261007.json', 'commonmark-js-pre-final-audit-20261007.md',
+    'dev-main-rust-pre-final-audit-20261007.Cargo.lock'])
+    expect((await request.get(`reports/${file}`)).ok()).toBeTruthy()
+  const control = await (await request.get('reports/final-audit-conversion-checks.json')).json()
+  for (const engine of ['js', 'php', 'rs'])
+    expect(control.metadata.sources.after[engine].commit).toBe(raw.metadata.sources.after[engine].commit)
 })

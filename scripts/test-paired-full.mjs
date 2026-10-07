@@ -35,8 +35,9 @@ test('literal fixture output cannot masquerade as full-feature rendering', () =>
   assert.throws(() => fullFeatureSource(0), /Positive section count/)
 })
 
-test('published paired samples match generated inputs, controls and measured producers', () => {
-  const record = JSON.parse(readFileSync('reports/paired-full-feature.json'))
+for (const stem of ['paired-full-feature', 'final-audit-pairs'])
+test(`${stem}: published paired samples match inputs, controls and measured producers`, () => {
+  const record = JSON.parse(readFileSync(`reports/${stem}.json`))
   for (const revision of ['before', 'after']) for (const engine of ['js', 'php', 'rs'])
     assert.match(record.metadata.sources[revision][engine].commit, /^[a-f0-9]{40}$/)
   assert.deepEqual(record.fixtures.map(row => row.sections), fullFeatureSizes)
@@ -59,7 +60,7 @@ test('published paired samples match generated inputs, controls and measured pro
   assert.ok(record.rows.filter(row => row.engine === 'php').every(row => row.jit === true))
   assert.equal(record.publication_exporter_sha256, sha(readFileSync('scripts/public_report.py')))
   assert.deepEqual(record.summary, pairedSummary(record.rows))
-  const report = readFileSync('reports/paired-full-feature.md', 'utf8')
+  const report = readFileSync(`reports/${stem}.md`, 'utf8')
   for (const row of pairedTableRows(record.summary)) assert.ok(report.includes(`| ${row.join(' | ')} |`))
   for (const [file, hash] of Object.entries(record.metadata.harness_sha256)) assert.equal(hash, sha(readFileSync(file)), file)
 })

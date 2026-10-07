@@ -1,0 +1,2042 @@
+{
+  "schema": 1,
+  "metadata": {
+    "benchmark_base_commit": "b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63",
+    "benchmark_checkout_commit": "b53baed0ad0a0f777ed1df59b75fbbf378427a1b",
+    "benchmark_dirty_paths": [
+      "reports/paired-full-feature-20261005T204417842.json",
+      "reports/paired-full-feature-20261005T204417842.md",
+      "reports/paired-full-feature.json",
+      "reports/paired-full-feature.md",
+      "reports/php-large-jit-output-control.json",
+      "scripts/check-conversion-snapshots.py",
+      "scripts/compare-full-feature.mjs"
+    ],
+    "benchmark_dirty": true,
+    "started_at": "2026-10-06T22:08:18.919Z",
+    "measurement_started_at": "2026-10-06T22:11:52.113Z",
+    "completed_at": "2026-10-06T22:18:02.552Z",
+    "cpu_affinity": [
+      13
+    ],
+    "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
+    "logical_cpus": 16,
+    "platform": "linux",
+    "arch": "x64",
+    "baseline_benchmark_commit": "b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63",
+    "previous_snapshot": "paired-full-feature-20261005T204417842",
+    "node": "v22.22.2",
+    "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "php_ini_flags": [
+      "-n",
+      "-d",
+      "extension=ctype",
+      "-d",
+      "extension=mbstring",
+      "-d",
+      "opcache.enable_cli=1",
+      "-d",
+      "opcache.jit_buffer_size=128M",
+      "-d",
+      "opcache.jit=tracing"
+    ],
+    "build_settings": {
+      "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+      "cargo_home_config_sha256": "38413ad43bc049f29221624d931897880643a567a503a92172be7126e924d452",
+      "rustflags": null,
+      "encoded_rustflags": null
+    },
+    "sources": {
+      "before": {
+        "js": {
+          "repository": "https://github.com/markup-carve/carve-js",
+          "commit": "a7c80d37fb322d28bc5061175bbd9c7f7638c175",
+          "source_sha256": "8c9522a56a8e9afdf1fc71f3c18c44d4e1d046e6b9e0a85323fbaf9d81f9e541",
+          "lock_sha256": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528",
+          "dist_sha256": {
+            "abbr-budget.js": "6e9cac45d0c7c3d37f5de85611d0ee880f2f7aeb15596dfddb49a719b08d6c5e",
+            "abbr-expansion-emitted.js": "b61083d2dc19f628f3102d9e066f4ad5f79af5027427bb27ec73a6535b7eb870",
+            "accessibility.js": "2877ed43d42cc46970304b63bd623955ff172e693f49a33fa25517e7dded898f",
+            "ast-envelope.js": "c1fcb67400c5b18568720c12119ad87884529c4389b6b9ff60e166b23a804b32",
+            "ast-json.js": "5f86fe08c6c5035da33bf3edd4f156031547fc190d3c41cf74bbf2de13c73f4b",
+            "ast-patch.js": "bac71ce66fc494c531f2d8685689f692e9939113ab33f399c70e19d044423522",
+            "ast-sidecars.js": "500341290b7790b5beb42ebf6a8abaffa3d330dec41654ca5261096435b512ee",
+            "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
+            "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
+            "attribute-merge.js": "c14381d6a5a7bc22628bf95f8d14e8a916902942fa34dae64328fa81ae0c3625",
+            "attribute-parser.js": "2203fbfe302977fc6045bee07cff7248b617efa9bd6e6e19af697c700ff4d53f",
+            "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
+            "backtick-run-index.js": "9e1767d3e60263bca009dfcc233cc19a9f96c824104fc81c3840d15c9e1dc78d",
+            "bbcode-migrate.js": "5c08884d9429c9700124a2eceeae1ed8c3ca129ee2e7edf0f385078a4b3d8fc1",
+            "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
+            "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
+            "bracket-escapes.js": "00af96ffd1542cd393e2ac35366d39656ea531daac92adb1b5f4d49c392c6b60",
+            "carve-escape.js": "367a162f1d9dcc4b934c99989529b766f779278053098465c375c0a6563fc814",
+            "case-migrate.js": "a408acf4dae504ee38adcf593116e95b566a4ef596b72124ed0e295f6532c828",
+            "citations.js": "6295f37c84bbf6605b9689047ea4bdfd8fd1a52d2da32f9951a5263593dd1c7f",
+            "cli.js": "e58978184e94a32954a90d980d68bc7eb4c02c351da90643593552cd7ab96dff",
+            "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
+            "code-callouts.js": "ab189a312fdef6eb0bac6380edbb2d91068e16a3cf95f9deeb0cc3f8ba00a03c",
+            "code-group.js": "463f9273026e898de1dde262b2b8dc7721ddcfd2f14324dc8ea5c7e68172a229",
+            "colon-fences.js": "234902a4ad2a22c6da5128e42b7ef2a93a6068b49c5837201cf2760e7750d0d5",
+            "color-swatch.js": "9c7997cfe6c82961e44719c2aae07cb85661fbfe51634b49979db7fe8fd0a125",
+            "column-reservations.js": "6d28b9dbed985549ff4232cfc6c6a884abd2c55c41c20c939d6bdad5eab09293",
+            "conversion-diagnostics.js": "b4589cdd981814e5da64b5f90abe96d8d31448997b905a018502055e906d3d29",
+            "default-attributes.js": "2c18caa10a5dd5c6de170d10a855044e073e0c83b577e4accaf2d30469cce7cb",
+            "definition-list-wire.js": "05b2438e1df7bef9a441caabe26278ea4afad659c79d37bc0a412d5859279ef9",
+            "deny-listed-destination.js": "ef61966f4a204d215e7329f4804cb99377c2fb3abf90796fb9cd4b70d5598334",
+            "details.js": "0ad84827cae1351680078dd301beec9b304cb3233502766f6b7a9e4584627094",
+            "diff.js": "4c362e2e99b171543e34ece4c0eb4b4d282c6b3ffc88ce8d12669bbea8106bc1",
+            "djot-attributed-strong.js": "8eb008c893e89c444a9403f2147eb0f20692713e0bcf1dce98127452704c8b4f",
+            "djot-emphasis.js": "d6fb61de4dab88269572311d429e1ed7fb8184fac4a6f4f24eb01f5becb82a00",
+            "djot-import.js": "67043181109a82e1f85dfb6f572d21965b79e872ca371051d727b1db3509eea7",
+            "djot-migrate.js": "ca3c83dfad96e55a1e8d50869119648ee73a28aece4cece13de4e48db9379eac",
+            "djot-word-attributes.js": "3e72bde242c0b023033c9e463bb4008d4b2818d3d04872fe4fa7e08ed6680ef4",
+            "document-ids.js": "8a315e9894905d9d049364301f39ba93c7c777a5b0c2da17267d7b21806ae11f",
+            "editor-session.js": "93667f951b2918ae47c771da42c40712a743a14e56a3f22010d2d8a3dd46a04d",
+            "escape-window.js": "3fe171086a138c5319cccccd3332869673fe44381305afafeaf892d881871c69",
+            "extension-transforms.js": "72139bed15022f304ae566ad3ee7ba3cfa55202a465f76ba9bfe3927f6ed786c",
+            "extension.js": "3249fbb94ebcfd1f2dbb5992aefec4af3ae641757191703bfc305573a3ee76ea",
+            "external-links.js": "0ee8835b44b998395496bacdcdc561d5430b97a6eb3db1b14595f3a5cfa2f0da",
+            "fast-html.js": "5fa62e955385368a8544809acad4e29f342750e4e7c9a49580d677d6020905f7",
+            "fenced-render.js": "695d462eeef8eb51ac7d46cd7700dcbc92bc6cd0ab6449725df03d2094313fcd",
+            "footnote-numbering.js": "b0d953c0cb6f1641a9fc448808210d28d36a30f91d2c26e6b245b2d60c0cc341",
+            "glossary.js": "be33b75420abbf7d2ed8d6a1265e11508715a13ae02f697cd7fdf5562adfcbfd",
+            "heading-ids.js": "e415c1e7029d5f7c09aaa64effaf45da547c34eceec6062cd3c4756b91118515",
+            "heading-level-shift.js": "c167ab8955d4f6b9caf433363973fb53dba881b01673594a1806061a22b2c964",
+            "heading-numbers.js": "de844b0039923625a7ad90875a2ffbcdbb21cab44c39b102d4d5dc54f89d90ae",
+            "heading-permalinks.js": "ec541a64725bf20675129f477564c2109092ec2afd2702a32a736c2cfb071551",
+            "heading-reference.js": "f479c5a83dc429f2342240b3116ab98a5457002b40a410a6c219ecc7357c4d5c",
+            "html-import-code-language.js": "d3664086c0ab345d3c754b9810691d6b53fe0dd2a734a5d913e781ba4de29a7f",
+            "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
+            "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
+            "html-import.js": "6047a6a832ef1c4b80167e39785af8f411378ac00cf6115f25f9d3df58129e58",
+            "import-report-messages.js": "cbb3842b000ff46acee3f083b8e8bb225bdee8c46b2c0132c581d7ecd027996d",
+            "include-directive.js": "be3e7487b86f6caa54c340b704920ec68962e1b94b96acb3177eb3b9a959f1bd",
+            "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
+            "includes.js": "10398a42393d37337e278fb632c8187f83e5ebce349e80c42e909495ab6e4e78",
+            "index-terms.js": "418eb0e101d3225d303a9bb155d3256fbd2492cf91373a9ba420b1d648471a98",
+            "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
+            "inline-children.js": "6dccd86c1f50e547fe193a946ad0d331f2d31453479ceea292e49e4c2b72ebf2",
+            "inline-resolution.js": "5542cb104331a05c73500e617f6382f6274e853ddf585514725735103781a644",
+            "label-key.js": "16fffd7fc7706a6746117a0a892dc664cba8907dc8ae1025f5c8cd586e0ff58b",
+            "legacy-nodes.js": "1c25b0f25cd0696f888e5df84609bf71637af62c9653074e2209ac5be3e8f87e",
+            "link-destination.js": "bb4033ecda7ffb6e0ced05c5b8671c580725cf7f37dcc58fd1f0393f65aa8f06",
+            "lint.js": "7a0af496c596b0d551e1171418a1c33dbe9e6266045951b59a3b99f16a46a502",
+            "list-table.js": "dbfdb629e6ceab513faf29b8737a27378fe6200340ed37542f919d5d723cf09d",
+            "markdown-emphasis.js": "36d7cd24f63488fe113d523b9b6e644641f62a63ec0a7e0620f7337525be0d02",
+            "markdown-empty-destination.js": "39f7ed4c937b63bc1a62885c17bea5f20ea95c03589dc2cab22a9d88129bb2b7",
+            "markdown-link-scopes.js": "9d4fda04e7f871cdc20c43e7ea6216d98b1bc91fb26e06adc8b87c0de4518f9a",
+            "markdown-migrate.js": "3dc80039104f04c71497cc837734fc62c4799773f8484bdc3070ab4b06ce016a",
+            "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
+            "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
+            "merge.js": "a8f66233d6bcfa4736a091d65c66bb3d2d82189135124afc9e4eedc145087ffe",
+            "migration.js": "0fa9919847a191b457050c0621725b7315a033dce1e108f2752bb05609651f38",
+            "node.js": "515130342c38ff335bf53b9c85a3646f80bceb58cf3e186e367447aa88598abe",
+            "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
+            "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
+            "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
+            "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
+            "parse.js": "0dc3c14a13e3d2d3794c30d6508b12d2e0356211c53745f1108bb851bd39b4d1",
+            "portability.js": "41690795988b1686e6b2a0cc7846ff4591f568a96396fb6b412a12efb4b15354",
+            "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
+            "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
+            "profile.js": "463ad4b0a3e5411ba94541ec7900c21f463bf161b1c3f5389bf90c889341bdd7",
+            "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
+            "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
+            "render-ansi.js": "5abedeb11790ea631e7ca08ec4d21ccae501301f280d902922097494e3c25eab",
+            "render-carve.js": "4c7d66e9902e69d9cabfbf7d21588940b1a00ad3e91b9cb239224dec07340661",
+            "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
+            "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
+            "render-html.js": "f7b2251a67a2c8b5f91446ab643bbffd9339e11def4a2fd69134321c6f8aafec",
+            "render-loss.js": "656e162a6037f36967285135776b59ef9d97c79d02f78655b0171c46dca60f1e",
+            "render-markdown.js": "1607c35bdacbdc536991655065a020621db8c273ba39efab277404d7d0cd84b5",
+            "render-plain.js": "5050057a15e175e5770667bf1076ee5077be59f21600a44264ce86060f29a569",
+            "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
+            "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
+            "sentinel-run.js": "47f312adb27d24e145256e02f4fcf3c29b55eee85f23fa69381170cde01b971c",
+            "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
+            "source-layout.js": "16da445cc0a65f27837e58b9ec187f866d1911736f9add6a83cac29cb58382cb",
+            "source-patch.js": "079fcf71f600f6d0e92b9d213803a36b96957b2948755bec811c4c8e9591bf01",
+            "source-positions.js": "7a734b36b0cf87bd589153f99fccfd589326c32a3c4da41f20423509234a48a2",
+            "source-unspellable-error.js": "198887895ec70b411459761cc10bcc6b12d11b25e14c503ad9e4c4997eb2cd5f",
+            "spoiler.js": "546fb3afbc97e2686c5ac44dd8d9c64bc1d871403a1bd5e2740ad7acfe0aface",
+            "stamp.js": "4891c367c9c0f373f770a6d92724d9b25caf2185287a426f8f0ab0211881a58c",
+            "stream.js": "adc7048e6c11fd794676b3dc763086fd1a7c41ada71fcfe71c5aac4955a7be96",
+            "substitution-scanner.js": "909aa8f51f24da73c865caf4bcd4caffd7ee24912e1ee5d788e9648203d506f1",
+            "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
+            "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
+            "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
+            "table-of-contents.js": "794917c8cf6f0f23e1e607a8d1feb311fab0e653b566ae04cfe7289176503035",
+            "table-preservation.js": "781535dbe452cd5ce8a1aaf5304380a1bbc062d940f77643188025dff37b068e",
+            "table-source-metadata.js": "d2b993906b1c1ef8b5ef8805723d76866e2f0849bc12d657e6a52061e9574237",
+            "table-spans.js": "a39069e1d1d354de9a05f0cfbe0d46eb19447748316a21d2debdc74f61a60e51",
+            "tabs.js": "03537fa1cd7669ea6b19172703efe6d3741b059b3c89316c67af83f8462cdfe9",
+            "thematic-break-marker.js": "bac377f0928499feb37e1fefc241dc952c3c4c0fd1532b983f29ddacc295a42c",
+            "translit-map.js": "3bf3e46b2e8356d9acd1182a1712a27938e88a922fce4e9f994f9b259d24a640",
+            "trim-non-nbsp.js": "db52aaf0ba8f465d77cf64611529a6ebf5c51437d207e065475d07518ae3649a",
+            "unresolved-reference.js": "d9cf9f3f983634d09c3259b7da6df5e8e0cb426ee0bb93c10375cddf2aadd86f",
+            "verbatim-payload.js": "7ba32ad8bfcfd804593f3842f5b67f16c3d5ec02ca7fe3038f652bb1b4508a3d",
+            "verse-whitespace.js": "b01504d15818be3358282e8dfc9da7909ad6d12df1b5b07ee2e7ca880e8207c8",
+            "version.js": "7b1a6bb9fc1c6c88cdee913c9c42456b7d0970c14963ff1e1771a514a3a050e2",
+            "wikilinks.js": "8a3e1782990a575a4cdec9932728d891ea04c256f0576225dc150513f1776277",
+            "wire-fields.js": "5139b558713843dba3d02ffc78d92354f50dd580b78cc0859f502dcb35a8ee05"
+          }
+        },
+        "php": {
+          "repository": "https://github.com/markup-carve/carve-php",
+          "commit": "49c235d768ea6faec074d4b561ed3783d99b6fbd",
+          "source_sha256": "277071fa9eda2f51b0e8f464252ba6862b87b61fe3f479c2e04eb0f477a2924c"
+        },
+        "rs": {
+          "repository": "https://github.com/markup-carve/carve-rs",
+          "commit": "ae44de38b6ecf468212cac117f83158f7c3988c2",
+          "source_sha256": "2b637c90f170a1bb4333786b6d5601e3120476e71c381f684608c192247682e0",
+          "binary_sha256": "20a1fbded471541c27980ceefd138b05904ebb5c68978711f2e9583a373b8625",
+          "control_binary_sha256": "528039c4f2228623f190d7533c1669b13a1080a58b51fd86e203db9152305d8c",
+          "lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
+          "manifest_sha256": "b93a3d795111159a17f3e172a716f4a23d25119451d790cbf21c26ec4ef65ecc"
+        }
+      },
+      "after": {
+        "js": {
+          "repository": "https://github.com/markup-carve/carve-js",
+          "commit": "355d6de61406342d8aa989afed358f0d004ff586",
+          "source_sha256": "5885edaed612b4cba3d377cf987ee6377cf3f931c414eb5821045a55e11a33d2",
+          "lock_sha256": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528",
+          "dist_sha256": {
+            "abbr-budget.js": "6e9cac45d0c7c3d37f5de85611d0ee880f2f7aeb15596dfddb49a719b08d6c5e",
+            "abbr-expansion-emitted.js": "b61083d2dc19f628f3102d9e066f4ad5f79af5027427bb27ec73a6535b7eb870",
+            "accessibility.js": "2877ed43d42cc46970304b63bd623955ff172e693f49a33fa25517e7dded898f",
+            "ast-envelope.js": "d5ede31e4e63a016932df3cd5f690c651dc78551880090f3924c93d404ee9b96",
+            "ast-json.js": "ffd00a757402b13e08ef8cedd72a1211b247345a2201cc4d9cf77e3883a66b0d",
+            "ast-patch.js": "90fe0081fcb23f429c25c0f2dceb97d8fa9958374a73758cd17c94e8095e4cf3",
+            "ast-sidecars.js": "3d4bdb7071e05a7a90ebbdc453294776b4976de521da87b4a37a8defe4a56099",
+            "ast-structural-index.js": "4e55fbed0de321f227d260688dfa6745e7642e61a2be01c14de4a29e5f80a833",
+            "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
+            "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
+            "attribute-merge.js": "c14381d6a5a7bc22628bf95f8d14e8a916902942fa34dae64328fa81ae0c3625",
+            "attribute-parser.js": "2203fbfe302977fc6045bee07cff7248b617efa9bd6e6e19af697c700ff4d53f",
+            "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
+            "backtick-run-index.js": "9e1767d3e60263bca009dfcc233cc19a9f96c824104fc81c3840d15c9e1dc78d",
+            "bbcode-migrate.js": "5c08884d9429c9700124a2eceeae1ed8c3ca129ee2e7edf0f385078a4b3d8fc1",
+            "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
+            "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
+            "bracket-escapes.js": "00af96ffd1542cd393e2ac35366d39656ea531daac92adb1b5f4d49c392c6b60",
+            "carve-escape.js": "367a162f1d9dcc4b934c99989529b766f779278053098465c375c0a6563fc814",
+            "case-migrate.js": "1cb5eeba73340f7d511904cdd513a8bb0f72d2c51981a283999286d1de484ba0",
+            "citations.js": "6295f37c84bbf6605b9689047ea4bdfd8fd1a52d2da32f9951a5263593dd1c7f",
+            "cli.js": "e58978184e94a32954a90d980d68bc7eb4c02c351da90643593552cd7ab96dff",
+            "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
+            "code-callouts.js": "ab189a312fdef6eb0bac6380edbb2d91068e16a3cf95f9deeb0cc3f8ba00a03c",
+            "code-group.js": "463f9273026e898de1dde262b2b8dc7721ddcfd2f14324dc8ea5c7e68172a229",
+            "colon-fences.js": "234902a4ad2a22c6da5128e42b7ef2a93a6068b49c5837201cf2760e7750d0d5",
+            "color-swatch.js": "9c7997cfe6c82961e44719c2aae07cb85661fbfe51634b49979db7fe8fd0a125",
+            "column-reservations.js": "6d28b9dbed985549ff4232cfc6c6a884abd2c55c41c20c939d6bdad5eab09293",
+            "conversion-diagnostics.js": "b4589cdd981814e5da64b5f90abe96d8d31448997b905a018502055e906d3d29",
+            "default-attributes.js": "67bdafdd8d217956a2102ef9b7c588187f032b73093d5185bbfe6639fb116b1f",
+            "definition-list-wire.js": "05b2438e1df7bef9a441caabe26278ea4afad659c79d37bc0a412d5859279ef9",
+            "deny-listed-destination.js": "ef61966f4a204d215e7329f4804cb99377c2fb3abf90796fb9cd4b70d5598334",
+            "details.js": "0ad84827cae1351680078dd301beec9b304cb3233502766f6b7a9e4584627094",
+            "diff.js": "029feef5b9fbc7603b4b74f6738ea27c6ede188672090424837f0cab94a80136",
+            "djot-attributed-strong.js": "8eb008c893e89c444a9403f2147eb0f20692713e0bcf1dce98127452704c8b4f",
+            "djot-emphasis.js": "d6fb61de4dab88269572311d429e1ed7fb8184fac4a6f4f24eb01f5becb82a00",
+            "djot-import.js": "67043181109a82e1f85dfb6f572d21965b79e872ca371051d727b1db3509eea7",
+            "djot-migrate.js": "ca3c83dfad96e55a1e8d50869119648ee73a28aece4cece13de4e48db9379eac",
+            "djot-word-attributes.js": "3e72bde242c0b023033c9e463bb4008d4b2818d3d04872fe4fa7e08ed6680ef4",
+            "document-ids.js": "8a315e9894905d9d049364301f39ba93c7c777a5b0c2da17267d7b21806ae11f",
+            "editor-session.js": "12a605d35d4e0f4e5f1bcbf675cc026a50b5fb5f3dd4f39a7f22b22ff4a86c54",
+            "escape-window.js": "3fe171086a138c5319cccccd3332869673fe44381305afafeaf892d881871c69",
+            "extension-transforms.js": "72139bed15022f304ae566ad3ee7ba3cfa55202a465f76ba9bfe3927f6ed786c",
+            "extension.js": "3249fbb94ebcfd1f2dbb5992aefec4af3ae641757191703bfc305573a3ee76ea",
+            "external-links.js": "0ee8835b44b998395496bacdcdc561d5430b97a6eb3db1b14595f3a5cfa2f0da",
+            "fast-html.js": "5fa62e955385368a8544809acad4e29f342750e4e7c9a49580d677d6020905f7",
+            "fenced-render.js": "695d462eeef8eb51ac7d46cd7700dcbc92bc6cd0ab6449725df03d2094313fcd",
+            "footnote-numbering.js": "b0d953c0cb6f1641a9fc448808210d28d36a30f91d2c26e6b245b2d60c0cc341",
+            "glossary.js": "be33b75420abbf7d2ed8d6a1265e11508715a13ae02f697cd7fdf5562adfcbfd",
+            "heading-ids.js": "e415c1e7029d5f7c09aaa64effaf45da547c34eceec6062cd3c4756b91118515",
+            "heading-level-shift.js": "c167ab8955d4f6b9caf433363973fb53dba881b01673594a1806061a22b2c964",
+            "heading-numbers.js": "de844b0039923625a7ad90875a2ffbcdbb21cab44c39b102d4d5dc54f89d90ae",
+            "heading-permalinks.js": "ec541a64725bf20675129f477564c2109092ec2afd2702a32a736c2cfb071551",
+            "heading-reference.js": "f479c5a83dc429f2342240b3116ab98a5457002b40a410a6c219ecc7357c4d5c",
+            "html-import-code-language.js": "d3664086c0ab345d3c754b9810691d6b53fe0dd2a734a5d913e781ba4de29a7f",
+            "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
+            "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
+            "html-import.js": "6047a6a832ef1c4b80167e39785af8f411378ac00cf6115f25f9d3df58129e58",
+            "import-report-messages.js": "cbb3842b000ff46acee3f083b8e8bb225bdee8c46b2c0132c581d7ecd027996d",
+            "include-directive.js": "be3e7487b86f6caa54c340b704920ec68962e1b94b96acb3177eb3b9a959f1bd",
+            "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
+            "includes.js": "10398a42393d37337e278fb632c8187f83e5ebce349e80c42e909495ab6e4e78",
+            "index-terms.js": "418eb0e101d3225d303a9bb155d3256fbd2492cf91373a9ba420b1d648471a98",
+            "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
+            "inline-children.js": "6dccd86c1f50e547fe193a946ad0d331f2d31453479ceea292e49e4c2b72ebf2",
+            "inline-resolution.js": "5542cb104331a05c73500e617f6382f6274e853ddf585514725735103781a644",
+            "label-key.js": "16fffd7fc7706a6746117a0a892dc664cba8907dc8ae1025f5c8cd586e0ff58b",
+            "legacy-nodes.js": "1c25b0f25cd0696f888e5df84609bf71637af62c9653074e2209ac5be3e8f87e",
+            "link-destination.js": "41c6c94b2980961963f420e62c5028cfc119f1af42e1f289bd0f50cff8ae75f7",
+            "lint.js": "58b4703eb12450913c3b4a866cd2869e52bcf83d798dfadceb3d4ad0b26f4f25",
+            "list-table.js": "dbfdb629e6ceab513faf29b8737a27378fe6200340ed37542f919d5d723cf09d",
+            "markdown-emphasis.js": "36d7cd24f63488fe113d523b9b6e644641f62a63ec0a7e0620f7337525be0d02",
+            "markdown-empty-destination.js": "9ba3880d89c33281eddfc95ff72516c59960fd86b222c313886c2f39097f1ede",
+            "markdown-link-scopes.js": "9d4fda04e7f871cdc20c43e7ea6216d98b1bc91fb26e06adc8b87c0de4518f9a",
+            "markdown-migrate.js": "3dc80039104f04c71497cc837734fc62c4799773f8484bdc3070ab4b06ce016a",
+            "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
+            "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
+            "merge.js": "763787921c1deaa2ba1b0b35d0acef4a2306b5d3491d5eef8313a90f46811da1",
+            "migration.js": "0fa9919847a191b457050c0621725b7315a033dce1e108f2752bb05609651f38",
+            "node.js": "515130342c38ff335bf53b9c85a3646f80bceb58cf3e186e367447aa88598abe",
+            "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
+            "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
+            "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
+            "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
+            "parse.js": "16193944bf98bc65599e5467fbb291639a61c5859d91dc85488bf3a27bbccff2",
+            "portability.js": "41690795988b1686e6b2a0cc7846ff4591f568a96396fb6b412a12efb4b15354",
+            "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
+            "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
+            "profile.js": "463ad4b0a3e5411ba94541ec7900c21f463bf161b1c3f5389bf90c889341bdd7",
+            "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
+            "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
+            "render-ansi.js": "5abedeb11790ea631e7ca08ec4d21ccae501301f280d902922097494e3c25eab",
+            "render-carve.js": "4c7d66e9902e69d9cabfbf7d21588940b1a00ad3e91b9cb239224dec07340661",
+            "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
+            "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
+            "render-html.js": "f7b2251a67a2c8b5f91446ab643bbffd9339e11def4a2fd69134321c6f8aafec",
+            "render-loss.js": "656e162a6037f36967285135776b59ef9d97c79d02f78655b0171c46dca60f1e",
+            "render-markdown.js": "1607c35bdacbdc536991655065a020621db8c273ba39efab277404d7d0cd84b5",
+            "render-plain.js": "5050057a15e175e5770667bf1076ee5077be59f21600a44264ce86060f29a569",
+            "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
+            "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
+            "sentinel-run.js": "47f312adb27d24e145256e02f4fcf3c29b55eee85f23fa69381170cde01b971c",
+            "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
+            "source-layout.js": "ce2b8655548ca252a0fd475a37f1d131c8d6b90f7ba7b954320b16574f6512d4",
+            "source-patch.js": "079fcf71f600f6d0e92b9d213803a36b96957b2948755bec811c4c8e9591bf01",
+            "source-positions.js": "7a734b36b0cf87bd589153f99fccfd589326c32a3c4da41f20423509234a48a2",
+            "source-unspellable-error.js": "198887895ec70b411459761cc10bcc6b12d11b25e14c503ad9e4c4997eb2cd5f",
+            "spoiler.js": "546fb3afbc97e2686c5ac44dd8d9c64bc1d871403a1bd5e2740ad7acfe0aface",
+            "stamp.js": "4891c367c9c0f373f770a6d92724d9b25caf2185287a426f8f0ab0211881a58c",
+            "stream.js": "adc7048e6c11fd794676b3dc763086fd1a7c41ada71fcfe71c5aac4955a7be96",
+            "substitution-scanner.js": "909aa8f51f24da73c865caf4bcd4caffd7ee24912e1ee5d788e9648203d506f1",
+            "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
+            "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
+            "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
+            "table-of-contents.js": "794917c8cf6f0f23e1e607a8d1feb311fab0e653b566ae04cfe7289176503035",
+            "table-preservation.js": "781535dbe452cd5ce8a1aaf5304380a1bbc062d940f77643188025dff37b068e",
+            "table-source-metadata.js": "d2b993906b1c1ef8b5ef8805723d76866e2f0849bc12d657e6a52061e9574237",
+            "table-spans.js": "a39069e1d1d354de9a05f0cfbe0d46eb19447748316a21d2debdc74f61a60e51",
+            "tabs.js": "03537fa1cd7669ea6b19172703efe6d3741b059b3c89316c67af83f8462cdfe9",
+            "thematic-break-marker.js": "bac377f0928499feb37e1fefc241dc952c3c4c0fd1532b983f29ddacc295a42c",
+            "translit-map.js": "3bf3e46b2e8356d9acd1182a1712a27938e88a922fce4e9f994f9b259d24a640",
+            "trim-non-nbsp.js": "db52aaf0ba8f465d77cf64611529a6ebf5c51437d207e065475d07518ae3649a",
+            "unresolved-reference.js": "d9cf9f3f983634d09c3259b7da6df5e8e0cb426ee0bb93c10375cddf2aadd86f",
+            "verbatim-payload.js": "7ba32ad8bfcfd804593f3842f5b67f16c3d5ec02ca7fe3038f652bb1b4508a3d",
+            "verse-whitespace.js": "b01504d15818be3358282e8dfc9da7909ad6d12df1b5b07ee2e7ca880e8207c8",
+            "version.js": "7b1a6bb9fc1c6c88cdee913c9c42456b7d0970c14963ff1e1771a514a3a050e2",
+            "wikilinks.js": "8a3e1782990a575a4cdec9932728d891ea04c256f0576225dc150513f1776277",
+            "wire-fields.js": "5139b558713843dba3d02ffc78d92354f50dd580b78cc0859f502dcb35a8ee05"
+          }
+        },
+        "php": {
+          "repository": "https://github.com/markup-carve/carve-php",
+          "commit": "45de896cea3d8944287f28ca155dea3afe04feec",
+          "source_sha256": "0d31f88129e309e7bab4d0b937cd0690341bb586e6711e01a61e5ba107832b3f"
+        },
+        "rs": {
+          "repository": "https://github.com/markup-carve/carve-rs",
+          "commit": "5b7bea1ada2a507867d62278145fd7f9fd3f000d",
+          "source_sha256": "f274ae01159674236e6e2971d74fdd624cb11188c691a70cccb4882ecfba52dd",
+          "binary_sha256": "34bdb1757369061a95c885047e50150296d5fd8f54508b1bf644148a977f34e5",
+          "control_binary_sha256": "3f1e3c6c641144929b4fd4bfd4883f67cad590322cc259efcb2c250dcb36445e",
+          "lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
+          "manifest_sha256": "18cc7f85be8e5519b71b575265896278d008e1d5af049eb5da57a37b83264a2b"
+        }
+      }
+    },
+    "harness_sha256": {
+      "scripts/compare-full-feature.mjs": "2ae19b2c184f391f8c65ac5226640f23a0efc82cbae82151d0f027285fc2d80e",
+      "scripts/full-feature-fixture.mjs": "aca1dfc3ebea29ae8ac73c81f0b58ab182537a5c8a6a63c5b28edbe5f9422ddb",
+      "scripts/paired-full-results.mjs": "ee999cc2bb0a1d36846a04626e53e8d9f987a7866fa5f789f5e30e63ee65e057",
+      "scripts/paired-full-output.php": "a8e64da14b28fee853d6f31d5307deb074f608efa1188c6a86ed4de740f7123e",
+      "scripts/public_report.py": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+      "scripts/benchmark-metadata.mjs": "8fcb099b1f8183aed318259c7e6691eea89bebbef0dbe28fb406a7a20a9ee8b2",
+      "scripts/build-rs-engine.mjs": "32bf0a0a6c1f233808b11e465a5705ee3e440fa05f20e67bb13387bfd639cad0",
+      "engines/js/bench.mjs": "b40a48ee2dcff14f8a341650f5c2217958c1eb66e51c97ce1b7fdbfd28c9e15c",
+      "engines/js/carve-src.mjs": "7ddd0fcc8d5c8960749851e12186fb2aeeacefc5a0871e0a71ac24a1c9683492",
+      "engines/php/bench.php": "867e7688eebb4148a36e1d67950c1062926955422c1b83b753fbdec32490369f",
+      "engines/php/carve-src.php": "e65982e185204b2f1ffc47cd9d541c69ed58ca7c07fd053d1c7581b62909a9d9",
+      "engines/rs/src/main.rs": "88f12164594bc1cc9956d61c62b7e1f11d28deff108d073182d650cc98ecc27b",
+      "engines/rs/src/compare.rs": "ee220c81d67aa2fae7cdace39bcc15d9b3abf992dd789806dc46e2edae402fd6",
+      "engines/rs/build.rs": "7bd6807558ee35efce76e47d65723b2101762112f658e235c9e15d24046df75d",
+      "engines/rs/Cargo.toml": "636a0cfdad5b934857dc070f44a6581438578bee6ce602a0794cc54312aff282"
+    },
+    "php_dependency_lock_sha256": "1f7030137b7d28f3ea82b65b8036e570e006338067e882b08431c01c0658c42e",
+    "php_installed_sha256": "b9ed6e06dd6ae94968089bb3a999319c4b75b4f8dd811059957fc84dd9e655ad",
+    "load_start": [
+      11.83,
+      6.49,
+      4.85
+    ],
+    "load_end": [
+      18.85,
+      11.43,
+      7.09
+    ],
+    "method": "Eight serial rounds alternate before/after order. A pilot calibrates identical iteration counts within each pair for a 1.5-second target; every timed window must exceed one second. Workers warm up to 20 calls. Exact output hashes must match within each engine. PHP tracing JIT is required. Median per-round ratios and their full ranges describe these samples; they are not significance tests. Six cases are reported without multiple-comparison adjustment. The host is shared and CPU affinity applies to compiler and GC threads."
+  },
+  "fixtures": [
+    {
+      "sections": 128,
+      "file": "corpus/full-feature/128.crv",
+      "bytes": 80755,
+      "source_sha256": "7b67f5921954bbaa499fee477ba8dd2043a7b8446a6d6c81f3cd6ed0ac75704d"
+    },
+    {
+      "sections": 512,
+      "file": "corpus/full-feature/512.crv",
+      "bytes": 324595,
+      "source_sha256": "963a441ad7fe4a3b6546f808052a3b4919c3479df7c703358134f610298f0ba0"
+    }
+  ],
+  "controls": [
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "output_bytes": 195156,
+      "output_sha256": "af81427e639ab514f77a1304ee0c0541f4698a3c569dd5775b3959f1c13d9dcf"
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "output_bytes": 195156,
+      "output_sha256": "af81427e639ab514f77a1304ee0c0541f4698a3c569dd5775b3959f1c13d9dcf"
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "output_bytes": 783060,
+      "output_sha256": "7a2348dc830b19aa038b6bb405d75e13fd8f8be53df25887f343960bbdf5d893"
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "output_bytes": 783060,
+      "output_sha256": "7a2348dc830b19aa038b6bb405d75e13fd8f8be53df25887f343960bbdf5d893"
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "output_bytes": 195157,
+      "output_sha256": "505265571e2e19504dd7f4ded4e65797919165d5e558819646cd79aae47afe62"
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "output_bytes": 195157,
+      "output_sha256": "505265571e2e19504dd7f4ded4e65797919165d5e558819646cd79aae47afe62"
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "output_bytes": 783061,
+      "output_sha256": "ede4eaa962b75106ce4caddd5af1fe4dd334dc31ba0258da17cb909e2ed4b31e"
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "output_bytes": 783061,
+      "output_sha256": "ede4eaa962b75106ce4caddd5af1fe4dd334dc31ba0258da17cb909e2ed4b31e"
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "output_bytes": 195156,
+      "output_sha256": "af81427e639ab514f77a1304ee0c0541f4698a3c569dd5775b3959f1c13d9dcf"
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "output_bytes": 195156,
+      "output_sha256": "af81427e639ab514f77a1304ee0c0541f4698a3c569dd5775b3959f1c13d9dcf"
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "output_bytes": 783060,
+      "output_sha256": "7a2348dc830b19aa038b6bb405d75e13fd8f8be53df25887f343960bbdf5d893"
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "output_bytes": 783060,
+      "output_sha256": "7a2348dc830b19aa038b6bb405d75e13fd8f8be53df25887f343960bbdf5d893"
+    }
+  ],
+  "calibration": [
+    {
+      "engine": "js",
+      "sections": 128,
+      "pilots": [
+        {
+          "revision": "before",
+          "ms_per_op": 53.9349
+        },
+        {
+          "revision": "after",
+          "ms_per_op": 49.7665
+        }
+      ],
+      "iters": 31
+    },
+    {
+      "engine": "js",
+      "sections": 512,
+      "pilots": [
+        {
+          "revision": "before",
+          "ms_per_op": 168.3416
+        },
+        {
+          "revision": "after",
+          "ms_per_op": 173.479
+        }
+      ],
+      "iters": 9
+    },
+    {
+      "engine": "php",
+      "sections": 128,
+      "pilots": [
+        {
+          "revision": "before",
+          "ms_per_op": 95.0479
+        },
+        {
+          "revision": "after",
+          "ms_per_op": 99.3506
+        }
+      ],
+      "iters": 16
+    },
+    {
+      "engine": "php",
+      "sections": 512,
+      "pilots": [
+        {
+          "revision": "before",
+          "ms_per_op": 1016.7102
+        },
+        {
+          "revision": "after",
+          "ms_per_op": 547.1339
+        }
+      ],
+      "iters": 3
+    },
+    {
+      "engine": "rs",
+      "sections": 128,
+      "pilots": [
+        {
+          "revision": "before",
+          "ms_per_op": 7.8991
+        },
+        {
+          "revision": "after",
+          "ms_per_op": 8.0167
+        }
+      ],
+      "iters": 190
+    },
+    {
+      "engine": "rs",
+      "sections": 512,
+      "pilots": [
+        {
+          "revision": "before",
+          "ms_per_op": 38.8026
+        },
+        {
+          "revision": "after",
+          "ms_per_op": 40.799
+        }
+      ],
+      "iters": 39
+    }
+  ],
+  "rows": [
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 49.9136,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        11.83,
+        6.49,
+        4.85
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 55.0136,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        11.2,
+        6.44,
+        4.84
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 213.9781,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        10.86,
+        6.45,
+        4.85
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 223.2418,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        10.19,
+        6.45,
+        4.87
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 125.0592,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        9.85,
+        6.45,
+        4.88
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 136.2966,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        9.62,
+        6.46,
+        4.89
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 446.1771,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        9.62,
+        6.46,
+        4.89
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 490.4002,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        9.25,
+        6.43,
+        4.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 8.2644,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        9.25,
+        6.43,
+        4.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 8.4133,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        9.25,
+        6.43,
+        4.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 42.3898,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        8.91,
+        6.41,
+        4.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 41.1862,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        8.91,
+        6.41,
+        4.89
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 55.1601,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        9.08,
+        6.48,
+        4.92
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 49.0864,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        9.07,
+        6.53,
+        4.95
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 191.1871,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        8.75,
+        6.5,
+        4.95
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 195.5475,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        8.53,
+        6.49,
+        4.95
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 111.0974,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        8.32,
+        6.48,
+        4.96
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 105.765,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        7.98,
+        6.44,
+        4.95
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 455.263,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        7.98,
+        6.44,
+        4.95
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 444.7164,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        7.5,
+        6.37,
+        4.94
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 7.6705,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        7.5,
+        6.37,
+        4.94
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 7.5177,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        6.98,
+        6.28,
+        4.91
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 42.1362,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        6.98,
+        6.28,
+        4.91
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 41.5441,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        6.82,
+        6.26,
+        4.92
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 46.3521,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        6.82,
+        6.26,
+        4.92
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 47.2939,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        6.75,
+        6.25,
+        4.92
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 191.3588,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        6.29,
+        6.17,
+        4.9
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 191.123,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        5.95,
+        6.1,
+        4.88
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 90.4396,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        5.63,
+        6.03,
+        4.87
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 91.9897,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        5.63,
+        6.03,
+        4.87
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 430.2703,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        5.34,
+        5.96,
+        4.85
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 443.405,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        5.34,
+        5.96,
+        4.85
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 7.5241,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        5.23,
+        5.93,
+        4.85
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 7.2313,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        5.23,
+        5.93,
+        4.85
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 35.6424,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        5.05,
+        5.88,
+        4.84
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 36.2299,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        5.05,
+        5.88,
+        4.84
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 43.5147,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        4.81,
+        5.82,
+        4.82
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 43.7201,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        4.81,
+        5.82,
+        4.82
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 195.2803,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.66,
+        5.77,
+        4.81
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 184.4158,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.61,
+        5.74,
+        4.81
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 93.6875,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        5.12,
+        5.83,
+        4.84
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 94.4376,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        4.87,
+        5.76,
+        4.83
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 473.0193,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        4.87,
+        5.76,
+        4.83
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 452.461,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        4.64,
+        5.7,
+        4.81
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 9.2709,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        4.64,
+        5.7,
+        4.81
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 7.433,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        4.35,
+        5.62,
+        4.79
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 39.5714,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        4.35,
+        5.62,
+        4.79
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 39.7576,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        4.35,
+        5.62,
+        4.79
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 52.0193,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        4.24,
+        5.58,
+        4.78
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 48.9229,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        4.14,
+        5.53,
+        4.77
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 182.8852,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.13,
+        5.51,
+        4.77
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 198.1527,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.36,
+        5.53,
+        4.78
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 115.0561,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        4.09,
+        5.46,
+        4.76
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 136.4182,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        4.08,
+        5.43,
+        4.75
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 489.6782,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        4.08,
+        5.43,
+        4.75
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 514.7686,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        4,
+        5.39,
+        4.74
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 8.5983,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        3.92,
+        5.35,
+        4.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 9.2505,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        3.92,
+        5.35,
+        4.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 42.7868,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        3.92,
+        5.35,
+        4.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 39.8377,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        3.76,
+        5.3,
+        4.72
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 52.691,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        3.78,
+        5.27,
+        4.71
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 46.6099,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        3.78,
+        5.27,
+        4.71
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 199.9557,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.04,
+        5.28,
+        4.72
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 191.0351,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        3.87,
+        5.23,
+        4.71
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 122.3994,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        3.87,
+        5.23,
+        4.71
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 105.1304,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        3.8,
+        5.19,
+        4.7
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 450.3669,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        3.9,
+        5.19,
+        4.7
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 460.8973,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        3.9,
+        5.19,
+        4.7
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 8.7137,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        3.91,
+        5.17,
+        4.7
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 7.7702,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        3.91,
+        5.17,
+        4.7
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 39.2115,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        3.91,
+        5.17,
+        4.7
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 40.2402,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        3.75,
+        5.11,
+        4.68
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 61.7094,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        3.93,
+        5.13,
+        4.69
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 57.5918,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        4.26,
+        5.18,
+        4.71
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 217.4923,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.24,
+        5.16,
+        4.7
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 209.4613,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        4.46,
+        5.19,
+        4.72
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 107.067,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        4.58,
+        5.2,
+        4.72
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 138.1367,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        4.78,
+        5.23,
+        4.74
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 563.6204,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        4.78,
+        5.23,
+        4.74
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 695.0147,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        5.44,
+        5.36,
+        4.78
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 23.2225,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        7.16,
+        5.72,
+        4.9
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 29.6487,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        11.8,
+        6.7,
+        5.22
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 117.3379,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        19.48,
+        8.52,
+        5.83
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 124.9219,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        20.97,
+        9.01,
+        6.01
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 56.6681,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        21.16,
+        9.47,
+        6.19
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 51.0619,
+      "iters": 31,
+      "jit": null,
+      "load": [
+        21.16,
+        9.47,
+        6.19
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 604.4579,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        23.53,
+        10.52,
+        6.58
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 247.4039,
+      "iters": 9,
+      "jit": null,
+      "load": [
+        26.97,
+        11.96,
+        7.12
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 168.8963,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        25.21,
+        11.84,
+        7.1
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 151.7903,
+      "iters": 16,
+      "jit": true,
+      "load": [
+        23.91,
+        11.79,
+        7.11
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 577.499,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        22.72,
+        11.75,
+        7.12
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 518.4511,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        21.46,
+        11.67,
+        7.12
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 9.9805,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        21.46,
+        11.67,
+        7.12
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 10.0618,
+      "iters": 190,
+      "jit": null,
+      "load": [
+        20.14,
+        11.56,
+        7.11
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 46.7165,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        20.14,
+        11.56,
+        7.11
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 45.9586,
+      "iters": 39,
+      "jit": null,
+      "load": [
+        18.85,
+        11.43,
+        7.09
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "engine": "js",
+      "sections": 128,
+      "before_ms": 49.5,
+      "after_ms": 53.8523,
+      "paired_change_percent": 6.124747506208972,
+      "min_paired_change_percent": -6.672565281788511,
+      "max_paired_change_percent": 13.046799070583726,
+      "paired_changes_percent": [
+        10.217656109757645,
+        12.373488379673404,
+        2.031838902660299,
+        -0.46980679367156775,
+        -5.952406126187782,
+        13.046799070583726,
+        -6.672565281788511,
+        10.97922325647891
+      ]
+    },
+    {
+      "engine": "js",
+      "sections": 512,
+      "before_ms": 193.45315,
+      "after_ms": 199.0542,
+      "paired_change_percent": 4.4994439447083145,
+      "min_paired_change_percent": -3.692544517667984,
+      "max_paired_change_percent": 144.32027951054934,
+      "paired_changes_percent": [
+        4.3292748183108465,
+        -2.229841854280945,
+        -0.12322401687302476,
+        5.891306493261439,
+        8.348133145820436,
+        4.669613071105783,
+        -3.692544517667984,
+        144.32027951054934
+      ]
+    },
+    {
+      "engine": "php",
+      "sections": 128,
+      "before_ms": 106.416,
+      "after_ms": 129.348,
+      "paired_change_percent": 10.127579606068448,
+      "min_paired_change_percent": -0.7942810914296827,
+      "max_paired_change_percent": 29.018932070572625,
+      "paired_changes_percent": [
+        8.985664389345205,
+        5.041743487921324,
+        1.7139615832002741,
+        -0.7942810914296827,
+        18.566681818695407,
+        16.426266807697875,
+        29.018932070572625,
+        11.269494822791692
+      ]
+    },
+    {
+      "engine": "php",
+      "sections": 512,
+      "before_ms": 456.67915,
+      "after_ms": 481.70975,
+      "paired_change_percent": 4.833758567917834,
+      "min_paired_change_percent": -2.2847606180378954,
+      "max_paired_change_percent": 23.312552207123783,
+      "paired_changes_percent": [
+        9.911557540716442,
+        2.3715338584320067,
+        3.052662477517032,
+        4.543662326697762,
+        5.123854809137907,
+        -2.2847606180378954,
+        23.312552207123783,
+        11.389290137488373
+      ]
+    },
+    {
+      "engine": "rs",
+      "sections": 128,
+      "before_ms": 8.0173,
+      "after_ms": 8.982099999999999,
+      "paired_change_percent": 4.808878440667175,
+      "min_paired_change_percent": -3.8914953283449183,
+      "max_paired_change_percent": 27.672300570567355,
+      "paired_changes_percent": [
+        1.8017036929480534,
+        2.03253654708222,
+        -3.8914953283449183,
+        24.726220906767104,
+        7.58522033425213,
+        12.142544593446747,
+        27.672300570567355,
+        -0.8080065197082043
+      ]
+    },
+    {
+      "engine": "rs",
+      "sections": 512,
+      "before_ms": 41.96695,
+      "after_ms": 40.51195,
+      "paired_change_percent": 0.4784471673767221,
+      "min_paired_change_percent": -6.892546299325963,
+      "max_paired_change_percent": 6.463384805761807,
+      "paired_changes_percent": [
+        -2.8393622994210888,
+        1.4252324638155622,
+        1.6483177339348565,
+        -0.468338129062118,
+        -6.892546299325963,
+        -2.556398825055539,
+        6.463384805761807,
+        1.6490928792435078
+      ]
+    }
+  ],
+  "publication_exporter_sha256": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
+}
