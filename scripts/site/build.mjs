@@ -99,7 +99,8 @@ export function collect(comparison, results, revision, fullRecord = null) {
   const peerVersions = comparison.match(/Locked comparison versions: ([\s\S]+?)The Carve engines/)?.[1].trim().replace(/\s+/g, ' ')
   assert.ok(peerVersions, 'Missing core peer versions')
   const smallInputNote = results.includes('Small-input timings are unstable.') ? 'Small-input timings are unstable.' : null
-  return { revision, headline, peers, core, full, run, corpus, engines, host, peerVersions, smallInputNote }
+  const smallInputEvidence = results.match(/^Small-input timings are unstable\..*?\[[^\]]+\]\((reports\/[^)]+)\)/m)?.[1] ?? 'reports/performance-refresh.md'
+  return { revision, headline, peers, core, full, run, corpus, engines, host, peerVersions, smallInputNote, smallInputEvidence }
 }
 
 const escape = text => String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
@@ -147,7 +148,8 @@ export function build(root, destination) {
   const commonmarkSection = `<section id="commonmark"><h2>JavaScript without pipe tables</h2><p>Carve, Djot, markdown-it and commonmark.js on equivalent content. This 14-point workload excludes pipe tables and is separate from the comparison with pipe tables above. Final values use median timing across all samples from both measurement rounds. ${escape(sharedSource)}</p>${finalRows.length ? table(finalTable) : '<p>No qualified timing snapshot is published yet.</p>'}${finalRows.length && existsSync(resolve(root, 'charts/commonmark-js.svg')) ? chart('commonmark-js', 'Final JavaScript throughput without pipe tables') : ''}<p><a href="reports/commonmark-js.md">Method, individual rounds and measurement provenance</a>${sharedRecord ? ' · <a href="reports/commonmark-js.json" download>Raw samples and controls</a>' : ''}</p></section>`
   let pairedSection = ''
   if (existsSync(resolve(root, 'reports/paired-full-feature.json'))) {
-    const paired = JSON.parse(read('reports/paired-full-feature.json'))
+    const pairedStem = existsSync(resolve(root, 'reports/final-audit-pairs.json')) ? 'final-audit-pairs' : 'paired-full-feature'
+    const paired = JSON.parse(read(`reports/${pairedStem}.json`))
     assert.equal(paired.schema, 1)
     for (const engine of ['js', 'php', 'rs']) for (const fixture of paired.fixtures) {
       const controls = paired.controls.filter(row => row.engine === engine && row.sections === fixture.sections)
@@ -156,7 +158,7 @@ export function build(root, destination) {
     }
     assert.deepEqual(paired.summary, pairedSummary(paired.rows))
     const results = { headers: ['Engine', 'Sections', 'Median before ms', 'Median after ms', 'Median paired change', 'Paired range'], rows: pairedTableRows(paired.summary) }
-    pairedSection = `<section id="paired-full"><h2>Paired full-feature comparison</h2><p>Before and after commits render identical output within each engine. Both use the same CPU settings, with alternating run order. This workload has closed blocks and exercises formatting, quotations, lists, tables, raw HTML and footnotes. Changes describe the observed per-round ratios, not statistical significance. Positive means more elapsed time; negative means less. The range shows variation across rounds. The median paired ratio can differ from the ratio of the two median times.</p>${table(results)}<p><a href="reports/paired-full-feature.md">Exact commits and method</a> · <a href="reports/paired-full-feature.json" download>Output controls, samples and provenance</a> · <a href="reports/conversion-snapshot-pairs.md">Exact-corpus revision checks</a> · <a href="reports/rust-core-ranking.md">Rust ranking check</a></p></section>`
+    pairedSection = `<section id="paired-full"><h2>Paired full-feature comparison</h2><p>Before and after commits render identical output within each engine. Both use the same CPU settings, with alternating run order. This workload has closed blocks and exercises formatting, quotations, lists, tables, raw HTML and footnotes. Changes describe the observed per-round ratios, not statistical significance. Positive means more elapsed time; negative means less. The range shows variation across rounds. The median paired ratio can differ from the ratio of the two median times.</p>${table(results)}<p><a href="reports/${pairedStem}.md">Exact commits and method</a> · <a href="reports/${pairedStem}.json" download>Output controls, samples and provenance</a> · <a href="reports/${pairedStem === 'final-audit-pairs' ? 'final-audit-conversion-checks' : 'conversion-snapshot-pairs'}.md">Exact-corpus revision checks</a> · <a href="reports/paired-full-feature.md">Historical paired comparison</a> · <a href="reports/rust-core-ranking.md">Historical Rust ranking check</a></p></section>`
   }
   const source = `https://github.com/markup-carve/carve-bench/blob/${revision}`
   assert.notEqual(resolve(destination), resolve(root), 'Output must differ from source directory')
@@ -175,7 +177,7 @@ export function build(root, destination) {
     .replaceAll('(scripts/deep-review/README.md)', `(${source}/scripts/deep-review/README.md)`))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) writeFileSync(resolve(destination, file), read(file).replaceAll('(./FINDINGS.md', '(reports/FINDINGS.md').replaceAll('(./COMPETITOR_ARCHITECTURE.md)', `(${source}/COMPETITOR_ARCHITECTURE.md)`))
   }
-  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full)-(?:pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
+  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full)-(?:pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   const historyPath = resolve(root, 'reports/engine-history.json')
@@ -199,7 +201,7 @@ export function build(root, destination) {
   writeFileSync(resolve(destination, 'evidence.json'), JSON.stringify(data, null, 2) + '\n')
   writeFileSync(resolve(destination, 'core-throughput.csv'), 'Language,Engine,MB/s\n' + data.peers.map(row => [row.language, row.engine, row.throughput].join(',')).join('\n') + '\n')
   const fullTables = data.full.map(group => `<h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}`).join('')
-  const smallInputNote = data.smallInputNote ? `<p>${escape(data.smallInputNote)} <a href="reports/performance-refresh.md" download>Download the diagnostic report</a>.</p>` : ''
+  const smallInputNote = data.smallInputNote ? `<p>${escape(data.smallInputNote)} <a href="${escape(data.smallInputEvidence)}" download>Download the diagnostic report</a>.</p>` : ''
   const coreTables = data.core.filter(group => ['JavaScript', 'PHP', 'Rust'].includes(group.title)).map(group => `<section class="language-table" data-language="${escape(group.title)}"><h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}</section>`).join('')
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Carve engine benchmarks, measured development snapshots, and downloadable charts."><title>Carve benchmarks</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>

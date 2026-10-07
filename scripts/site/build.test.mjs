@@ -1,17 +1,41 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import { collect, sections } from './build.mjs'
+import { readFileSync, mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { build, collect, sections } from './build.mjs'
 const root = new URL('../../', import.meta.url)
 const comparison = readFileSync(new URL('COMPARISON.md', root), 'utf8')
 const results = readFileSync(new URL('RESULTS.md', root), 'utf8')
 const fullRecord = JSON.parse(readFileSync(new URL('reports/dev-main-full.json', root), 'utf8'))
+test('site publishes current audit reports and preserved snapshot evidence', () => {
+  const destination = mkdtempSync(join(tmpdir(), 'carve-bench-site-test-'))
+  try {
+    build(fileURLToPath(root), destination)
+    for (const file of ['final-audit-pairs.json', 'final-audit-pairs.md',
+      'final-audit-conversion-checks.json', 'final-audit-conversion-checks.md',
+      'dev-main-core-pre-final-audit-20261007.json', 'dev-main-core-pre-final-audit-20261007.md',
+      'dev-main-full-pre-final-audit-20261007.json', 'commonmark-js-pre-final-audit-20261007.md',
+      'dev-main-rust-pre-final-audit-20261007.Cargo.lock'])
+      assert.equal(readFileSync(join(destination, 'reports', file), 'utf8'), readFileSync(new URL(`reports/${file}`, root), 'utf8'))
+    const html = readFileSync(join(destination, 'index.html'), 'utf8')
+    assert.ok(html.includes('href="reports/final-audit-pairs.json"'))
+    assert.ok(html.includes('href="reports/final-audit-conversion-checks.md"'))
+    assert.equal(readFileSync(join(destination, 'charts/commonmark-js-pre-final-audit-20261007.svg'), 'utf8'),
+      readFileSync(new URL('charts/commonmark-js-pre-final-audit-20261007.svg', root), 'utf8'))
+  } finally {
+    rmSync(destination, { recursive: true, force: true })
+  }
+})
 test('site retains all measured engines, tables, corpus sizes and provenance', () => {
   const data = collect(comparison, results, 'revision', fullRecord)
   assert.equal(data.peers.filter(row => row.engine.startsWith('carve-')).length, 3)
   assert.ok(data.full.some(group => group.title === 'PHP authoritative extension tiers'))
   assert.ok(data.engines.includes('carve-rs'))
   assert.ok(data.peerVersions.includes('djot.js 0.3.2'))
+  assert.equal(data.smallInputEvidence, 'reports/final-audit-conversion-checks.md')
+  assert.ok(results.includes('PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.'))
 })
 test('incomplete or malformed results fail the build', () => {
   assert.throws(() => collect(comparison.replace('| Rust | carve-rs', '| Other | carve-rs'), results, 'revision', fullRecord))

@@ -77,7 +77,10 @@ test('dark mode exposes readable charts and downloads under the project path', a
 test('current corpus provenance and historical diagnostics are published', async ({ page, request }) => {
   await page.goto('./')
   const evidence = await (await request.get('evidence.json')).json()
-  if (evidence.smallInputNote) await expect(page.locator('#full')).toContainText(evidence.smallInputNote)
+  if (evidence.smallInputNote) {
+    await expect(page.locator('#full')).toContainText(evidence.smallInputNote)
+    await expect(page.locator('#full a[href="reports/final-audit-conversion-checks.md"]')).toBeVisible()
+  }
   const full = await (await request.get('reports/dev-main-full.json')).json()
   expect(full.corpus).toHaveLength(9)
   expect(full.tiers).toHaveLength(3)
@@ -113,7 +116,7 @@ test('history selections display measured samples and all tags', async ({ page, 
 })
 
 test('paired comparison displays every measured change and downloads its evidence', async ({ page, request }) => {
-  const raw = await (await request.get('reports/paired-full-feature.json')).json()
+  const raw = await (await request.get('reports/final-audit-pairs.json')).json()
   await page.goto('./')
   await expect(page.locator('header a[href="#paired-full"]')).toBeVisible()
   await expect(page.locator('#paired-full tbody tr')).toHaveCount(raw.summary.length)
@@ -122,5 +125,12 @@ test('paired comparison displays every measured change and downloads its evidenc
     await expect(page.locator('#paired-full tbody tr').nth(index)).toContainText(percent)
   }
   await expect(page.locator('#full h2')).toContainText('Concatenated corpus stress test')
-  expect((await request.get('reports/paired-full-feature.md')).ok()).toBeTruthy()
+  for (const file of ['final-audit-pairs.md', 'final-audit-conversion-checks.md', 'final-audit-conversion-checks.json',
+    'paired-full-feature.md', 'paired-full-feature.json', 'dev-main-core-pre-final-audit-20261007.md',
+    'dev-main-full-pre-final-audit-20261007.json', 'commonmark-js-pre-final-audit-20261007.md',
+    'dev-main-rust-pre-final-audit-20261007.Cargo.lock'])
+    expect((await request.get(`reports/${file}`)).ok()).toBeTruthy()
+  const control = await (await request.get('reports/final-audit-conversion-checks.json')).json()
+  for (const engine of ['js', 'php', 'rs'])
+    expect(control.metadata.sources.after[engine].commit).toBe(raw.metadata.sources.after[engine].commit)
 })

@@ -1,7 +1,5 @@
 # Engine release history
 
-PHP is pinned to merged commit 40653c424; the newer main at setup changes only CHANGELOG.md. Runtime sources and dependency manifests are identical.
-
 Retained sessions began 2026-10-02T12:21:26.895588+00:00. 4 stable tags per engine plus a pinned dev-main when measured source differs from the newest tag.
 
 Median elapsed milliseconds; lower is faster. Each revision uses the same fixtures; runtime versions are recorded for each engine and revision. Samples exclude process startup. Node warms each workload for at least 500 ms and a minimum iteration count. Rust uses an optimized release build; PHP has CLI opcache/JIT and coverage disabled. These settings differ from the headline benchmark, so compare revisions within this history rather than mixing report numbers.
@@ -12,7 +10,7 @@ The host is shared. CPU affinity does not reserve a core. Raw samples, minimum/m
 
 ## Measurement sessions
 
-Release-tag measurements retain their original sessions. All three merged main points were refreshed 2026-10-07T11:06:48.553026+00:00 with the same fixtures, workers and sampling counts on CPU 13. Separate shared-host sessions and build configurations do not isolate code speedups.
+Release-tag measurements retain their original sessions. All three merged main points were refreshed 2026-10-07T18:09:24.675228+00:00 with the same fixtures, workers and sampling counts on CPU 13. Separate shared-host sessions and build configurations do not isolate code speedups.
 
 js retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
@@ -20,21 +18,21 @@ php retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, se
 
 rs retained measurements: driver `70fe1de88f1b7e9705c65d831d2e3bcf4cc9d537`, session started 2026-10-02T12:21:26.895588+00:00, CPU affinity [12]; dirty benchmark tree: False.
 
-js dev-main refresh: 2026-10-07T11:05:08.587349+00:00 to 2026-10-07T11:05:34.556255+00:00; driver `37db57fe9693193149d42dd07faf231770138af4`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
+js dev-main refresh: 2026-10-07T18:07:30.877601+00:00 to 2026-10-07T18:07:57.395392+00:00; driver `9ca2a4427601f634049b828781ddc66db14a2c0f`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
 
-php dev-main refresh: 2026-10-07T11:05:34.805182+00:00 to 2026-10-07T11:06:47.706499+00:00; driver `37db57fe9693193149d42dd07faf231770138af4`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
+php dev-main refresh: 2026-10-07T18:07:57.588669+00:00 to 2026-10-07T18:09:23.710220+00:00; driver `9ca2a4427601f634049b828781ddc66db14a2c0f`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
 
-rs dev-main refresh: 2026-10-07T11:06:47.723904+00:00 to 2026-10-07T11:06:48.538775+00:00; driver `37db57fe9693193149d42dd07faf231770138af4`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
+rs dev-main refresh: 2026-10-07T18:09:23.727483+00:00 to 2026-10-07T18:09:24.659203+00:00; driver `9ca2a4427601f634049b828781ddc66db14a2c0f`, CPU affinity [13]; dirty benchmark tree: True. [Point provenance](engine-history.json).
 
 ## Shared-host spread
 
 Retained session initial load average: [5.18994140625, 5.53466796875, 5.52490234375]. Final load average: [7.6640625, 8.294921875, 7.34130859375]. Whiskers show sample ranges; medians from noisy sessions are descriptive readings, not confirmed speed changes.
 
-js dev-main refresh load average: initial [1.6943359375, 2.181640625, 2.2548828125]; final [2.39794921875, 2.3115234375, 2.29638671875].
+js dev-main refresh load average: initial [5.69287109375, 6.599609375, 6.95947265625]; final [5.5126953125, 6.48583984375, 6.91162109375].
 
-php dev-main refresh load average: initial [2.39794921875, 2.3115234375, 2.29638671875]; final [1.8603515625, 2.15380859375, 2.240234375].
+php dev-main refresh load average: initial [5.5126953125, 6.48583984375, 6.91162109375]; final [5.78955078125, 6.28857421875, 6.8017578125].
 
-rs dev-main refresh load average: initial [1.8603515625, 2.15380859375, 2.240234375]; final [1.8603515625, 2.15380859375, 2.240234375].
+rs dev-main refresh load average: initial [5.78955078125, 6.28857421875, 6.8017578125]; final [5.72607421875, 6.26708984375, 6.7919921875].
 
 js: widest sample range is 12.9x for 0.1.8 verse_equivalent n=128 (0.748 to 9.631 ms). Inspect round medians in the JSON before attributing a difference to code.
 
@@ -46,9 +44,9 @@ rs: widest sample range is 7.2x for 0.1.6 verse_equivalent n=128 (0.115 to 0.829
 
 
 
-- php dev-main html_definition_list n=128: 14.554 ms versus 2.418 ms on 0.1.7 (+501.8%). Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.
-- php dev-main html_table n=1024: 384.436 ms versus 176.754 ms on 0.1.7 (+117.5%). Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.
-- php dev-main html_definition_list n=1024: 147.269 ms versus 19.463 ms on 0.1.7 (+656.7%). Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.
+- php dev-main html_definition_list n=128: 16.387 ms versus 2.418 ms on 0.1.7 (+577.6%). Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.
+- php dev-main html_table n=1024: 471.890 ms versus 176.754 ms on 0.1.7 (+167.0%). Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.
+- php dev-main html_definition_list n=1024: 165.573 ms versus 19.463 ms on 0.1.7 (+750.7%). Output hashes match and sample ranges are separate; a paired run is needed to attribute the difference.
 
 ## js
 
@@ -62,22 +60,22 @@ Runtime: v22.22.2. Latest tag: 0.1.9.
 | 0.1.7 | `680af386605367bb86a07c2b258673c6514c4005` |
 | 0.1.8 | `23204e8982012a4b3900dc735e46b3c2630803c2` |
 | 0.1.9 | `a0cb0ad18fc4da223e46cfb77672e4dec537a83b` |
-| dev-main | `5b9ca1632e179418944bc869ddd4dbc4165f9485` |
+| dev-main | `a5c6d6457438a2d0519d474b752a6dac5c0d00bc` |
 
-Merged main refreshed 2026-10-07T11:05:34.556275+00:00; release samples retained. Cross-session differences do not establish code speedups.
+Merged main refreshed 2026-10-07T18:07:57.395413+00:00; release samples retained. Cross-session differences do not establish code speedups.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|
-| dev-main | quoted_fences | 128 | 0.311 | 0.230 | ranges overlap | 0.230 | +0.0% | yes | 0.254 to 1.718 | 0.201 to 2.140 |
-| dev-main | verse_definitions | 128 | 0.744 | 0.589 | ranges overlap | 0.589 | +0.0% | yes | 0.656 to 2.999 | 0.547 to 0.814 |
-| dev-main | verse_equivalent | 128 | 0.850 | 0.610 | ranges overlap | 0.610 | +0.0% | yes | 0.686 to 1.712 | 0.571 to 1.046 |
-| dev-main | paragraphs | 128 | 0.079 | 0.070 | ranges overlap | 0.070 | +0.0% | yes | 0.075 to 0.101 | 0.066 to 0.187 |
-| dev-main | mixed_document | 128 | 1.451 | 1.135 | ranges overlap | 1.135 | +0.0% | yes | 1.217 to 2.254 | 1.043 to 1.481 |
-| dev-main | quoted_fences | 1024 | 2.401 | 1.640 | ranges overlap | 1.640 | +0.0% | yes | 1.997 to 5.849 | 1.593 to 2.213 |
-| dev-main | verse_definitions | 1024 | 6.334 | 4.591 | ranges overlap | 4.591 | +0.0% | yes | 5.014 to 11.435 | 4.042 to 11.269 |
-| dev-main | verse_equivalent | 1024 | 7.843 | 4.725 | ranges overlap | 4.725 | +0.0% | yes | 5.643 to 13.768 | 4.156 to 5.760 |
-| dev-main | paragraphs | 1024 | 0.673 | 0.575 | ranges overlap | 0.575 | +0.0% | yes | 0.634 to 1.763 | 0.544 to 0.783 |
-| dev-main | mixed_document | 1024 | 26.744 | 15.812 | -40.9% | 15.812 | +0.0% | yes | 21.797 to 63.089 | 12.899 to 19.658 |
+| dev-main | quoted_fences | 128 | 0.311 | 0.242 | ranges overlap | 0.242 | +0.0% | yes | 0.254 to 1.718 | 0.220 to 0.769 |
+| dev-main | verse_definitions | 128 | 0.744 | 0.626 | ranges overlap | 0.626 | +0.0% | yes | 0.656 to 2.999 | 0.588 to 3.726 |
+| dev-main | verse_equivalent | 128 | 0.850 | 0.639 | ranges overlap | 0.639 | +0.0% | yes | 0.686 to 1.712 | 0.597 to 1.103 |
+| dev-main | paragraphs | 128 | 0.079 | 0.073 | ranges overlap | 0.073 | +0.0% | yes | 0.075 to 0.101 | 0.069 to 0.233 |
+| dev-main | mixed_document | 128 | 1.451 | 1.154 | ranges overlap | 1.154 | +0.0% | yes | 1.217 to 2.254 | 1.113 to 1.558 |
+| dev-main | quoted_fences | 1024 | 2.401 | 1.752 | ranges overlap | 1.752 | +0.0% | yes | 1.997 to 5.849 | 1.587 to 3.430 |
+| dev-main | verse_definitions | 1024 | 6.334 | 4.791 | ranges overlap | 4.791 | +0.0% | yes | 5.014 to 11.435 | 4.161 to 6.150 |
+| dev-main | verse_equivalent | 1024 | 7.843 | 5.120 | ranges overlap | 5.120 | +0.0% | yes | 5.643 to 13.768 | 4.520 to 7.076 |
+| dev-main | paragraphs | 1024 | 0.673 | 0.619 | ranges overlap | 0.619 | +0.0% | yes | 0.634 to 1.763 | 0.560 to 0.943 |
+| dev-main | mixed_document | 1024 | 26.744 | 16.864 | ranges overlap | 16.864 | +0.0% | yes | 21.797 to 63.089 | 14.455 to 21.896 |
 
 ## php
 
@@ -91,30 +89,30 @@ Runtime: 8.5.11. Latest tag: 0.1.10.
 | 0.1.8 | `93409af08040344221ff0d2d2d40351c8105e413` |
 | 0.1.9 | `d4b53388df891158c9c868177a4213a5e8b2f608` |
 | 0.1.10 | `6d94607eaa9d51c9ed782342161beca77b05aaf9` |
-| dev-main | `40653c424dc9d3cc063aeb542696d42ffb58ea79` |
+| dev-main | `46da1921cfa92f82b85793138da008581b3a42e2` |
 
-Merged main refreshed 2026-10-07T11:06:47.706526+00:00; release samples retained. Cross-session differences do not establish code speedups.
+Merged main refreshed 2026-10-07T18:09:23.710246+00:00; release samples retained. Cross-session differences do not establish code speedups.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|
-| dev-main | quoted_fences | 128 | 1.255 | 1.371 | ranges overlap | 1.371 | +0.0% | yes | 1.187 to 1.458 | 1.254 to 1.488 |
-| dev-main | verse_definitions | 128 | 17.196 | 3.494 | -79.7% | 3.494 | +0.0% | yes | 15.922 to 19.451 | 3.096 to 6.844 |
-| dev-main | verse_equivalent | 128 | 24.120 | 3.650 | -84.9% | 3.650 | +0.0% | yes | 21.500 to 32.741 | 3.230 to 4.506 |
-| dev-main | paragraphs | 128 | 0.337 | 0.194 | -42.4% | 0.194 | +0.0% | yes | 0.314 to 0.538 | 0.186 to 0.240 |
-| dev-main | mixed_document | 128 | 4.114 | 2.604 | ranges overlap | 2.604 | +0.0% | yes | 3.662 to 6.599 | 2.304 to 4.306 |
-| dev-main | quoted_false_mixed_closer | 128 | 1.303 | 1.325 | ranges overlap | 1.325 | +0.0% | yes | 1.208 to 2.339 | 1.222 to 2.937 |
-| dev-main | quoted_indented_closer | 128 | 1.294 | 1.374 | ranges overlap | 1.374 | +0.0% | yes | 1.190 to 2.059 | 1.213 to 2.848 |
-| dev-main | html_table | 128 | 86.981 | 39.560 | -54.5% | 39.560 | +0.0% | yes | 74.461 to 143.771 | 36.938 to 44.227 |
-| dev-main | html_definition_list | 128 | 44.049 | 14.554 | -67.0% | 14.554 | +0.0% | yes | 39.431 to 76.770 | 12.742 to 19.013 |
-| dev-main | quoted_fences | 1024 | 10.285 | 9.729 | ranges overlap | 9.729 | +0.0% | yes | 8.763 to 15.076 | 8.796 to 12.913 |
-| dev-main | verse_definitions | 1024 | 800.499 | 28.274 | -96.5% | 28.274 | +0.0% | yes | 721.439 to 981.896 | 25.735 to 35.773 |
-| dev-main | verse_equivalent | 1024 | 1174.312 | 29.197 | -97.5% | 29.197 | +0.0% | yes | 1069.473 to 1300.351 | 26.327 to 35.699 |
-| dev-main | paragraphs | 1024 | 2.593 | 1.552 | ranges overlap | 1.552 | +0.0% | yes | 2.510 to 3.375 | 1.519 to 3.015 |
-| dev-main | mixed_document | 1024 | 557.954 | 379.399 | -32.0% | 379.399 | +0.0% | yes | 481.274 to 719.898 | 347.679 to 429.382 |
-| dev-main | quoted_false_mixed_closer | 1024 | 10.379 | 9.755 | ranges overlap | 9.755 | +0.0% | yes | 8.490 to 18.159 | 8.826 to 13.045 |
-| dev-main | quoted_indented_closer | 1024 | 9.795 | 9.751 | ranges overlap | 9.751 | +0.0% | yes | 8.413 to 13.812 | 9.150 to 12.642 |
-| dev-main | html_table | 1024 | 1499.097 | 384.436 | -74.4% | 384.436 | +0.0% | yes | 1315.302 to 1868.470 | 351.945 to 460.756 |
-| dev-main | html_definition_list | 1024 | 1190.962 | 147.269 | -87.6% | 147.269 | +0.0% | yes | 1064.362 to 1774.015 | 126.077 to 206.679 |
+| dev-main | quoted_fences | 128 | 1.255 | 1.410 | ranges overlap | 1.410 | +0.0% | yes | 1.187 to 1.458 | 1.323 to 1.713 |
+| dev-main | verse_definitions | 128 | 17.196 | 3.661 | -78.7% | 3.661 | +0.0% | yes | 15.922 to 19.451 | 3.407 to 4.794 |
+| dev-main | verse_equivalent | 128 | 24.120 | 3.842 | -84.1% | 3.842 | +0.0% | yes | 21.500 to 32.741 | 3.604 to 4.715 |
+| dev-main | paragraphs | 128 | 0.337 | 0.202 | -40.0% | 0.202 | +0.0% | yes | 0.314 to 0.538 | 0.196 to 0.271 |
+| dev-main | mixed_document | 128 | 4.114 | 2.640 | ranges overlap | 2.640 | +0.0% | yes | 3.662 to 6.599 | 2.564 to 3.710 |
+| dev-main | quoted_false_mixed_closer | 128 | 1.303 | 1.423 | ranges overlap | 1.423 | +0.0% | yes | 1.208 to 2.339 | 1.358 to 1.749 |
+| dev-main | quoted_indented_closer | 128 | 1.294 | 1.433 | ranges overlap | 1.433 | +0.0% | yes | 1.190 to 2.059 | 1.334 to 2.411 |
+| dev-main | html_table | 128 | 86.981 | 43.377 | -50.1% | 43.377 | +0.0% | yes | 74.461 to 143.771 | 39.812 to 57.967 |
+| dev-main | html_definition_list | 128 | 44.049 | 16.387 | -62.8% | 16.387 | +0.0% | yes | 39.431 to 76.770 | 14.032 to 24.495 |
+| dev-main | quoted_fences | 1024 | 10.285 | 10.781 | ranges overlap | 10.781 | +0.0% | yes | 8.763 to 15.076 | 9.633 to 14.123 |
+| dev-main | verse_definitions | 1024 | 800.499 | 30.337 | -96.2% | 30.337 | +0.0% | yes | 721.439 to 981.896 | 27.496 to 36.038 |
+| dev-main | verse_equivalent | 1024 | 1174.312 | 31.494 | -97.3% | 31.494 | +0.0% | yes | 1069.473 to 1300.351 | 29.390 to 43.740 |
+| dev-main | paragraphs | 1024 | 2.593 | 1.601 | -38.2% | 1.601 | +0.0% | yes | 2.510 to 3.375 | 1.548 to 1.862 |
+| dev-main | mixed_document | 1024 | 557.954 | 464.685 | ranges overlap | 464.685 | +0.0% | yes | 481.274 to 719.898 | 410.313 to 550.490 |
+| dev-main | quoted_false_mixed_closer | 1024 | 10.379 | 10.837 | ranges overlap | 10.837 | +0.0% | yes | 8.490 to 18.159 | 9.657 to 14.621 |
+| dev-main | quoted_indented_closer | 1024 | 9.795 | 10.659 | ranges overlap | 10.659 | +0.0% | yes | 8.413 to 13.812 | 9.708 to 13.221 |
+| dev-main | html_table | 1024 | 1499.097 | 471.890 | -68.5% | 471.890 | +0.0% | yes | 1315.302 to 1868.470 | 417.531 to 519.045 |
+| dev-main | html_definition_list | 1024 | 1190.962 | 165.573 | -86.1% | 165.573 | +0.0% | yes | 1064.362 to 1774.015 | 138.958 to 195.270 |
 
 ## rs
 
@@ -132,18 +130,19 @@ Runtime: rustc 1.97.1 (8bab26f4f 2026-07-14). Latest tag: 0.1.7.
 
 Rust main and retained tags record different Cargo configuration fingerprints or build recipes. Their timings do not isolate engine speed changes; compare build_configuration for each revision.
 
-Merged main refreshed 2026-10-07T11:06:48.538804+00:00; release samples retained. Cross-session differences do not establish code speedups.
+Merged main refreshed 2026-10-07T18:09:24.659235+00:00; release samples retained. Cross-session differences do not establish code speedups.
 
 | Point | Case | n | Latest tag ms | Point ms | vs tag | Main ms | vs main | Same output as tag | Tag range ms | Point range ms |
 |---|---|---:|---:|---:|---:|---:|---:|:---:|---:|---:|
-| dev-main | quoted_fences | 128 | 0.101 | 0.070 | ranges overlap | 0.070 | +0.0% | yes | 0.099 to 0.125 | 0.065 to 0.112 |
-| dev-main | verse_definitions | 128 | 0.184 | 0.150 | n/a: different output | 0.150 | +0.0% | no | 0.176 to 0.231 | 0.129 to 0.211 |
-| dev-main | verse_equivalent | 128 | 0.197 | 0.170 | ranges overlap | 0.170 | +0.0% | yes | 0.181 to 0.311 | 0.155 to 0.197 |
-| dev-main | paragraphs | 128 | 0.028 | 0.021 | ranges overlap | 0.021 | +0.0% | yes | 0.026 to 0.044 | 0.020 to 0.027 |
-| dev-main | mixed_document | 128 | 0.389 | 0.208 | -46.6% | 0.208 | +0.0% | yes | 0.296 to 0.504 | 0.192 to 0.261 |
-| dev-main | quoted_fences | 1024 | 2.208 | 0.642 | -70.9% | 0.642 | +0.0% | yes | 2.070 to 2.663 | 0.452 to 0.968 |
-| dev-main | verse_definitions | 1024 | 1.821 | 1.382 | n/a: different output | 1.382 | +0.0% | no | 1.730 to 3.594 | 1.264 to 2.944 |
-| dev-main | verse_equivalent | 1024 | 1.788 | 1.531 | ranges overlap | 1.531 | +0.0% | yes | 1.354 to 3.493 | 1.366 to 2.902 |
-| dev-main | paragraphs | 1024 | 0.218 | 0.163 | ranges overlap | 0.163 | +0.0% | yes | 0.199 to 0.391 | 0.146 to 0.213 |
-| dev-main | mixed_document | 1024 | 2.649 | 1.727 | ranges overlap | 1.727 | +0.0% | yes | 2.552 to 4.102 | 1.500 to 2.668 |
+| dev-main | quoted_fences | 128 | 0.101 | 0.073 | ranges overlap | 0.073 | +0.0% | yes | 0.099 to 0.125 | 0.071 to 0.116 |
+| dev-main | verse_definitions | 128 | 0.184 | 0.161 | n/a: different output | 0.161 | +0.0% | no | 0.176 to 0.231 | 0.137 to 0.212 |
+| dev-main | verse_equivalent | 128 | 0.197 | 0.186 | ranges overlap | 0.186 | +0.0% | yes | 0.181 to 0.311 | 0.175 to 0.228 |
+| dev-main | paragraphs | 128 | 0.028 | 0.022 | ranges overlap | 0.022 | +0.0% | yes | 0.026 to 0.044 | 0.021 to 0.039 |
+| dev-main | mixed_document | 128 | 0.389 | 0.219 | ranges overlap | 0.219 | +0.0% | yes | 0.296 to 0.504 | 0.212 to 0.354 |
+| dev-main | quoted_fences | 1024 | 2.208 | 0.694 | -68.6% | 0.694 | +0.0% | yes | 2.070 to 2.663 | 0.521 to 0.950 |
+| dev-main | verse_definitions | 1024 | 1.821 | 1.601 | n/a: different output | 1.601 | +0.0% | no | 1.730 to 3.594 | 1.441 to 2.356 |
+| dev-main | verse_equivalent | 1024 | 1.788 | 1.727 | ranges overlap | 1.727 | +0.0% | yes | 1.354 to 3.493 | 1.630 to 2.564 |
+| dev-main | paragraphs | 1024 | 0.218 | 0.174 | ranges overlap | 0.174 | +0.0% | yes | 0.199 to 0.391 | 0.166 to 0.208 |
+| dev-main | mixed_document | 1024 | 2.649 | 1.844 | -30.4% | 1.844 | +0.0% | yes | 2.552 to 4.102 | 1.773 to 2.341 |
 
+Rust is pinned to merged commit 2246a9b2b; the newer main at setup changes only CHANGELOG.md and tests. Runtime sources and dependency manifests are identical.

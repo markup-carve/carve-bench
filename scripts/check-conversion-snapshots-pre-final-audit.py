@@ -29,7 +29,6 @@ def main():
                         help='Directory containing before-rs-compare and after-rs-compare from the paired build')
     parser.add_argument('--build-manifest', type=Path, default=ROOT / 'reports/paired-full-feature.json')
     parser.add_argument('--output', type=Path, default=ROOT / 'reports/conversion-snapshot-pairs.json')
-    parser.add_argument('--php-memory-limit', help='PHP memory_limit applied equally to both revisions')
     args = parser.parse_args()
     if not __debug__:
         parser.error('Run without Python optimization; verification assertions are required')
@@ -55,9 +54,7 @@ def main():
     if len(affinity) != 1:
         parser.error('Run with taskset on one CPU, shared by every worker')
     environment = {k: v for k, v in os.environ.items() if not k.startswith('CARVE_')}
-    php_flags = list(manifest['metadata']['php_ini_flags'])
-    if args.php_memory_limit:
-        php_flags += ['-d', f'memory_limit={args.php_memory_limit}']
+    php_flags = manifest['metadata']['php_ini_flags']
     for file in ['engines/rs/src/compare.rs', 'engines/js/carve-src.mjs', 'engines/php/carve-src.php']:
         assert harness_hashes[file] == manifest['metadata']['harness_sha256'][file]
     assert digest(ROOT / 'engines/php/composer.lock') == manifest['metadata']['php_dependency_lock_sha256']
