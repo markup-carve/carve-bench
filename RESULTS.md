@@ -1,6 +1,6 @@
 # Benchmark results: authoritative/full parser
 
-Pinned to the October 6 audit merges. Later main changes affect documentation, tests and release tooling; runtime source and dependency manifests match those pins.
+PHP is pinned to merged commit 40653c424; the newer main at setup changes only CHANGELOG.md. Runtime sources and dependency manifests are identical.
 
 This is **Track B**, the Carve-owned authoritative/full-parser view. The mixed
 corpus falls outside the conservative borrowed facades and therefore exercises
@@ -16,17 +16,19 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-06T21:06:37.960Z; Fresh merged-main benchmark after the October 6 engine audit; CPU 6.
+**Run:** 2026-10-07T11:01:57.522Z; Fresh merged-main benchmark after the October 6 parser and URL-allocation fixes; CPU 13; PHP memory limit 512M for the concatenated corpus.
 
-Allowed CPUs: 6. Child processes inherit this affinity, including Node compiler and GC threads.
+Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
 
-One-minute host load was 7.34 at start and 3.80 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
+One-minute host load was 2.98 at start and 1.88 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
 
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
-before treating cross-engine results as equal work.
+before treating cross-engine results as equal work. PHP controls use a clean
+configuration without JIT, while these timings use tracing JIT. The controls
+do not establish what every timed conversion rendered.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-js-main @ 355d6de61)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 45de896ce)`, carve-rs `carve-lang 0.1.8 (local checkout carve-rs-main @ 5b7bea1ad)`
+**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-js-main @ 5b9ca1632)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 40653c424)`, carve-rs `carve-lang 0.1.8 (local checkout carve-rs-main @ 2246a9b2b)`
 
 **Corpus snapshot:** carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.
 
@@ -36,25 +38,25 @@ before treating cross-engine results as equal work.
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1.3051 | 0.90 | 8.44x |
-| carve-php | 2.0863 | 0.56 | 13.49x |
-| carve-rs | 0.1547 | 7.60 | 1.00x |
+| carve-js | 0.8972 | 1.31 | 7.62x |
+| carve-php | 1.4927 | 0.79 | 12.68x |
+| carve-rs | 0.1177 | 9.99 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 132.4976 | 0.47 | 3.32x |
-| carve-php | 214.9127 | 0.29 | 5.38x |
-| carve-rs | 39.9572 | 1.55 | 1.00x |
+| carve-js | 101.4201 | 0.61 | 3.53x |
+| carve-php | 174.6947 | 0.36 | 6.09x |
+| carve-rs | 28.6932 | 2.16 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1538.1352 | 0.32 | 3.61x |
-| carve-php | 2383.6511 | 0.21 | 5.59x |
-| carve-rs | 426.3982 | 1.16 | 1.00x |
+| carve-js | 1174.7894 | 0.42 | 3.46x |
+| carve-php | 2560.1258 | 0.19 | 7.54x |
+| carve-rs | 339.6045 | 1.46 | 1.00x |
 
 ## PHP authoritative extension tiers
 
@@ -69,9 +71,9 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 3.27 | 14.36 | baseline |
-| Tier 2 stack | 8 | 3.70 | 12.69 | +13% |
-| Tier 3 stack | 20 | 4.11 | 11.43 | +26% |
+| Tier 1 core/default | 0 | 2.67 | 17.60 | baseline |
+| Tier 2 stack | 8 | 2.90 | 16.22 | +9% |
+| Tier 3 stack | 20 | 3.30 | 14.24 | +24% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 

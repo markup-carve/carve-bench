@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "input": "corpus/large.crv",
+    "input_sha256": "3b97269724132551ee49466b474f75c9df9f95e228d73153d81e0d25c971c755",
+    "worker_sha256": "867e7688eebb4148a36e1d67950c1062926955422c1b83b753fbdec32490369f",
+    "runtime": "PHP 8.5.11",
+    "cpu_affinity": [
+      13
+    ],
+    "failed_commit": "40653c424dc9d3cc063aeb542696d42ffb58ea79",
+    "failed_iterations": 50,
+    "failed_phase": "warmup",
+    "failed_memory_limit_bytes": 134217728,
+    "failed_returncode": 255,
+    "failure": "Allowed memory size of 134217728 bytes exhausted (tried to allocate 528384 bytes) in src/Parser/BlockParser.php:3299",
+    "probe": "Same tracing-JIT worker with memory_limit=512M and iterations=1; one warmup and one timed conversion. Peak measured by memory_get_peak_usage(true).",
+    "note": "Manual capture using the recorded local probe wrapper and worker. Source overrides select the merged commits named in each row. Single peak probes per revision; no cause established. Earlier audit timings completed under the default memory limit.",
+    "worker": "engines/php/bench.php",
+    "captured_at": "2026-10-07T10:53:24.399613+00:00",
+    "failed_argv": [
+      "php",
+      "-d",
+      "opcache.enable_cli=1",
+      "-d",
+      "opcache.jit_buffer_size=128M",
+      "-d",
+      "opcache.jit=tracing",
+      "-n",
+      "-d",
+      "extension=ctype",
+      "-d",
+      "extension=mbstring",
+      "engines/php/bench.php",
+      "corpus/large.crv",
+      "50"
+    ],
+    "probe_wrapper": "$argv=['bench.php','corpus/large.crv','1']; require 'engines/php/bench.php'; fwrite(STDERR, 'peak='.memory_get_peak_usage(true));",
+    "probe_wrapper_sha256": "76977a6981aca2cf5de9a41e6a97c2920c51438e5c87866c3512e2ba18a67ce7",
+    "probe_argv": [
+      "php",
+      "-n",
+      "-d",
+      "extension=ctype",
+      "-d",
+      "extension=mbstring",
+      "-d",
+      "memory_limit=512M",
+      "-d",
+      "opcache.enable_cli=1",
+      "-d",
+      "opcache.jit_buffer_size=128M",
+      "-d",
+      "opcache.jit=tracing",
+      "-r",
+      "$argv=['bench.php','corpus/large.crv','1']; require 'engines/php/bench.php'; fwrite(STDERR, 'peak='.memory_get_peak_usage(true));"
+    ]
+  },
+  "rows": [
+    {
+      "revision": "audit",
+      "commit": "45de896cea3d8944287f28ca155dea3afe04feec",
+      "returncode": 0,
+      "peak_memory_bytes": 115376128,
+      "jit": true
+    },
+    {
+      "revision": "final",
+      "commit": "40653c424dc9d3cc063aeb542696d42ffb58ea79",
+      "returncode": 0,
+      "peak_memory_bytes": 138444800,
+      "jit": true
+    }
+  ],
+  "publication_exporter_sha256": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
+}

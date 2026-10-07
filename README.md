@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `355d6de` against released
+The current comparison measures Carve JS merged main `5b9ca16` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -38,6 +38,9 @@ The refreshed merged-main reports include the AST comparison, patch replay,
 provenance and envelope fixes in [JS #2551](https://github.com/markup-carve/carve-js/pull/2551),
 [PHP #2921](https://github.com/markup-carve/carve-php/pull/2921) and
 [Rust #2345](https://github.com/markup-carve/carve-rs/pull/2345).
+The current chart also includes the parser follow-ups [JS #2555](https://github.com/markup-carve/carve-js/pull/2555),
+[PHP #2927](https://github.com/markup-carve/carve-php/pull/2927) and the URL-allocation fix
+[Rust #2351](https://github.com/markup-carve/carve-rs/pull/2351).
 Those PRs record focused timings for the affected APIs. The throughput and
 history workloads here measure conversion and import routes.
 
@@ -53,11 +56,12 @@ The [**benchmark site**](https://markup-carve.github.io/carve-bench/) presents t
 same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
-The throughput charts use pinned Carve development main for JS, PHP and Rust,
-measured 2026-10-06T21:11:38.970Z on CPU 6. See [the source commits and samples](reports/dev-main-core.md).
+The throughput charts use pinned merged commits for JS, PHP and Rust,
+measured 2026-10-07T10:45:20.158Z on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
 The current tables below use median timing across fourteen samples.
-The shared host's one-minute load average changed from 5.40 to 9.66 during the core run. Raw rounds retain timing spread; comparisons with previous snapshots do not isolate code changes.
-The separate JS workload ran under one-minute load 11.17 at setup, 15.71 after its first round and 9.43 at completion. Its peer throughput also declined from the prior snapshot; affinity changed from CPU 13 to CPU 6. These sessions do not isolate engine regressions.
+The shared host's one-minute load changed from 5.62 to 3.41 during the core run.
+The separate JS workload recorded load 2.51 at setup, 2.07 after its first round
+and 2.04 at completion. These sessions do not isolate code effects across snapshots.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
 The September 30 development-main snapshot, taken after the PHP
@@ -69,9 +73,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 115.65 | pulldown-cmark | 120.17 | 0.96x |
-| JavaScript | carve-js | 14.66 | markdown-it | 4.66 | 3.15x |
-| PHP | carve-php | 15.38 | djot-php | 18.18 | 0.85x |
+| Rust | carve-rs | 136.03 | pulldown-cmark | 131.17 | 1.04x |
+| JavaScript | carve-js | 15.43 | markdown-it | 5.01 | 3.08x |
+| PHP | carve-php | 16.87 | djot-php | 19.04 | 0.89x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -81,9 +85,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.0743 | 14.66 | 7.89x |
-| carve-php | PHP | 3.8845 | 15.38 | 7.52x |
-| carve-rs | Rust | 0.5165 | 115.65 | 1.00x |
+| carve-js | JavaScript | 3.8716 | 15.43 | 8.82x |
+| carve-php | PHP | 3.5405 | 16.87 | 8.06x |
+| carve-rs | Rust | 0.4391 | 136.03 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -183,22 +187,27 @@ Then run serially with the checkout overrides:
 CARVE_JS=/tmp/carve-js-main/dist/index.js \
 CARVE_PHP_SRC=/tmp/carve-php-main/src \
 CARVE_RS_SRC=/tmp/carve-rs-main \
-CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring -d zend_extension=opcache" \
+CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring -d memory_limit=512M" \
 CARVE_FULL_REPORT=reports/dev-main-full.json \
-CARVE_RUN_META="Fresh merged-main benchmark after the October 6 engine audit; CPU 6." \
+CARVE_RUN_META="Fresh merged-main benchmark after the October 6 parser and URL-allocation fixes; CPU 13; PHP memory limit 512M for the concatenated corpus." \
 CARVE_CORPUS_SNAPSHOT='carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.' \
-taskset -c 6 node run.mjs
+taskset -c 13 node run.mjs
 node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
 python3 scripts/public_report.py reports/dev-main-full.json
 node scripts/gen-charts.mjs
 ```
 
+The concatenated corpus run sets a 512 MiB PHP memory limit. The timed large-input warmup
+at PHP commit `40653c424` exceeds the clean configuration's 128 MiB default
+([failure and memory controls](reports/php-large-memory-control.json)); the core comparison
+uses its recorded default settings.
+
 Report freshness checks require a new measurement after changing the recorded
 measurement code or dependency locks.
 
-The runners record process CPU affinity. This refresh uses CPU 6 for the
-core, full-corpus and history main measurements. The preceding core and
-full-corpus session used CPU 13; release-tag history samples retain CPU 12.
+The runners record process CPU affinity. This refresh uses CPU 13 for the
+core, full-corpus and history main measurements. The interim audit refresh
+used CPU 6; release-tag history samples retain CPU 12.
 Affinity also applies to Node compiler and GC threads. These shared-host
 sessions do not isolate code changes.
 
@@ -211,7 +220,7 @@ To refresh only merged main history points and retain release samples, use the
 same pinned engine config as the core run:
 
 ```sh
-python3 scripts/history/refresh-main.py /tmp/carve-main-config.json --cpu 6
+python3 scripts/history/refresh-main.py /tmp/carve-main-config.json --cpu 13
 python3 scripts/public_report.py reports/engine-history.json
 python3 scripts/history/report.py reports/engine-history.json
 ```
@@ -283,7 +292,7 @@ For a publication run, use a clean PHP INI so a globally loaded coverage or
 debug extension cannot disable JIT:
 
 ```bash
-CARVE_PHP_INI='-n -d extension=ctype -d extension=mbstring' \
+CARVE_PHP_INI='-n -d extension=ctype -d extension=mbstring -d memory_limit=512M' \
 CARVE_RUN_META='YYYY-MM-DD on HOST; Node X, PHP Y tracing JIT, rustc Z.' \
 CARVE_CORPUS_SNAPSHOT='carve `REV` (N documents).' \
 node run.mjs

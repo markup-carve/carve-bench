@@ -81,3 +81,14 @@ test('diagnostic Markdown shows changes only for observed comparable rows', () =
     else assert.equal(cells[5], 'suppressed')
   }
 })
+
+test('large PHP memory controls identify the measured follow-up and worker', () => {
+  const control = read('reports/php-large-memory-control.json')
+  const full = read('reports/dev-main-full.json')
+  assert.equal(control.metadata.worker_sha256, sha('engines/php/bench.php'))
+  assert.equal(control.metadata.input_sha256, sha('corpus/large.crv'))
+  assert.equal(control.metadata.failed_commit, full.metadata.source_commits.php.commit)
+  assert.equal(control.metadata.failed_returncode, 255)
+  assert.ok(control.rows.find(row => row.revision === 'final').peak_memory_bytes > control.metadata.failed_memory_limit_bytes)
+  assert.ok(control.rows.find(row => row.revision === 'audit').peak_memory_bytes < control.metadata.failed_memory_limit_bytes)
+})
