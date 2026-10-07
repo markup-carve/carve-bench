@@ -16,10 +16,17 @@ if (evidence) {
   const diagnostic = JSON.parse(read(evidence.replace(/\.md$/, '.json')))
   for (const engine of ['js', 'php', 'rs'])
     assert.equal(diagnostic.metadata.sources.after[engine].commit, full.metadata.source_commits[engine].commit, 'Small-input evidence must use the published pins')
+  for (const engine of ['js', 'php', 'rs']) {
+    const rows = diagnostic.rows.filter(row => row.engine === engine && row.revision === 'after' && row.case === 'small')
+    assert.ok(rows.length > 0, 'Evidence must include repeated small-input timings')
+    assert.ok(rows.every(row => row.source_sha256 === full.metadata.input_sha256['corpus/small.crv']), 'Evidence must use the published small input')
+  }
 }
 let markdown = read('RESULTS.md')
 const jitNote = 'PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.\nThe controls do not establish what every timed conversion rendered.\n'
-if (controls.php_flags.includes('opcache.enable_cli=0') && full.corpus.filter(row => row.engine === 'carve-php').every(row => row.jit === true)) {
+const timedPhp = full.corpus.filter(row => row.engine === 'carve-php')
+assert.ok(timedPhp.length > 0)
+if (controls.php_flags.includes('opcache.enable_cli=0') && timedPhp.every(row => row.jit === true)) {
   if (!markdown.includes(jitNote)) {
     const anchor = 'before treating cross-engine results as equal work.\n'
     assert.ok(markdown.includes(anchor), 'Missing output-control paragraph')
@@ -32,7 +39,7 @@ if (evidence) {
   assert.ok(start >= 0, 'Missing small-input section')
   const end = markdown.indexOf('\n\n', start)
   assert.ok(end >= 0)
-  const note = `Small-input timings are unstable. The [paired controls](${evidence}) record different timings for these same pins and input. These rows describe this run; their \`rel\` values do not establish stable engine speed ratios.`
+  const note = `Small-input timings are unstable. The [paired controls](${evidence}) record repeated timings for these same pins and input. These rows describe this run; their \`rel\` values do not establish stable engine speed ratios.`
   markdown = markdown.slice(0, end) + '\n\n' + note + markdown.slice(end).replace(/^\n+/, '\n\n')
 }
 writeFileSync(resolve(root, 'RESULTS.md'), markdown)

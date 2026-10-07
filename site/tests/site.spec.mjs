@@ -79,7 +79,9 @@ test('current corpus provenance and historical diagnostics are published', async
   const evidence = await (await request.get('evidence.json')).json()
   if (evidence.smallInputNote) {
     await expect(page.locator('#full')).toContainText(evidence.smallInputNote)
-    await expect(page.locator('#full a[href="reports/final-audit-conversion-checks.md"]')).toBeVisible()
+    const diagnostic = page.locator('#full').getByRole('link', { name: 'Download the diagnostic report' })
+    await expect(diagnostic).toBeVisible()
+    await expect(diagnostic).toHaveAttribute('href', evidence.smallInputEvidence)
   }
   const full = await (await request.get('reports/dev-main-full.json')).json()
   expect(full.corpus).toHaveLength(9)

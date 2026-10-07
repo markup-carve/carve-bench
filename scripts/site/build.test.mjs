@@ -34,8 +34,11 @@ test('site retains all measured engines, tables, corpus sizes and provenance', (
   assert.ok(data.full.some(group => group.title === 'PHP authoritative extension tiers'))
   assert.ok(data.engines.includes('carve-rs'))
   assert.ok(data.peerVersions.includes('djot.js 0.3.2'))
-  assert.equal(data.smallInputEvidence, 'reports/final-audit-conversion-checks.md')
-  assert.ok(results.includes('PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.'))
+  if (data.smallInputNote) assert.ok(data.smallInputEvidence)
+  else assert.equal(data.smallInputEvidence, null)
+  const controls = JSON.parse(readFileSync(new URL('reports/dev-main-full-output-controls.json', root), 'utf8'))
+  if (controls.latest_merged_main_output_checks.php_flags.includes('opcache.enable_cli=0') && fullRecord.corpus.some(row => row.engine === 'carve-php' && row.jit))
+    assert.ok(results.includes('PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.'))
 })
 test('incomplete or malformed results fail the build', () => {
   assert.throws(() => collect(comparison.replace('| Rust | carve-rs', '| Other | carve-rs'), results, 'revision', fullRecord))
