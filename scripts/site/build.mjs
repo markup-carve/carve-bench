@@ -99,7 +99,8 @@ export function collect(comparison, results, revision, fullRecord = null) {
   const peerVersions = comparison.match(/Locked comparison versions: ([\s\S]+?)The Carve engines/)?.[1].trim().replace(/\s+/g, ' ')
   assert.ok(peerVersions, 'Missing core peer versions')
   const smallInputNote = results.includes('Small-input timings are unstable.') ? 'Small-input timings are unstable.' : null
-  const smallInputEvidence = results.match(/^Small-input timings are unstable\..*?\[[^\]]+\]\((reports\/[^)]+)\)/m)?.[1] ?? 'reports/performance-refresh.md'
+  const smallInputEvidence = smallInputNote ? results.match(/^Small-input timings are unstable\..*?\[[^\]]+\]\((reports\/[^)]+)\)/m)?.[1] : null
+  if (smallInputNote) assert.ok(smallInputEvidence, 'Small-input warning requires its diagnostic link')
   return { revision, headline, peers, core, full, run, corpus, engines, host, peerVersions, smallInputNote, smallInputEvidence }
 }
 
@@ -180,6 +181,8 @@ export function build(root, destination) {
   for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full)-(?:pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
+  if (data.smallInputNote)
+    assert.ok(existsSync(resolve(destination, data.smallInputEvidence.split('#')[0])), 'Small-input diagnostic must be published with the site')
   const historyPath = resolve(root, 'reports/engine-history.json')
   let historySection = ''
   if (existsSync(historyPath)) {

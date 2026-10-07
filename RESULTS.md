@@ -34,7 +34,7 @@ The controls do not establish what every timed conversion rendered.
 
 ## small (1.2 KB)
 
-Small-input timings are unstable. The [paired controls](reports/final-audit-conversion-checks.md) record different timings for these same pins and input. These rows describe this run; their `rel` values do not establish stable engine speed ratios.
+Small-input timings are unstable. The [paired controls](reports/final-audit-conversion-checks.md) record repeated timings for these same pins and input. These rows describe this run; their `rel` values do not establish stable engine speed ratios.
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
