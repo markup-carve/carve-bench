@@ -99,7 +99,8 @@ export function collect(comparison, results, revision, fullRecord = null) {
   const peerVersions = comparison.match(/Locked comparison versions: ([\s\S]+?)The Carve engines/)?.[1].trim().replace(/\s+/g, ' ')
   assert.ok(peerVersions, 'Missing core peer versions')
   const smallInputNote = results.includes('Small-input timings are unstable.') ? 'Small-input timings are unstable.' : null
-  return { revision, headline, peers, core, full, run, corpus, engines, host, peerVersions, smallInputNote }
+  const smallInputEvidence = results.match(/^Small-input timings are unstable\..*?\[[^\]]+\]\((reports\/[^)]+)\)/m)?.[1] ?? 'reports/performance-refresh.md'
+  return { revision, headline, peers, core, full, run, corpus, engines, host, peerVersions, smallInputNote, smallInputEvidence }
 }
 
 const escape = text => String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
@@ -200,7 +201,7 @@ export function build(root, destination) {
   writeFileSync(resolve(destination, 'evidence.json'), JSON.stringify(data, null, 2) + '\n')
   writeFileSync(resolve(destination, 'core-throughput.csv'), 'Language,Engine,MB/s\n' + data.peers.map(row => [row.language, row.engine, row.throughput].join(',')).join('\n') + '\n')
   const fullTables = data.full.map(group => `<h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}`).join('')
-  const smallInputNote = data.smallInputNote ? `<p>${escape(data.smallInputNote)} <a href="reports/performance-refresh.md" download>Download the diagnostic report</a>.</p>` : ''
+  const smallInputNote = data.smallInputNote ? `<p>${escape(data.smallInputNote)} <a href="${escape(data.smallInputEvidence)}" download>Download the diagnostic report</a>.</p>` : ''
   const coreTables = data.core.filter(group => ['JavaScript', 'PHP', 'Rust'].includes(group.title)).map(group => `<section class="language-table" data-language="${escape(group.title)}"><h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}</section>`).join('')
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Carve engine benchmarks, measured development snapshots, and downloadable charts."><title>Carve benchmarks</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>

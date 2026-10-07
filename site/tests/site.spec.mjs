@@ -77,7 +77,10 @@ test('dark mode exposes readable charts and downloads under the project path', a
 test('current corpus provenance and historical diagnostics are published', async ({ page, request }) => {
   await page.goto('./')
   const evidence = await (await request.get('evidence.json')).json()
-  if (evidence.smallInputNote) await expect(page.locator('#full')).toContainText(evidence.smallInputNote)
+  if (evidence.smallInputNote) {
+    await expect(page.locator('#full')).toContainText(evidence.smallInputNote)
+    await expect(page.locator('#full a[href="reports/final-audit-conversion-checks.md"]')).toBeVisible()
+  }
   const full = await (await request.get('reports/dev-main-full.json')).json()
   expect(full.corpus).toHaveLength(9)
   expect(full.tiers).toHaveLength(3)

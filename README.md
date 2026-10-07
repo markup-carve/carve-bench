@@ -32,7 +32,7 @@ in the report; the runner verifies its ancestry, clean source and fast-path use.
 Run `npm ci` in `engines/js`, then `node scripts/compare-commonmark.mjs`
 from the repository root. Generate its chart with `node scripts/gen-charts.mjs`.
 
-## October 7 engine audit
+## October 6 and 7 engine audits
 
 The refreshed merged-main reports include the AST comparison, patch replay,
 provenance and envelope fixes in [JS #2551](https://github.com/markup-carve/carve-js/pull/2551),
@@ -48,8 +48,8 @@ and collection pacing [PHP #2932](https://github.com/markup-carve/carve-php/pull
 Those PRs record focused timings for the affected APIs. The throughput and
 history workloads here measure conversion and import routes.
 
-The audit found no further worthwhile fix in the paths checked. This is not a
-complexity proof over every input. Sibling matching retains a quadratic LCS
+The audits cover the paths recorded in the linked PRs. Their results do not
+prove linearity over every input. Sibling matching retains a quadratic LCS
 step capped at one million candidate pairs. Repeated front edits in arbitrary
 JSON patches can shift arrays, and JS resolver callbacks that mutate input
 require comparison-cache invalidation. The PHP PR documents the flat identity tradeoff alongside its deep-case gains.
@@ -215,6 +215,7 @@ CARVE_CORPUS_SNAPSHOT='carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 doc
 taskset -c 13 node run.mjs
 node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
 python3 scripts/public_report.py reports/dev-main-full.json
+node scripts/publish-full-notes.mjs reports/final-audit-conversion-checks.md
 node scripts/gen-charts.mjs
 ```
 
@@ -325,8 +326,12 @@ node run.mjs
 ```
 
 Set `CARVE_SMALL_INPUT_UNSTABLE=1` when reproducing the September 30 snapshot
-to retain its small-input warning. For a new snapshot, assess instability from
-its own repeated runs and diagnostics before setting the flag.
+to retain its original small-input warning. The current snapshot uses
+`node scripts/publish-full-notes.mjs reports/final-audit-conversion-checks.md`
+after measurement to restore the JIT caveat and link its small-input warning
+to the current evidence. This publication step preserves the measured producers.
+For a new snapshot, assess instability from its own repeated runs and diagnostics
+before adding a warning.
 
 The engine line is not among those: each harness reports the engine it
 resolved and the report is written from what came back, so it cannot name a
