@@ -13,7 +13,7 @@ const median = values => {
 test('final audit controls match the published baseline, current pins and measured producers', () => {
   const control = read('reports/final-audit-conversion-checks.json')
   const paired = read('reports/final-audit-pairs.json')
-  const before = read('reports/dev-main-full-pre-final-audit-20261007.json')
+  const before = read('reports/dev-main-full-pre-queue-audit-20261007.json')
   const core = read('reports/dev-main-core.json')
   const full = read('reports/dev-main-full.json')
   assert.equal(control.metadata.build_manifest_sha256, sha('reports/final-audit-pairs.json'))

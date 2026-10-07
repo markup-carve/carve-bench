@@ -17,7 +17,11 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
       'final-audit-conversion-checks.json', 'final-audit-conversion-checks.md',
       'dev-main-core-pre-final-audit-20261007.json', 'dev-main-core-pre-final-audit-20261007.md',
       'dev-main-full-pre-final-audit-20261007.json', 'commonmark-js-pre-final-audit-20261007.md',
-      'dev-main-rust-pre-final-audit-20261007.Cargo.lock'])
+      'dev-main-rust-pre-final-audit-20261007.Cargo.lock',
+      'dev-main-core-pre-queue-audit-20261007.md', 'dev-main-full-pre-queue-audit-20261007.json',
+      'commonmark-js-pre-queue-audit-20261007.md', 'engine-history-pre-queue-audit-20261007.json',
+      'final-audit-pairs-pre-queue-audit-20261007.json', 'final-audit-conversion-checks-pre-queue-audit-20261007.md',
+      'dev-main-rust-pre-queue-audit-20261007.Cargo.lock'])
       assert.equal(readFileSync(join(destination, 'reports', file), 'utf8'), readFileSync(new URL(`reports/${file}`, root), 'utf8'))
     const html = readFileSync(join(destination, 'index.html'), 'utf8')
     assert.ok(html.includes('href="reports/final-audit-pairs.json"'))
