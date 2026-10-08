@@ -14,11 +14,11 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-07T21:52:36.972Z; Fresh merged-main benchmark after the October 7 queue and HTML import fixes; CPU 13; PHP memory limit 512M for the concatenated corpus.
+**Run:** 2026-10-08T14:24:41.544Z; Fresh pinned merged-main benchmark after native image and table fixes; CPU 13; PHP memory limit 512M. Later JS/PHP include-path fixes and Markdown footnote import fixes merged after pinning and were not measured.
 
 Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
 
-One-minute host load was 16.02 at start and 6.88 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
+One-minute host load was 5.45 at start and 6.53 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
 
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
@@ -26,7 +26,7 @@ before treating cross-engine results as equal work.
 PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.
 The controls do not establish what every timed conversion rendered.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.10 (local checkout carve-js-main @ 72f7d1333)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 9570a2615)`, carve-rs `carve-lang 0.1.8 (local checkout carve-rs-main @ 7a68f74a3)`
+**Engines measured:** carve-js `@markup-carve/carve 0.1.11-dev (local checkout carve-js-main @ e57653b22)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 19745164a)`, carve-rs `carve-lang 0.1.9-dev (local checkout carve-rs-main @ 2a183262f)`
 
 **Corpus snapshot:** carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.
 
@@ -38,25 +38,25 @@ Small-input timings are unstable. The [paired controls](reports/final-audit-conv
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1.3944 | 0.84 | 9.76x |
-| carve-php | 2.1317 | 0.55 | 14.93x |
-| carve-rs | 0.1428 | 8.23 | 1.00x |
+| carve-js | 1.1566 | 1.02 | 8.72x |
+| carve-php | 1.8470 | 0.64 | 13.93x |
+| carve-rs | 0.1326 | 8.87 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 167.3836 | 0.37 | 4.03x |
-| carve-php | 262.8248 | 0.24 | 6.33x |
-| carve-rs | 41.5139 | 1.50 | 1.00x |
+| carve-js | 118.6750 | 0.52 | 3.48x |
+| carve-php | 224.4149 | 0.28 | 6.59x |
+| carve-rs | 34.0749 | 1.82 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 2323.9467 | 0.21 | 4.77x |
-| carve-php | 3543.9278 | 0.14 | 7.28x |
-| carve-rs | 486.8878 | 1.02 | 1.00x |
+| carve-js | 1440.0264 | 0.34 | 3.65x |
+| carve-php | 3347.9542 | 0.15 | 8.49x |
+| carve-rs | 394.5507 | 1.26 | 1.00x |
 
 ## PHP authoritative extension tiers
 
@@ -71,9 +71,9 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 3.34 | 14.07 | baseline |
-| Tier 2 stack | 8 | 3.62 | 12.96 | +9% |
-| Tier 3 stack | 20 | 4.05 | 11.60 | +21% |
+| Tier 1 core/default | 0 | 3.04 | 15.46 | baseline |
+| Tier 2 stack | 8 | 3.25 | 14.48 | +7% |
+| Tier 3 stack | 20 | 3.54 | 13.26 | +17% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
@@ -90,5 +90,3 @@ equivalent native-language fixtures for competitors.
 
 Worker results, source commits, input hashes and runtime settings are recorded
 in [the full-run JSON](reports/dev-main-full.json).
-
-The measured source pins were frozen at the start of this refresh. Later include fixes merged during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance.

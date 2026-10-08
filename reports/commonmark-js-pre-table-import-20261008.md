@@ -1,8 +1,8 @@
 # JavaScript core comparison including commonmark.js
 
-Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads. Measured 2026-10-08T14:12:56.366Z, Node v22.22.2, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark harness checkout: `668d8a1c5d70b0b9925fcba1e93c86ff8c64bc2e`; cached remote main: `668d8a1c5d70b0b9925fcba1e93c86ff8c64bc2e`; dirty tracked tree: true. Harness hashes are recorded in the JSON.
+Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads. Measured 2026-10-07T22:26:08.471Z, Node v22.22.2, AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics, 16 logical CPUs. Benchmark harness checkout: `a4553ecdc352668ab057eb0d2fa3a979a66decdc`; cached remote main: `9b742aca7d2a73251fd74f9f4bbb880beffe2d8b`; dirty tracked tree: true. Harness hashes are recorded in the JSON.
 
-Carve JS merged main 0.1.11-dev at `e57653b22896118d3cd9e1457c9bdc36aec52d9c`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
+Carve JS merged main 0.1.10 at `72f7d1333bf4a271a7371b62c6c599d280412e68`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
 This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the comparison with pipe tables](dev-main-core.md); their throughput values must not be mixed.
 
@@ -14,32 +14,32 @@ The charts and site show one final value per engine: throughput computed from me
 
 | Engine | Median ms/op | MB/s |
 |---|---:|---:|
-| carve-js | 2.6851 | 17.66 |
-| djot.js | 10.4887 | 4.52 |
-| markdown-it | 7.8428 | 6.12 |
-| commonmark.js | 3.6637 | 13.10 |
+| carve-js | 2.8866 | 16.43 |
+| djot.js | 9.9993 | 4.74 |
+| markdown-it | 7.8043 | 6.15 |
+| commonmark.js | 4.0362 | 11.89 |
 
-![Final JavaScript throughput](../charts/commonmark-js.svg)
+![Final JavaScript throughput](../charts/commonmark-js-pre-table-import-20261008.svg)
 
 ## Reused public conversion APIs
 
 | Engine | Bytes | Round 1 fastest MB/s | Round 2 fastest MB/s |
 |---|---:|---:|---:|
-| carve-js | 49732 | 17.73 | 19.17 |
-| djot.js | 49732 | 4.63 | 4.98 |
-| markdown-it | 50332 | 6.35 | 6.78 |
-| commonmark.js | 50332 | 13.45 | 13.55 |
+| carve-js | 49732 | 17.35 | 16.45 |
+| djot.js | 49732 | 5.00 | 5.21 |
+| markdown-it | 50332 | 6.31 | 6.18 |
+| commonmark.js | 50332 | 13.14 | 12.66 |
 
 ## CommonMark constructor control
 
 | API lifetime | Round 1 fastest ms/op | Round 2 fastest ms/op |
 |---|---:|---:|
-| Reuse parser and renderer | 3.5689 | 3.5431 |
-| Construct both per call | 3.3677 | 3.3019 |
+| Reuse parser and renderer | 3.6538 | 3.7909 |
+| Construct both per call | 3.4286 | 3.5608 |
 
 The lifetime control investigates the parser-construction concern in [djot.js #13](https://github.com/jgm/djot.js/issues/13). markdown-it also reuses its instance; Carve and Djot use their public conversion functions. These are default API costs, not equal object lifetimes. The table records both lifetimes; it does not isolate constructor cost from runtime optimization.
 
-One-minute host load was 7.99 at start and 5.57 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
+One-minute host load was 5.55 at start and 5.95 at end. Timings are observations on this host; the reversed rounds retain order variation. No universal speed ranking is established.
 
 ## Reproduce
 
@@ -50,12 +50,14 @@ cd engines/js
 npm ci
 cd ../..
 git clone https://github.com/markup-carve/carve-js.git /tmp/carve-js-main
-git -C /tmp/carve-js-main checkout e57653b22896118d3cd9e1457c9bdc36aec52d9c
+git -C /tmp/carve-js-main checkout 72f7d1333bf4a271a7371b62c6c599d280412e68
 npm ci --prefix /tmp/carve-js-main
-taskset -c 13 node scripts/compare-commonmark.mjs --carve-main /tmp/carve-js-main --carve-revision e57653b22896118d3cd9e1457c9bdc36aec52d9c
+taskset -c 13 node scripts/compare-commonmark.mjs --carve-main /tmp/carve-js-main --carve-revision 72f7d1333bf4a271a7371b62c6c599d280412e68
 node scripts/gen-charts.mjs
 ```
 
 The [previous released snapshot](commonmark-js-release-0.1.9.md) preserves Carve JS 0.1.9 measurements and samples.
 
-The [raw record](commonmark-js.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.
+The [raw record](commonmark-js-pre-table-import-20261008.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.
+
+The measured source pins were frozen at the start of this refresh. Later include fixes merged during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance.
