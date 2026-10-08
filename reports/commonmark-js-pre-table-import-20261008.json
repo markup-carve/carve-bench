@@ -4,13 +4,39 @@
     "cpu_affinity": [
       13
     ],
-    "generated_at": "2026-10-08T14:12:56.366Z",
-    "benchmark_base_commit": "668d8a1c5d70b0b9925fcba1e93c86ff8c64bc2e",
-    "benchmark_checkout_commit": "668d8a1c5d70b0b9925fcba1e93c86ff8c64bc2e",
+    "generated_at": "2026-10-07T22:26:08.471Z",
+    "benchmark_base_commit": "9b742aca7d2a73251fd74f9f4bbb880beffe2d8b",
+    "benchmark_checkout_commit": "a4553ecdc352668ab057eb0d2fa3a979a66decdc",
     "benchmark_dirty_paths": [
+      "README.md",
+      "RESULTS.md",
+      "charts/carve-core-throughput.svg",
+      "charts/commonmark-js.svg",
+      "charts/core-throughput.svg",
+      "charts/full-corpus.svg",
+      "charts/php-tiers.svg",
+      "reports/commonmark-js.json",
+      "reports/commonmark-js.md",
       "reports/dev-main-core.json",
       "reports/dev-main-core.md",
-      "reports/dev-main-rust.Cargo.lock"
+      "reports/dev-main-full-output-controls.json",
+      "reports/dev-main-full.json",
+      "reports/engine-history-js.svg",
+      "reports/engine-history-php.svg",
+      "reports/engine-history-rs.svg",
+      "reports/engine-history.csv",
+      "reports/engine-history.html",
+      "reports/engine-history.json",
+      "reports/engine-history.md",
+      "reports/final-audit-conversion-checks.json",
+      "reports/final-audit-conversion-checks.md",
+      "reports/final-audit-pairs.json",
+      "reports/final-audit-pairs.md",
+      "reports/latest-main-comparison.csv",
+      "reports/latest-main-comparison.md",
+      "scripts/site/build.mjs",
+      "scripts/site/build.test.mjs",
+      "scripts/test-revision-controls.mjs"
     ],
     "benchmark_dirty": true,
     "node": "v22.22.2",
@@ -19,13 +45,13 @@
     "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
     "logical_cpus": 16,
     "load_start": [
-      7.99,
-      8.08,
-      8.8
+      5.55,
+      5.49,
+      5.96
     ],
     "package_versions": {
       "@djot/djot": "0.3.2",
-      "@markup-carve/carve": "merged-main e57653b22896118d3cd9e1457c9bdc36aec52d9c",
+      "@markup-carve/carve": "merged-main 72f7d1333bf4a271a7371b62c6c599d280412e68",
       "commonmark": "0.31.2",
       "markdown-it": "15.0.0",
       "parse5": "7.3.0"
@@ -33,9 +59,9 @@
     "carve_main": {
       "kind": "merged-main",
       "repository": "https://github.com/markup-carve/carve-js",
-      "commit": "e57653b22896118d3cd9e1457c9bdc36aec52d9c",
-      "version": "0.1.11-dev",
-      "lock_sha256": "a5f98fc6ddbf028f7503c17585e27a5df1a3ff93e0910ed265c7262b571e89af",
+      "commit": "72f7d1333bf4a271a7371b62c6c599d280412e68",
+      "version": "0.1.10",
+      "lock_sha256": "fea6139b59ff3a6ffe940c028fe843c28dedbbfb6153274815ee1a53737b2528",
       "dist_sha256": {
         "abbr-budget.js": "6e9cac45d0c7c3d37f5de85611d0ee880f2f7aeb15596dfddb49a719b08d6c5e",
         "abbr-expansion-emitted.js": "b61083d2dc19f628f3102d9e066f4ad5f79af5027427bb27ec73a6535b7eb870",
@@ -57,7 +83,7 @@
         "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
         "bracket-escapes.js": "00af96ffd1542cd393e2ac35366d39656ea531daac92adb1b5f4d49c392c6b60",
         "carve-escape.js": "367a162f1d9dcc4b934c99989529b766f779278053098465c375c0a6563fc814",
-        "case-migrate.js": "a50e4486a7fbe1e40472b96b2eaa3d819add5577e5875f74ae74e5cede5c814b",
+        "case-migrate.js": "1cb5eeba73340f7d511904cdd513a8bb0f72d2c51981a283999286d1de484ba0",
         "citations.js": "48854e70fba408e8a5c6ed0a8471b1f70e69021a052ad2b8dc75afd78c00aa99",
         "cli.js": "e58978184e94a32954a90d980d68bc7eb4c02c351da90643593552cd7ab96dff",
         "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
@@ -95,11 +121,11 @@
         "html-import-code-language.js": "e5f15a441e448cc904820b0cd288e847ed1c96b871d42f257e5c7163545576e0",
         "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
         "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
-        "html-import.js": "99659f2e0f5b154b83d6676224eb8d3912e30eb5ec052c61954f0bc161a5de9c",
+        "html-import.js": "2bfc77fbd01351ee33ea8de7c830f31ad86ca9f55c091ffa073e5bfdf73fb0fc",
         "import-report-messages.js": "cbb3842b000ff46acee3f083b8e8bb225bdee8c46b2c0132c581d7ecd027996d",
-        "include-directive.js": "e4227217ed10c9fd756424c688fd8fc44352600a3727920bd29096989dd92e22",
+        "include-directive.js": "be3e7487b86f6caa54c340b704920ec68962e1b94b96acb3177eb3b9a959f1bd",
         "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
-        "includes.js": "da6aecec305617c28b4837d7d3387e8f775f138a581f943a676c1a5fde0a2742",
+        "includes.js": "10398a42393d37337e278fb632c8187f83e5ebce349e80c42e909495ab6e4e78",
         "index-terms.js": "418eb0e101d3225d303a9bb155d3256fbd2492cf91373a9ba420b1d648471a98",
         "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
         "inline-children.js": "6dccd86c1f50e547fe193a946ad0d331f2d31453479ceea292e49e4c2b72ebf2",
@@ -110,9 +136,9 @@
         "lint.js": "85179b7ba5470cc1a1b7d47c7fa2d2e1ef0284d6daac2eaa86fcb7898734f601",
         "list-table.js": "dbfdb629e6ceab513faf29b8737a27378fe6200340ed37542f919d5d723cf09d",
         "markdown-emphasis.js": "36d7cd24f63488fe113d523b9b6e644641f62a63ec0a7e0620f7337525be0d02",
-        "markdown-empty-destination.js": "45551b870d84517d6eaa6c15c70d2f1b7f53b85d5f7f23d16c6f1d2707ba42b4",
+        "markdown-empty-destination.js": "30afc873602037225a03d2776896ddd76ed8bcc8b2fdb5a92ea52cf909e5af8d",
         "markdown-link-scopes.js": "9d4fda04e7f871cdc20c43e7ea6216d98b1bc91fb26e06adc8b87c0de4518f9a",
-        "markdown-migrate.js": "61e39d3195c172c93d4938580d0b42381d05107636a81d5d8c773dd589a4e1cd",
+        "markdown-migrate.js": "405b11141081222e7859b0a93fa751822f82b738d24f029883bd98b153f07928",
         "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
         "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
         "merge.js": "763787921c1deaa2ba1b0b35d0acef4a2306b5d3491d5eef8313a90f46811da1",
@@ -122,7 +148,7 @@
         "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
         "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
         "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
-        "parse.js": "33eb3c97e5389c289e63e7eaf5867ce1178d545ef069ec518cad81aeafe5b93d",
+        "parse.js": "6de63261f49b99bfbfffa15a26313d42c1af8eb2c1453e3dfd36b8c6c81f297f",
         "portability.js": "fd9cadcffa894c17a75006dd776dc0b32758fe496454612d7b1b585d60fc0849",
         "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
         "profile-filter.js": "69e8069cdce24c7cb7d496d250343c55e17d9648d4068c25b6ccbf53e325179f",
@@ -130,7 +156,7 @@
         "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
         "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
         "render-ansi.js": "5abedeb11790ea631e7ca08ec4d21ccae501301f280d902922097494e3c25eab",
-        "render-carve.js": "48e95a6481394e4b335765c8a2fef86a0d42161ca07c689464d21e8543a718f8",
+        "render-carve.js": "9a453bf2071618c8533b5e2d41d12174d7672dd98547648f025ef5e0548cd14b",
         "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
         "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
         "render-html.js": "f7b2251a67a2c8b5f91446ab643bbffd9339e11def4a2fd69134321c6f8aafec",
@@ -163,7 +189,7 @@
         "unresolved-reference.js": "d9cf9f3f983634d09c3259b7da6df5e8e0cb426ee0bb93c10375cddf2aadd86f",
         "verbatim-payload.js": "7ba32ad8bfcfd804593f3842f5b67f16c3d5ec02ca7fe3038f652bb1b4508a3d",
         "verse-whitespace.js": "53a00ff6e3b7cf6c7878357dd59386575d2c6ecdb9982f483473fc80d997f16a",
-        "version.js": "3c5189198411977c4b326cbeb5f466c7a99bbe037e390317fc62b9bd3b5a2f63",
+        "version.js": "7b1a6bb9fc1c6c88cdee913c9c42456b7d0970c14963ff1e1771a514a3a050e2",
         "wikilinks.js": "8a3e1782990a575a4cdec9932728d891ea04c256f0576225dc150513f1776277",
         "wire-fields.js": "5139b558713843dba3d02ffc78d92354f50dd580b78cc0859f502dcb35a8ee05"
       },
@@ -181,10 +207,59 @@
     "sections": 150,
     "projection": "Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.",
     "load_end": [
+      5.95,
       5.57,
-      7.18,
-      8.41
-    ]
+      5.93
+    ],
+    "retained_main_snapshot": {
+      "js": {
+        "measured_commit": "72f7d1333bf4a271a7371b62c6c599d280412e68",
+        "changed_paths": [
+          "CHANGELOG.md",
+          "docs/reference.md",
+          "spec",
+          "src/include-directive.ts",
+          "src/includes.ts",
+          "test/a-second-include-section-warns.test.ts",
+          "test/an-include-slot-needs-no-space-before-its-marker.test.ts",
+          "test/include-crossref-follows-only-a-resolving-target.test.ts",
+          "test/include-fragment-selection.test.ts",
+          "test/includes.test.ts"
+        ],
+        "reason": "Source pins were frozen when this refresh started. Later include fixes merged during the run; preserving the pins keeps core, corpus, paired controls and history measurements on the same revisions.",
+        "latest_at_core_repeat_setup": "9779690d5e91fa2155b75d40fecc6bdf8f423cef",
+        "head_observed_at": "2026-10-07T22:23:41.583Z",
+        "head_observation_phase": "core repeat setup"
+      },
+      "php": {
+        "measured_commit": "9570a261517b26e0ad866087ef28a5679b8d8435",
+        "changed_paths": [
+          "CHANGELOG.md",
+          "src/Transform/IncludeDirectiveSyntax.php",
+          "src/Transform/IncludeExpander.php",
+          "tests/TestCase/Transform/AnIncludeDirectiveSpellsItsSlotsWithoutWhitespaceTest.php",
+          "tests/spec"
+        ],
+        "reason": "Source pins were frozen when this refresh started. Later include fixes merged during the run; preserving the pins keeps core, corpus, paired controls and history measurements on the same revisions.",
+        "latest_at_core_repeat_setup": "0824b9dce7b604b0423ab899b96eca0b891586f7",
+        "head_observed_at": "2026-10-07T22:23:41.583Z",
+        "head_observation_phase": "core repeat setup"
+      },
+      "rs": {
+        "measured_commit": "7a68f74a39c785549130abd97218a282cbce5b77",
+        "changed_paths": [
+          "CHANGELOG.md",
+          "src/includes.rs",
+          "tests/includes.rs",
+          "tests/spec"
+        ],
+        "reason": "Source pins were frozen when this refresh started. Later include fixes merged during the run; preserving the pins keeps core, corpus, paired controls and history measurements on the same revisions.",
+        "latest_at_core_repeat_setup": "6ee652bf290903dcc537a6c2fc5e6b7d0d293b20",
+        "head_observed_at": "2026-10-07T22:23:41.583Z",
+        "head_observation_phase": "core repeat setup"
+      }
+    },
+    "main_selection_note": "The measured source pins were frozen at the start of this refresh. Later include fixes merged during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance."
   },
   "controls": [
     {
@@ -229,9 +304,9 @@
         "commonmark.js-fresh"
       ],
       "load_end": [
-        6.22,
-        7.6,
-        8.6
+        4.8,
+        5.31,
+        5.87
       ],
       "rows": [
         {
@@ -242,17 +317,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.6743179550000002,
-            2.7395815750000003,
-            2.83369604,
-            2.706729455,
-            2.69579409,
-            3.4151133149999997,
-            2.899777085
+            2.77005152,
+            2.871374475,
+            2.7729095999999998,
+            2.7343620900000003,
+            2.766944925,
+            2.9772044799999997,
+            2.826106645
           ],
-          "ms_per_op": 2.6743179550000002,
-          "mb_per_s": 17.73466427761228,
-          "carve_source": "@markup-carve/carve 0.1.11-dev (merged main e57653b22896118d3cd9e1457c9bdc36aec52d9c)"
+          "ms_per_op": 2.7343620900000003,
+          "mb_per_s": 17.345226982544812,
+          "carve_source": "@markup-carve/carve 0.1.10 (merged main 72f7d1333bf4a271a7371b62c6c599d280412e68)"
         },
         {
           "engine": "djot.js",
@@ -262,16 +337,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            10.24762357,
-            10.44106826,
-            10.536403895000001,
-            12.34932434,
-            11.68843912,
-            11.817683965,
-            11.737090344999999
+            10.02796762,
+            9.477464935,
+            9.93919213,
+            9.906288945,
+            10.524970204999999,
+            10.479644975000001,
+            10.23657466
           ],
-          "ms_per_op": 10.24762357,
-          "mb_per_s": 4.628207777104719
+          "ms_per_op": 9.477464935,
+          "mb_per_s": 5.0043056269577875
         },
         {
           "engine": "markdown-it",
@@ -281,16 +356,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            8.144262874999999,
-            8.252253345,
-            7.89116492,
-            7.5543637200000004,
-            8.113681719999999,
-            7.69936763,
-            7.84609714
+            7.73822173,
+            7.9461747,
+            7.634605840000001,
+            7.708865244999999,
+            7.6092686800000005,
+            7.7529579,
+            7.71465696
           ],
-          "ms_per_op": 7.5543637200000004,
-          "mb_per_s": 6.353987903214088
+          "ms_per_op": 7.6092686800000005,
+          "mb_per_s": 6.30814046815329
         },
         {
           "engine": "commonmark.js",
@@ -300,16 +375,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.579327105,
-            4.178041875,
-            3.921897375,
-            3.81561239,
-            3.56887142,
-            3.709528985,
-            3.946821615
+            4.2699348950000005,
+            4.088800015,
+            3.6741699299999997,
+            3.6554932050000004,
+            3.9320241950000003,
+            3.9835463499999997,
+            3.653783765
           ],
-          "ms_per_op": 3.56887142,
-          "mb_per_s": 13.449724028824601
+          "ms_per_op": 3.653783765,
+          "mb_per_s": 13.137158294138782
         },
         {
           "engine": "commonmark.js-fresh",
@@ -319,16 +394,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.54833949,
-            3.486503025,
-            3.624832035,
-            3.564885885,
-            3.36765853,
-            3.4561218400000002,
-            3.368256725
+            3.554454055,
+            3.5420214449999996,
+            3.42855949,
+            3.5915491200000003,
+            3.6346538450000003,
+            3.782565735,
+            3.6291711299999996
           ],
-          "ms_per_op": 3.36765853,
-          "mb_per_s": 14.253326240104093
+          "ms_per_op": 3.42855949,
+          "mb_per_s": 14.000146660240501
         }
       ]
     },
@@ -342,9 +417,9 @@
         "carve-js"
       ],
       "load_end": [
+        5.95,
         5.57,
-        7.18,
-        8.41
+        5.93
       ],
       "rows": [
         {
@@ -355,16 +430,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.899127565,
-            3.301858295,
-            3.507477555,
-            3.4397407099999997,
-            3.394593845,
-            3.5791141,
-            3.3504504600000002
+            3.5608408550000004,
+            3.9382088599999996,
+            3.814183995,
+            3.814350865,
+            3.999245,
+            4.26627464,
+            4.088509
           ],
-          "ms_per_op": 3.301858295,
-          "mb_per_s": 14.537369991330706
+          "ms_per_op": 3.5608408550000004,
+          "mb_per_s": 13.480056438343512
         },
         {
           "engine": "commonmark.js",
@@ -374,16 +449,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.79311606,
-            3.54308625,
-            3.617808785,
-            3.769049295,
-            3.544345185,
-            3.56646706,
-            3.588069215
+            4.675675754999999,
+            4.47911025,
+            4.26227325,
+            4.15701808,
+            4.08925553,
+            3.790868535,
+            3.87476804
           ],
-          "ms_per_op": 3.54308625,
-          "mb_per_s": 13.54760576132161
+          "ms_per_op": 3.790868535,
+          "mb_per_s": 12.66209451744002
         },
         {
           "engine": "markdown-it",
@@ -393,16 +468,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            7.8521252100000005,
-            7.8394285,
-            7.914151765000001,
-            7.4031718,
-            7.48795007,
-            7.084524034999999,
-            7.65131739
+            7.9878021,
+            8.27014258,
+            7.77094958,
+            7.837738945,
+            8.302413045,
+            8.645616825,
+            8.809694685
           ],
-          "ms_per_op": 7.084524034999999,
-          "mb_per_s": 6.775379045398267
+          "ms_per_op": 7.77094958,
+          "mb_per_s": 6.176894496510088
         },
         {
           "engine": "djot.js",
@@ -412,16 +487,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            9.801759135,
-            9.838720795,
-            9.623405445,
-            10.722917645,
-            10.11420982,
-            9.525126075,
-            10.72932276
+            11.56178148,
+            9.79609467,
+            9.100162435,
+            9.424764535000001,
+            9.970675394999999,
+            10.11677145,
+            10.169822925
           ],
-          "ms_per_op": 9.525126075,
-          "mb_per_s": 4.979265442795268
+          "ms_per_op": 9.100162435,
+          "mb_per_s": 5.211789508405146
         },
         {
           "engine": "carve-js",
@@ -431,19 +506,21 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.61667966,
-            2.612497505,
-            2.753200985,
-            2.510446055,
-            2.5890357699999997,
-            2.47372366,
-            2.578749345
+            2.882617225,
+            2.934044255,
+            2.8904877750000004,
+            2.951024505,
+            2.9495454,
+            3.119394965,
+            3.09394978
           ],
-          "ms_per_op": 2.47372366,
-          "mb_per_s": 19.172768515103915,
-          "carve_source": "@markup-carve/carve 0.1.11-dev (merged main e57653b22896118d3cd9e1457c9bdc36aec52d9c)"
+          "ms_per_op": 2.882617225,
+          "mb_per_s": 16.453149135510223,
+          "carve_source": "@markup-carve/carve 0.1.10 (merged main 72f7d1333bf4a271a7371b62c6c599d280412e68)"
         }
       ]
     }
-  ]
+  ],
+  "publication_exporter_sha256": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
 }

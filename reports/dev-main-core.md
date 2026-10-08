@@ -1,10 +1,10 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-07T22:23:41.583Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: a4553ecdc352668ab057eb0d2fa3a979a66decdc; cached remote main: 9b742aca7d2a73251fd74f9f4bbb880beffe2d8b; dirty tracked tree: true. Harness hashes are recorded in the JSON.
+Measured 2026-10-08T14:09:23.438Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: 668d8a1c5d70b0b9925fcba1e93c86ff8c64bc2e; cached remote main: 668d8a1c5d70b0b9925fcba1e93c86ff8c64bc2e; dirty tracked tree: true. Harness hashes are recorded in the JSON.
 
-Carve js: [72f7d1333bf4a271a7371b62c6c599d280412e68](https://github.com/markup-carve/carve-js/commit/72f7d1333bf4a271a7371b62c6c599d280412e68).
-Carve php: [9570a261517b26e0ad866087ef28a5679b8d8435](https://github.com/markup-carve/carve-php/commit/9570a261517b26e0ad866087ef28a5679b8d8435).
-Carve rs: [7a68f74a39c785549130abd97218a282cbce5b77](https://github.com/markup-carve/carve-rs/commit/7a68f74a39c785549130abd97218a282cbce5b77).
+Carve js: [e57653b22896118d3cd9e1457c9bdc36aec52d9c](https://github.com/markup-carve/carve-js/commit/e57653b22896118d3cd9e1457c9bdc36aec52d9c).
+Carve php: [19745164a182951f90a58620722e8e8f3418fd10](https://github.com/markup-carve/carve-php/commit/19745164a182951f90a58620722e8e8f3418fd10).
+Carve rs: [2a183262f866d0dca2ae515d8b655d21e01ade90](https://github.com/markup-carve/carve-rs/commit/2a183262f866d0dca2ae515d8b655d21e01ade90).
 
 Djot PHP: [77e5b6c83978b28b72f314fe52c0a200856ad3f9](https://github.com/php-collective/djot-php/commit/77e5b6c83978b28b72f314fe52c0a200856ad3f9), installed from the Composer lock.
 
@@ -16,18 +16,16 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 5.1824 | 11.53 |
-| djot.js | JavaScript | 17.9310 | 3.34 |
-| markdown-it | JavaScript | 17.5369 | 3.44 |
-| carve-php | PHP | 4.2757 | 13.97 |
-| djot-php | PHP | 3.7312 | 16.05 |
-| league/commonmark-gfm | PHP | 53.4112 | 1.13 |
-| carve-rs | Rust | 0.5131 | 116.40 |
-| jotdown | Rust | 1.5883 | 37.70 |
-| comrak | Rust | 1.7911 | 33.67 |
-| pulldown-cmark | Rust | 0.5492 | 109.81 |
-
-The initial complete core attempt recorded host load from 15.89 to 14.38. The full-corpus run ended at 6.88. Core and separate JavaScript comparisons were repeated once after the revision and history controls finished, with the same source pins and methods. The initial attempt remains in local evidence; this report uses the later complete repeat. Shared-host measurements do not isolate code effects.
+| carve-js | JavaScript | 4.9268 | 12.12 |
+| djot.js | JavaScript | 17.8586 | 3.35 |
+| markdown-it | JavaScript | 15.3261 | 3.93 |
+| carve-php | PHP | 4.0828 | 14.63 |
+| djot-php | PHP | 4.5280 | 13.22 |
+| league/commonmark-gfm | PHP | 62.3746 | 0.97 |
+| carve-rs | Rust | 0.4897 | 121.97 |
+| jotdown | Rust | 1.4663 | 40.83 |
+| comrak | Rust | 1.6242 | 37.13 |
+| pulldown-cmark | Rust | 0.5156 | 116.96 |
 
 [Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 
@@ -36,5 +34,3 @@ The initial complete core attempt recorded host load from 15.89 to 14.38. The fu
 Use Node v22.22.2 for this snapshot.
 
 Check out the three commits above and install the locked dependencies in `engines/js` and `engines/php`. Build Carve JS with `npm ci && npm run build` in its checkout. Build the Rust worker with `node scripts/build-rs-engine.mjs --carve-rs CHECKOUT`. Create a local JSON configuration with `js`, `php` and `rs` entries, each containing `path` and `commit`. Run `node scripts/compare-dev-main.mjs CONFIG.json`, then `node scripts/gen-charts.mjs`. The runner rebuilds JS and Rust and accepts the pinned commits as merged ancestors after main advances.
-
-The measured source pins were frozen at the start of this refresh. Later include fixes merged during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance.
