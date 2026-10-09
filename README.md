@@ -537,7 +537,8 @@ make parser scope visible but are not a speed-normalization divisor; see
 
 The separate history track measures the latest four stable Git tags for each
 engine, followed by a pinned development main. It belongs here; correctness
-and conformance evidence belongs in carve-proofs. The graph marks changed HTML
+and conformance evidence belongs in
+[carve-conformance](https://github.com/markup-carve/carve-conformance). The graph marks changed HTML
 output because timings across a behavior change can represent different work.
 
 ```bash
