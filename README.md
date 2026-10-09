@@ -72,7 +72,8 @@ These sessions do not isolate code effects across snapshots.
 Later include-path escape fixes in [JS #2582](https://github.com/markup-carve/carve-js/pull/2582) and [PHP #2954](https://github.com/markup-carve/carve-php/pull/2954) merged after pinning and were not measured.
 The Markdown footnote import fixes also merged after pinning and were not measured; they affect a separate conversion route.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
-Historical release results remain in [COMPARISON.md](COMPARISON.md).
+Release results for the pinned engines are in [COMPARISON.md](COMPARISON.md) and
+[the release Track B record](reports/release-full.md).
 The September 30 development-main snapshot, taken after the PHP
 parser and renderer changes and naming its exact commits and input hashes, is in
 [the refresh report](reports/performance-refresh.md).
@@ -285,9 +286,9 @@ corpus from the carve commit the reports name:
 | Component | Version |
 |---|---|
 | carve (corpus) | `9db91206d1a4a8a8cf795c48210bca49d66f14d6` |
-| carve-js | npm `@markup-carve/carve` 0.1.9 |
-| carve-php | Composer `markup-carve/carve-php` 0.1.10 |
-| carve-rs | crates.io `carve-lang` 0.1.7 |
+| carve-js | npm `@markup-carve/carve` 0.1.10 |
+| carve-php | Composer `markup-carve/carve-php` 0.1.11 |
+| carve-rs | crates.io `carve-lang` 0.1.8 |
 
 Build carve-js with `npm ci`, install the benchmark's locked JS/PHP dependencies,
 and use the checkout commands under "Engine resolution" to build and run Rust.
@@ -451,9 +452,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.9` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.10` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.7` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.10` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.11` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.8` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
