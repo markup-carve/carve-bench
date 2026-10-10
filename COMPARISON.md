@@ -31,6 +31,13 @@ actually loaded, as each harness reported them back, were
 carve-js `@markup-carve/carve 0.1.9 (npm package)`, carve-php `markup-carve/carve-php 0.1.10 (Composer package, reference 6d94607e)`, carve-rs `carve-lang 0.1.7 (crates.io, checksum bade620457149d66)`, measured
 2026-09-30 UTC on Linux 7.0.0, Node.js 24.19.0, PHP 8.5.11 tracing JIT, and rustc 1.97.1. Every lane on its pinned published release; local shared host, load average around 8 of 16 throughout, so read the within-language ratios rather than absolute throughput.
 
+These numbers predate the current pins. The lanes now pin carve-js 0.1.10,
+carve-php 0.1.11 and carve-lang 0.1.8, so the run above describes the releases
+before those. The re-measure on the new pins is outstanding and is not published
+here, because the only host available when the pins moved was carrying other
+build lanes; a throughput figure taken under a decaying load average would
+describe the host rather than the engines.
+
 Every configured engine earns the same 18 workload points. Core capability
 points separately expose the much wider syntax surface an engine recognizes
 by default. See `FEATURES.md` for the auditable matrix and limitations.
