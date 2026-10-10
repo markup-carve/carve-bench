@@ -285,9 +285,9 @@ corpus from the carve commit the reports name:
 | Component | Version |
 |---|---|
 | carve (corpus) | `9db91206d1a4a8a8cf795c48210bca49d66f14d6` |
-| carve-js | npm `@markup-carve/carve` 0.1.9 |
-| carve-php | Composer `markup-carve/carve-php` 0.1.10 |
-| carve-rs | crates.io `carve-lang` 0.1.7 |
+| carve-js | npm `@markup-carve/carve` 0.1.10 |
+| carve-php | Composer `markup-carve/carve-php` 0.1.11 |
+| carve-rs | crates.io `carve-lang` 0.1.8 |
 
 Build carve-js with `npm ci`, install the benchmark's locked JS/PHP dependencies,
 and use the checkout commands under "Engine resolution" to build and run Rust.
@@ -451,9 +451,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.9` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.10` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.7` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.10` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.11` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.8` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
