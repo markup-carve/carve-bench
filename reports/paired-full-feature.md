@@ -2,7 +2,9 @@
 
 Eight serial rounds alternate before/after order. A pilot calibrates identical iteration counts within each pair for a 1.5-second target; every timed window must exceed one second. Workers warm up to 20 calls. Exact output hashes must match within each engine. PHP tracing JIT is required. Median per-round ratios and their full ranges describe these samples; they are not significance tests. Six cases are reported without multiple-comparison adjustment. The host is shared and CPU affinity applies to compiler and GC threads.
 
-Measured 2026-10-06T22:11:52.113Z; CPU affinity [13]. All source builds completed before timing. The closed-block workload exercises formatting, quotations, nested lists, definition lists, tables, code, raw HTML and footnotes.
+Measured 2026-10-14T11:13:24.636Z; CPU affinity [13]. All source builds completed before timing. The closed-block workload exercises formatting, quotations, nested lists, definition lists, tables, code, raw HTML and footnotes.
+
+This rerun repeats the 2026-10-06 revision pairs against the benchmark's current dependency locks. Host load changed from [5.39, 8.74, 11.14] to [29.10, 20.72, 15.59] as other build lanes started, so the wide paired ranges reflect host contention. The output-hash checks are unaffected.
 
 Before commits are the development snapshots published by benchmark commit `b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63`, from its full-corpus report. They are merged main heads, not release tags. After commits are the newer merged main heads named below.
 
@@ -14,12 +16,12 @@ Before commits are the development snapshots published by benchmark commit `b4f8
 
 | Engine | Sections | Before ms | After ms | Median paired change | Paired range |
 |---|---:|---:|---:|---:|---|
-| js | 128 | 49.5000 | 53.8523 | +6.1% | -6.7% to +13.0% |
-| js | 512 | 193.4531 | 199.0542 | +4.5% | -3.7% to +144.3% |
-| php | 128 | 106.4160 | 129.3480 | +10.1% | -0.8% to +29.0% |
-| php | 512 | 456.6791 | 481.7097 | +4.8% | -2.3% to +23.3% |
-| rs | 128 | 8.0173 | 8.9821 | +4.8% | -3.9% to +27.7% |
-| rs | 512 | 41.9669 | 40.5119 | +0.5% | -6.9% to +6.5% |
+| js | 128 | 77.0793 | 68.0294 | +1.7% | -75.2% to +34.3% |
+| js | 512 | 264.5249 | 298.7511 | +0.7% | -52.2% to +271.1% |
+| php | 128 | 211.4580 | 184.5762 | +3.7% | -49.0% to +25.8% |
+| php | 512 | 824.8231 | 817.4985 | -6.3% | -25.5% to +29.2% |
+| rs | 128 | 15.7395 | 14.7353 | -0.8% | -18.9% to +37.3% |
+| rs | 512 | 67.8210 | 72.1108 | +5.8% | -16.6% to +27.8% |
 
 Positive changes mean more elapsed time; negative changes mean less. All changes are observed per-round ratios, not significance claims. The full range shows run-to-run variation, and testing several cases increases the risk of chance patterns.
 

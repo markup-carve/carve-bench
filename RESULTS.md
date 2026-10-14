@@ -14,11 +14,11 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-08T14:24:41.544Z; Fresh pinned merged-main benchmark after native image and table fixes; CPU 13; PHP memory limit 512M. Later JS/PHP include-path fixes and Markdown footnote import fixes merged after pinning and were not measured.
+**Run:** 2026-10-14T10:25:56.101Z; Fresh pinned merged-main benchmark after moving the release pins to carve-js 0.1.10, carve-php 0.1.11 and carve-lang 0.1.8; CPU 13; PHP memory limit 512M.
 
 Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
 
-One-minute host load was 5.45 at start and 6.53 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
+One-minute host load was 5.76 at start and 7.91 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
 
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
@@ -26,7 +26,7 @@ before treating cross-engine results as equal work.
 PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.
 The controls do not establish what every timed conversion rendered.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.11-dev (local checkout carve-js-main @ e57653b22)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 19745164a)`, carve-rs `carve-lang 0.1.9-dev (local checkout carve-rs-main @ 2a183262f)`
+**Engines measured:** carve-js `@markup-carve/carve 0.1.11 (local checkout carve-js-main @ 43c888310)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ cb3dec89c)`, carve-rs `carve-lang 0.1.9 (local checkout carve-rs-main @ 61b673ce9)`
 
 **Corpus snapshot:** carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.
 
@@ -38,25 +38,25 @@ Small-input timings are unstable. The [paired controls](reports/final-audit-conv
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1.1566 | 1.02 | 8.72x |
-| carve-php | 1.8470 | 0.64 | 13.93x |
-| carve-rs | 0.1326 | 8.87 | 1.00x |
+| carve-js | 1.1491 | 1.02 | 10.03x |
+| carve-php | 3.1218 | 0.38 | 27.24x |
+| carve-rs | 0.1146 | 10.26 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 118.6750 | 0.52 | 3.48x |
-| carve-php | 224.4149 | 0.28 | 6.59x |
-| carve-rs | 34.0749 | 1.82 | 1.00x |
+| carve-js | 130.4234 | 0.48 | 3.74x |
+| carve-php | 442.2985 | 0.14 | 12.68x |
+| carve-rs | 34.8808 | 1.78 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1440.0264 | 0.34 | 3.65x |
-| carve-php | 3347.9542 | 0.15 | 8.49x |
-| carve-rs | 394.5507 | 1.26 | 1.00x |
+| carve-js | 880.1263 | 0.56 | 2.34x |
+| carve-php | 2060.1803 | 0.24 | 5.47x |
+| carve-rs | 376.8834 | 1.32 | 1.00x |
 
 ## PHP authoritative extension tiers
 
@@ -71,9 +71,9 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 3.04 | 15.46 | baseline |
-| Tier 2 stack | 8 | 3.25 | 14.48 | +7% |
-| Tier 3 stack | 20 | 3.54 | 13.26 | +17% |
+| Tier 1 core/default | 0 | 3.33 | 14.09 | baseline |
+| Tier 2 stack | 8 | 4.01 | 11.71 | +20% |
+| Tier 3 stack | 20 | 4.32 | 10.87 | +30% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 

@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `e57653b` against released
+The current comparison measures Carve JS merged main `43c8883` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -65,12 +65,11 @@ same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
 The throughput charts use pinned merged commits for JS, PHP and Rust,
-measured 2026-10-08T14:09:23.438Z on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
+measured 2026-10-14 on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
 The current core tables use median timing across fourteen samples in two rounds with reversed engine order.
-The shared host's one-minute load changed from 7.30 to 8.74 during the core run.
+The shared host's one-minute load changed from 5.18 to 4.65 during the core run; other build lanes raised it above 25 during later tracks.
 These sessions do not isolate code effects across snapshots.
-Later include-path escape fixes in [JS #2582](https://github.com/markup-carve/carve-js/pull/2582) and [PHP #2954](https://github.com/markup-carve/carve-php/pull/2954) merged after pinning and were not measured.
-The Markdown footnote import fixes also merged after pinning and were not measured; they affect a separate conversion route.
+Merges after about 09:20 UTC on 2026-10-14 were not measured. That includes the carve-rs probe fix [carve-rs #2754](https://github.com/markup-carve/carve-rs/pull/2754): the Rust pin `61b673ce9` predates it.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
 The September 30 development-main snapshot, taken after the PHP
@@ -82,9 +81,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 121.97 | pulldown-cmark | 116.96 | 1.04x |
-| JavaScript | carve-js | 12.12 | markdown-it | 3.93 | 3.08x |
-| PHP | carve-php | 14.63 | djot-php | 13.22 | 1.11x |
+| Rust | carve-rs | 118.47 | pulldown-cmark | 113.03 | 1.05x |
+| JavaScript | carve-js | 12.83 | djot.js | 4.39 | 2.92x |
+| PHP | carve-php | 14.19 | djot-php | 16.97 | 0.84x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -94,9 +93,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.9268 | 12.12 | 10.06x |
-| carve-php | PHP | 4.0828 | 14.63 | 8.34x |
-| carve-rs | Rust | 0.4897 | 121.97 | 1.00x |
+| carve-js | JavaScript | 4.6555 | 12.83 | 9.23x |
+| carve-php | PHP | 4.2100 | 14.19 | 8.35x |
+| carve-rs | Rust | 0.5042 | 118.47 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -213,7 +212,7 @@ CARVE_PHP_SRC=/tmp/carve-php-main/src \
 CARVE_RS_SRC=/tmp/carve-rs-main \
 CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring -d memory_limit=512M" \
 CARVE_FULL_REPORT=reports/dev-main-full.json \
-CARVE_RUN_META="Fresh pinned merged-main benchmark after native image and table fixes; CPU 13; PHP memory limit 512M. Later JS/PHP include-path fixes and Markdown footnote import fixes merged after pinning and were not measured." \
+CARVE_RUN_META="Fresh pinned merged-main benchmark after moving the release pins to carve-js 0.1.10, carve-php 0.1.11 and carve-lang 0.1.8; CPU 13; PHP memory limit 512M." \
 CARVE_CORPUS_SNAPSHOT='carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.' \
 taskset -c 13 node run.mjs
 node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
@@ -591,4 +590,4 @@ The historical [merged main versus PHP and Rust peers](reports/merged-core-peers
 
 Release-history graphs show sample ranges; overlapping +100% readings are marked uncertain.
 
-The measured source pins were frozen at the start of this refresh. Later include fixes merged during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance.
+The measured source pins were frozen at the start of this refresh. Later merges, including carve-rs #2754, landed during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance.

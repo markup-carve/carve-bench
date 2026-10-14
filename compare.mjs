@@ -105,7 +105,7 @@ const lines = [
   'source-checked reading of each peer\'s architecture and where each one\'s',
   'cost sits against Carve\'s in the same language.', '',
   'Locked comparison versions: djot.js 0.3.2, markdown-it 15.0.0, djot-php',
-  'dev-master (`fab953f6`), league/commonmark 2.10.0, jotdown 0.10.0,',
+  'dev-master (`77e5b6c8`), league/commonmark 2.10.0, jotdown 0.10.0,',
   'comrak 0.54.0, and pulldown-cmark 0.13.4. The Carve engines this run',
   'actually loaded, as each harness reported them back, were',
   `${describeEngines()}, measured`,
