@@ -1,21 +1,54 @@
 {
   "schema": 1,
   "metadata": {
-    "benchmark_base_commit": "b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63",
-    "benchmark_checkout_commit": "b53baed0ad0a0f777ed1df59b75fbbf378427a1b",
+    "benchmark_base_commit": "3cd57d814cc5752af6ec2af7e31a82e45fc99add",
+    "benchmark_checkout_commit": "fad0676e00c91c6224bc1b792297ecdeb12a8a84",
     "benchmark_dirty_paths": [
-      "reports/paired-full-feature-20261005T204417842.json",
-      "reports/paired-full-feature-20261005T204417842.md",
-      "reports/paired-full-feature.json",
-      "reports/paired-full-feature.md",
-      "reports/php-large-jit-output-control.json",
-      "scripts/check-conversion-snapshots.py",
-      "scripts/compare-full-feature.mjs"
+      "COMPARISON.md",
+      "README.md",
+      "RESULTS.md",
+      "charts/carve-core-throughput-pre-pin-refresh-20261014.svg",
+      "charts/commonmark-js-pre-pin-refresh-20261014.svg",
+      "charts/core-throughput-pre-pin-refresh-20261014.svg",
+      "charts/full-corpus-pre-pin-refresh-20261014.svg",
+      "charts/php-tiers-pre-pin-refresh-20261014.svg",
+      "reports/commonmark-js-pre-pin-refresh-20261014.json",
+      "reports/commonmark-js-pre-pin-refresh-20261014.md",
+      "reports/commonmark-js.json",
+      "reports/commonmark-js.md",
+      "reports/dev-main-core-pre-pin-refresh-20261014.json",
+      "reports/dev-main-core-pre-pin-refresh-20261014.md",
+      "reports/dev-main-core.json",
+      "reports/dev-main-core.md",
+      "reports/dev-main-full-output-controls-pre-pin-refresh-20261014.json",
+      "reports/dev-main-full-output-controls.json",
+      "reports/dev-main-full-pre-pin-refresh-20261014.json",
+      "reports/dev-main-full.json",
+      "reports/dev-main-rust-pre-pin-refresh-20261014.Cargo.lock",
+      "reports/dev-main-rust.Cargo.lock",
+      "reports/engine-history-js.svg",
+      "reports/engine-history-php.svg",
+      "reports/engine-history-pre-pin-refresh-20261014.json",
+      "reports/engine-history-rs.svg",
+      "reports/engine-history.csv",
+      "reports/engine-history.html",
+      "reports/engine-history.json",
+      "reports/engine-history.md",
+      "reports/final-audit-conversion-checks-pre-pin-refresh-20261014.json",
+      "reports/final-audit-conversion-checks-pre-pin-refresh-20261014.md",
+      "reports/final-audit-conversion-checks.json",
+      "reports/final-audit-conversion-checks.md",
+      "reports/final-audit-pairs-pre-pin-refresh-20261014.json",
+      "reports/final-audit-pairs-pre-pin-refresh-20261014.md",
+      "reports/final-audit-pairs.json",
+      "reports/final-audit-pairs.md",
+      "reports/latest-main-comparison.csv",
+      "reports/latest-main-comparison.md"
     ],
     "benchmark_dirty": true,
-    "started_at": "2026-10-06T22:08:18.919Z",
-    "measurement_started_at": "2026-10-06T22:11:52.113Z",
-    "completed_at": "2026-10-06T22:18:02.552Z",
+    "started_at": "2026-10-14T11:09:53.242Z",
+    "measurement_started_at": "2026-10-14T11:13:24.636Z",
+    "completed_at": "2026-10-14T11:24:53.341Z",
     "cpu_affinity": [
       13
     ],
@@ -24,7 +57,7 @@
     "platform": "linux",
     "arch": "x64",
     "baseline_benchmark_commit": "b4f8e1e130dbae0036c7b8d3a17f9320e93c1e63",
-    "previous_snapshot": "paired-full-feature-20261005T204417842",
+    "previous_snapshot": "paired-full-feature-20261006T221152113",
     "node": "v22.22.2",
     "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
     "php_ini_flags": [
@@ -193,10 +226,10 @@
           "repository": "https://github.com/markup-carve/carve-rs",
           "commit": "ae44de38b6ecf468212cac117f83158f7c3988c2",
           "source_sha256": "2b637c90f170a1bb4333786b6d5601e3120476e71c381f684608c192247682e0",
-          "binary_sha256": "20a1fbded471541c27980ceefd138b05904ebb5c68978711f2e9583a373b8625",
-          "control_binary_sha256": "528039c4f2228623f190d7533c1669b13a1080a58b51fd86e203db9152305d8c",
+          "binary_sha256": "cbfd7a04fea79b373d0ba53c56d5d3cebc44330495467c5ba1703b186099b28e",
+          "control_binary_sha256": "4455e55fb627d158db0681e038c2b1d1a937e75f2e883166885b0fa17d227819",
           "lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
-          "manifest_sha256": "b93a3d795111159a17f3e172a716f4a23d25119451d790cbf21c26ec4ef65ecc"
+          "manifest_sha256": "5245f27101bb3c86a74157bf4df21901607515b979ed5b964a2431f03eb414ec"
         }
       },
       "after": {
@@ -345,10 +378,10 @@
           "repository": "https://github.com/markup-carve/carve-rs",
           "commit": "5b7bea1ada2a507867d62278145fd7f9fd3f000d",
           "source_sha256": "f274ae01159674236e6e2971d74fdd624cb11188c691a70cccb4882ecfba52dd",
-          "binary_sha256": "34bdb1757369061a95c885047e50150296d5fd8f54508b1bf644148a977f34e5",
-          "control_binary_sha256": "3f1e3c6c641144929b4fd4bfd4883f67cad590322cc259efcb2c250dcb36445e",
+          "binary_sha256": "eb25743b4e8dc4594506da9fae1868b91009b2e549955d18e0e275ab72bef7bd",
+          "control_binary_sha256": "2fa306345568a56f09a0b7f9302e3f903e784998e982e54aacc82b86402a3361",
           "lock_sha256": "8a5352be3988da65239aeb8c3a3d3d787f9f6550fb3e7407f9b4b0986adae45b",
-          "manifest_sha256": "18cc7f85be8e5519b71b575265896278d008e1d5af049eb5da57a37b83264a2b"
+          "manifest_sha256": "dc5ebdcc6a93fffae222a211ab31d396bea2b9b75267b939253738d533fbefbd"
         }
       }
     },
@@ -367,19 +400,19 @@
       "engines/rs/src/main.rs": "88f12164594bc1cc9956d61c62b7e1f11d28deff108d073182d650cc98ecc27b",
       "engines/rs/src/compare.rs": "ee220c81d67aa2fae7cdace39bcc15d9b3abf992dd789806dc46e2edae402fd6",
       "engines/rs/build.rs": "7bd6807558ee35efce76e47d65723b2101762112f658e235c9e15d24046df75d",
-      "engines/rs/Cargo.toml": "636a0cfdad5b934857dc070f44a6581438578bee6ce602a0794cc54312aff282"
+      "engines/rs/Cargo.toml": "c481feb2002f46586aca404bf97c29a956d9acc63cbf43e89f1b2f5fe479548a"
     },
-    "php_dependency_lock_sha256": "1f7030137b7d28f3ea82b65b8036e570e006338067e882b08431c01c0658c42e",
-    "php_installed_sha256": "b9ed6e06dd6ae94968089bb3a999319c4b75b4f8dd811059957fc84dd9e655ad",
+    "php_dependency_lock_sha256": "cfb5ea4ea19d5028b6a01c1c1ff6be35f75411dc8baaeb87a6b1ffd428fb3cf7",
+    "php_installed_sha256": "ed0472ead2bc688b4589fdf5531ebd01ed8e2041ff3c98b1be97e01cdbcfc23d",
     "load_start": [
-      11.83,
-      6.49,
-      4.85
+      5.39,
+      8.74,
+      11.14
     ],
     "load_end": [
-      18.85,
-      11.43,
-      7.09
+      29.1,
+      20.72,
+      15.59
     ],
     "method": "Eight serial rounds alternate before/after order. A pilot calibrates identical iteration counts within each pair for a 1.5-second target; every timed window must exceed one second. Workers warm up to 20 calls. Exact output hashes must match within each engine. PHP tracing JIT is required. Median per-round ratios and their full ranges describe these samples; they are not significance tests. Six cases are reported without multiple-comparison adjustment. The host is shared and CPU affinity applies to compiler and GC threads."
   },
@@ -490,14 +523,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 53.9349
+          "ms_per_op": 51.1481
         },
         {
           "revision": "after",
-          "ms_per_op": 49.7665
+          "ms_per_op": 66.9426
         }
       ],
-      "iters": 31
+      "iters": 30
     },
     {
       "engine": "js",
@@ -505,14 +538,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 168.3416
+          "ms_per_op": 188.5374
         },
         {
           "revision": "after",
-          "ms_per_op": 173.479
+          "ms_per_op": 224.3944
         }
       ],
-      "iters": 9
+      "iters": 8
     },
     {
       "engine": "php",
@@ -520,14 +553,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 95.0479
+          "ms_per_op": 116.4788
         },
         {
           "revision": "after",
-          "ms_per_op": 99.3506
+          "ms_per_op": 115.2865
         }
       ],
-      "iters": 16
+      "iters": 14
     },
     {
       "engine": "php",
@@ -535,11 +568,11 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 1016.7102
+          "ms_per_op": 530.5533
         },
         {
           "revision": "after",
-          "ms_per_op": 547.1339
+          "ms_per_op": 602.7327
         }
       ],
       "iters": 3
@@ -550,14 +583,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 7.8991
+          "ms_per_op": 11.4839
         },
         {
           "revision": "after",
-          "ms_per_op": 8.0167
+          "ms_per_op": 11.432
         }
       ],
-      "iters": 190
+      "iters": 132
     },
     {
       "engine": "rs",
@@ -565,14 +598,14 @@
       "pilots": [
         {
           "revision": "before",
-          "ms_per_op": 38.8026
+          "ms_per_op": 43.3306
         },
         {
           "revision": "after",
-          "ms_per_op": 40.799
+          "ms_per_op": 42.8387
         }
       ],
-      "iters": 39
+      "iters": 36
     }
   ],
   "rows": [
@@ -581,1273 +614,1273 @@
       "revision": "before",
       "sections": 128,
       "round": 0,
-      "ms_per_op": 49.9136,
-      "iters": 31,
+      "ms_per_op": 53.263,
+      "iters": 30,
       "jit": null,
       "load": [
-        11.83,
-        6.49,
-        4.85
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 0,
-      "ms_per_op": 55.0136,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        11.2,
-        6.44,
-        4.84
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 0,
-      "ms_per_op": 213.9781,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        10.86,
-        6.45,
-        4.85
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 0,
-      "ms_per_op": 223.2418,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        10.19,
-        6.45,
-        4.87
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 0,
-      "ms_per_op": 125.0592,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        9.85,
-        6.45,
-        4.88
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 0,
-      "ms_per_op": 136.2966,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        9.62,
-        6.46,
-        4.89
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 0,
-      "ms_per_op": 446.1771,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        9.62,
-        6.46,
-        4.89
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 0,
-      "ms_per_op": 490.4002,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        9.25,
-        6.43,
-        4.89
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 0,
-      "ms_per_op": 8.2644,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        9.25,
-        6.43,
-        4.89
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 0,
-      "ms_per_op": 8.4133,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        9.25,
-        6.43,
-        4.89
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 0,
-      "ms_per_op": 42.3898,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        8.91,
-        6.41,
-        4.89
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 0,
-      "ms_per_op": 41.1862,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        8.91,
-        6.41,
-        4.89
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 1,
-      "ms_per_op": 55.1601,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        9.08,
-        6.48,
-        4.92
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 128,
-      "round": 1,
-      "ms_per_op": 49.0864,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        9.07,
-        6.53,
-        4.95
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 1,
-      "ms_per_op": 191.1871,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        8.75,
-        6.5,
-        4.95
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 1,
-      "ms_per_op": 195.5475,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        8.53,
-        6.49,
-        4.95
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 1,
-      "ms_per_op": 111.0974,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        8.32,
-        6.48,
-        4.96
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 1,
-      "ms_per_op": 105.765,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        7.98,
-        6.44,
-        4.95
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 1,
-      "ms_per_op": 455.263,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        7.98,
-        6.44,
-        4.95
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 1,
-      "ms_per_op": 444.7164,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        7.5,
-        6.37,
-        4.94
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 1,
-      "ms_per_op": 7.6705,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        7.5,
-        6.37,
-        4.94
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 1,
-      "ms_per_op": 7.5177,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        6.98,
-        6.28,
-        4.91
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 1,
-      "ms_per_op": 42.1362,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        6.98,
-        6.28,
-        4.91
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 1,
-      "ms_per_op": 41.5441,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        6.82,
-        6.26,
-        4.92
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 128,
-      "round": 2,
-      "ms_per_op": 46.3521,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        6.82,
-        6.26,
-        4.92
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 2,
-      "ms_per_op": 47.2939,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        6.75,
-        6.25,
-        4.92
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 2,
-      "ms_per_op": 191.3588,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        6.29,
-        6.17,
-        4.9
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 2,
-      "ms_per_op": 191.123,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        5.95,
-        6.1,
-        4.88
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 2,
-      "ms_per_op": 90.4396,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        5.63,
-        6.03,
-        4.87
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 2,
-      "ms_per_op": 91.9897,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        5.63,
-        6.03,
-        4.87
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 2,
-      "ms_per_op": 430.2703,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        5.34,
-        5.96,
-        4.85
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 2,
-      "ms_per_op": 443.405,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        5.34,
-        5.96,
-        4.85
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 2,
-      "ms_per_op": 7.5241,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        5.23,
-        5.93,
-        4.85
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 2,
-      "ms_per_op": 7.2313,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        5.23,
-        5.93,
-        4.85
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 2,
-      "ms_per_op": 35.6424,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        5.05,
-        5.88,
-        4.84
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 2,
-      "ms_per_op": 36.2299,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        5.05,
-        5.88,
-        4.84
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 3,
-      "ms_per_op": 43.5147,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        4.81,
-        5.82,
-        4.82
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 128,
-      "round": 3,
-      "ms_per_op": 43.7201,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        4.81,
-        5.82,
-        4.82
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 3,
-      "ms_per_op": 195.2803,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.66,
-        5.77,
-        4.81
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 3,
-      "ms_per_op": 184.4158,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.61,
-        5.74,
-        4.81
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 3,
-      "ms_per_op": 93.6875,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        5.12,
-        5.83,
-        4.84
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 3,
-      "ms_per_op": 94.4376,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        4.87,
-        5.76,
-        4.83
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 3,
-      "ms_per_op": 473.0193,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        4.87,
-        5.76,
-        4.83
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 3,
-      "ms_per_op": 452.461,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        4.64,
-        5.7,
-        4.81
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 3,
-      "ms_per_op": 9.2709,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        4.64,
-        5.7,
-        4.81
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 3,
-      "ms_per_op": 7.433,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        4.35,
-        5.62,
-        4.79
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 3,
-      "ms_per_op": 39.5714,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        4.35,
-        5.62,
-        4.79
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 3,
-      "ms_per_op": 39.7576,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        4.35,
-        5.62,
-        4.79
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 128,
-      "round": 4,
-      "ms_per_op": 52.0193,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        4.24,
-        5.58,
-        4.78
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 4,
-      "ms_per_op": 48.9229,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        4.14,
-        5.53,
-        4.77
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 4,
-      "ms_per_op": 182.8852,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.13,
-        5.51,
-        4.77
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 4,
-      "ms_per_op": 198.1527,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.36,
-        5.53,
-        4.78
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 4,
-      "ms_per_op": 115.0561,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        4.09,
-        5.46,
-        4.76
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 4,
-      "ms_per_op": 136.4182,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        4.08,
-        5.43,
-        4.75
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 4,
-      "ms_per_op": 489.6782,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        4.08,
-        5.43,
-        4.75
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 4,
-      "ms_per_op": 514.7686,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        4,
-        5.39,
-        4.74
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 4,
-      "ms_per_op": 8.5983,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        3.92,
-        5.35,
-        4.73
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 4,
-      "ms_per_op": 9.2505,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        3.92,
-        5.35,
-        4.73
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 4,
-      "ms_per_op": 42.7868,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        3.92,
-        5.35,
-        4.73
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 4,
-      "ms_per_op": 39.8377,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        3.76,
-        5.3,
-        4.72
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 5,
-      "ms_per_op": 52.691,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        3.78,
-        5.27,
-        4.71
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 128,
-      "round": 5,
-      "ms_per_op": 46.6099,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        3.78,
-        5.27,
-        4.71
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 5,
-      "ms_per_op": 199.9557,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.04,
-        5.28,
-        4.72
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 5,
-      "ms_per_op": 191.0351,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        3.87,
-        5.23,
-        4.71
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 5,
-      "ms_per_op": 122.3994,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        3.87,
-        5.23,
-        4.71
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 5,
-      "ms_per_op": 105.1304,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        3.8,
-        5.19,
-        4.7
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 5,
-      "ms_per_op": 450.3669,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        3.9,
-        5.19,
-        4.7
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 5,
-      "ms_per_op": 460.8973,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        3.9,
-        5.19,
-        4.7
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 5,
-      "ms_per_op": 8.7137,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        3.91,
-        5.17,
-        4.7
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 5,
-      "ms_per_op": 7.7702,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        3.91,
-        5.17,
-        4.7
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 5,
-      "ms_per_op": 39.2115,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        3.91,
-        5.17,
-        4.7
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 5,
-      "ms_per_op": 40.2402,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        3.75,
-        5.11,
-        4.68
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 128,
-      "round": 6,
-      "ms_per_op": 61.7094,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        3.93,
-        5.13,
-        4.69
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 128,
-      "round": 6,
-      "ms_per_op": 57.5918,
-      "iters": 31,
-      "jit": null,
-      "load": [
-        4.26,
-        5.18,
-        4.71
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 6,
-      "ms_per_op": 217.4923,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.24,
-        5.16,
-        4.7
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "after",
-      "sections": 512,
-      "round": 6,
-      "ms_per_op": 209.4613,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        4.46,
-        5.19,
-        4.72
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 6,
-      "ms_per_op": 107.067,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        4.58,
-        5.2,
-        4.72
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 128,
-      "round": 6,
-      "ms_per_op": 138.1367,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        4.78,
-        5.23,
-        4.74
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 512,
-      "round": 6,
-      "ms_per_op": 563.6204,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        4.78,
-        5.23,
-        4.74
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "after",
-      "sections": 512,
-      "round": 6,
-      "ms_per_op": 695.0147,
-      "iters": 3,
-      "jit": true,
-      "load": [
-        5.44,
         5.36,
-        4.78
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 128,
-      "round": 6,
-      "ms_per_op": 23.2225,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        7.16,
-        5.72,
-        4.9
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 128,
-      "round": 6,
-      "ms_per_op": 29.6487,
-      "iters": 190,
-      "jit": null,
-      "load": [
-        11.8,
-        6.7,
-        5.22
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "before",
-      "sections": 512,
-      "round": 6,
-      "ms_per_op": 117.3379,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        19.48,
-        8.52,
-        5.83
-      ]
-    },
-    {
-      "engine": "rs",
-      "revision": "after",
-      "sections": 512,
-      "round": 6,
-      "ms_per_op": 124.9219,
-      "iters": 39,
-      "jit": null,
-      "load": [
-        20.97,
-        9.01,
-        6.01
+        8.68,
+        11.1
       ]
     },
     {
       "engine": "js",
       "revision": "after",
       "sections": 128,
-      "round": 7,
-      "ms_per_op": 56.6681,
-      "iters": 31,
+      "round": 0,
+      "ms_per_op": 57.3727,
+      "iters": 30,
       "jit": null,
       "load": [
-        21.16,
-        9.47,
-        6.19
+        5.36,
+        8.68,
+        11.1
       ]
     },
     {
       "engine": "js",
       "revision": "before",
-      "sections": 128,
-      "round": 7,
-      "ms_per_op": 51.0619,
-      "iters": 31,
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 248.9698,
+      "iters": 8,
       "jit": null,
       "load": [
-        21.16,
-        9.47,
-        6.19
+        5.64,
+        8.63,
+        11.06
       ]
     },
     {
       "engine": "js",
       "revision": "after",
       "sections": 512,
-      "round": 7,
-      "ms_per_op": 604.4579,
-      "iters": 9,
+      "round": 0,
+      "ms_per_op": 924.0144,
+      "iters": 8,
       "jit": null,
       "load": [
-        23.53,
-        10.52,
-        6.58
-      ]
-    },
-    {
-      "engine": "js",
-      "revision": "before",
-      "sections": 512,
-      "round": 7,
-      "ms_per_op": 247.4039,
-      "iters": 9,
-      "jit": null,
-      "load": [
-        26.97,
-        11.96,
-        7.12
+        8.8,
+        9.19,
+        11.2
       ]
     },
     {
       "engine": "php",
-      "revision": "after",
+      "revision": "before",
       "sections": 128,
-      "round": 7,
-      "ms_per_op": 168.8963,
-      "iters": 16,
+      "round": 0,
+      "ms_per_op": 360.15,
+      "iters": 14,
       "jit": true,
       "load": [
-        25.21,
-        11.84,
-        7.1
-      ]
-    },
-    {
-      "engine": "php",
-      "revision": "before",
-      "sections": 128,
-      "round": 7,
-      "ms_per_op": 151.7903,
-      "iters": 16,
-      "jit": true,
-      "load": [
-        23.91,
-        11.79,
-        7.11
+        8.67,
+        9.15,
+        11.16
       ]
     },
     {
       "engine": "php",
       "revision": "after",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 385.718,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        8.44,
+        9.08,
+        11.1
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
       "sections": 512,
-      "round": 7,
-      "ms_per_op": 577.499,
+      "round": 0,
+      "ms_per_op": 1602.9308,
       "iters": 3,
       "jit": true,
       "load": [
-        22.72,
-        11.75,
-        7.12
+        10.83,
+        9.56,
+        11.24
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 1193.6641,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        9.77,
+        9.37,
+        11.16
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 23.822,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        9.77,
+        9.37,
+        11.16
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 0,
+      "ms_per_op": 24.9838,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        9.23,
+        9.27,
+        11.12
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 225.227,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        9.18,
+        9.26,
+        11.09
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 0,
+      "ms_per_op": 221.9272,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        11.64,
+        9.8,
+        11.24
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 514.2593,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        17.09,
+        11.2,
+        11.66
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 382.9234,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        17.68,
+        11.82,
+        11.85
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 249.5571,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        18.61,
+        12.22,
+        11.98
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 272.0949,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        17.52,
+        12.1,
+        11.94
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 145.7971,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        16.92,
+        12.07,
+        11.93
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 151.9754,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        15.97,
+        11.95,
+        11.9
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 572.1231,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        15.41,
+        11.9,
+        11.88
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 647.0416,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        15.21,
+        11.92,
+        11.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 13.8842,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        15.21,
+        11.92,
+        11.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 1,
+      "ms_per_op": 12.6683,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        15.21,
+        11.92,
+        11.89
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 59.129,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        14.88,
+        11.9,
+        11.88
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 1,
+      "ms_per_op": 67.6282,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        14.41,
+        11.86,
+        11.87
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 67.6528,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        14.05,
+        11.82,
+        11.86
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 71.1713,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        13.49,
+        11.74,
+        11.83
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 254.9275,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        13.13,
+        11.7,
+        11.81
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 248.6657,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        13.04,
+        11.7,
+        11.82
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 127.0657,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        12.23,
+        11.56,
+        11.77
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 159.8261,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        11.89,
+        11.5,
+        11.75
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 544.243,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        11.74,
+        11.47,
+        11.74
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 528.7703,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        11.6,
+        11.45,
+        11.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 9.8738,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        11.6,
+        11.45,
+        11.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 2,
+      "ms_per_op": 13.5564,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        11.6,
+        11.45,
+        11.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 59.681,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        13.72,
+        11.89,
+        11.87
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 2,
+      "ms_per_op": 49.7793,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        13.18,
+        11.81,
+        11.84
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 59.9743,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        12.68,
+        11.73,
+        11.82
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 78.9344,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        12.23,
+        11.65,
+        11.79
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 306.6358,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        12.69,
+        11.76,
+        11.82
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 323.9756,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        12.62,
+        11.77,
+        11.83
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 213.1268,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        13.29,
+        11.92,
+        11.88
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 226.9105,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        13.34,
+        11.95,
+        11.89
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 777.6522,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        14.04,
+        12.12,
+        11.94
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 601.7712,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        16.6,
+        12.68,
+        12.12
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 11.5689,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        15.83,
+        12.59,
+        12.1
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 3,
+      "ms_per_op": 14.2737,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        15.83,
+        12.59,
+        12.1
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 58.8178,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        15.52,
+        12.58,
+        12.1
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 3,
+      "ms_per_op": 53.7449,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        15.52,
+        12.58,
+        12.1
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 64.4645,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        15.08,
+        12.54,
+        12.08
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 63.3322,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        14.59,
+        12.48,
+        12.07
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 252.5634,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        14.03,
+        12.43,
+        12.06
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 290.8663,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        13.54,
+        12.35,
+        12.03
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 157.3998,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        13.02,
+        12.26,
+        12.01
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 167.0956,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        12.7,
+        12.21,
+        11.99
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 791.4594,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        12.48,
+        12.17,
+        11.98
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 714.7459,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        12.44,
+        12.17,
+        11.98
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 13.5054,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        12.44,
+        12.17,
+        11.98
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 4,
+      "ms_per_op": 14.1839,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        12.33,
+        12.15,
+        11.97
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 68.0137,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        12.33,
+        12.15,
+        11.97
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 4,
+      "ms_per_op": 78.0616,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        13.18,
+        12.33,
+        12.03
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 103.5641,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        14.33,
+        12.6,
+        12.13
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 80.5726,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        14.06,
+        12.57,
+        12.12
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 384.4923,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        14.46,
+        12.7,
+        12.17
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 256.9548,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        14.18,
+        12.68,
+        12.16
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 159.8938,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        13.53,
+        12.57,
+        12.13
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 313.231,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        12.84,
+        12.44,
+        12.09
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 3447.34,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        18.71,
+        13.86,
+        12.57
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 3170.8073,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        19.07,
+        14.27,
+        12.73
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 56.8014,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        17.67,
+        14.13,
+        12.7
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 5,
+      "ms_per_op": 60.8071,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        19.31,
+        14.59,
+        12.87
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 314.931,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        20.64,
+        15.11,
+        13.07
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 5,
+      "ms_per_op": 246.463,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        20.55,
+        15.38,
+        13.19
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 423.5374,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        24.91,
+        17.12,
+        13.86
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 105.0136,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        23.6,
+        17.1,
+        13.89
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 310.9419,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        23.48,
+        17.28,
+        13.98
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 323.0125,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        22.64,
+        17.21,
+        13.98
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 196.0055,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        21.63,
+        17.09,
+        13.96
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 202.0568,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        21.97,
+        17.32,
+        14.06
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 858.1868,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        22.21,
+        17.44,
+        14.12
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 857.3448,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        22.27,
+        17.54,
+        14.17
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 17.2053,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        24.97,
+        18.17,
+        14.4
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 128,
+      "round": 6,
+      "ms_per_op": 15.2866,
+      "iters": 132,
+      "jit": null,
+      "load": [
+        24.97,
+        18.17,
+        14.4
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "before",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 64.9062,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        24.02,
+        18.09,
+        14.39
+      ]
+    },
+    {
+      "engine": "rs",
+      "revision": "after",
+      "sections": 512,
+      "round": 6,
+      "ms_per_op": 66.3523,
+      "iters": 36,
+      "jit": null,
+      "load": [
+        23.37,
+        18.05,
+        14.4
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 64.8876,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        22.46,
+        17.95,
+        14.38
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 75.2241,
+      "iters": 30,
+      "jit": null,
+      "load": [
+        21.46,
+        17.82,
+        14.36
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "after",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 256.0808,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        20.47,
+        17.67,
+        14.33
+      ]
+    },
+    {
+      "engine": "js",
+      "revision": "before",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 536.1994,
+      "iters": 8,
+      "jit": null,
+      "load": [
+        22.06,
+        18.09,
+        14.5
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 431.5762,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        24.46,
+        18.74,
+        14.75
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "before",
+      "sections": 128,
+      "round": 7,
+      "ms_per_op": 413.6109,
+      "iters": 14,
+      "jit": true,
+      "load": [
+        25.71,
+        19.19,
+        14.94
+      ]
+    },
+    {
+      "engine": "php",
+      "revision": "after",
+      "sections": 512,
+      "round": 7,
+      "ms_per_op": 1286.0785,
+      "iters": 3,
+      "jit": true,
+      "load": [
+        28.33,
+        19.98,
+        15.24
       ]
     },
     {
@@ -1855,13 +1888,13 @@
       "revision": "before",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 518.4511,
+      "ms_per_op": 1505.8284,
       "iters": 3,
       "jit": true,
       "load": [
-        21.46,
-        11.67,
-        7.12
+        29.7,
+        20.55,
+        15.48
       ]
     },
     {
@@ -1869,13 +1902,13 @@
       "revision": "after",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 9.9805,
-      "iters": 190,
+      "ms_per_op": 18.5808,
+      "iters": 132,
       "jit": null,
       "load": [
-        21.46,
-        11.67,
-        7.12
+        29.7,
+        20.55,
+        15.48
       ]
     },
     {
@@ -1883,13 +1916,13 @@
       "revision": "before",
       "sections": 128,
       "round": 7,
-      "ms_per_op": 10.0618,
-      "iters": 190,
+      "ms_per_op": 19.8656,
+      "iters": 132,
       "jit": null,
       "load": [
-        20.14,
-        11.56,
-        7.11
+        28.76,
+        20.51,
+        15.49
       ]
     },
     {
@@ -1897,13 +1930,13 @@
       "revision": "after",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 46.7165,
-      "iters": 39,
+      "ms_per_op": 77.8694,
+      "iters": 36,
       "jit": null,
       "load": [
-        20.14,
-        11.56,
-        7.11
+        29.1,
+        20.72,
+        15.59
       ]
     },
     {
@@ -1911,13 +1944,13 @@
       "revision": "before",
       "sections": 512,
       "round": 7,
-      "ms_per_op": 45.9586,
-      "iters": 39,
+      "ms_per_op": 68.7233,
+      "iters": 36,
       "jit": null,
       "load": [
-        18.85,
-        11.43,
-        7.09
+        29.1,
+        20.72,
+        15.59
       ]
     }
   ],
@@ -1925,115 +1958,115 @@
     {
       "engine": "js",
       "sections": 128,
-      "before_ms": 49.5,
-      "after_ms": 53.8523,
-      "paired_change_percent": 6.124747506208972,
-      "min_paired_change_percent": -6.672565281788511,
-      "max_paired_change_percent": 13.046799070583726,
+      "before_ms": 77.07925,
+      "after_ms": 68.02945,
+      "paired_change_percent": 1.7221744313335952,
+      "min_paired_change_percent": -75.20558987234658,
+      "max_paired_change_percent": 34.29821734581904,
       "paired_changes_percent": [
-        10.217656109757645,
-        12.373488379673404,
-        2.031838902660299,
-        -0.46980679367156775,
-        -5.952406126187782,
-        13.046799070583726,
-        -6.672565281788511,
-        10.97922325647891
+        7.715862794059669,
+        34.29821734581904,
+        5.20081947827733,
+        -24.020072363886968,
+        -1.7564706156101395,
+        28.535134772863245,
+        -75.20558987234658,
+        -13.74094206510945
       ]
     },
     {
       "engine": "js",
       "sections": 512,
-      "before_ms": 193.45315,
-      "after_ms": 199.0542,
-      "paired_change_percent": 4.4994439447083145,
-      "min_paired_change_percent": -3.692544517667984,
-      "max_paired_change_percent": 144.32027951054934,
+      "before_ms": 264.52485,
+      "after_ms": 298.75105,
+      "paired_change_percent": 0.7128204364338697,
+      "min_paired_change_percent": -52.24149821875965,
+      "max_paired_change_percent": 271.13513365878117,
       "paired_changes_percent": [
-        4.3292748183108465,
-        -2.229841854280945,
-        -0.12322401687302476,
-        5.891306493261439,
-        8.348133145820436,
-        4.669613071105783,
-        -3.692544517667984,
-        144.32027951054934
+        271.13513365878117,
+        -8.283065945006685,
+        -2.456306204705272,
+        -5.352193189857502,
+        15.165657415128253,
+        49.63421582317202,
+        3.8819470775730114,
+        -52.24149821875965
       ]
     },
     {
       "engine": "php",
       "sections": 128,
-      "before_ms": 106.416,
-      "after_ms": 129.348,
-      "paired_change_percent": 10.127579606068448,
-      "min_paired_change_percent": -0.7942810914296827,
-      "max_paired_change_percent": 29.018932070572625,
+      "before_ms": 211.45800000000003,
+      "after_ms": 184.5762,
+      "paired_change_percent": 3.7154190277607912,
+      "min_paired_change_percent": -48.953392224907496,
+      "max_paired_change_percent": 25.782252803077444,
       "paired_changes_percent": [
-        8.985664389345205,
-        5.041743487921324,
-        1.7139615832002741,
-        -0.7942810914296827,
-        18.566681818695407,
-        16.426266807697875,
-        29.018932070572625,
-        11.269494822791692
+        7.099264195474109,
+        -4.065328994034568,
+        25.782252803077444,
+        -6.074509553326091,
+        6.159982414208898,
+        -48.953392224907496,
+        3.087311325447506,
+        4.3435267300740765
       ]
     },
     {
       "engine": "php",
       "sections": 512,
-      "before_ms": 456.67915,
-      "after_ms": 481.70975,
-      "paired_change_percent": 4.833758567917834,
-      "min_paired_change_percent": -2.2847606180378954,
-      "max_paired_change_percent": 23.312552207123783,
+      "before_ms": 824.8231,
+      "after_ms": 817.4984999999999,
+      "paired_change_percent": -6.267820174151067,
+      "min_paired_change_percent": -25.532399776709024,
+      "max_paired_change_percent": 29.227221242890987,
       "paired_changes_percent": [
-        9.911557540716442,
-        2.3715338584320067,
-        3.052662477517032,
-        4.543662326697762,
-        5.123854809137907,
-        -2.2847606180378954,
-        23.312552207123783,
-        11.389290137488373
+        -25.532399776709024,
+        -11.578621838224933,
+        -2.8429763910606143,
+        29.227221242890987,
+        -9.692663957241521,
+        8.72120800276952,
+        -0.09811383722051481,
+        -14.593289647080642
       ]
     },
     {
       "engine": "rs",
       "sections": 128,
-      "before_ms": 8.0173,
-      "after_ms": 8.982099999999999,
-      "paired_change_percent": 4.808878440667175,
-      "min_paired_change_percent": -3.8914953283449183,
-      "max_paired_change_percent": 27.672300570567355,
+      "before_ms": 15.7395,
+      "after_ms": 14.73525,
+      "paired_change_percent": -0.795228445268914,
+      "min_paired_change_percent": -18.94953656024717,
+      "max_paired_change_percent": 37.29668415402379,
       "paired_changes_percent": [
-        1.8017036929480534,
-        2.03253654708222,
-        -3.8914953283449183,
-        24.726220906767104,
-        7.58522033425213,
-        12.142544593446747,
-        27.672300570567355,
-        -0.8080065197082043
+        4.877004449668365,
+        9.597972892969064,
+        37.29668415402379,
+        -18.94953656024717,
+        5.0239163593821745,
+        -6.587553098240173,
+        -11.151796248830303,
+        -6.467461340206193
       ]
     },
     {
       "engine": "rs",
       "sections": 512,
-      "before_ms": 41.96695,
-      "after_ms": 40.51195,
-      "paired_change_percent": 0.4784471673767221,
-      "min_paired_change_percent": -6.892546299325963,
-      "max_paired_change_percent": 6.463384805761807,
+      "before_ms": 67.82095000000001,
+      "after_ms": 72.11085,
+      "paired_change_percent": 5.833416732556218,
+      "min_paired_change_percent": -16.591042375295316,
+      "max_paired_change_percent": 27.780234761404344,
       "paired_changes_percent": [
-        -2.8393622994210888,
-        1.4252324638155622,
-        1.6483177339348565,
-        -0.468338129062118,
-        -6.892546299325963,
-        -2.556398825055539,
-        6.463384805761807,
-        1.6490928792435078
+        -1.4650996550147233,
+        -12.567538393747002,
+        -16.591042375295316,
+        9.438849081494238,
+        14.77334713447438,
+        27.780234761404344,
+        2.227984383618198,
+        13.308586752964423
       ]
     }
   ],
