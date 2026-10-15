@@ -1,0 +1,2606 @@
+{
+  "metadata": {
+    "benchmark_base_commit": "b9a35da96530d0a090c748e3cfa79da76340c016",
+    "benchmark_checkout_commit": "b9a35da96530d0a090c748e3cfa79da76340c016",
+    "benchmark_dirty_paths": [
+      ".github/workflows/smoke.yml",
+      "README.md",
+      "RESULTS.md",
+      "scripts/site/build.mjs"
+    ],
+    "benchmark_dirty": true,
+    "started_at": "2026-10-15T12:54:13.003Z",
+    "cpu_affinity": [
+      13
+    ],
+    "load_start": [
+      17.58,
+      19.49,
+      18.62
+    ],
+    "sources": {
+      "previous": {
+        "path": "carve-php-tier1-old",
+        "commit": "cb3dec89cba4bfeb7ea15861c952073ec4825567",
+        "repository": "https://github.com/markup-carve/carve-php",
+        "source_sha256": "192624c63811a3442437cadfcccd7c03f80c852e5bf290ed27371f279104d09e"
+      },
+      "published": {
+        "path": "carve-2962-final-main-php",
+        "commit": "967f253974433dbc53534df74b7abeae10f26458",
+        "repository": "https://github.com/markup-carve/carve-php",
+        "source_sha256": "258aa9d761cbca9939f18b41f01a19ef93f41719a0876528c551d47efebb1af2"
+      }
+    },
+    "input": "corpus/comparison/carve.crv",
+    "input_sha256": "9e17569764af6cbdf23c9a5e70439b4dfc87fbe24dbcb022eb4c4577533119d5",
+    "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "flags": [
+      "-n",
+      "-d",
+      "extension=ctype",
+      "-d",
+      "extension=mbstring",
+      "-d",
+      "memory_limit=512M",
+      "-d",
+      "opcache.enable_cli=1",
+      "-d",
+      "opcache.jit_buffer_size=128M",
+      "-d",
+      "opcache.jit=tracing"
+    ],
+    "harness_sha256": {
+      "scripts/php-tier-pairs.mjs": "c86647729705e5a24a1f2e23f21878ee5b3671213cad70de7be897c60e99dd33",
+      "scripts/php-tier-control.php": "8033a812ccc6bf0daa5324c6a27c523aa4c861c5b49ba8b77a8ce2dda90b2ed1",
+      "scripts/php-tier-results.mjs": "e52f0f2877eb6879feda83d2d118f5bbf13744360c3147855521ead6d7008ad1",
+      "scripts/benchmark-metadata.mjs": "8fcb099b1f8183aed318259c7e6691eea89bebbef0dbe28fb406a7a20a9ee8b2",
+      "scripts/public_report.py": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+      "engines/php/tiers.php": "63e12e8fd22fc49dfe21abe94aa4c791bd12d79170d9e39dd5fd255be4cd05ec",
+      "engines/php/carve-src.php": "e65982e185204b2f1ffc47cd9d541c69ed58ca7c07fd053d1c7581b62909a9d9",
+      "engines/php/composer.lock": "448e6051e7673aab6df25fb129a9d3796a8e03bdb22ec5f239a6b49fd1fc59fc",
+      "engines/php/vendor/composer/ClassLoader.php": "d4b2313e562edf942838ec316d983c1a3459ca67da3e5658e861200b0b3693c2",
+      "engines/php/vendor/composer/installed.php": "f64e007d80b99385683afe4c4db0a2bb6e31b867270eb5df815db47cd8eb31bc"
+    },
+    "method": "Eight process rounds, reversed revision order on alternating rounds and reversed profile order. All revisions share the benchmark Composer loader; loaded Carve classes, traits and interfaces must come from the requested checkout. The existing tier runner configures the converter and performs its startup calls. The appended worker then warms at least 100 conversions and 500 ms before seven batches of forty conversions. It records wall and process CPU time plus the last output hash of each batch. Compare per-round median batch times; affinity does not reserve a CPU.",
+    "load_end": [
+      10.36,
+      16.58,
+      17.66
+    ]
+  },
+  "rows": [
+    {
+      "round": 0,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.790229
+        ],
+        "ms_per_op": 3.790229,
+        "mb_per_s": 12.397017058688522,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.7601928,
+          3.406756825,
+          4.0195991499999995,
+          3.7173804500000003,
+          3.49340045,
+          3.525090975,
+          3.2505722749999997
+        ],
+        "cpu_ms": [
+          3.760299999999998,
+          3.4069500000000006,
+          4.019949999999994,
+          3.7175250000000006,
+          3.4930499999999993,
+          3.5254500000000006,
+          3.2500999999999975
+        ],
+        "warmups": 147,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        16.89,
+        19.32,
+        18.56
+      ]
+    },
+    {
+      "round": 0,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.550435
+        ],
+        "ms_per_op": 3.550435,
+        "mb_per_s": 13.234303280960203,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.5153528,
+          3.57657525,
+          3.8279596750000002,
+          3.85231505,
+          3.390602,
+          3.42207535,
+          3.489079025
+        ],
+        "cpu_ms": [
+          3.5155000000000003,
+          3.5762500000000017,
+          3.828050000000002,
+          3.852374999999995,
+          3.3906499999999995,
+          3.4221499999999994,
+          3.488974999999999
+        ],
+        "warmups": 148,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        16.89,
+        19.32,
+        18.56
+      ]
+    },
+    {
+      "round": 0,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.088665
+        ],
+        "ms_per_op": 4.088665,
+        "mb_per_s": 11.492145619495835,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.62575315,
+          3.541694675,
+          3.579511075,
+          3.953485175,
+          3.5441959249999995,
+          3.5817027250000004,
+          3.7318613999999997
+        ],
+        "cpu_ms": [
+          3.6259000000000015,
+          3.541550000000001,
+          3.579449999999997,
+          3.9531000000000005,
+          3.5442499999999995,
+          3.5814999999999997,
+          3.732024999999999
+        ],
+        "warmups": 133,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        16.89,
+        19.32,
+        18.56
+      ]
+    },
+    {
+      "round": 0,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.295893
+        ],
+        "ms_per_op": 3.295893,
+        "mb_per_s": 14.256389260614934,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.565452425,
+          3.4980898500000004,
+          3.52786625,
+          3.4393260499999996,
+          3.7471794000000003,
+          3.87916265,
+          3.8632941
+        ],
+        "cpu_ms": [
+          3.5653250000000014,
+          3.4981250000000017,
+          3.5279500000000015,
+          3.4392749999999976,
+          3.747225000000003,
+          3.87835,
+          3.8630750000000034
+        ],
+        "warmups": 131,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        15.94,
+        19.08,
+        18.49
+      ]
+    },
+    {
+      "round": 0,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.563523
+        ],
+        "ms_per_op": 4.563523,
+        "mb_per_s": 10.296328860254663,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.2413507,
+          4.971310325,
+          4.464630875,
+          4.462354825,
+          4.387606475,
+          4.782363200000001,
+          4.26917665
+        ],
+        "cpu_ms": [
+          4.241449999999998,
+          4.970750000000001,
+          4.464675,
+          4.462400000000002,
+          4.387524999999999,
+          4.781324999999993,
+          4.268949999999995
+        ],
+        "warmups": 118,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        15.94,
+        19.08,
+        18.49
+      ]
+    },
+    {
+      "round": 0,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.243291
+        ],
+        "ms_per_op": 5.243291,
+        "mb_per_s": 8.961458284374439,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.493617275,
+          4.965520875,
+          5.4808978,
+          4.395872649999999,
+          4.4411038,
+          4.23033635,
+          3.9543353000000003
+        ],
+        "cpu_ms": [
+          4.493349999999998,
+          4.965024999999997,
+          5.480975000000001,
+          4.395800000000003,
+          4.4411749999999985,
+          4.229575,
+          3.9540000000000077
+        ],
+        "warmups": 105,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        15.94,
+        19.08,
+        18.49
+      ]
+    },
+    {
+      "round": 1,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.721183
+        ],
+        "ms_per_op": 4.721183,
+        "mb_per_s": 9.952491477101383,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.1789592749999995,
+          4.223935725,
+          4.0505603,
+          4.0839631,
+          4.3863355749999995,
+          4.053645175,
+          4.2386571250000005
+        ],
+        "cpu_ms": [
+          4.178424999999999,
+          4.224000000000001,
+          4.050375,
+          4.084025000000002,
+          4.386150000000003,
+          4.053675000000004,
+          4.238274999999999
+        ],
+        "warmups": 116,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.98,
+        18.83,
+        18.41
+      ]
+    },
+    {
+      "round": 1,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.128219
+        ],
+        "ms_per_op": 4.128219,
+        "mb_per_s": 11.38203510262802,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          3.9970144,
+          4.787882175,
+          4.275120425,
+          4.02359175,
+          4.084088100000001,
+          3.93382195,
+          4.510318175
+        ],
+        "cpu_ms": [
+          3.997149999999999,
+          4.787649999999997,
+          4.274775,
+          4.0237000000000025,
+          4.084024999999997,
+          3.933600000000001,
+          4.510424999999998
+        ],
+        "warmups": 122,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.98,
+        18.83,
+        18.41
+      ]
+    },
+    {
+      "round": 1,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.166508
+        ],
+        "ms_per_op": 3.166508,
+        "mb_per_s": 14.838912003170666,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.224875,
+          3.5307249499999998,
+          3.407376825,
+          3.433314425,
+          3.6661224,
+          3.6269427,
+          3.4181234000000003
+        ],
+        "cpu_ms": [
+          4.224874999999997,
+          3.530525,
+          3.407050000000001,
+          3.4333750000000007,
+          3.665949999999998,
+          3.626999999999998,
+          3.418150000000003
+        ],
+        "warmups": 119,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.74,
+        18.72,
+        18.38
+      ]
+    },
+    {
+      "round": 1,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.963086
+        ],
+        "ms_per_op": 3.963086,
+        "mb_per_s": 11.85629924996226,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.572351775,
+          3.596009375,
+          3.585539275,
+          4.1879288,
+          3.66933875,
+          3.8482541500000003,
+          4.61358755
+        ],
+        "cpu_ms": [
+          3.572524999999999,
+          3.5960499999999995,
+          3.5854749999999966,
+          4.187774999999999,
+          3.669200000000001,
+          3.8481250000000045,
+          4.613400000000001
+        ],
+        "warmups": 137,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.74,
+        18.72,
+        18.38
+      ]
+    },
+    {
+      "round": 1,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          7.401239
+        ],
+        "ms_per_op": 7.401239,
+        "mb_per_s": 6.348603736392776,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.9631953500000003,
+          3.672205425,
+          3.2718801749999997,
+          3.909112925,
+          4.2670544249999995,
+          4.242266475,
+          4.894419225
+        ],
+        "cpu_ms": [
+          3.9633249999999975,
+          3.6722750000000017,
+          3.2717250000000035,
+          3.9084499999999993,
+          4.26685,
+          4.2423750000000044,
+          4.894174999999995
+        ],
+        "warmups": 100,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.74,
+        18.72,
+        18.38
+      ]
+    },
+    {
+      "round": 1,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.524305
+        ],
+        "ms_per_op": 3.524305,
+        "mb_per_s": 13.332425419858932,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.656098325,
+          4.18672975,
+          4.231518375,
+          5.224067375,
+          4.570632175,
+          4.04475785,
+          4.386513925
+        ],
+        "cpu_ms": [
+          4.6549999999999985,
+          4.186774999999997,
+          4.231624999999997,
+          5.223950000000002,
+          4.5701999999999945,
+          4.044425000000001,
+          4.386000000000001
+        ],
+        "warmups": 108,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.68,
+        18.64,
+        18.35
+      ]
+    },
+    {
+      "round": 2,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.59651
+        ],
+        "ms_per_op": 5.59651,
+        "mb_per_s": 8.395863416546371,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.11424195,
+          3.6421535,
+          3.841293975,
+          3.9480960250000003,
+          4.168354975,
+          3.7139174500000003,
+          3.4292770500000005
+        ],
+        "cpu_ms": [
+          4.113849999999999,
+          3.6421999999999968,
+          3.8414250000000036,
+          3.947974999999997,
+          4.168074999999999,
+          3.7139999999999986,
+          3.4293000000000005
+        ],
+        "warmups": 124,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.68,
+        18.64,
+        18.35
+      ]
+    },
+    {
+      "round": 2,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.376175
+        ],
+        "ms_per_op": 3.376175,
+        "mb_per_s": 13.917386856231072,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.3580859750000003,
+          3.658840875,
+          3.522863075,
+          3.22894735,
+          3.129780525,
+          3.256837675,
+          3.882809375
+        ],
+        "cpu_ms": [
+          3.3575500000000007,
+          3.6589,
+          3.522375000000005,
+          3.229000000000002,
+          3.129875000000004,
+          3.256925000000001,
+          3.883125000000001
+        ],
+        "warmups": 150,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.68,
+        18.64,
+        18.35
+      ]
+    },
+    {
+      "round": 2,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.103673
+        ],
+        "ms_per_op": 4.103673,
+        "mb_per_s": 11.450116412622531,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.486511975,
+          3.76211175,
+          3.72014275,
+          4.0352128,
+          3.551322475,
+          3.6245274000000003,
+          3.621554775
+        ],
+        "cpu_ms": [
+          3.4864250000000028,
+          3.7622000000000013,
+          3.719225000000003,
+          4.035250000000002,
+          3.5503250000000035,
+          3.6245749999999988,
+          3.6216250000000003
+        ],
+        "warmups": 130,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.15,
+        18.46,
+        18.3
+      ]
+    },
+    {
+      "round": 2,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.734995
+        ],
+        "ms_per_op": 3.734995,
+        "mb_per_s": 12.58034711407537,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.654057075,
+          3.49996845,
+          3.4891627499999998,
+          3.727933025,
+          3.563885775,
+          3.9098808750000003,
+          3.8456825500000003
+        ],
+        "cpu_ms": [
+          3.654249999999999,
+          3.500049999999999,
+          3.4891250000000014,
+          3.7280249999999966,
+          3.5632000000000006,
+          3.9099500000000034,
+          3.845175000000006
+        ],
+        "warmups": 136,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.15,
+        18.46,
+        18.3
+      ]
+    },
+    {
+      "round": 2,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.374816
+        ],
+        "ms_per_op": 4.374816,
+        "mb_per_s": 10.74045938602582,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.1987115,
+          4.215511575,
+          4.026855975,
+          4.19166615,
+          4.27123485,
+          4.15072835,
+          4.110542225
+        ],
+        "cpu_ms": [
+          4.198675,
+          4.215299999999999,
+          4.0269,
+          4.191525000000001,
+          4.2710750000000015,
+          4.150425000000007,
+          4.109950000000003
+        ],
+        "warmups": 117,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        14.15,
+        18.46,
+        18.3
+      ]
+    },
+    {
+      "round": 2,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.208636
+        ],
+        "ms_per_op": 5.208636,
+        "mb_per_s": 9.021082212182986,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.42307725,
+          4.2036598750000005,
+          4.0993588,
+          4.03206635,
+          4.076412100000001,
+          4.465079025,
+          4.116654325
+        ],
+        "cpu_ms": [
+          4.4229249999999976,
+          4.203775000000002,
+          4.0992750000000004,
+          4.031625000000003,
+          4.076124999999996,
+          4.4651749999999995,
+          4.116249999999996
+        ],
+        "warmups": 126,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        13.74,
+        18.3,
+        18.25
+      ]
+    },
+    {
+      "round": 3,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.455944
+        ],
+        "ms_per_op": 5.455944,
+        "mb_per_s": 8.612172993222792,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.0265727,
+          3.96079535,
+          4.100534775,
+          4.197452125,
+          4.290794925,
+          3.95060555,
+          4.604392175
+        ],
+        "cpu_ms": [
+          4.026425000000001,
+          3.9608750000000015,
+          4.0999500000000015,
+          4.197100000000001,
+          4.2908249999999954,
+          3.9502250000000005,
+          4.604199999999997
+        ],
+        "warmups": 120,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        13.74,
+        18.3,
+        18.25
+      ]
+    },
+    {
+      "round": 3,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.316576
+        ],
+        "ms_per_op": 4.316576,
+        "mb_per_s": 10.885371546646214,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.034315125,
+          4.0585112,
+          3.928675775,
+          4.109359525,
+          4.1978183,
+          4.0015811,
+          3.9269505000000002
+        ],
+        "cpu_ms": [
+          4.034225000000001,
+          4.058050000000003,
+          3.9287250000000027,
+          4.109174999999999,
+          4.19785,
+          4.0016250000000015,
+          3.926699999999994
+        ],
+        "warmups": 122,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        13.2,
+        18.12,
+        18.19
+      ]
+    },
+    {
+      "round": 3,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.159539
+        ],
+        "ms_per_op": 4.159539,
+        "mb_per_s": 11.29633201403712,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.6636319999999998,
+          3.6375773750000002,
+          4.02776445,
+          4.5416854,
+          4.69196155,
+          5.14887225,
+          5.4497374
+        ],
+        "cpu_ms": [
+          3.6634499999999974,
+          3.6375499999999987,
+          4.027575000000004,
+          4.541149999999999,
+          4.691499999999996,
+          5.148924999999997,
+          5.449625000000003
+        ],
+        "warmups": 123,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        13.2,
+        18.12,
+        18.19
+      ]
+    },
+    {
+      "round": 3,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.572821
+        ],
+        "ms_per_op": 4.572821,
+        "mb_per_s": 10.275393147760635,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          5.8939751000000005,
+          4.737236575,
+          3.9828524,
+          3.76795385,
+          3.4944928500000003,
+          3.402266925,
+          4.212602075
+        ],
+        "cpu_ms": [
+          5.8942499999999995,
+          4.737350000000004,
+          3.982574999999997,
+          3.7680499999999997,
+          3.4943249999999977,
+          3.4023249999999963,
+          4.212625000000003
+        ],
+        "warmups": 103,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        13.2,
+        18.12,
+        18.19
+      ]
+    },
+    {
+      "round": 3,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.21491
+        ],
+        "ms_per_op": 3.21491,
+        "mb_per_s": 14.615505121243187,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.7452092749999997,
+          3.4960438000000003,
+          3.757081275,
+          4.213201975,
+          3.96146265,
+          4.71802795,
+          4.863066925
+        ],
+        "cpu_ms": [
+          3.745325,
+          3.4961250000000006,
+          3.7569999999999992,
+          4.212799999999999,
+          3.961799999999994,
+          4.717424999999997,
+          4.8630999999999975
+        ],
+        "warmups": 134,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        12.78,
+        17.95,
+        18.13
+      ]
+    },
+    {
+      "round": 3,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.246804
+        ],
+        "ms_per_op": 4.246804,
+        "mb_per_s": 11.064210537932983,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.6027234,
+          3.6172230749999996,
+          3.7885258,
+          3.8510267249999997,
+          3.960273625,
+          3.77422925,
+          4.20073535
+        ],
+        "cpu_ms": [
+          3.602175,
+          3.6172750000000007,
+          3.7885999999999966,
+          3.850875000000002,
+          3.960050000000001,
+          3.7739000000000034,
+          4.200824999999997
+        ],
+        "warmups": 146,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        12.78,
+        17.95,
+        18.13
+      ]
+    },
+    {
+      "round": 4,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.677801
+        ],
+        "ms_per_op": 4.677801,
+        "mb_per_s": 10.044791039493973,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.297223375,
+          4.200376425,
+          4.06359935,
+          4.07044205,
+          3.8437536999999997,
+          4.0958492,
+          3.685287775
+        ],
+        "cpu_ms": [
+          4.296175,
+          4.199225000000001,
+          4.063674999999995,
+          4.070499999999998,
+          3.843624999999997,
+          4.095574999999997,
+          3.685349999999994
+        ],
+        "warmups": 124,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        12.78,
+        17.95,
+        18.13
+      ]
+    },
+    {
+      "round": 4,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.335809
+        ],
+        "ms_per_op": 3.335809,
+        "mb_per_s": 14.085798548219019,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.187730325,
+          3.228250325,
+          3.4687553749999998,
+          3.5516962249999997,
+          3.5447866249999995,
+          3.7691375999999996,
+          3.7365654
+        ],
+        "cpu_ms": [
+          3.1878750000000027,
+          3.2277999999999993,
+          3.4685999999999977,
+          3.551650000000001,
+          3.5448500000000025,
+          3.7692000000000005,
+          3.7364499999999965
+        ],
+        "warmups": 145,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        12.08,
+        17.72,
+        18.06
+      ]
+    },
+    {
+      "round": 4,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.101749
+        ],
+        "ms_per_op": 4.101749,
+        "mb_per_s": 11.455487298061373,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.6812766,
+          5.178372925,
+          5.834127525,
+          5.6431127,
+          5.303669,
+          4.487499574999999,
+          5.452127975
+        ],
+        "cpu_ms": [
+          4.6815,
+          5.178174999999999,
+          5.833100000000002,
+          5.642624999999998,
+          5.303199999999999,
+          4.4874249999999964,
+          5.451825000000002
+        ],
+        "warmups": 107,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        12.08,
+        17.72,
+        18.06
+      ]
+    },
+    {
+      "round": 4,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.495395
+        ],
+        "ms_per_op": 4.495395,
+        "mb_per_s": 10.452370385546974,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.343772825,
+          4.93631495,
+          4.13229925,
+          4.3706950749999995,
+          3.820090125,
+          3.81239955,
+          4.787529375
+        ],
+        "cpu_ms": [
+          4.343725000000001,
+          4.935824999999994,
+          4.132024999999999,
+          4.370500000000004,
+          3.8201750000000003,
+          3.812574999999998,
+          4.7874000000000025
+        ],
+        "warmups": 114,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.99,
+        17.6,
+        18.02
+      ]
+    },
+    {
+      "round": 4,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.873064
+        ],
+        "ms_per_op": 5.873064,
+        "mb_per_s": 8.000514479211523,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.95960655,
+          5.054671375,
+          5.213832625,
+          5.1016346,
+          5.4695317,
+          4.661931475,
+          4.458293725
+        ],
+        "cpu_ms": [
+          4.959449999999999,
+          5.054124999999999,
+          5.213325000000003,
+          5.101699999999999,
+          5.469274999999999,
+          4.661624999999998,
+          4.458349999999996
+        ],
+        "warmups": 100,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.99,
+        17.6,
+        18.02
+      ]
+    },
+    {
+      "round": 4,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.817816
+        ],
+        "ms_per_op": 4.817816,
+        "mb_per_s": 9.752870090791333,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.517046775,
+          4.7090063749999995,
+          4.7966559250000005,
+          4.7428783,
+          5.112156025,
+          5.4539740000000005,
+          6.514525600000001
+        ],
+        "cpu_ms": [
+          4.516600000000002,
+          4.708175,
+          4.796375,
+          4.742975000000001,
+          5.111950000000002,
+          5.453750000000002,
+          6.514149999999995
+        ],
+        "warmups": 100,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.99,
+        17.6,
+        18.02
+      ]
+    },
+    {
+      "round": 5,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          7.893201
+        ],
+        "ms_per_op": 7.893201,
+        "mb_per_s": 5.95291233168089,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.976577725,
+          5.120281674999999,
+          6.12653795,
+          5.29164475,
+          4.759755525,
+          4.7413975,
+          5.09955665
+        ],
+        "cpu_ms": [
+          4.9762999999999975,
+          5.120475000000002,
+          6.126375000000001,
+          5.291174999999998,
+          4.759074999999996,
+          4.741250000000003,
+          5.099599999999993
+        ],
+        "warmups": 100,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.83,
+        17.48,
+        17.98
+      ]
+    },
+    {
+      "round": 5,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.399367
+        ],
+        "ms_per_op": 5.399367,
+        "mb_per_s": 8.70241522188359,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          5.3615922750000005,
+          5.611130675,
+          6.2539598,
+          6.0850097750000005,
+          4.8726436,
+          4.971141675,
+          5.3561842749999995
+        ],
+        "cpu_ms": [
+          5.361750000000001,
+          5.610924999999997,
+          6.253424999999998,
+          6.0851,
+          4.872274999999997,
+          4.971000000000004,
+          5.356225000000018
+        ],
+        "warmups": 100,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.83,
+        17.48,
+        17.98
+      ]
+    },
+    {
+      "round": 5,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.877719
+        ],
+        "ms_per_op": 4.877719,
+        "mb_per_s": 9.63309562714374,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.55781905,
+          3.8724561,
+          3.7501506749999995,
+          4.237214,
+          3.9893555249999997,
+          4.3431752,
+          5.331650825
+        ],
+        "cpu_ms": [
+          4.557849999999999,
+          3.8722000000000008,
+          3.7500500000000043,
+          4.237375000000003,
+          3.988725000000005,
+          4.343225000000001,
+          5.331524999999999
+        ],
+        "warmups": 100,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.84,
+        17.39,
+        17.94
+      ]
+    },
+    {
+      "round": 5,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.448377
+        ],
+        "ms_per_op": 4.448377,
+        "mb_per_s": 10.562848780428444,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.74570875,
+          3.747723825,
+          4.3112029,
+          3.85796315,
+          4.101850375,
+          3.860675775,
+          4.13505475
+        ],
+        "cpu_ms": [
+          3.745675,
+          3.7475749999999977,
+          4.310900000000004,
+          3.8579999999999983,
+          4.101325000000003,
+          3.860749999999996,
+          4.1351499999999985
+        ],
+        "warmups": 129,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.84,
+        17.39,
+        17.94
+      ]
+    },
+    {
+      "round": 5,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.705209
+        ],
+        "ms_per_op": 3.705209,
+        "mb_per_s": 12.68147992983282,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.6564334250000003,
+          3.557105525,
+          3.5756113249999997,
+          3.7963236250000003,
+          3.7453794,
+          3.566872775,
+          3.50588325
+        ],
+        "cpu_ms": [
+          3.656575000000001,
+          3.5571750000000035,
+          3.575499999999997,
+          3.7963499999999955,
+          3.7451499999999953,
+          3.5668000000000006,
+          3.5055500000000053
+        ],
+        "warmups": 125,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.38,
+        17.2,
+        17.88
+      ]
+    },
+    {
+      "round": 5,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.699447
+        ],
+        "ms_per_op": 3.699447,
+        "mb_per_s": 12.701231716344614,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.4031358750000003,
+          3.7339121749999995,
+          3.616361525,
+          4.16315325,
+          3.53594145,
+          3.39057435,
+          3.3376195
+        ],
+        "cpu_ms": [
+          3.402799999999999,
+          3.7338000000000022,
+          3.6164249999999982,
+          4.163350000000003,
+          3.536099999999999,
+          3.390699999999998,
+          3.3374750000000004
+        ],
+        "warmups": 141,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.38,
+        17.2,
+        17.88
+      ]
+    },
+    {
+      "round": 6,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.453961
+        ],
+        "ms_per_op": 5.453961,
+        "mb_per_s": 8.615304284232312,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.8118843499999997,
+          5.102930825,
+          6.9523184,
+          4.036522375,
+          3.8404740250000002,
+          3.8711521500000003,
+          4.056685075
+        ],
+        "cpu_ms": [
+          3.8120249999999998,
+          4.940375,
+          6.803450000000003,
+          4.036825000000005,
+          3.8403750000000003,
+          3.8712499999999976,
+          4.0565
+        ],
+        "warmups": 133,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.38,
+        17.2,
+        17.88
+      ]
+    },
+    {
+      "round": 6,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.183695
+        ],
+        "ms_per_op": 4.183695,
+        "mb_per_s": 11.23110876135472,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.751374775,
+          3.706897525,
+          3.7057413250000004,
+          4.01860795,
+          3.6477347,
+          3.5918673750000005,
+          3.868640625
+        ],
+        "cpu_ms": [
+          3.7515500000000004,
+          3.7062749999999993,
+          3.7058499999999954,
+          4.017700000000002,
+          3.647825,
+          3.591950000000003,
+          3.8685750000000043
+        ],
+        "warmups": 123,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.19,
+        17.06,
+        17.83
+      ]
+    },
+    {
+      "round": 6,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          7.075011
+        ],
+        "ms_per_op": 7.075011,
+        "mb_per_s": 6.641337175212298,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.6774066750000003,
+          3.49785355,
+          3.5864461249999997,
+          3.5227604999999995,
+          3.5049612750000003,
+          3.63770545,
+          3.4297563250000005
+        ],
+        "cpu_ms": [
+          3.6773500000000015,
+          3.4978000000000007,
+          3.5862750000000005,
+          3.522199999999998,
+          3.5045499999999947,
+          3.6375,
+          3.429675000000003
+        ],
+        "warmups": 114,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.19,
+        17.06,
+        17.83
+      ]
+    },
+    {
+      "round": 6,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.240138
+        ],
+        "ms_per_op": 3.240138,
+        "mb_per_s": 14.501707510401081,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.4317120250000004,
+          3.595979175,
+          3.428307075,
+          3.4316246,
+          3.3457649750000003,
+          3.4766536500000003,
+          3.45838205
+        ],
+        "cpu_ms": [
+          3.4313500000000006,
+          3.5962249999999982,
+          3.428375,
+          3.4313999999999965,
+          3.3458250000000023,
+          3.4757999999999982,
+          3.4581749999999998
+        ],
+        "warmups": 143,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        11.19,
+        17.06,
+        17.83
+      ]
+    },
+    {
+      "round": 6,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.939913
+        ],
+        "ms_per_op": 3.939913,
+        "mb_per_s": 11.926033282799882,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          4.0371403,
+          4.000210624999999,
+          4.083132675,
+          4.031794925,
+          3.8073974,
+          3.8760186249999995,
+          4.072458975
+        ],
+        "cpu_ms": [
+          4.036575000000002,
+          4.000274999999999,
+          4.082374999999999,
+          4.031824999999998,
+          3.8072749999999984,
+          3.876049999999998,
+          4.072249999999997
+        ],
+        "warmups": 129,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.77,
+        16.88,
+        17.77
+      ]
+    },
+    {
+      "round": 6,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          5.382926
+        ],
+        "ms_per_op": 5.382926,
+        "mb_per_s": 8.728994894103305,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          7.49821245,
+          4.74486185,
+          5.0656307,
+          4.875745275,
+          4.599047675,
+          4.976096125,
+          4.879679749999999
+        ],
+        "cpu_ms": [
+          7.483824999999999,
+          4.744749999999999,
+          5.065100000000001,
+          4.875824999999997,
+          4.598975000000001,
+          4.975925000000006,
+          4.879324999999994
+        ],
+        "warmups": 103,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.77,
+        16.88,
+        17.77
+      ]
+    },
+    {
+      "round": 7,
+      "revision": "published",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          6.670866
+        ],
+        "ms_per_op": 6.670866,
+        "mb_per_s": 7.0436932130454935,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          5.275906775,
+          4.998342525,
+          4.685186075,
+          6.814992075000001,
+          4.9107912,
+          4.05148975,
+          4.0562896
+        ],
+        "cpu_ms": [
+          5.276049999999998,
+          4.997449999999998,
+          4.685200000000004,
+          6.81465,
+          4.908399999999995,
+          4.0512,
+          4.055399999999992
+        ],
+        "warmups": 105,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.77,
+        16.88,
+        17.77
+      ]
+    },
+    {
+      "round": 7,
+      "revision": "previous",
+      "profile": "tier3",
+      "startup": {
+        "profile": "tier3",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.511366
+        ],
+        "ms_per_op": 4.511366,
+        "mb_per_s": 10.415367223438741,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 12,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "a2debc26c41aa33a5bc8b94c2eccb84914855a27e198cfe108dc6009ec53b85c",
+        "output_bytes": 157678,
+        "wall_ms": [
+          3.960533725,
+          4.2644589,
+          3.872572625,
+          3.950502225,
+          4.0501928,
+          4.192219075,
+          4.73573235
+        ],
+        "cpu_ms": [
+          3.9602499999999994,
+          4.264224999999999,
+          3.8724000000000047,
+          3.9504250000000014,
+          4.050299999999998,
+          4.191774999999995,
+          4.735075
+        ],
+        "warmups": 122,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.39,
+        16.7,
+        17.7
+      ]
+    },
+    {
+      "round": 7,
+      "revision": "published",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          3.867445
+        ],
+        "ms_per_op": 3.867445,
+        "mb_per_s": 12.149502725788198,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.710827175,
+          3.7338122749999996,
+          3.655121225,
+          4.044013875,
+          4.10269875,
+          4.6115303249999995,
+          3.7471493000000002
+        ],
+        "cpu_ms": [
+          4.710425000000001,
+          3.73365,
+          3.654649999999998,
+          4.044150000000002,
+          4.102600000000001,
+          4.611600000000005,
+          3.7463750000000005
+        ],
+        "warmups": 135,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.39,
+        16.7,
+        17.7
+      ]
+    },
+    {
+      "round": 7,
+      "revision": "previous",
+      "profile": "tier2",
+      "startup": {
+        "profile": "tier2",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.887398
+        ],
+        "ms_per_op": 4.887398,
+        "mb_per_s": 9.614018250475189,
+        "jit": true,
+        "tier2_extensions": 8,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          4.0404957,
+          4.05960315,
+          4.218027225,
+          4.4260663000000005,
+          5.228037875,
+          4.184864675,
+          3.89929775
+        ],
+        "cpu_ms": [
+          4.040625,
+          4.059199999999999,
+          4.217949999999999,
+          4.4255499999999985,
+          5.2281,
+          4.184524999999996,
+          3.8990999999999985
+        ],
+        "warmups": 127,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.36,
+        16.58,
+        17.66
+      ]
+    },
+    {
+      "round": 7,
+      "revision": "published",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.071802
+        ],
+        "ms_per_op": 4.071802,
+        "mb_per_s": 11.53973930199355,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-2962-final-main-php @ 967f25397)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.4253798000000004,
+          3.5666266,
+          3.4632625500000005,
+          3.5508652499999998,
+          3.296901675,
+          3.551501225,
+          3.68559545
+        ],
+        "cpu_ms": [
+          3.4253499999999972,
+          3.5667,
+          3.463100000000003,
+          3.5509500000000003,
+          3.2966000000000006,
+          3.551574999999997,
+          3.6856749999999976
+        ],
+        "warmups": 127,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.36,
+        16.58,
+        17.66
+      ]
+    },
+    {
+      "round": 7,
+      "revision": "previous",
+      "profile": "tier1",
+      "startup": {
+        "profile": "tier1",
+        "bytes": 49270,
+        "iterations": 1,
+        "trials": 1,
+        "samples": [
+          4.115826
+        ],
+        "ms_per_op": 4.115826,
+        "mb_per_s": 11.416307095911229,
+        "jit": true,
+        "tier2_extensions": 0,
+        "tier3_extensions": 0,
+        "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-tier1-old @ cb3dec89c)"
+      },
+      "control": {
+        "source_file": "src/CarveConverter.php",
+        "output_sha256": "959fbd22d4c089429190eb2b68cbb722f6ab784c7ec11972179d955d8095b4b2",
+        "output_bytes": 134716,
+        "wall_ms": [
+          3.54968025,
+          3.6649806499999995,
+          3.6273240749999998,
+          4.026707325,
+          4.019248975,
+          3.9905335749999997,
+          3.76567315
+        ],
+        "cpu_ms": [
+          3.5498500000000037,
+          3.6650499999999995,
+          3.6272249999999984,
+          4.026849999999996,
+          4.0191250000000025,
+          3.990500000000003,
+          3.765300000000002
+        ],
+        "warmups": 140,
+        "jit_on": true,
+        "memory_limit": "512M"
+      },
+      "host_load": [
+        10.36,
+        16.58,
+        17.66
+      ]
+    }
+  ],
+  "compared_snapshots": {
+    "previous": {
+      "path": "reports/release-before-2962-20261015/dev-main-full.json",
+      "sha256": "89adf2ec4eb97e28c6246a774750b4cc86c94874d501506531ad368fedc7f700",
+      "tier1_ms": 3.3345545999999997
+    },
+    "published": {
+      "path": "reports/dev-main-full.json",
+      "sha256": "a8cf1a2b3c561119fb87e4082bb8047913b5fd2b362b156846c34fa908a4df08",
+      "tier1_ms": 4.6928754
+    }
+  },
+  "summary": [
+    {
+      "profile": "tier1",
+      "metric": "wall_ms",
+      "previous": 3.8149098875,
+      "published": 3.5632382875,
+      "ratio": 0.9306478525569033,
+      "interval95": [
+        0.8742069721440677,
+        1.0112190418198241
+      ]
+    },
+    {
+      "profile": "tier1",
+      "metric": "cpu_ms",
+      "previous": 3.8150125,
+      "published": 3.5632249999999983,
+      "ratio": 0.9305943032949238,
+      "interval95": [
+        0.8740376292651809,
+        1.0111422188286525
+      ]
+    },
+    {
+      "profile": "tier2",
+      "metric": "wall_ms",
+      "previous": 3.7650072625,
+      "published": 3.849035475,
+      "ratio": 0.9848085965201137,
+      "interval95": [
+        0.9622237657943137,
+        1.0975316879594739
+      ]
+    },
+    {
+      "profile": "tier2",
+      "metric": "cpu_ms",
+      "previous": 3.7649749999999984,
+      "published": 3.8492000000000006,
+      "ratio": 0.984852196704221,
+      "interval95": [
+        0.9622056579090807,
+        1.0975522890630078
+      ]
+    },
+    {
+      "profile": "tier3",
+      "metric": "wall_ms",
+      "previous": 4.137877125,
+      "published": 4.6188798625,
+      "ratio": 1.0058259050745584,
+      "interval95": [
+        0.9511272749660921,
+        1.210299591316639
+      ]
+    },
+    {
+      "profile": "tier3",
+      "metric": "cpu_ms",
+      "previous": 4.1377749999999995,
+      "published": 4.618774999999999,
+      "ratio": 1.00576772186349,
+      "interval95": [
+        0.9511073809856841,
+        1.2102025757566355
+      ]
+    }
+  ],
+  "publication_report_sha256": "3f7906ac472cf24f242a555ef981d9f61df691c7aaa22b42426712021ff1c6d4",
+  "report_md_sha256": "20ca6fd379f59436a615aca3ed4cf40a85e0c6ade45646ecd33e9aaef1822760",
+  "publication_exporter_sha256": "9af7697082db92b59b0fec53f66a2270f0e7c2b6c416214ebddcee52f1b737d4",
+  "publication_note": "Absolute paths removed from metadata for publication; original raw measurements remain local."
+}
