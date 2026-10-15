@@ -1,6 +1,6 @@
 # Core throughput using Carve development main
 
-Measured 2026-10-15T22:22:19.522Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: 2c1c9d1e949af63f278dcd469e099d84d16d5105; cached remote main: 2c1c9d1e949af63f278dcd469e099d84d16d5105; dirty tracked tree: true. Harness hashes are recorded in the JSON.
+Measured 2026-10-15T22:33:18.478Z. AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics; Node v22.22.2. Benchmark harness checkout: bc10d75f810abd48df926c34fd50460f144adbb6; cached remote main: 2c1c9d1e949af63f278dcd469e099d84d16d5105; dirty tracked tree: false. Harness hashes are recorded in the JSON.
 
 Pinned merged-main snapshots are retained; later main commits are recorded as observations and are outside this measurement.
 
@@ -18,16 +18,16 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 
 | Engine | Language | Median ms/op | MB/s |
 |---|---|---:|---:|
-| carve-js | JavaScript | 5.1232 | 11.66 |
-| djot.js | JavaScript | 15.8878 | 3.77 |
-| markdown-it | JavaScript | 15.3625 | 3.93 |
-| carve-php | PHP | 6.1122 | 9.77 |
-| djot-php | PHP | 5.4463 | 10.99 |
-| league/commonmark-gfm | PHP | 53.7344 | 1.12 |
-| carve-rs | Rust | 0.5116 | 116.76 |
-| jotdown | Rust | 1.6633 | 36.00 |
-| comrak | Rust | 1.8094 | 33.33 |
-| pulldown-cmark | Rust | 0.5845 | 103.16 |
+| carve-js | JavaScript | 4.9340 | 12.11 |
+| djot.js | JavaScript | 19.6224 | 3.05 |
+| markdown-it | JavaScript | 16.7687 | 3.60 |
+| carve-php | PHP | 4.5568 | 13.11 |
+| djot-php | PHP | 3.8906 | 15.39 |
+| league/commonmark-gfm | PHP | 55.0455 | 1.10 |
+| carve-rs | Rust | 0.5177 | 115.37 |
+| jotdown | Rust | 1.6810 | 35.62 |
+| comrak | Rust | 1.8180 | 33.17 |
+| pulldown-cmark | Rust | 0.5823 | 103.56 |
 
 [Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 

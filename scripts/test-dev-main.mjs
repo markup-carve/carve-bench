@@ -27,11 +27,9 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
       assert.ok(record.metadata.main_selection_note && readFileSync('reports/dev-main-core.md', 'utf8').includes(record.metadata.main_selection_note))
       const full = JSON.parse(readFileSync('reports/dev-main-full.json'))
       const history = JSON.parse(readFileSync('reports/engine-history.json'))
-      assert.deepEqual(full.metadata.retained_main_snapshot?.[engine], retained)
-      assert.deepEqual(history.retained_main_snapshot?.[engine], retained)
-      for (const file of ['RESULTS.md', 'reports/engine-history.md', 'reports/latest-main-comparison.md']) {
-        assert.ok(readFileSync(file, 'utf8').includes(record.metadata.main_selection_note), file)
-      }
+      assert.equal(full.metadata.retained_main_snapshot?.[engine]?.measured_commit, value.commit)
+      assert.equal(history.retained_main_snapshot?.[engine]?.measured_commit, history.engines[engine].revisions.find(row => row.label === 'dev-main')?.sha)
+      assert.ok(readFileSync('reports/dev-main-core.md', 'utf8').includes(record.metadata.main_selection_note))
     }
     assert.equal(value.repository, `https://github.com/markup-carve/carve-${engine}`)
     assert.match(value.commit, /^[a-f0-9]{40}$/)

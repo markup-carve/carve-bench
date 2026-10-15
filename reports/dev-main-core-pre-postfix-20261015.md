@@ -29,7 +29,7 @@ The 18-point fixture includes pipe tables. Carve and Markdown use compact nested
 | comrak | Rust | 3.5936 | 16.78 |
 | pulldown-cmark | Rust | 0.8397 | 71.82 |
 
-[Raw samples, output checks and source hashes](dev-main-core.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
+[Raw samples, output checks and source hashes](dev-main-core-pre-postfix-20261015.json). The [compiled Rust dependency lock](dev-main-rust.Cargo.lock) records its resolved dependencies. Historical release results remain in [COMPARISON.md](../COMPARISON.md).
 
 ## Reproduce
 

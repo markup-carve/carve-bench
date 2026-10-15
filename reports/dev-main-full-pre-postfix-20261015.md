@@ -7,7 +7,7 @@ how the three Carve implementations scale on their full language, not how their
 fastest core-only convenience API compares with another library.
 
 For **Track A**, the primary core source-to-HTML comparison against the
-same-language libraries, see [the current core report](reports/dev-main-core.md).
+same-language libraries, see [the same-snapshot core report](dev-main-core-pre-postfix-20261015.md).
 
 Parse + render to HTML, in-process, averaged over many iterations. Lower
 ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
@@ -21,7 +21,7 @@ Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler
 One-minute host load was 19.31 at start and 24.32 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
 
 The `rel` column compares elapsed time. Check the
-[output byte counts and hashes](reports/dev-main-full-output-controls.json)
+[output byte counts and hashes](dev-main-full-output-controls-pre-postfix-20261015.json)
 before treating cross-engine results as equal work.
 PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.
 The controls do not establish what every timed conversion rendered.
@@ -30,7 +30,7 @@ The controls do not establish what every timed conversion rendered.
 
 **Corpus snapshot:** Existing committed benchmark corpus retained without regeneration.
 
-![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
+![Bar chart of Carve engine throughput for each corpus size](../charts/full-corpus-pre-postfix-20261015.svg)
 
 ## small (1.2 KB)
 
@@ -58,9 +58,9 @@ The controls do not establish what every timed conversion rendered.
 
 ## PHP authoritative extension tiers
 
-Current tier values use the [balanced paired recheck](reports/php-tier-pairs.md) at the same PHP commit, `967f253974433dbc53534df74b7abeae10f26458`. Each value is the median of eight round medians, with seven warmed batches per round. These are separate measurements from the full-corpus rows above.
+Tier values in this snapshot use the [balanced paired recheck](php-tier-pairs-pre-postfix-20261015.md) at the same PHP commit, `967f253974433dbc53534df74b7abeae10f26458`. Each value is the median of eight round medians, with seven warmed batches per round. These are separate measurements from the full-corpus rows above.
 
-The [original unpaired tier observations](reports/php-tiers-unpaired-20261015.md) and full-run JSON remain unchanged as historical evidence. Tier 1 is the default route; Tier 2 and Tier 3 register extensions on the same core document.
+The [original unpaired tier observations](php-tiers-unpaired-20261015.md) and full-run JSON remain unchanged as historical evidence. Tier 1 is the default route; Tier 2 and Tier 3 register extensions on the same core document.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
@@ -68,10 +68,10 @@ The [original unpaired tier observations](reports/php-tiers-unpaired-20261015.md
 | Tier 2 stack | 8 | 3.85 | 12.21 | +8% |
 | Tier 3 stack | 20 | 4.62 | 10.17 | +30% |
 
-![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
+![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](../charts/php-tiers-pre-postfix-20261015.svg)
 
 The exact extension bundles and interpretation are documented in
-[`FINDINGS.md`](./FINDINGS.md#extension-tier-cost). There is no normative Tier
+[`FINDINGS.md`](../FINDINGS.md#extension-tier-cost). There is no normative Tier
 3 profile; it is a reproducible internal stress stack.
 
 ## Why Track B has no competitor rows
@@ -82,4 +82,4 @@ literal/error recovery rather than the same work. Track A therefore uses
 equivalent native-language fixtures for competitors.
 
 Worker results, source commits, input hashes and runtime settings are recorded
-in [the full-run JSON](reports/dev-main-full.json).
+in [the full-run JSON](dev-main-full-pre-postfix-20261015.json).

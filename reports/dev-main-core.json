@@ -5,15 +5,9 @@
       13
     ],
     "benchmark_base_commit": "2c1c9d1e949af63f278dcd469e099d84d16d5105",
-    "benchmark_checkout_commit": "2c1c9d1e949af63f278dcd469e099d84d16d5105",
-    "benchmark_dirty_paths": [
-      "RESULTS.md",
-      "reports/dev-main-core.json",
-      "reports/dev-main-core.md",
-      "reports/dev-main-full-output-controls.json",
-      "reports/dev-main-full.json"
-    ],
-    "benchmark_dirty": true,
+    "benchmark_checkout_commit": "bc10d75f810abd48df926c34fd50460f144adbb6",
+    "benchmark_dirty_paths": [],
+    "benchmark_dirty": false,
     "php_dependencies": {
       "dflydev/dot-access-data": {
         "version": "v3.0.3",
@@ -57,10 +51,10 @@
       "NODE_OPTIONS": null
     },
     "rust_lock_sha256": "e051e63d6a23732d0be78a208795db2ab167541802a565307c2f5cdbe71d2b50",
-    "generated_at": "2026-10-15T22:22:19.522Z",
+    "generated_at": "2026-10-15T22:33:18.478Z",
     "carve_main": {
       "js": {
-        "latest_at_setup": "0b469a6b9ef4181bb3ad0fd840e2f9db545c9de1",
+        "latest_at_setup": "8a1aba785da08873a54c6b0ebffc87d9119a5e0e",
         "repository": "https://github.com/markup-carve/carve-js",
         "commit": "f0acfa305f9a888bfeb49b11c597b510a3ffa524",
         "kind": "merged-main",
@@ -229,13 +223,13 @@
         }
       },
       "php": {
-        "latest_at_setup": "911bbc88c6c24ef312aa1eaa3afd6d0ccfaebc15",
+        "latest_at_setup": "498ccd7c355a7ccdf9dffb0ce0182cddea3ca605",
         "repository": "https://github.com/markup-carve/carve-php",
         "commit": "3b3a09ff793fbc11b5c32bae6d74bee4d7676516",
         "kind": "merged-main"
       },
       "rs": {
-        "latest_at_setup": "94831f558d78c1653d9955bc24be535f04fdeaa7",
+        "latest_at_setup": "fd4b910981bf5aa7cc487940383d3512275ccd1b",
         "repository": "https://github.com/markup-carve/carve-rs",
         "commit": "08d65a58329ace4b388729e6981bbc76cc154136",
         "kind": "merged-main"
@@ -248,9 +242,9 @@
     "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
     "logical_cpus": 16,
     "load_start": [
-      6.23,
-      6.9,
-      10.89
+      7.83,
+      6.44,
+      8.58
     ],
     "workload_points": 18,
     "method": "Two serial rounds in reversed engine order. Twenty warmup calls; seven trials per round. JavaScript 100, PHP 50 and Rust 200 calls per trial. Final throughput uses median elapsed time across all fourteen samples.",
@@ -279,9 +273,10 @@
     "retained_main_snapshot": {
       "js": {
         "measured_commit": "f0acfa305f9a888bfeb49b11c597b510a3ffa524",
-        "latest_at_core_repeat_setup": "0b469a6b9ef4181bb3ad0fd840e2f9db545c9de1",
+        "latest_at_core_repeat_setup": "8a1aba785da08873a54c6b0ebffc87d9119a5e0e",
         "head_observation_phase": "core repeat setup",
         "changed_paths": [
+          "src/cli.ts",
           "src/link-destination.ts",
           "src/migrate-directory.ts",
           "src/parse.ts",
@@ -289,37 +284,45 @@
           "test/migrate-directory.test.ts"
         ],
         "reason": "Retain the explicitly pinned merged-main snapshot for this report.",
-        "head_observed_at": "2026-10-15T22:22:19.522Z"
+        "head_observed_at": "2026-10-15T22:33:18.478Z"
       },
       "php": {
         "measured_commit": "3b3a09ff793fbc11b5c32bae6d74bee4d7676516",
-        "latest_at_core_repeat_setup": "911bbc88c6c24ef312aa1eaa3afd6d0ccfaebc15",
+        "latest_at_core_repeat_setup": "498ccd7c355a7ccdf9dffb0ce0182cddea3ca605",
         "head_observation_phase": "core repeat setup",
         "changed_paths": [
-          "docs/ast-json.md"
+          "bin/carve",
+          "docs/ast-json.md",
+          "src/Converter/BbcodeToCarve.php",
+          "src/Converter/DjotToCarve.php",
+          "src/Converter/HtmlToCarve.php",
+          "src/Converter/MarkdownToCarve.php",
+          "tests/TestCase/CliTest.php",
+          "tests/TestCase/Converter/ImportersReplaceIllFormedInputTest.php"
         ],
         "reason": "Retain the explicitly pinned merged-main snapshot for this report.",
-        "head_observed_at": "2026-10-15T22:22:19.522Z"
+        "head_observed_at": "2026-10-15T22:33:18.478Z"
       },
       "rs": {
         "measured_commit": "08d65a58329ace4b388729e6981bbc76cc154136",
-        "latest_at_core_repeat_setup": "94831f558d78c1653d9955bc24be535f04fdeaa7",
+        "latest_at_core_repeat_setup": "fd4b910981bf5aa7cc487940383d3512275ccd1b",
         "head_observation_phase": "core repeat setup",
         "changed_paths": [
           "src/includes.rs",
+          "src/main.rs",
           "src/migrate_directory.rs",
           "tests/an_include_target_that_is_not_a_regular_file_is_denied.rs",
           "tests/cli_includes.rs"
         ],
         "reason": "Retain the explicitly pinned merged-main snapshot for this report.",
-        "head_observed_at": "2026-10-15T22:22:19.522Z"
+        "head_observed_at": "2026-10-15T22:33:18.478Z"
       }
     },
     "main_selection_note": "Pinned merged-main snapshots are retained; later main commits are recorded as observations and are outside this measurement.",
     "load_end": [
-      8,
-      8.67,
-      11.09
+      9.78,
+      8.96,
+      9.32
     ]
   },
   "controls": [
@@ -396,16 +399,16 @@
           "iterations": 100,
           "trials": 7,
           "samples": [
-            6.17684098,
-            5.32775622,
-            5.46294754,
-            5.41488509,
-            5.49607596,
-            5.501194000000001,
-            5.42255792
+            4.84236144,
+            5.00180568,
+            4.88612274,
+            4.77604544,
+            4.6743934000000005,
+            4.97352818,
+            4.86007888
           ],
-          "ms_per_op": 5.32775622,
-          "mb_per_s": 11.211197982545126,
+          "ms_per_op": 4.6743934000000005,
+          "mb_per_s": 12.778241939404639,
           "carve_source": "carve-js (merged main f0acfa305f9a888bfeb49b11c597b510a3ffa524)",
           "language": "JavaScript"
         },
@@ -417,16 +420,16 @@
           "iterations": 100,
           "trials": 7,
           "samples": [
-            17.80849594,
-            16.73030012,
-            16.1307797,
-            15.86437867,
-            15.911308429999998,
-            16.363692309999998,
-            16.43659226
+            21.56907695,
+            27.62062713,
+            25.55432385,
+            27.31758992,
+            28.32342135,
+            28.68300209,
+            26.86959718
           ],
-          "ms_per_op": 15.86437867,
-          "mb_per_s": 3.774089245980989,
+          "ms_per_op": 21.56907695,
+          "mb_per_s": 2.7758990832761246,
           "language": "JavaScript"
         },
         {
@@ -437,16 +440,16 @@
           "iterations": 100,
           "trials": 7,
           "samples": [
-            18.76555165,
-            17.43727873,
-            15.53741908,
-            16.13712007,
-            15.596204290000001,
-            29.822315800000002,
-            30.90967773
+            31.17447548,
+            30.53103917,
+            27.22709715,
+            17.937962419999998,
+            16.73384456,
+            15.89519673,
+            15.87963826
           ],
-          "ms_per_op": 15.53741908,
-          "mb_per_s": 3.881129424681773,
+          "ms_per_op": 15.87963826,
+          "mb_per_s": 3.797487914249251,
           "language": "JavaScript"
         },
         {
@@ -457,16 +460,16 @@
           "iterations": 50,
           "trials": 7,
           "samples": [
-            8.309974140000001,
-            8.438642,
-            8.5621416,
-            8.8751806,
-            9.04523334,
-            8.34493452,
-            7.88346536
+            4.55070626,
+            4.47398546,
+            4.57960426,
+            4.56297062,
+            4.59461022,
+            4.49100184,
+            4.58493722
           ],
-          "ms_per_op": 7.88346536,
-          "mb_per_s": 7.57668449819335,
+          "ms_per_op": 4.47398546,
+          "mb_per_s": 13.3506311808971,
           "jit_on": true,
           "jit": true,
           "carve_source": "carve-php (merged main 3b3a09ff793fbc11b5c32bae6d74bee4d7676516)",
@@ -480,16 +483,16 @@
           "iterations": 50,
           "trials": 7,
           "samples": [
-            7.407619059999999,
-            7.342810879999999,
-            7.10615752,
-            7.3821398799999995,
-            7.4921921199999995,
-            7.394947439999999,
-            7.1483748600000006
+            3.97100542,
+            4.3636817400000005,
+            3.9547599000000004,
+            3.9424334599999997,
+            3.9625615599999997,
+            3.9192038200000003,
+            3.8400742400000003
           ],
-          "ms_per_op": 7.10615752,
-          "mb_per_s": 8.425591575208593,
+          "ms_per_op": 3.8400742400000003,
+          "mb_per_s": 15.591776926848471,
           "jit_on": true,
           "jit": true,
           "language": "PHP"
@@ -502,16 +505,16 @@
           "iterations": 50,
           "trials": 7,
           "samples": [
-            108.26139672,
-            109.84997868,
-            107.861713,
-            105.73587358,
-            60.0829512,
-            50.68446994,
-            51.820604059999994
+            54.461182259999994,
+            55.249112,
+            59.044274619999996,
+            52.85071348,
+            50.552727999999995,
+            52.35393018,
+            50.848255980000005
           ],
-          "ms_per_op": 50.68446994,
-          "mb_per_s": 1.1897674859061573,
+          "ms_per_op": 50.552727999999995,
+          "mb_per_s": 1.1928680560028333,
           "jit_on": true,
           "jit": true,
           "language": "PHP"
@@ -522,16 +525,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            0.511017,
-            0.513251,
-            0.511906,
-            0.51021,
-            0.51444,
-            0.51003,
-            0.508755
+            0.519737,
+            0.507393,
+            0.505105,
+            0.521247,
+            0.504202,
+            0.506333,
+            0.517271
           ],
-          "ms_per_op": 0.508755,
-          "mb_per_s": 117.41,
+          "ms_per_op": 0.504202,
+          "mb_per_s": 118.47,
           "carve_source": "carve-rs (merged main 08d65a58329ace4b388729e6981bbc76cc154136)",
           "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
           "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
@@ -544,16 +547,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            1.679443,
-            1.662591,
-            1.664077,
-            1.687749,
-            1.649535,
-            1.665377,
-            1.669894
+            1.66213,
+            1.662124,
+            1.657821,
+            1.675397,
+            1.669848,
+            1.677726,
+            1.661956
           ],
-          "ms_per_op": 1.649535,
-          "mb_per_s": 36.3,
+          "ms_per_op": 1.657821,
+          "mb_per_s": 36.12,
           "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
           "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
           "source_hash_origin": "driver fixture; Rust worker reports input bytes",
@@ -565,16 +568,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            1.782395,
-            1.849477,
-            1.825964,
-            1.802432,
-            1.794449,
-            1.790622,
-            1.818048
+            1.768967,
+            1.809379,
+            1.883943,
+            1.955633,
+            1.861309,
+            1.861291,
+            1.80235
           ],
-          "ms_per_op": 1.782395,
-          "mb_per_s": 33.83,
+          "ms_per_op": 1.768967,
+          "mb_per_s": 34.09,
           "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
           "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
           "source_hash_origin": "driver fixture; Rust worker reports input bytes",
@@ -586,16 +589,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            0.585137,
-            0.583527,
-            0.590537,
-            0.587625,
-            0.584486,
-            0.584567,
-            0.595263
+            0.572976,
+            0.581948,
+            0.581658,
+            0.578313,
+            0.586527,
+            0.592969,
+            0.586238
           ],
-          "ms_per_op": 0.583527,
-          "mb_per_s": 103.34,
+          "ms_per_op": 0.572976,
+          "mb_per_s": 105.24,
           "output_sha256": "61e66dae86ca89ffed40d76b79a799a89ee11e920cb05ce73ace10f04fc6b6ce",
           "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
           "source_hash_origin": "driver fixture; Rust worker reports input bytes",
@@ -612,16 +615,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            0.58354,
-            0.587572,
-            0.576895,
-            0.5845,
-            0.59488,
-            0.576016,
-            0.581155
+            0.58115,
+            0.581584,
+            0.596405,
+            0.581507,
+            0.582668,
+            0.592232,
+            0.590111
           ],
-          "ms_per_op": 0.576016,
-          "mb_per_s": 104.69,
+          "ms_per_op": 0.58115,
+          "mb_per_s": 103.76,
           "output_sha256": "61e66dae86ca89ffed40d76b79a799a89ee11e920cb05ce73ace10f04fc6b6ce",
           "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
           "source_hash_origin": "driver fixture; Rust worker reports input bytes",
@@ -633,16 +636,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            1.819677,
-            1.802797,
-            1.77064,
-            1.844961,
-            1.819137,
-            1.805362,
-            1.8134
+            1.832477,
+            1.794016,
+            1.806044,
+            1.814419,
+            1.795809,
+            1.82152,
+            1.944217
           ],
-          "ms_per_op": 1.77064,
-          "mb_per_s": 34.06,
+          "ms_per_op": 1.794016,
+          "mb_per_s": 33.61,
           "output_sha256": "0d9bc64faf28687b47634e3b5a69244620c97284eccbf9b5634c56767335593c",
           "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
           "source_hash_origin": "driver fixture; Rust worker reports input bytes",
@@ -654,16 +657,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            1.66095,
-            1.659049,
-            1.639769,
-            1.664733,
-            1.66628,
-            1.645914,
-            1.649712
+            1.712882,
+            1.716452,
+            1.702874,
+            1.717942,
+            1.723063,
+            1.684228,
+            1.686322
           ],
-          "ms_per_op": 1.639769,
-          "mb_per_s": 36.51,
+          "ms_per_op": 1.684228,
+          "mb_per_s": 35.55,
           "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
           "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
           "source_hash_origin": "driver fixture; Rust worker reports input bytes",
@@ -675,16 +678,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            0.520866,
-            0.511195,
-            0.511008,
-            0.522916,
-            0.510515,
-            0.512845,
-            0.515939
+            0.530657,
+            0.528078,
+            0.535671,
+            0.518167,
+            0.532051,
+            0.51571,
+            0.510718
           ],
-          "ms_per_op": 0.510515,
-          "mb_per_s": 117,
+          "ms_per_op": 0.510718,
+          "mb_per_s": 116.95,
           "carve_source": "carve-rs (merged main 08d65a58329ace4b388729e6981bbc76cc154136)",
           "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e",
           "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
@@ -699,16 +702,16 @@
           "iterations": 50,
           "trials": 7,
           "samples": [
-            53.289481480000006,
-            54.308122059999995,
-            53.824044240000006,
-            53.64468142,
-            53.07204936,
-            52.72434802,
-            49.91956372
+            61.97353718,
+            70.1822627,
+            62.184561519999995,
+            54.5214907,
+            57.291713419999994,
+            56.50356982,
+            54.84181554
           ],
-          "ms_per_op": 49.91956372,
-          "mb_per_s": 1.2079980248473214,
+          "ms_per_op": 54.5214907,
+          "mb_per_s": 1.1060360529540694,
           "jit_on": true,
           "jit": true,
           "language": "PHP"
@@ -721,16 +724,16 @@
           "iterations": 50,
           "trials": 7,
           "samples": [
-            3.7406578,
-            3.78569162,
-            3.7744831199999997,
-            3.77496084,
-            3.7865238199999998,
-            3.7595781799999997,
-            3.7443315999999998
+            3.91049374,
+            3.76880408,
+            3.82576608,
+            3.7995454,
+            3.8253456999999997,
+            3.87071342,
+            3.7998866400000004
           ],
-          "ms_per_op": 3.7406578,
-          "mb_per_s": 16.006163657262952,
+          "ms_per_op": 3.76880408,
+          "mb_per_s": 15.886626012307117,
           "jit_on": true,
           "jit": true,
           "language": "PHP"
@@ -743,16 +746,16 @@
           "iterations": 50,
           "trials": 7,
           "samples": [
-            4.276927,
-            4.27064784,
-            4.3409705800000005,
-            4.26776796,
-            4.31054492,
-            4.28700316,
-            4.28042486
+            4.61826682,
+            4.4654463600000005,
+            4.41481118,
+            4.526741,
+            4.3581980399999996,
+            4.8766077,
+            4.58797696
           ],
-          "ms_per_op": 4.26776796,
-          "mb_per_s": 13.995730401696033,
+          "ms_per_op": 4.3581980399999996,
+          "mb_per_s": 13.7053271184428,
           "jit_on": true,
           "jit": true,
           "carve_source": "carve-php (merged main 3b3a09ff793fbc11b5c32bae6d74bee4d7676516)",
@@ -766,16 +769,16 @@
           "iterations": 100,
           "trials": 7,
           "samples": [
-            15.18767571,
-            15.07052152,
-            14.5737772,
-            14.59146253,
-            14.4855441,
-            14.674942759999999,
-            14.349885010000001
+            17.1928832,
+            16.5379742,
+            16.71513962,
+            16.80363268,
+            16.44764567,
+            16.6060506,
+            16.83312761
           ],
-          "ms_per_op": 14.349885010000001,
-          "mb_per_s": 4.20231481527391,
+          "ms_per_op": 16.44764567,
+          "mb_per_s": 3.666344447399565,
           "language": "JavaScript"
         },
         {
@@ -786,16 +789,16 @@
           "iterations": 100,
           "trials": 7,
           "samples": [
-            15.21497987,
-            14.06028843,
-            15.522030769999999,
-            14.92270815,
-            16.70843143,
-            14.5056281,
-            13.584995619999999
+            16.61608347,
+            14.85855369,
+            14.94961513,
+            17.06369158,
+            16.00312559,
+            17.67564554,
+            16.51053969
           ],
-          "ms_per_op": 13.584995619999999,
-          "mb_per_s": 4.4073316331784875,
+          "ms_per_op": 14.85855369,
+          "mb_per_s": 4.0295699152006215,
           "language": "JavaScript"
         },
         {
@@ -806,16 +809,16 @@
           "iterations": 100,
           "trials": 7,
           "samples": [
-            4.77195604,
-            4.918592,
-            4.75711482,
-            4.75361629,
-            4.6039525800000005,
-            4.50686145,
-            4.6586425
+            4.89446252,
+            4.88423627,
+            5.25479914,
+            5.21941771,
+            5.13682992,
+            5.33181424,
+            5.06453514
           ],
-          "ms_per_op": 4.50686145,
-          "mb_per_s": 13.25324296027699,
+          "ms_per_op": 4.88423627,
+          "mb_per_s": 12.229246597269189,
           "carve_source": "carve-js (merged main f0acfa305f9a888bfeb49b11c597b510a3ffa524)",
           "language": "JavaScript"
         }
@@ -826,71 +829,71 @@
     {
       "engine": "carve-js",
       "bytes": 62632,
-      "ms_per_op": 5.123174110000001,
-      "mb_per_s": 11.658891246457411,
+      "ms_per_op": 4.93399535,
+      "mb_per_s": 12.105915297458933,
       "language": "JavaScript"
     },
     {
       "engine": "djot.js",
       "bytes": 62782,
-      "ms_per_op": 15.88784355,
-      "mb_per_s": 3.7685152641509485,
+      "ms_per_op": 19.622361245,
+      "mb_per_s": 3.051293378256078,
       "language": "JavaScript"
     },
     {
       "engine": "markdown-it",
       "bytes": 63232,
-      "ms_per_op": 15.362547395,
-      "mb_per_s": 3.925308272417538,
+      "ms_per_op": 16.76873862,
+      "mb_per_s": 3.5961401594677604,
       "language": "JavaScript"
     },
     {
       "engine": "carve-php",
       "bytes": 62632,
-      "ms_per_op": 6.11221797,
-      "mb_per_s": 9.7723167070163,
+      "ms_per_op": 4.55683844,
+      "mb_per_s": 13.107888412466133,
       "language": "PHP"
     },
     {
       "engine": "djot-php",
       "bytes": 62782,
-      "ms_per_op": 5.44634067,
-      "mb_per_s": 10.993359497766633,
+      "ms_per_op": 3.89060358,
+      "mb_per_s": 15.389278219041064,
       "language": "PHP"
     },
     {
       "engine": "league/commonmark-gfm",
       "bytes": 63232,
-      "ms_per_op": 53.73436283,
-      "mb_per_s": 1.122237823230182,
+      "ms_per_op": 55.04546377,
+      "mb_per_s": 1.095507790196242,
       "language": "PHP"
     },
     {
       "engine": "carve-rs",
       "bytes": 62632,
-      "ms_per_op": 0.5115505,
-      "mb_per_s": 116.7637013064326,
+      "ms_per_op": 0.517719,
+      "mb_per_s": 115.37248929468736,
       "language": "Rust"
     },
     {
       "engine": "jotdown",
       "bytes": 62782,
-      "ms_per_op": 1.6633339999999999,
-      "mb_per_s": 35.99612641394764,
+      "ms_per_op": 1.680977,
+      "mb_per_s": 35.61832251875974,
       "language": "Rust"
     },
     {
       "engine": "comrak",
       "bytes": 63232,
-      "ms_per_op": 1.809381,
-      "mb_per_s": 33.32782557957666,
+      "ms_per_op": 1.8179695,
+      "mb_per_s": 33.170377377068206,
       "language": "Rust"
     },
     {
       "engine": "pulldown-cmark",
       "bytes": 63232,
-      "ms_per_op": 0.5845335,
-      "mb_per_s": 103.16386379052697,
+      "ms_per_op": 0.582308,
+      "mb_per_s": 103.55814169649051,
       "language": "Rust"
     }
   ]

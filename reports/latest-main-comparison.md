@@ -1,4 +1,6 @@
-# Pinned merged main commits versus the last two retained tags
+# Earlier pinned merged main commits versus the last two retained tags
+
+These October 15 history pins precede the current core and full-corpus snapshots. Use their recorded commits for comparisons within this report.
 
 Pinned merged-main snapshots are retained; later main commits are recorded as observations and are outside this measurement.
 

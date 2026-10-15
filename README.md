@@ -65,13 +65,17 @@ same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
 The throughput charts use pinned merged commits for JS, PHP and Rust,
-measured 2026-10-15 on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
+measured 2026-10-15 UTC on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
 The current core tables use median timing across fourteen samples in two rounds with reversed engine order.
-The shared host's one-minute load changed from 17.58 to 23.56 during the core run.
+The shared host's one-minute load changed from 7.83 to 9.78 during the core run.
 These sessions do not isolate code effects across snapshots.
 The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
+The [pre-refresh core report](reports/dev-main-core-pre-postfix-20261015.md),
+[full-corpus record](reports/dev-main-full-pre-postfix-20261015.json),
+and [PHP tier follow-up](reports/php-tier-pairs-pre-postfix-20261015.md)
+preserve the previous merged-main snapshot.
 The September 30 development-main snapshot, taken after the PHP
 parser and renderer changes and naming its exact commits and input hashes, is in
 [the refresh report](reports/performance-refresh.md).
@@ -82,9 +86,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 116.76 | pulldown-cmark | 103.16 | 1.13x |
-| JavaScript | carve-js | 11.66 | markdown-it | 3.93 | 2.97x |
-| PHP | carve-php | 9.77 | djot-php | 10.99 | 0.89x |
+| Rust | carve-rs | 115.37 | pulldown-cmark | 103.56 | 1.11x |
+| JavaScript | carve-js | 12.11 | markdown-it | 3.60 | 3.37x |
+| PHP | carve-php | 13.11 | djot-php | 15.39 | 0.85x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -94,9 +98,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 5.1232 | 11.66 | 10.01x |
-| carve-php | PHP | 6.1122 | 9.77 | 11.95x |
-| carve-rs | Rust | 0.5116 | 116.76 | 1.00x |
+| carve-js | JavaScript | 4.9340 | 12.11 | 9.53x |
+| carve-php | PHP | 4.5568 | 13.11 | 8.80x |
+| carve-rs | Rust | 0.5177 | 115.37 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -585,7 +589,7 @@ and may produce different output across revisions.
 
 The history signature covers the fixture and measurement functions. Worker hashes and source/build records identify the remaining execution context. Report generation also verifies sample counts, output hashes and summaries against the raw timings.
 
-The [pinned main comparison](reports/latest-main-comparison.md) lists pinned merged main commits against the last two retained tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
+The [earlier October 15 pinned main comparison](reports/latest-main-comparison.md) lists pinned merged main commits against the last two retained tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
 
 The historical [merged main versus PHP and Rust peers](reports/merged-core-peers.md) report includes warmed medians, raw samples, source hashes and matching Carve output hashes.
 
@@ -603,7 +607,7 @@ changed converted output or a Native mismatch do not support speedup claims.
 
 The [previous fleet reports](reports/release-before-2962-20261015/README.md) preserve the reports and charts replaced by this refresh. The current released-core raw samples are in [the release record](reports/release-core-20261015.json).
 
-The [paired PHP tier follow-up](reports/php-tier-pairs.md) rechecks the apparent Tier 1 slowdown between the previous and current fleet snapshots. It retains alternating wall-time and CPU-time samples, output controls and exact source commits. The original unpaired samples remain unchanged.
+The [paired PHP tier follow-up](reports/php-tier-pairs.md) compares the previous and current merged-main PHP snapshots. It retains alternating wall-time and CPU-time samples, output controls and exact source commits. The original unpaired samples remain available in the archived full-corpus record.
 
 The current PHP tier chart and table use the balanced recheck; the original unpaired chart and full-run record are retained separately. After a fleet refresh, regenerate the paired PHP report for the same PHP commit before publishing the current tier display. Run these steps after the paired report and raw JSON are generated:
 

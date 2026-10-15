@@ -16,6 +16,8 @@ with `node run.mjs`; see README for setup.
 
 **Run:** 2026-10-15T22:19:07.811Z; serial processes; Node v22.22.2; PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS); rustc 1.97.1 (8bab26f4f 2026-07-14).
 
+Pinned merged-main snapshots are retained; later main commits are recorded as observations and are outside this measurement.
+
 Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
 
 One-minute host load was 16.03 at start and 5.20 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
@@ -23,6 +25,8 @@ One-minute host load was 16.03 at start and 5.20 at end. CPU affinity does not r
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
 before treating cross-engine results as equal work.
+PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.
+The controls do not establish what every timed conversion rendered.
 
 **Engines measured:** carve-js `@markup-carve/carve 0.1.12 (local checkout carve-js-main @ f0acfa305)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 3b3a09ff7)`, carve-rs `carve-lang 0.1.9 (local checkout carve-rs-main @ 08d65a583)`
 

@@ -4,7 +4,7 @@ Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler
 
 Carve JS merged main 0.1.12 at `224b0c32e22480571c99aae3f0055a6e5a091f74`; fast path verified. Released peers: Djot 0.3.2, markdown-it 15.0.0, commonmark.js 0.31.2.
 
-This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the comparison with pipe tables](dev-main-core.md); their throughput values must not be mixed.
+This shared workload excludes pipe tables, which commonmark.js does not support. All four libraries receive 150 equivalent sections in native syntax. The 14 exercised points are the existing 18-point rubric without its three table-grid points and one alignment point. These measurements form a separate lane from [the comparison with pipe tables](dev-main-core-pre-postfix-20261015.md); their throughput values must not be mixed.
 
 Before timing, all engines agree under an HTML projection that ignores section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. It preserves element hierarchy, emphasis versus strong, resolved link destinations, code language and code bytes. This is scoped workload verification, not general language conformance.
 
@@ -19,7 +19,7 @@ The charts and site show one final value per engine: throughput computed from me
 | markdown-it | 8.0208 | 5.98 |
 | commonmark.js | 4.2009 | 11.43 |
 
-![Final JavaScript throughput](../charts/commonmark-js.svg)
+![Final JavaScript throughput](../charts/commonmark-js-pre-postfix-20261015.svg)
 
 ## Reused public conversion APIs
 
@@ -58,4 +58,4 @@ node scripts/gen-charts.mjs
 
 The [previous released snapshot](commonmark-js-release-0.1.9.md) preserves Carve JS 0.1.9 measurements and samples.
 
-The [raw record](commonmark-js.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.
+The [raw record](commonmark-js-pre-postfix-20261015.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.

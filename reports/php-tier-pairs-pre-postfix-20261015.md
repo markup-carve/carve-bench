@@ -36,4 +36,4 @@ node scripts/php-tier-report.mjs /tmp/php-tier-pairs.json
 python3 scripts/public_report.py reports/php-tier-pairs.json
 ```
 
-The runner refuses to overwrite an existing measurement. PHP uses `-n`, ctype and mbstring, a 512M memory limit, CLI opcache and tracing JIT. The existing tier harness configures the converter; its initial one-trial result is retained as `startup`, not used in the paired summary. [Raw samples and provenance](php-tier-pairs.json).
+The runner refuses to overwrite an existing measurement. PHP uses `-n`, ctype and mbstring, a 512M memory limit, CLI opcache and tracing JIT. The existing tier harness configures the converter; its initial one-trial result is retained as `startup`, not used in the paired summary. [Raw samples and provenance](php-tier-pairs-pre-postfix-20261015.json).
