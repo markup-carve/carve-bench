@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `224b0c3` against released
+The current comparison measures Carve JS merged main `f0acfa3` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -82,9 +82,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 86.98 | pulldown-cmark | 71.82 | 1.21x |
-| JavaScript | carve-js | 9.92 | djot.js | 3.57 | 2.78x |
-| PHP | carve-php | 9.54 | djot-php | 11.94 | 0.80x |
+| Rust | carve-rs | 116.76 | pulldown-cmark | 103.16 | 1.13x |
+| JavaScript | carve-js | 11.66 | markdown-it | 3.93 | 2.97x |
+| PHP | carve-php | 9.77 | djot-php | 10.99 | 0.89x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -94,9 +94,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 6.0207 | 9.92 | 8.77x |
-| carve-php | PHP | 6.2604 | 9.54 | 9.12x |
-| carve-rs | Rust | 0.6867 | 86.98 | 1.00x |
+| carve-js | JavaScript | 5.1232 | 11.66 | 10.01x |
+| carve-php | PHP | 6.1122 | 9.77 | 11.95x |
+| carve-rs | Rust | 0.5116 | 116.76 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).

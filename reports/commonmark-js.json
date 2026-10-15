@@ -4,36 +4,15 @@
     "cpu_affinity": [
       13
     ],
-    "generated_at": "2026-10-15T11:43:38.586Z",
-    "benchmark_base_commit": "485ff55d6f89a5c26035ccb7dbdc2d26324ca9d5",
-    "benchmark_checkout_commit": "485ff55d6f89a5c26035ccb7dbdc2d26324ca9d5",
+    "generated_at": "2026-10-15T22:27:28.863Z",
+    "benchmark_base_commit": "2c1c9d1e949af63f278dcd469e099d84d16d5105",
+    "benchmark_checkout_commit": "2c1c9d1e949af63f278dcd469e099d84d16d5105",
     "benchmark_dirty_paths": [
-      ".gitignore",
-      "COMPARISON.md",
-      "README.md",
       "RESULTS.md",
-      "compare.mjs",
-      "engines/js/package-lock.json",
-      "engines/js/package.json",
-      "engines/php/composer.json",
-      "engines/php/composer.lock",
-      "engines/rs/Cargo.lock",
-      "engines/rs/Cargo.toml",
       "reports/dev-main-core.json",
       "reports/dev-main-core.md",
-      "run.mjs",
-      "scripts/build-rs-engine.mjs",
-      "scripts/check-engine-pins.mjs",
-      "scripts/check-full-outputs.mjs",
-      "scripts/compare-dev-main.mjs",
-      "scripts/compare-full-feature.mjs",
-      "scripts/full-results.mjs",
-      "scripts/history/refresh-main.py",
-      "scripts/history/report.py",
-      "scripts/history/run.py",
-      "scripts/measured-sources.mjs",
-      "scripts/test-paired-full.mjs",
-      "scripts/test-revision-controls.mjs"
+      "reports/dev-main-full-output-controls.json",
+      "reports/dev-main-full.json"
     ],
     "benchmark_dirty": true,
     "node": "v22.22.2",
@@ -42,13 +21,13 @@
     "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
     "logical_cpus": 16,
     "load_start": [
-      18.02,
-      19.69,
-      23.79
+      3.63,
+      6.13,
+      9.68
     ],
     "package_versions": {
       "@djot/djot": "0.3.2",
-      "@markup-carve/carve": "merged-main 224b0c32e22480571c99aae3f0055a6e5a091f74",
+      "@markup-carve/carve": "merged-main f0acfa305f9a888bfeb49b11c597b510a3ffa524",
       "commonmark": "0.31.2",
       "markdown-it": "15.0.0",
       "parse5": "7.3.0"
@@ -56,7 +35,7 @@
     "carve_main": {
       "kind": "merged-main",
       "repository": "https://github.com/markup-carve/carve-js",
-      "commit": "224b0c32e22480571c99aae3f0055a6e5a091f74",
+      "commit": "f0acfa305f9a888bfeb49b11c597b510a3ffa524",
       "version": "0.1.12",
       "lock_sha256": "cea881d01710d49e758b210c2a9e2790770869718aaba5fa4d00ceb4eb4f630e",
       "dist_sha256": {
@@ -65,7 +44,7 @@
         "accessibility.js": "2877ed43d42cc46970304b63bd623955ff172e693f49a33fa25517e7dded898f",
         "append-only-closer.js": "442692424550305b893283ac721b8339b37cce74b57c4c912a88735470650041",
         "ast-envelope.js": "3cd8f6bcf34c0d813726568b3e1cee569954e2409c55399c528012443d3b11e7",
-        "ast-json.js": "1730917e0cc3b9fcba5ba61444f5101d1be10239c5ef81a13bb80a15b17bab00",
+        "ast-json.js": "ed67df0de27db053a39241a018a6f5dbab224eb2aee3d9f55dd0968ea92c9db8",
         "ast-patch.js": "90fe0081fcb23f429c25c0f2dceb97d8fa9958374a73758cd17c94e8095e4cf3",
         "ast-sidecars.js": "e90c10adb528b099c34220ea73555ed4bfc637a81a3fb3ecaa98dc734e8204e6",
         "ast-structural-index.js": "4e55fbed0de321f227d260688dfa6745e7642e61a2be01c14de4a29e5f80a833",
@@ -75,7 +54,7 @@
         "attribute-parser.js": "a85e04ea8c6cdc2bb44e00a1c87330f01014161d8e342aeea414b8e4c2e37d2a",
         "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
         "backtick-run-index.js": "9e1767d3e60263bca009dfcc233cc19a9f96c824104fc81c3840d15c9e1dc78d",
-        "bbcode-migrate.js": "38974b466a000b0116a8b5bc2b9daf3b05da0631e4e7c0d6766492c4ea6c76ff",
+        "bbcode-migrate.js": "b3285b6aad9b84d42cec27290e62790b53ca561dd19bd7837524fa9bb2a4f44d",
         "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
         "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
         "bracket-escapes.js": "87d2e9b9d4426d0f2998508893e029fc579fe4bcf7df113660959feb6d158e7c",
@@ -83,7 +62,7 @@
         "carve-escape.js": "1c8ca1e9cba76f4e110a21c8e1614843f717a3797252b5b139126c39a8e264f7",
         "case-migrate.js": "a50e4486a7fbe1e40472b96b2eaa3d819add5577e5875f74ae74e5cede5c814b",
         "citations.js": "48854e70fba408e8a5c6ed0a8471b1f70e69021a052ad2b8dc75afd78c00aa99",
-        "cli.js": "0a87ae4faf776e6196e592f8ba242262d31e6863746a25145eedf317b30e7307",
+        "cli.js": "1575c04c877d3c46a4bf899e6781d6bb45c7f950e13c134459f142cf6bb9b28e",
         "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
         "code-callouts.js": "c67bffce481938b7e6b79c5d24541dcb0b445b70258697ad41bd0a6fa1bf0512",
         "code-group.js": "61e459fb888d19abe6382aad086073f546c23b4cf51bc0d4982d9e923df14134",
@@ -101,12 +80,12 @@
         "djot-collapsed-reference.js": "77c11dd74d1d704996d1d4451db1e593198ca11729ce996e40ea8bf54fddde76",
         "djot-destination-lines.js": "6eb5c6ff43c3bf067bbc1a114b70b21dabb00c7a645227456d42bd7093acb31c",
         "djot-div-classes.js": "d3bca46ac5b4cddb4605af5adbb94bc6fa9aedb77fbd20b896589fa1ab9b2cb1",
-        "djot-emphasis.js": "cc12aaeede9026b6bec959b1db011c660365d7ed64db2c21301f95f5c2422a08",
+        "djot-emphasis.js": "0336732d8f2fb3ebbae21e82c2e8a95694c4b3349c0e7620dcda99a1cd2209c4",
         "djot-heading-targets.js": "2cecdea1a9d4763d3193ec2f625dbdd3357648091d0b8efa77c3ae312d33c31f",
         "djot-image-child-text.js": "fad83ca0fa80206ed4ce1b9088071e6c541580ed60770ab6bde97ef3d0e3f3a4",
         "djot-image-empty-destinations.js": "f11e013193d00d3ff61267bbee901a0e9955dc15a488497ed94a0919ba082a35",
-        "djot-import-losses.js": "51ac059404e40f2689af2e6a42622f61832f3dff4ad3eaf45323d9a0e8308d35",
-        "djot-import.js": "3e000e44b30dec579b05c8f0c8759e751818fc4849bf56b69549a25f85c34c0e",
+        "djot-import-losses.js": "2ca9bbed22a5d338ed2becd207513cc50da7de9b7945d60a9a879477eb32accc",
+        "djot-import.js": "0576d4c4e86a7def96bdddebba93f04e19aa45d556f7590f51e2af3cb5b018fa",
         "djot-inline-boundaries.js": "7f835182b293ca79640d7766c2750eb0ba1336ecb42bcd9da8f3632307b5afa9",
         "djot-migrate.js": "5461271a064c4975caf8e71797e5b2374d9fd6a762fce4d15940e03c51d1bb5b",
         "djot-opaque.js": "ec5f800ece4ed617f59ae6f2ad630309139eb11817716539e336109302fb5412",
@@ -127,7 +106,8 @@
         "fenced-render.js": "695d462eeef8eb51ac7d46cd7700dcbc92bc6cd0ab6449725df03d2094313fcd",
         "footnote-numbering.js": "b9960366eb5f99d1fcb7406b25d333bf409a8c727d0a10bbed2b187bedbdb4c7",
         "glossary.js": "be33b75420abbf7d2ed8d6a1265e11508715a13ae02f697cd7fdf5562adfcbfd",
-        "heading-ids.js": "52bb8c99149bdd45e5e6346a2d802b0049586dd99ce6683194d300d8a96a9e97",
+        "grapheme-extender.js": "8bc24cd35d4cf7787fffa86f8637370782aaf79c4fce2c800dbc2a2d64ea9e9b",
+        "heading-ids.js": "f431156db9095ac29d6cf68d7eb2d52cc0e7ff4d5962225a253839964df677c5",
         "heading-level-shift.js": "c167ab8955d4f6b9caf433363973fb53dba881b01673594a1806061a22b2c964",
         "heading-numbers.js": "de844b0039923625a7ad90875a2ffbcdbb21cab44c39b102d4d5dc54f89d90ae",
         "heading-permalinks.js": "ec541a64725bf20675129f477564c2109092ec2afd2702a32a736c2cfb071551",
@@ -135,11 +115,11 @@
         "html-import-code-language.js": "e5f15a441e448cc904820b0cd288e847ed1c96b871d42f257e5c7163545576e0",
         "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
         "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
-        "html-import.js": "e7d766cc50cdbda65815db39938236774a14132285ebcab91fd6693fc280ca0d",
-        "import-report-messages.js": "70cf9d5755453749c3fec3dc340600042be06a16119bcc9abbf9671604380fd2",
+        "html-import.js": "c7b542a0d78891e5d75e9e71854cbdce6eeb5cf40b0a162cac34a03095ea8eb6",
+        "import-report-messages.js": "d6a6991a1993b2e7655451e4aa7304d4079ef5ff20da69398c0cae5a9f52d3f5",
         "include-directive.js": "d98094b9faab51cb727f381408ee34282e5e1b2354c50b1dc968971fa49a1897",
-        "includes-fs.js": "b5a7ea58a4e8ae3c96de676e49e6e0e98a5ba4a14bd2208ef34487dbb7801251",
-        "includes.js": "0fcce248956698766734e88d401e3f559d50cd92e13bdec85c24eaa19e979a66",
+        "includes-fs.js": "0a6bb07687bbaf25fbb7bdbe5e3353f7d248a3e90512695435dcbcbff8b0c891",
+        "includes.js": "da91ca2cf79b5d6c7595a30ce395cc98d27d61ed917c94ea0d063833061bbd48",
         "index-terms.js": "0f87a922fb195ad5fe53a9c44abed192f1398c98d3a6ea9270563772cf80e31f",
         "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
         "inline-children.js": "f1d2bb38100a96fa356c7b7507db6225c7cfca2eec6edeefc4b6b4340c666512",
@@ -147,46 +127,48 @@
         "label-key.js": "64e36a4bef8117c7c0226f49df6c12bc3e45c61faad2d48679be433b1765c9dc",
         "legacy-nodes.js": "d3ade56ce5cccd8595599d6582cffaf543e8a0274b91db0c8e76f5bd128c2450",
         "link-destination.js": "963dbfd9449a0d2de29548127fee8fcc440a9445a81a8024e1e2f4a180506f38",
-        "lint.js": "189d63d0f6ec2e0ed42acb5db42fd3a8e1a31d66021601de2232b8850b752471",
+        "lint.js": "1bb92305428837d46acc3a2a48b3fb5ce53248c75f5f9da46d0dd7b547ec4817",
         "list-table.js": "fdc6d505e7322fae723cc3a5801f44a741f3367b7c82731dcad796fc7c6094ea",
         "literal-comment-closers.js": "6b4605eafc68c52b6342e9565629679aefd9e50ea7f3037c2eef53c6dd90952d",
         "markdown-assessment.js": "8230616e8fd6fdb92c7413221cd485fa4bbdd53e7c17f8dc0e811c6c9b9c4bdf",
         "markdown-email-links.js": "bb18ca6d7fcea968993c138560f3d5993bc9a6d15c37afd021bfbd07fc9ae80d",
-        "markdown-emphasis.js": "6b87ae13873bf03a75f497a4249019d7ae8d1eb8f6c31b0638c49b9f96f60e10",
-        "markdown-empty-destination.js": "38453a18e4cff52ca26081667417bf27f8cc0464c4cb287fd46ffe40d01009f9",
+        "markdown-emphasis.js": "5e33e708bcd04439103a282d36ff9f36eb78fa979d305be1104c642c88b50b6b",
+        "markdown-empty-destination.js": "73f6cc3d8fdc1d43dd94b42283106a37d5fee3a0716b728540f7b90e187c6273",
         "markdown-gfm-autolinks.js": "be79e73c7d8e0f42daee0a73ec505f272457d0c5f3f3a87741f8829bd2ac97f6",
         "markdown-link-scopes.js": "3bfdd532f0ebcd6c43f2615527de42a31fa41275fd2bfc1f5f7dfbef7d182379",
-        "markdown-migrate.js": "6a45d8c1a65378f1224c43e333ad1f5c5e3574a851a888a04129c20f40cd156f",
+        "markdown-migrate.js": "f73a1e7d5e786b6f1a159540a6389845848b4ca0170046d50d66c0949902dfe3",
         "markdown-native-destination-glyphs.js": "21dcd262b181bdfc0ae9ee3eac8c5c65cc291eccdbc0d590a4e58bc306eeb0d2",
         "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
+        "marker-serial.js": "7fd3b82e3b010fc494a2aa10f4cec868aef1d35a0afd2d5e98b173ff09b8f8b2",
         "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
         "merge.js": "177ab296429b88dda38d7c96e91ae45c2d869d3ca88f75930d65de47734494fc",
-        "migration.js": "c00a772f82eaae17a118fcf91deb21bfa287e903aa4b1694c4408cbac2f8bbfc",
+        "migrate-directory.js": "2311af85bea9bbcbccc5e8626cffe3fe3cc77732b7a227bb3ea3ae6dfc2e6d07",
+        "migration.js": "6be2b578701d94c79c8999b53b54bf1bccd0a87b4764bc8b311e201c952384a4",
         "node.js": "515130342c38ff335bf53b9c85a3646f80bceb58cf3e186e367447aa88598abe",
         "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
         "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
         "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
         "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
-        "parse.js": "26d91e49c6447d777881aeee2176fa37d600434cfedb693abcba09e761941508",
+        "parse.js": "b68a58e35e8f2c8ef6886cda6e5c20b9a3507a7c2c93459c815aefad3cda3400",
         "portability.js": "fd9cadcffa894c17a75006dd776dc0b32758fe496454612d7b1b585d60fc0849",
         "prettier.js": "29fc07a50b540e61a27d8fe56fa51414a9afcdf20fadb7a4f8ee602e085d06c2",
         "profile-filter.js": "b062a94b0f611ec861fe61617ff7a088578461c32a2148754436a501a72feec3",
         "profile.js": "77eb5062f1de6fecef13f45203933274e79be559cce657f03b43369884778198",
         "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
-        "reference-state.js": "68070bf72067a5c6dd49c0587d751dce9cdd13d90589e14509fbf09ac8968b16",
+        "reference-state.js": "393b6f7c517d5919c77dfb4d7712e34d7946d992b6354c74fa6c78d9bab969b8",
         "referenced-link-labels.js": "32cd081d6c0bc52161845c62342014bf0cbdd82bede659d4696f45075889db7c",
         "render-ansi.js": "0a347dfc4debab9180b0c71749ceb9057c45f5b8d4763748d1c1d364d150fe67",
-        "render-carve.js": "bfecd998de69f768dea98aeebe2d719c65ff303bb3ab896dbb3828a9593278b6",
+        "render-carve.js": "88974d72d3fe7706a3b7fdd7522f33e04abc93538958dfd2c793c61b9d6bc857",
         "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
         "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
-        "render-html.js": "bfa6519f7f332d79fd97f48519b6d8b3a1f7cf46ed32e1701ca4e6250e3df567",
-        "render-loss.js": "a1413555a7957090449e080781a110fd619e59f8c6b81f2de7881e3ea6d907ef",
-        "render-markdown.js": "b93308a4ce7e7f05910b4dc5fa508899442ab05f6921d4bafde15e8929e8091a",
+        "render-html.js": "c2d06c0133e4caa9ce13137fe643d25c8a8b2da8d6550d8ab5932f069544380d",
+        "render-loss.js": "2c5985d46afaf8ea7c04882788e59512a77110fcafa1bda5cd86819f371f3b93",
+        "render-markdown.js": "6a4c58ec93022464c690f91f6787ab198a75e70d38ee230cd82bf444b237d778",
         "render-plain.js": "3f790bee9879893a121db57fe708a6b4b7a63338df65ac46a5a42b35d1376f29",
         "roundtrip-carriers.js": "fab917b8da718467e341697e719f6c73c62bebe157a3396b0b32c60e3f788e97",
         "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
         "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
-        "sentinel-run.js": "6dfd5b677c148fb1b185eba58157f1bf3fe5ddc735b8594e6762aebf2d8e2d33",
+        "sentinel-run.js": "9703efcb8f4d34bd6b3aaefac579d926ee12930580703c359d913d563e5cd470",
         "smart-quotes.js": "18b668a06337673966535412a6f12cfa1555dabc516d75bb229e7da423fc24b1",
         "smart-typography-mode.js": "c8c28c07be4fb8c9ba95b9e1ee7e4f1196b921ad22bf3fa43c01a6041af1674c",
         "source-layout.js": "ce2b8655548ca252a0fd475a37f1d131c8d6b90f7ba7b954320b16574f6512d4",
@@ -196,11 +178,11 @@
         "spoiler.js": "546fb3afbc97e2686c5ac44dd8d9c64bc1d871403a1bd5e2740ad7acfe0aface",
         "stamp.js": "e402f4943782becf31c8bad38b1485cd93bb1bc0a51b2edf7f286b1337db3409",
         "stream.js": "adc7048e6c11fd794676b3dc763086fd1a7c41ada71fcfe71c5aac4955a7be96",
-        "substitution-scanner.js": "550e364177c4668e89003e78969932b3a4d163644028b5491ccb5d621ae6d63b",
+        "substitution-scanner.js": "fd557a2b422a4c47f7c51158e6b6d16bd617acae25e1c7caa58bd6c8e6e8e877",
         "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
         "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
         "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
-        "table-display-width.js": "aafb2dbb9e09fe600ad289436531a45d40fb1cc625fce3716acc34dc6e12b7ef",
+        "table-display-width.js": "236a2038f1ab3bfabba4bceeffc851f2d5b34f45488d2c9dab58a409f7e80145",
         "table-of-contents.js": "794917c8cf6f0f23e1e607a8d1feb311fab0e653b566ae04cfe7289176503035",
         "table-preservation.js": "781535dbe452cd5ce8a1aaf5304380a1bbc062d940f77643188025dff37b068e",
         "table-source-metadata.js": "8abe5dc0ef1dcb0e707e066db926db10a3e8e6c95c3e16985bb5e4a81e1d66c8",
@@ -214,6 +196,7 @@
         "verbatim-payload.js": "32e65f415a0e3fa3a1abb7edc0de2efca6a2b256a9105c1697b1df63e1303312",
         "verse-whitespace.js": "53a00ff6e3b7cf6c7878357dd59386575d2c6ecdb9982f483473fc80d997f16a",
         "version.js": "37836b593aa5ab15cc68707150ece350ed81ede1ce084c01890f3809f171b29a",
+        "well-formed.js": "634161cb2683215ce972b136a5c06005ee02aeaa31b550d2c90eed547fa4f032",
         "wikilinks.js": "eec0d4bab6bca69e231265e188406e83231bade52c1d62b6a0e29b388cef4ba4",
         "wire-fields.js": "7504df65efb630616c5e02cce4cffe292691ce5f3bd5718870b6c92eee5521a9"
       },
@@ -231,9 +214,9 @@
     "sections": 150,
     "projection": "Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.",
     "load_end": [
-      9.1,
-      16.35,
-      22.21
+      5.16,
+      5.82,
+      9.17
     ]
   },
   "controls": [
@@ -279,9 +262,9 @@
         "commonmark.js-fresh"
       ],
       "load_end": [
-        13.39,
-        18.21,
-        23.07
+        3.75,
+        5.76,
+        9.36
       ],
       "rows": [
         {
@@ -292,17 +275,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.88788248,
-            2.94867597,
-            2.78649423,
-            3.052810325,
-            2.94196751,
-            2.890227835,
-            2.86596111
+            2.9424890699999997,
+            2.958994865,
+            2.9594075099999997,
+            2.93914166,
+            2.9053687200000002,
+            2.8824992700000003,
+            2.877710765
           ],
-          "ms_per_op": 2.78649423,
-          "mb_per_s": 17.0207174997508,
-          "carve_source": "@markup-carve/carve 0.1.12 (merged main 224b0c32e22480571c99aae3f0055a6e5a091f74)"
+          "ms_per_op": 2.877710765,
+          "mb_per_s": 16.48120154407374,
+          "carve_source": "@markup-carve/carve 0.1.12 (merged main f0acfa305f9a888bfeb49b11c597b510a3ffa524)"
         },
         {
           "engine": "djot.js",
@@ -312,16 +295,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            11.081280385,
-            10.459741529999999,
-            10.371251495,
-            12.61698636,
-            12.0276387,
-            11.794694565,
-            16.20867751
+            9.557579425,
+            9.684911765,
+            9.76250593,
+            10.723079065,
+            9.62184796,
+            9.503886099999999,
+            9.51108124
           ],
-          "ms_per_op": 10.371251495,
-          "mb_per_s": 4.573038376938484
+          "ms_per_op": 9.503886099999999,
+          "mb_per_s": 4.990393466890941
         },
         {
           "engine": "markdown-it",
@@ -331,16 +314,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            9.31144533,
-            10.73302232,
-            9.24462106,
-            8.494590715000001,
-            8.305435575,
-            7.838130115,
-            8.563632075000001
+            9.407065985000001,
+            9.42002483,
+            9.467138414999999,
+            9.53990254,
+            9.59573812,
+            9.462770755000001,
+            9.3827389
           ],
-          "ms_per_op": 7.838130115,
-          "mb_per_s": 6.123952395418914
+          "ms_per_op": 9.3827389,
+          "mb_per_s": 5.115812792505542
         },
         {
           "engine": "commonmark.js",
@@ -350,16 +333,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            4.7178334699999995,
-            4.687042235,
-            4.661938075,
-            4.422169374999999,
-            5.140575435,
-            4.0839217350000006,
-            3.973259615
+            4.23994277,
+            4.084393905,
+            3.871353715,
+            4.328389615,
+            4.413218955,
+            4.422196395,
+            4.389220470000001
           ],
-          "ms_per_op": 3.973259615,
-          "mb_per_s": 12.080845538546411
+          "ms_per_op": 3.871353715,
+          "mb_per_s": 12.39885043502396
         },
         {
           "engine": "commonmark.js-fresh",
@@ -369,16 +352,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.450086185,
-            3.44869325,
-            3.3600613650000004,
-            3.285298305,
-            3.5582722799999997,
-            3.38001618,
-            3.52140378
+            3.74595195,
+            3.8705154399999997,
+            3.9172455999999998,
+            4.746864385,
+            5.24446407,
+            4.508218745,
+            4.2773044449999995
           ],
-          "ms_per_op": 3.285298305,
-          "mb_per_s": 14.610647568991265
+          "ms_per_op": 3.74595195,
+          "mb_per_s": 12.813921890631667
         }
       ]
     },
@@ -392,9 +375,9 @@
         "carve-js"
       ],
       "load_end": [
-        9.1,
-        16.35,
-        22.21
+        5.16,
+        5.82,
+        9.17
       ],
       "rows": [
         {
@@ -405,16 +388,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.5919212,
-            3.376120265,
-            3.39691126,
-            3.16224417,
-            2.992598185,
-            3.113116945,
-            3.0150804900000003
+            4.221108955,
+            4.109952495,
+            4.102378445,
+            4.479879345,
+            4.39254916,
+            4.04326661,
+            4.159626095
           ],
-          "ms_per_op": 2.992598185,
-          "mb_per_s": 16.039686160993707
+          "ms_per_op": 4.04326661,
+          "mb_per_s": 11.871672170873586
         },
         {
           "engine": "commonmark.js",
@@ -424,16 +407,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.248461145,
-            3.2872837099999996,
-            3.45100708,
-            3.69991195,
-            4.697542245,
-            4.0608420899999995,
-            4.31788158
+            4.183545975,
+            4.229596445,
+            4.242000555000001,
+            4.174722065,
+            4.395640325,
+            4.1852414,
+            4.74059403
           ],
-          "ms_per_op": 3.248461145,
-          "mb_per_s": 14.776330561084603
+          "ms_per_op": 4.174722065,
+          "mb_per_s": 11.497851820073052
         },
         {
           "engine": "markdown-it",
@@ -443,16 +426,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            7.99028024,
-            7.96683633,
-            8.05122354,
-            7.7745579750000005,
-            7.849015325,
-            7.87729642,
-            7.94829081
+            10.4610872,
+            10.40223919,
+            9.92632981,
+            9.77890397,
+            9.67748016,
+            9.619820205,
+            9.53264815
           ],
-          "ms_per_op": 7.7745579750000005,
-          "mb_per_s": 6.174027622883521
+          "ms_per_op": 9.53264815,
+          "mb_per_s": 5.035362151005161
         },
         {
           "engine": "djot.js",
@@ -462,16 +445,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            9.496535549999999,
-            9.218242265,
-            8.725555739999999,
-            8.285808215,
-            8.62618448,
-            8.79730368,
-            8.616456425
+            9.79518285,
+            10.340770735000001,
+            10.059705424999999,
+            10.85855421,
+            10.10512104,
+            9.774912585,
+            10.476088944999999
           ],
-          "ms_per_op": 8.285808215,
-          "mb_per_s": 5.724019899188027
+          "ms_per_op": 9.774912585,
+          "mb_per_s": 4.8520261118545465
         },
         {
           "engine": "carve-js",
@@ -481,17 +464,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.489786125,
-            2.399910525,
-            2.555883715,
-            2.50607489,
-            2.6069745749999997,
-            2.473016555,
-            2.430954505
+            2.841657215,
+            2.863421125,
+            2.8600094400000002,
+            2.99182183,
+            3.094670415,
+            3.119290565,
+            3.043419665
           ],
-          "ms_per_op": 2.399910525,
-          "mb_per_s": 19.762458062271143,
-          "carve_source": "@markup-carve/carve 0.1.12 (merged main 224b0c32e22480571c99aae3f0055a6e5a091f74)"
+          "ms_per_op": 2.841657215,
+          "mb_per_s": 16.690306928351887,
+          "carve_source": "@markup-carve/carve 0.1.12 (merged main f0acfa305f9a888bfeb49b11c597b510a3ffa524)"
         }
       ]
     }
