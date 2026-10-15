@@ -1,0 +1,25 @@
+# Engine checkup, 2026-10-15
+
+These samples compare the pinned engines with commits that were on each engine's merged `main` at measurement time. The host was shared and had 16 logical CPUs. The [raw samples](data/engine-checkup-2026-10-15) retain input hashes and observations. The paired wall run finished at 17:21 CEST, the CPU run at 17:53 CEST, the PHP phase run at 16:47 CEST, and the Rust allocation probe at 18:05 CEST on 2026-10-15. The PHP memory probe ran that afternoon with JIT and opcache off. It used `php -n` with `ctype` and `mbstring` enabled.
+
+## Revisions and inputs
+
+| Engine | Pin | Merged main at measurement |
+|---|---|---|
+| JavaScript | `672d0a0a50af5de1e27e052e81f97c06c532c7a4` | `4f299589529405a3e583926a41c5021d390ef8ba` |
+| PHP | `29e428174d9c5c61fcb5649f156568152db159d4` | `c7886ac5311b42a5ea81f9ecaeb131270e005b61` |
+| Rust | `ee85c4cae6976d220b34727fd68727649b5d4da0` | `7d2fd546e2d9cb484fda3d365348317c0f3d293b` |
+
+Node was 22.22.2, PHP was 8.5.11, and rustc was 1.97.1. The comparison input is `corpus/small.crv` (1,233 bytes, SHA-256 `e59b53242d55149997deab060fe0fb326b9dfaa5548b4c1daff4dec3`). Medium and large join 50 and 400 copies with one newline between copies, giving 61,699 and 493,599 bytes. The AST variant adds the footnote from [ast-base.crv](data/engine-checkup-2026-10-15/ast-base.crv) once, after the repeated comparison input. This comparison input contains an image and a cross-reference, so JavaScript takes its AST route. The older benchmark name `core` does not describe its route.
+
+Fresh processes warmed each engine, then ran alternating pin/main pairs. The wall run used two ABBA rounds with PHP tracing JIT; the JS and Rust CPU run used four ABBA rounds. The separate PHP phase run used two reversed rounds with JIT off. The CPU run began with a 1-minute host load average of 30.7, and the wall run began at 10.9. Ratios near 10% are uncertain on this host. The September mixed corpus produced different output between the pin and main in all three engines, so its time ratios do not compare equivalent work.
+
+## Findings
+
+JavaScript's historical merged main took 1.20 times the pin's CPU time on the medium comparison input and 1.23 times on the large one. A focused render-only run traced much of that gap to repeated full-tree hydration of empty references. [The renderer fix](https://github.com/markup-carve/carve-js/pull/3172) has since merged. The paired CPU samples here predate that fix.
+
+PHP's fixed-input AST wall ratios were 1.05 at medium size and 0.97 at large size. Its no-JIT phase medians ranged from 0.88 to 1.09 times the pin across brackets, partial brackets, lists, quotes, and paragraphs. The depth-192 list parse peak rose from 3,924,712 to 4,929,144 bytes above start, while retained memory fell from 228,648 to 183,080 bytes. This was a transient parser memory increase. Depth-192 quote and list render peak memory matched at pin and main: 263,864 and 788,152 bytes above start, respectively. Both revisions already use chain rendering for these nested cases.
+
+Rust's medium comparison input measured 7.77 ms/op at pin and 7.92 ms/op at main in CPU time. Large measured 87.26 and 87.18 ms/op. The AST-variant medium input measured 10.98 and 12.13 ms/op, but that row had a much wider sample spread than the comparison input. At quote depths 64, 128, and 192, render allocation counts were 12, 13, and 14 at both revisions. Depth-192 quote rendering requested 300,639 bytes for 78,158 output bytes at both revisions. List render allocation counts were 15, 16, and 16; depth-192 requested bytes were 601,703 for 297,607 output bytes at both revisions. Parse allocation counts matched. Depth-192 parse requests rose by about 2% for both quote and list inputs. The quote renderer already writes into the caller's `String`.
+
+The completed scaling suites passed on the tested current mains: JavaScript 108 selected performance tests, PHP 219 tests with 48,066 assertions, and Rust 105 isolated guards. The paired runs establish a JavaScript render regression at the recorded historical main. They do not establish a Rust CPU or render-allocation regression. PHP's list parse peak remains a recorded issue at the measured main commit.
