@@ -1,3 +1,4 @@
+import {rustBinary} from './rust-binaries.mjs'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -27,7 +28,7 @@ if (command('php', ['-n', '-r', 'echo function_exists("opcache_get_status") ? "y
 const prepared = {}, sources = {}, fixtures = []
 const started = new Date().toISOString()
 const affinity = cpuAffinity()
-const provenanceFiles = ['scripts/compare-full-feature.mjs', 'scripts/full-feature-fixture.mjs', 'scripts/paired-full-results.mjs', 'scripts/paired-full-output.php', 'scripts/public_report.py', 'scripts/benchmark-metadata.mjs', 'scripts/build-rs-engine.mjs', 'engines/js/bench.mjs', 'engines/js/carve-src.mjs', 'engines/php/bench.php', 'engines/php/carve-src.php', 'engines/rs/src/main.rs', 'engines/rs/src/compare.rs', 'engines/rs/build.rs', 'engines/rs/Cargo.toml']
+const provenanceFiles = ['scripts/rust-binaries.mjs', 'scripts/compare-full-feature.mjs', 'scripts/full-feature-fixture.mjs', 'scripts/paired-full-results.mjs', 'scripts/paired-full-output.php', 'scripts/public_report.py', 'scripts/benchmark-metadata.mjs', 'scripts/build-rs-engine.mjs', 'engines/js/bench.mjs', 'engines/js/carve-src.mjs', 'engines/php/bench.php', 'engines/php/carve-src.php', 'engines/rs/src/main.rs', 'engines/rs/src/compare.rs', 'engines/rs/build.rs', 'engines/rs/Cargo.toml']
 const harnessHashes = Object.fromEntries(provenanceFiles.map(file => [file, sha(readFileSync(resolve(root, file)))]))
 const cargoConfig = resolve(process.env.CARGO_HOME ?? resolve(homedir(), '.cargo'), 'config.toml')
 const buildSettings = { rustc: command('rustc', ['--version']), cargo: command('cargo', ['--version']), cargo_home_config_sha256: existsSync(cargoConfig) ? sha(readFileSync(cargoConfig)) : null,
@@ -70,8 +71,8 @@ try {
         command(process.execPath, ['scripts/build-rs-engine.mjs', '--carve-rs', entry.path], { env: cleanEnv })
         const target = resolve(root, 'engines/rs/target/local-override')
         const binary = resolve(cache, `${revision}-rs`)
-        cpSync(resolve(target, 'target/release/carve-bench-rs'), binary)
-        cpSync(resolve(target, 'target/release/carve-bench-rs-compare'), binary + '-compare')
+        cpSync(rustBinary(root, {checkout: entry.path, env: cleanEnv}), binary)
+        cpSync(rustBinary(root, {checkout: entry.path, compare: true, env: cleanEnv}), binary + '-compare')
         prepared[revision].rsBinary = binary
         identity.binary_sha256 = sha(readFileSync(binary))
         identity.control_binary_sha256 = sha(readFileSync(binary + '-compare'))

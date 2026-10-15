@@ -1,0 +1,286 @@
+// carve-bench orchestrator.
+// Runs each engine harness over each corpus document and writes RESULTS.md.
+//
+// Engine resolution (override via env):
+//   CARVE_JS              path/specifier for carve-js          (default: carve-js)
+//   CARVE_PHP_AUTOLOAD    path to carve-php vendor/autoload.php (default: engines/php/vendor/autoload.php)
+//   CARVE_PHP_SRC         path to a carve-php checkout's src/   (default: unset)
+//   CARVE_RS_SRC          path to a carve-rs checkout           (default: unset)
+//   CARVE_RS_BIN          path to the built rust harness        (default: engines/rs/target/release/carve-bench-rs)
+//
+// Whatever those resolve to, each harness reports it back as `carve_source`
+// and the generated report names it. The engine line is DERIVED from the run,
+// not supplied to it: a benchmark whose provenance is typed on the command
+// line cannot disagree with what it measured, which is the one thing
+// provenance is for.
+//
+// Naming a checkout is also a claim the run has to honor: when an override says
+// which tree to measure, the reported sources are checked against it and a run
+// that measured something else writes no report at all.
+//
+// Usage: node run.mjs [--quick]
+import { execFileSync } from 'node:child_process'
+import { readdirSync, writeFileSync, existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { dirname, resolve, basename, relative } from 'node:path'
+import { assertMeasuredSources } from './scripts/measured-sources.mjs'
+import { publishedEngineSource, fullResults, validateFullReportSources } from './scripts/full-results.mjs'
+import { cpuAffinity, affinityDescription } from './scripts/benchmark-metadata.mjs'
+
+import { loadavg } from 'node:os'
+
+const root = dirname(fileURLToPath(import.meta.url))
+const quick = process.argv.includes('--quick')
+
+// Iterations per document size (fewer for the big one to keep wall time sane).
+const ITERS = quick
+  ? { small: 20, medium: 10, large: 3 }
+  : { small: 2000, medium: 500, large: 50 }
+
+// A checkout run measures the binary `scripts/build-rs-engine.mjs --carve-rs`
+// produced, so naming the tree is enough: the pinned release's binary sits
+// elsewhere and cannot be picked up by accident.
+const RS_BIN = process.env.CARVE_RS_BIN
+  ?? resolve(root, process.env.CARVE_RS_SRC
+    ? 'engines/rs/target/local-override/target/release/carve-bench-rs'
+    : 'engines/rs/target/release/carve-bench-rs')
+
+const engines = [
+  {
+    name: 'carve-js',
+    run: (doc, iters) =>
+      execFileSync('node', [resolve(root, 'engines/js/bench.mjs'), doc, String(iters)], {
+        encoding: 'utf8',
+        env: process.env,
+      }),
+  },
+  {
+    name: 'carve-php',
+    run: (doc, iters) => {
+      // Enable opcache + tracing JIT so PHP is measured the way production runs it.
+      // Append extra ini flags via CARVE_PHP_INI (space-separated -d flags/values), e.g.
+      //   CARVE_PHP_INI="-d opcache.jit=off" node run.mjs
+      const iniFlags = [
+        '-d', 'opcache.enable_cli=1',
+        '-d', 'opcache.jit_buffer_size=128M',
+        '-d', 'opcache.jit=tracing',
+      ]
+      const extraIni = process.env.CARVE_PHP_INI
+        ? process.env.CARVE_PHP_INI.trim().split(/\s+/)
+        : []
+      return execFileSync(
+        'php',
+        [...iniFlags, ...extraIni, resolve(root, 'engines/php/bench.php'), doc, String(iters)],
+        { encoding: 'utf8', env: process.env },
+      )
+    },
+  },
+  {
+    name: 'carve-rs',
+    run: (doc, iters) => execFileSync(RS_BIN, [doc, String(iters)], { encoding: 'utf8' }),
+  },
+]
+
+const corpusDir = resolve(root, 'corpus')
+const SIZE_ORDER = ['small', 'medium', 'large']
+const docs = readdirSync(corpusDir)
+  .filter((f) => f.endsWith('.crv'))
+  .sort((a, b) => {
+    const ia = SIZE_ORDER.indexOf(basename(a, '.crv'))
+    const ib = SIZE_ORDER.indexOf(basename(b, '.crv'))
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b)
+  })
+
+if (process.env.CARVE_FULL_REPORT) {
+  validateFullReportSources(root, RS_BIN, process.env, false)
+  execFileSync(process.execPath, [resolve(root, 'scripts/build-rs-engine.mjs'), '--carve-rs', process.env.CARVE_RS_SRC], { cwd: process.cwd(), stdio: 'pipe' })
+  validateFullReportSources(root, RS_BIN)
+}
+
+const fullLoadStart = loadavg()
+const results = {} // doc -> engine -> {ms_per_op, mb_per_s, bytes}
+for (const doc of docs) {
+  const key = basename(doc, '.crv')
+  const iters = ITERS[key] ?? 100
+  results[key] = {}
+  for (const engine of engines) {
+    try {
+      const line = engine.run(resolve(corpusDir, doc), iters).trim().split('\n').pop()
+      results[key][engine.name] = JSON.parse(line)
+      const r = results[key][engine.name]
+      const extra = r.jit !== undefined ? ` jit=${r.jit}` : ''
+      console.error(`${key.padEnd(8)} ${engine.name.padEnd(10)} ${r.ms_per_op} ms/op${extra}`)
+    } catch (e) {
+      console.error(`${key} ${engine.name}: FAILED - ${e.message.split('\n')[0]}`)
+      results[key][engine.name] = null
+    }
+  }
+}
+
+// PHP extension tiers, measured over the comparison document so the table in
+// RESULTS.md is a reading from this run rather than transcribed constants.
+const TIER_LABELS = {
+  tier1: 'Tier 1 core/default',
+  tier2: 'Tier 2 stack',
+  tier3: 'Tier 3 stack',
+}
+const TIER_DOC = resolve(root, 'corpus/comparison/carve.crv')
+const TIER_ITERS = quick ? 2 : 5
+const tiers = []
+if (existsSync(TIER_DOC)) {
+  const tierIni = [
+    '-n', '-d', 'extension=ctype', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`,
+    '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing',
+  ]
+  for (const profile of Object.keys(TIER_LABELS)) {
+    try {
+      const line = execFileSync(
+        'php',
+        [...tierIni, resolve(root, 'engines/php/tiers.php'), profile, TIER_DOC, String(TIER_ITERS), '5'],
+        { encoding: 'utf8', env: process.env },
+      ).trim().split('\n').pop()
+      const tier = JSON.parse(line)
+      tiers.push(tier)
+      console.error(`${profile.padEnd(8)} carve-php  ${tier.ms_per_op.toFixed(2)} ms/op jit=${tier.jit}`)
+    } catch (e) {
+      console.error(`${profile} carve-php: FAILED - ${e.message.split('\n')[0]}`)
+    }
+  }
+}
+
+// Before anything is written: if an override named a tree, that is the tree the
+// rows have to have come from.
+assertMeasuredSources(collectSources(), process.env, root)
+let fullRecord = null
+if (process.env.CARVE_FULL_REPORT) {
+  fullRecord = fullResults(root, results, tiers, RS_BIN, process.env, fullLoadStart)
+  writeFileSync(resolve(root, process.env.CARVE_FULL_REPORT), JSON.stringify(fullRecord, null, 2) + '\n')
+}
+
+// Render RESULTS.md
+const lines = []
+lines.push(
+  '# Benchmark results: authoritative/full parser', '',
+  'This is **Track B**, the Carve-owned authoritative/full-parser view. The mixed',
+  'corpus falls outside the conservative borrowed facades and therefore exercises',
+  'normal AST construction, extension-capable parsing, and rendering. It answers',
+  'how the three Carve implementations scale on their full language, not how their',
+  'fastest core-only convenience API compares with another library.', '',
+  'For **Track A**, the primary core source-to-HTML comparison against the',
+  process.env.CARVE_FULL_REPORT ? 'same-language libraries, see [the current core report](reports/dev-main-core.md).' : 'same-language libraries, see [`COMPARISON.md`](./COMPARISON.md).', '',
+)
+lines.push(
+  'Parse + render to HTML, in-process, averaged over many iterations. Lower',
+  'ms/op and higher MB/s are better. `rel` is relative to the fastest engine for',
+  'that document (1.00x = fastest). Numbers are machine-specific - run it yourself',
+  'with `node run.mjs`; see README for setup.',
+  '',
+)
+if (process.env.CARVE_RUN_META) lines.push(`**Run:** ${fullRecord ? fullRecord.metadata.completed_at + '; ' : ''}${process.env.CARVE_RUN_META}`, '')
+else if (fullRecord) lines.push(`**Run:** ${fullRecord.metadata.completed_at}; serial processes; Node ${process.version}; ${fullRecord.metadata.runtimes.php}; ${fullRecord.metadata.runtimes.rustc}.`, '')
+lines.push(affinityDescription(cpuAffinity()), '')
+if (fullRecord) lines.push(`One-minute host load was ${fullRecord.metadata.load_start[0].toFixed(2)} at start and ${fullRecord.metadata.load_end[0].toFixed(2)} at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.`, '')
+if (fullRecord) lines.push('The `rel` column compares elapsed time. Check the', '[output byte counts and hashes](reports/dev-main-full-output-controls.json)', 'before treating cross-engine results as equal work.', '')
+lines.push(`**Engines measured:** ${describeEngines()}`, '')
+if (process.env.CARVE_CORPUS_SNAPSHOT) lines.push(`**Corpus snapshot:** ${process.env.CARVE_CORPUS_SNAPSHOT}`, '')
+else if (fullRecord) lines.push('**Corpus snapshot:** Fixed committed corpus; input hashes are recorded in the full-run JSON.', '')
+lines.push('![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)', '')
+for (const doc of docs) {
+  const key = basename(doc, '.crv')
+  const row = results[key]
+  const bytes = Object.values(row).find(Boolean)?.bytes ?? 0
+  lines.push(`## ${key} (${(bytes / 1024).toFixed(1)} KB)`, '')
+  if (key === 'small' && process.env.CARVE_SMALL_INPUT_UNSTABLE === '1') {
+    lines.push('Small-input timings are unstable. Read the [recorded diagnostic](reports/performance-refresh.md#small-input-diagnostic) before comparing small-document speed.', '')
+  }
+  lines.push('| Engine | ms/op | MB/s | rel |', '|---|---:|---:|---:|')
+  const best = Math.min(...Object.values(row).filter(Boolean).map((r) => r.ms_per_op))
+  for (const engine of engines) {
+    const r = row[engine.name]
+    if (!r) {
+      lines.push(`| ${engine.name} | - | - | - |`)
+      continue
+    }
+    const rel = (r.ms_per_op / best).toFixed(2)
+    lines.push(`| ${engine.name} | ${r.ms_per_op.toFixed(4)} | ${r.mb_per_s.toFixed(2)} | ${rel}x |`)
+  }
+  lines.push('')
+}
+const tier1 = tiers.find((tier) => tier.profile === 'tier1')
+if (tier1) {
+  lines.push(
+    '## PHP authoritative extension tiers', '',
+    'These are internal Carve measurements over the same core document, measured',
+    'by this run rather than transcribed. Tier 1 is the default public conversion',
+    'route; Tier 2 and Tier 3 register opt-in extensions on top of it. Since',
+    'carve-php #1515 made configured conversion allocation-light, registering an',
+    'extension no longer forces a wholly separate slow path, so these rows read as',
+    'registration and hook costs on a document whose content does not trigger',
+    'the registered extensions. Shared host noise can affect ratios, including',
+    'apparent negative overhead. These are internal diagnostics, not competitor rows.', '',
+    '| Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |',
+    '|---|---:|---:|---:|---:|',
+  )
+  for (const tier of tiers) {
+    const delta = Math.round((tier.ms_per_op / tier1.ms_per_op - 1) * 100)
+    const cost = tier === tier1
+      ? 'baseline'
+      : `${delta >= 0 ? '+' : ''}${delta.toLocaleString('en-US')}%`
+    lines.push(
+      `| ${TIER_LABELS[tier.profile]} | ${tier.tier2_extensions + tier.tier3_extensions} |` +
+        ` ${tier.ms_per_op.toFixed(2)} | ${tier.mb_per_s.toFixed(2)} | ${cost} |`,
+    )
+  }
+  lines.push('')
+}
+lines.push(
+  '![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)', '',
+  'The exact extension bundles and interpretation are documented in',
+  '[`FINDINGS.md`](./FINDINGS.md#extension-tier-cost). There is no normative Tier',
+  '3 profile; it is a reproducible internal stress stack.', '',
+  '## Why Track B has no competitor rows', '',
+  'The corpus uses Carve syntax and capabilities that peer libraries do not',
+  'accept equivalently. Feeding it to Djot/CommonMark parsers would benchmark',
+  'literal/error recovery rather than the same work. Track A therefore uses',
+  'equivalent native-language fixtures for competitors.', '',
+)
+const out = resolve(root, 'RESULTS.md')
+if (process.env.CARVE_FULL_REPORT) {
+  lines.push('Worker results, source commits, input hashes and runtime settings are recorded', `in [the full-run JSON](${relative(root, resolve(root, process.env.CARVE_FULL_REPORT))}).`, '')
+}
+writeFileSync(out, lines.join('\n'))
+console.error(`\nwrote ${out}`)
+
+// The engine each row was actually produced by, read back out of the harness
+// output. An engine that reported nothing is named as such rather than left
+// out, and an engine that reported two different sources within one run - the
+// tier rows resolving a different carve-php than the corpus rows, say - has
+// both printed, because such a run is not internally comparable and the report
+// is where that has to show.
+function collectSources() {
+  const sources = new Map(engines.map((engine) => [engine.name, new Set()]))
+  for (const row of Object.values(results)) {
+    for (const [name, result] of Object.entries(row)) {
+      if (result?.carve_source) sources.get(name)?.add(result.carve_source)
+    }
+  }
+  for (const tier of tiers) {
+    if (tier?.carve_source) sources.get('carve-php')?.add(tier.carve_source)
+  }
+  return sources
+}
+
+function describeEngines() {
+  const sources = collectSources()
+  return engines
+    .map((engine) => {
+      const seen = [...(sources.get(engine.name) ?? [])].map(source => fullRecord ? publishedEngineSource(source, engine.name) : source)
+      if (seen.length === 0) return `${engine.name} \`unreported\``
+      if (seen.length > 1) {
+        return `${engine.name} **MISMATCH** ${seen.map((source) => `\`${source}\``).join(' and ')}`
+      }
+      return `${engine.name} \`${seen[0]}\``
+    })
+    .join(', ')
+}
+if (!existsSync(RS_BIN)) console.error(`note: ${RS_BIN} missing - build it: (cd engines/rs && cargo build --release)`)

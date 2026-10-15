@@ -1,3 +1,4 @@
+import {rustBinary} from './rust-binaries.mjs'
 import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
@@ -8,7 +9,7 @@ import { validateFullReportSources } from './full-results.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const config = JSON.parse(readFileSync(process.argv[2]))
-const binary = resolve(root, 'engines/rs/target/local-override/target/release/carve-bench-rs')
+const binary = rustBinary(root, {checkout: config.rs.path})
 const env = { ...process.env, CARVE_JS: resolve(config.js.path, 'dist/index.js'), CARVE_PHP_SRC: resolve(config.php.path, 'src'), CARVE_RS_SRC: config.rs.path }
 const { sourceCommits } = validateFullReportSources(root, binary, env)
 for (const engine of ['js', 'php', 'rs']) assert.equal(sourceCommits[engine].commit, config[engine].commit)

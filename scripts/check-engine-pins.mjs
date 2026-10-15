@@ -1,3 +1,4 @@
+import {rustBinary} from './rust-binaries.mjs'
 // Asserts every place that names a carve engine release names the same one.
 //
 // This repo's product is comparability, so a version printed anywhere has to be
@@ -15,7 +16,7 @@
 
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
@@ -115,11 +116,16 @@ function lane(name, { requirement, lock, installed }) {
 }
 
 function builtRustEngine() {
-  const bin = join(root, 'engines/rs/target/release/carve-bench-rs')
+  const bin = rustBinary(root)
   if (!existsSync(bin)) return null
   try {
     const line = execFileSync(bin, [join(root, 'corpus/small.crv'), '1'], { encoding: 'utf8' })
-    return JSON.parse(line).carve_source?.match(/carve-lang (\S+)/)?.[1] ?? null
+    const source = JSON.parse(line).carve_source ?? ''
+    if (!source.includes('(crates.io,')) {
+      problems.push('carve-rs: the installed binary reports a checkout instead of the pinned release')
+      return null
+    }
+    return source.match(/carve-lang (\S+)/)?.[1] ?? null
   } catch {
     return null
   }

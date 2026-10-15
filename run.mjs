@@ -1,3 +1,4 @@
+import {rustBinary} from './scripts/rust-binaries.mjs'
 // carve-bench orchestrator.
 // Runs each engine harness over each corpus document and writes RESULTS.md.
 //
@@ -40,10 +41,7 @@ const ITERS = quick
 // A checkout run measures the binary `scripts/build-rs-engine.mjs --carve-rs`
 // produced, so naming the tree is enough: the pinned release's binary sits
 // elsewhere and cannot be picked up by accident.
-const RS_BIN = process.env.CARVE_RS_BIN
-  ?? resolve(root, process.env.CARVE_RS_SRC
-    ? 'engines/rs/target/local-override/target/release/carve-bench-rs'
-    : 'engines/rs/target/release/carve-bench-rs')
+const RS_BIN = rustBinary(root, {checkout: Boolean(process.env.CARVE_RS_SRC)})
 
 const engines = [
   {

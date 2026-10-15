@@ -1,3 +1,6 @@
+import {createHash} from 'node:crypto'
+import {cpuAffinity, benchmarkCheckout} from './scripts/benchmark-metadata.mjs'
+import {rustBinary} from './scripts/rust-binaries.mjs'
 // Same-language Carve/Djot/CommonMark comparison from docs/performance.md.
 //
 // Engine overrides are the same as run.mjs (see its header), including that
@@ -5,15 +8,12 @@
 import { execFileSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { readFileSync, writeFileSync } from 'node:fs'
-import { release } from 'node:os'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { release, loadavg } from 'node:os'
 import { assertMeasuredSources } from './scripts/measured-sources.mjs'
 
 const root = dirname(fileURLToPath(import.meta.url))
-const rs = process.env.CARVE_RS_COMPARE_BIN
-  ?? resolve(root, process.env.CARVE_RS_SRC
-    ? 'engines/rs/target/local-override/target/release/carve-bench-rs-compare'
-    : 'engines/rs/target/release/carve-bench-rs-compare')
+const rs = rustBinary(root, {checkout: Boolean(process.env.CARVE_RS_SRC), compare: true})
 const phpArgs = ['-n', '-d', 'extension=ctype', '-d', `extension=${process.env.CARVE_PHP_MBSTRING ?? 'mbstring'}`, '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing']
 const cases = [
   ['JavaScript', 'carve-js', 'carve.crv', 100, ['node', [resolve(root, 'engines/js/compare.mjs')]]],
@@ -27,6 +27,7 @@ const cases = [
   ['Rust', 'comrak', 'markdown.md', 200, [rs, []]],
   ['Rust', 'pulldown-cmark', 'markdown.md', 200, [rs, []]],
 ]
+const loadStart = loadavg()
 const rows = []
 const workloadFeaturePoints = 18
 const capabilityPoints = new Map([
@@ -54,6 +55,13 @@ for (const row of rows) {
   measured.get(row.engine).add(row.carve_source)
 }
 assertMeasuredSources(measured, process.env, root)
+
+const loadEnd = loadavg()
+if (process.env.CARVE_COMPARE_REPORT) {
+  const hash = file => createHash('sha256').update(readFileSync(resolve(root, file))).digest('hex')
+  writeFileSync(resolve(root, process.env.CARVE_COMPARE_REPORT), JSON.stringify({generatedAt: new Date().toISOString(), host: describeHost(), loadStart, loadEnd, rustBinarySha256: hash(rs), cpuAffinity: cpuAffinity(), ...benchmarkCheckout(root), rows, harnessSha256: Object.fromEntries(['compare.mjs','scripts/benchmark-metadata.mjs','scripts/build-rs-engine.mjs','engines/rs/build.rs','engines/rs/Cargo.toml','engines/js/package.json','engines/php/composer.json','scripts/rust-binaries.mjs','scripts/measured-sources.mjs','engines/js/compare.mjs','engines/php/compare.php','engines/rs/src/compare.rs','engines/js/package-lock.json','engines/php/composer.lock','engines/rs/Cargo.lock','scripts/public_report.py'].map(file => [file, hash(file)]))}, null, 2) + '\n')
+  execFileSync('python3', [resolve(root, 'scripts/public_report.py'), resolve(root, process.env.CARVE_COMPARE_REPORT)], {cwd: root, stdio: 'pipe'})
+}
 
 // The Carve engine behind each row, read back out of the harness output rather
 // than typed on the command line. A harness that reported nothing is named as
@@ -110,11 +118,12 @@ const lines = [
   'actually loaded, as each harness reported them back, were',
   `${describeEngines()}, measured`,
   `${describeHost()}`, '',
+  `One-minute host load was ${loadStart[0].toFixed(2)} at start and ${loadEnd[0].toFixed(2)} at end. CPU affinity does not reserve a core. These shared-host observations do not isolate code speedups.`, '',
+  ...(process.env.CARVE_COMPARE_REPORT ? [`[Raw samples and producer hashes](${process.env.CARVE_COMPARE_REPORT}).`, ''] : []),
   `Every configured engine earns the same ${workloadFeaturePoints} workload points. Core capability`,
   'points separately expose the much wider syntax surface an engine recognizes',
   'by default. See `FEATURES.md` for the auditable matrix and limitations.', '',
   '![Bar chart of same-language render throughput, normalized within each language](./charts/comparison.svg)', '',
-  '![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)', '',
   '![Bar chart of enabled core capability points](./charts/capabilities.svg)', '',
 ]
 
@@ -153,7 +162,7 @@ lines.push('')
 lines.push(
   'Same input, same core route, so this is the direct cross-language cost of the',
   'implementation rather than of the language surface. Full-corpus scaling for the',
-  'same three engines is in [`RESULTS.md`](./RESULTS.md).', '',
+  'pinned merged-main snapshots is in [`RESULTS.md`](./RESULTS.md).', '',
 )
 for (const language of ['Rust', 'JavaScript', 'PHP']) {
   const group = rows.filter((row) => row.language === language)
@@ -181,4 +190,4 @@ const readmePath = resolve(root, 'README.md')
 const readme = readFileSync(readmePath, 'utf8')
   .replace(/\| Language \| Carve \| MB\/s \| Fastest peer \| MB\/s \| Carve vs peer \|[\s\S]*?\n\n/, headline[0])
   .replace(/\| Engine \| Language \| ms\/op \| MB\/s \| rel \|[\s\S]*?\n\n/, carveTable[0])
-writeFileSync(readmePath, readme)
+if (!existsSync(resolve(root, 'reports/dev-main-core.json'))) writeFileSync(readmePath, readme)

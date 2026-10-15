@@ -1,3 +1,4 @@
+import {requireRecordedProducer, historicalSnapshot, requireRecordedMeasurement} from './recorded-producers.mjs'
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { createHash } from 'node:crypto'
@@ -10,12 +11,12 @@ const median = values => {
   return (sorted[Math.floor((sorted.length - 1) / 2)] + sorted[Math.floor(sorted.length / 2)]) / 2
 }
 
-test('final audit controls match the published baseline, current pins and measured producers', () => {
+test('final audit controls match the published baseline, historical pins and measured producers', () => {
   const control = read('reports/final-audit-conversion-checks.json')
   const paired = read('reports/final-audit-pairs.json')
   const before = read('reports/dev-main-full-pre-queue-audit-20261007.json')
-  const core = read('reports/dev-main-core.json')
-  const full = read('reports/dev-main-full.json')
+  const core = historicalSnapshot('reports/final-audit-conversion-checks.json', 'core')
+  const full = historicalSnapshot('reports/final-audit-conversion-checks.json', 'full')
   assert.equal(control.metadata.build_manifest_sha256, sha('reports/final-audit-pairs.json'))
   assert.deepEqual(control.metadata.php_ini_flags.slice(-2), ['-d', 'memory_limit=512M'])
   assert.deepEqual(control.metadata.php_ini_flags.slice(0, -2), paired.metadata.php_ini_flags)
@@ -27,7 +28,7 @@ test('final audit controls match the published baseline, current pins and measur
       assert.equal(control.metadata.sources[revision][engine].commit, paired.metadata.sources[revision][engine].commit)
   }
   for (const [file, hash] of Object.entries(control.metadata.harness_sha256))
-    assert.equal(sha(file), hash, file)
+    requireRecordedProducer(file, hash)
   assert.equal(control.publication_exporter_sha256, sha('scripts/public_report.py'))
   assert.equal(control.summary.length, 13)
   for (const result of control.summary) {
@@ -66,12 +67,13 @@ test('final audit controls match the published baseline, current pins and measur
 })
 
 test('revision diagnostics retain the measured producers and paired build identity', () => {
+  for (const file of ['reports/conversion-snapshot-pairs.json','reports/rust-core-ranking.json']) requireRecordedMeasurement(file)
   const conversion = read('reports/conversion-snapshot-pairs.json')
   const ranking = read('reports/rust-core-ranking.json')
   const paired = read('reports/paired-full-feature.json')
   for (const [file, hash] of Object.entries(conversion.metadata.harness_sha256))
-    assert.equal(sha(file === 'scripts/check-conversion-snapshots.py'
-      ? 'scripts/check-conversion-snapshots-pre-final-audit.py' : file), hash, file)
+    requireRecordedProducer(file === 'scripts/check-conversion-snapshots.py'
+      ? 'scripts/check-conversion-snapshots-pre-final-audit.py' : file, hash)
   assert.equal(sha('scripts/check-rust-core-ranking.py'), ranking.metadata.producer_sha256)
   assert.equal(conversion.metadata.build_manifest_sha256, ranking.metadata.build_manifest_sha256)
   assert.equal(conversion.metadata.build_manifest_sha256, sha('reports/paired-full-feature.json'))
@@ -103,6 +105,7 @@ test('ranking rows match the preserved chart input and output controls', () => {
 })
 
 test('PHP output mismatch cannot become a published comparable timing delta', () => {
+  for (const file of ['reports/conversion-snapshot-pairs.json','reports/rust-core-ranking.json']) requireRecordedMeasurement(file)
   const conversion = read('reports/conversion-snapshot-pairs.json')
   const result = conversion.summary.find(row => row.engine === 'php' && row.case === 'large')
   assert.equal(result.comparable, false)
@@ -114,6 +117,7 @@ test('PHP output mismatch cannot become a published comparable timing delta', ()
 })
 
 test('JIT controls retain the observed revision outputs and measured worker', () => {
+  for (const file of ['reports/conversion-snapshot-pairs.json','reports/rust-core-ranking.json']) requireRecordedMeasurement(file)
   const conversion = read('reports/conversion-snapshot-pairs.json')
   const jit = read('reports/php-large-jit-output-control.json')
   assert.equal(jit.publication_exporter_sha256, sha('scripts/public_report.py'))

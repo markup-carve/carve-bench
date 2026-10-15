@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `43c8883` against released
+The current comparison measures Carve JS merged main `224b0c3` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -65,11 +65,11 @@ same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
 The throughput charts use pinned merged commits for JS, PHP and Rust,
-measured 2026-10-14 on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
+measured 2026-10-15 on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
 The current core tables use median timing across fourteen samples in two rounds with reversed engine order.
-The shared host's one-minute load changed from 5.18 to 4.65 during the core run; other build lanes raised it above 25 during later tracks.
+The shared host's one-minute load changed from 17.58 to 23.56 during the core run.
 These sessions do not isolate code effects across snapshots.
-Merges after about 09:20 UTC on 2026-10-14 were not measured. That includes the carve-rs probe fix [carve-rs #2754](https://github.com/markup-carve/carve-rs/pull/2754): the Rust pin `61b673ce9` predates it.
+The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
 Historical release results remain in [COMPARISON.md](COMPARISON.md).
 The September 30 development-main snapshot, taken after the PHP
@@ -81,9 +81,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 118.47 | pulldown-cmark | 113.03 | 1.05x |
-| JavaScript | carve-js | 12.83 | djot.js | 4.39 | 2.92x |
-| PHP | carve-php | 14.19 | djot-php | 16.97 | 0.84x |
+| Rust | carve-rs | 86.98 | pulldown-cmark | 71.82 | 1.21x |
+| JavaScript | carve-js | 9.92 | djot.js | 3.57 | 2.78x |
+| PHP | carve-php | 9.54 | djot-php | 11.94 | 0.80x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -93,9 +93,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.6555 | 12.83 | 9.23x |
-| carve-php | PHP | 4.2100 | 14.19 | 8.35x |
-| carve-rs | Rust | 0.5042 | 118.47 | 1.00x |
+| carve-js | JavaScript | 6.0207 | 9.92 | 8.77x |
+| carve-php | PHP | 6.2604 | 9.54 | 9.12x |
+| carve-rs | Rust | 0.6867 | 86.98 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -121,8 +121,9 @@ The current `RESULTS.md` tables measure the same merged main commits as the core
 report, using runtime checkout overrides. The [full-run record](reports/dev-main-full.json)
 contains worker results, source commits, input hashes and runtime settings.
 
-The [final-audit paired comparison](reports/final-audit-pairs.md) measures the preceding
-published snapshot against the current JS, PHP and Rust fixes.
+The [historical final-audit paired comparison](reports/final-audit-pairs.md) retains
+the preceding published snapshot and the merged-main commits it measured. Its
+[producer archive](reports/producers/README.md) preserves the measured tooling.
 It alternates revision order across eight rounds and requires matching HTML hashes.
 The [exact-input controls](reports/final-audit-conversion-checks.md) check the core and corpus inputs
 in two reversed rounds. They suppress timing changes when outputs differ, timed windows are short,
@@ -212,7 +213,7 @@ CARVE_PHP_SRC=/tmp/carve-php-main/src \
 CARVE_RS_SRC=/tmp/carve-rs-main \
 CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring -d memory_limit=512M" \
 CARVE_FULL_REPORT=reports/dev-main-full.json \
-CARVE_RUN_META="Fresh pinned merged-main benchmark after moving the release pins to carve-js 0.1.10, carve-php 0.1.11 and carve-lang 0.1.8; CPU 13; PHP memory limit 512M." \
+CARVE_RUN_META="Fresh pinned merged-main benchmark after moving the release pins to carve-js 0.1.11, carve-php 0.1.12 and carve-lang 0.1.9; CPU 13; PHP memory limit 512M." \
 CARVE_CORPUS_SNAPSHOT='carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.' \
 taskset -c 13 node run.mjs
 node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
@@ -284,9 +285,9 @@ corpus from the carve commit the reports name:
 | Component | Version |
 |---|---|
 | carve (corpus) | `9db91206d1a4a8a8cf795c48210bca49d66f14d6` |
-| carve-js | npm `@markup-carve/carve` 0.1.10 |
-| carve-php | Composer `markup-carve/carve-php` 0.1.11 |
-| carve-rs | crates.io `carve-lang` 0.1.8 |
+| carve-js | npm `@markup-carve/carve` 0.1.11 |
+| carve-php | Composer `markup-carve/carve-php` 0.1.12 |
+| carve-rs | crates.io `carve-lang` 0.1.9 |
 
 Build carve-js with `npm ci`, install the benchmark's locked JS/PHP dependencies,
 and use the checkout commands under "Engine resolution" to build and run Rust.
@@ -450,9 +451,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.10` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.11` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.8` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.11` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.12` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.9` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
@@ -534,8 +535,7 @@ make parser scope visible but are not a speed-normalization divisor; see
 
 ## Engine release history
 
-The separate history track measures the latest four stable Git tags for each
-engine, followed by a pinned development main. It belongs here; correctness
+The separate history runner selects four stable Git tags for each engine, followed by a pinned development main. The published graph retains tag sessions from October 2, 2026 and refreshes the main points. Newer JS 0.1.10/0.1.11, PHP 0.1.11/0.1.12 and Rust 0.1.8/0.1.9 are outside those retained history sessions; the Djot growth report measures the released pins separately. Performance history belongs here; correctness
 and conformance evidence belongs in
 [carve-conformance](https://github.com/markup-carve/carve-conformance). The graph marks changed HTML
 output because timings across a behavior change can represent different work.
@@ -551,7 +551,7 @@ reuse an ignored `.history-cache/`. Engine repositories and the pinned headline
 manifests stay untouched. Four tags plus a differing main means at most fifteen
 engine builds; measurement cost scales with revisions, cases and sample count.
 Source snapshots and saved binaries stay in that cache; shared Rust compilation
-artifacts live under `/tmp/cargo-shared/carve-bench-history`. The caches can be
+artifacts live under `/var/tmp/cargo-shared/carve-bench`. The caches can be
 removed to reclaim their disk space.
 
 The runner fetches tags and main once, sorts stable semantic versions, and
@@ -584,10 +584,20 @@ and may produce different output across revisions.
 
 The history signature covers the fixture and measurement functions. Worker hashes and source/build records identify the remaining execution context. Report generation also verifies sample counts, output hashes and summaries against the raw timings.
 
-The [pinned main comparison](reports/latest-main-comparison.md) lists pinned merged main commits against the two most recent tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
+The [pinned main comparison](reports/latest-main-comparison.md) lists pinned merged main commits against the last two retained tags for all three engines, with a [CSV export](reports/latest-main-comparison.csv). Published history graphs contain release tags and merged main. Intermediate PR measurements and their controls remain in local evidence artifacts. The [focused runner instructions](scripts/deep-review/README.md) describe how to repeat those cases locally.
 
 The historical [merged main versus PHP and Rust peers](reports/merged-core-peers.md) report includes warmed medians, raw samples, source hashes and matching Carve output hashes.
 
 Release-history graphs show sample ranges; overlapping +100% readings are marked uncertain.
 
-The measured source pins were frozen at the start of this refresh. Later merges, including carve-rs #2754, landed during the run and were not measured. All current core, corpus, paired controls and history reports retain the same frozen pins. The core report records newer heads observed at repeat setup; earlier workloads retain their own measurement-time provenance.
+The current core, corpus and history main points use the same fixed merged-main commits. The measured Rust snapshot includes carve-rs #2754. The core report records newer heads observed at repeat setup; historical controls retain their own measurement-time provenance.
+
+## Djot importer follow-up
+
+The [issue 2962 growth report](reports/djot-growth-2962.md) compares released tags
+with fixed merged-main snapshots across repeated labels, shared attributes,
+nested containers, definition lists and quoted Unicode image labels. It retains
+raw samples and output checks for import and rendering separately. Rows with
+changed converted output or a Native mismatch do not support speedup claims.
+
+The [previous fleet reports](reports/release-before-2962-20261015/README.md) preserve the reports and charts replaced by this refresh. The current released-core raw samples are in [the release record](reports/release-core-20261015.json).

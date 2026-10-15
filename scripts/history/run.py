@@ -163,7 +163,7 @@ def prepare(cache, engine, revision):
         if (tree / 'Cargo.lock').exists():
             shutil.copyfile(tree / 'Cargo.lock', lock)
         # Add the wrapper package once, then freeze its resolved dependency graph.
-        build_directory=Path('/tmp/cargo-shared/carve-bench-history')
+        build_directory=Path(os.environ.get('CARGO_TARGET_DIR', '/var/tmp/cargo-shared/carve-bench'))
         build_directory.mkdir(parents=True,exist_ok=True)
         build_lock=(build_directory/'.build.lock').open('w')
         fcntl.flock(build_lock,fcntl.LOCK_EX)

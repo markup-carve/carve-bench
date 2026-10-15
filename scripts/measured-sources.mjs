@@ -94,6 +94,9 @@ export function overrideProblems(sources, env = process.env, root = process.cwd(
 /** Report the problems and stop the run before any report is written. */
 export function assertMeasuredSources(sources, env = process.env, root = process.cwd()) {
   const problems = overrideProblems(sources, env, root)
+  if (!env.CARVE_RS_SRC) for (const source of sources.get('carve-rs') ?? []) {
+    if (source.includes('local checkout')) problems.push('carve-rs reports a checkout but CARVE_RS_SRC is unset')
+  }
   if (problems.length === 0) return
   console.error(
     `\nthis run did not measure the trees it was asked for:\n  ${problems.join('\n  ')}\n\n` +
