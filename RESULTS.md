@@ -58,22 +58,15 @@ The controls do not establish what every timed conversion rendered.
 
 ## PHP authoritative extension tiers
 
-The apparent Tier 1 increase in this unpaired run is rechecked in the [paired PHP tier report](reports/php-tier-pairs.md). Its alternating measurements retain both elapsed and process CPU time. This table preserves the original observations; it does not establish a PHP regression.
+Current tier values use the [balanced paired recheck](reports/php-tier-pairs.md) at the same PHP commit, `967f253974433dbc53534df74b7abeae10f26458`. Each value is the median of eight round medians, with seven warmed batches per round. These are separate measurements from the full-corpus rows above.
 
-These are internal Carve measurements over the same core document, measured
-by this run rather than transcribed. Tier 1 is the default public conversion
-route; Tier 2 and Tier 3 register opt-in extensions on top of it. Since
-carve-php #1515 made configured conversion allocation-light, registering an
-extension no longer forces a wholly separate slow path, so these rows read as
-registration and hook costs on a document whose content does not trigger
-the registered extensions. Shared host noise can affect ratios, including
-apparent negative overhead. These are internal diagnostics, not competitor rows.
+The [original unpaired tier observations](reports/php-tiers-unpaired-20261015.md) and full-run JSON remain unchanged as historical evidence. Tier 1 is the default route; Tier 2 and Tier 3 register extensions on the same core document.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
 |---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 4.69 | 10.01 | baseline |
-| Tier 2 stack | 8 | 4.04 | 11.63 | -14% |
-| Tier 3 stack | 20 | 5.04 | 9.32 | +7% |
+| Tier 1 core/default | 0 | 3.56 | 13.19 | baseline |
+| Tier 2 stack | 8 | 3.85 | 12.21 | +8% |
+| Tier 3 stack | 20 | 4.62 | 10.17 | +30% |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
