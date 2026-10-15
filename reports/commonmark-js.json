@@ -4,13 +4,36 @@
     "cpu_affinity": [
       13
     ],
-    "generated_at": "2026-10-14T09:26:26.460Z",
-    "benchmark_base_commit": "3cd57d814cc5752af6ec2af7e31a82e45fc99add",
-    "benchmark_checkout_commit": "fad0676e00c91c6224bc1b792297ecdeb12a8a84",
+    "generated_at": "2026-10-15T11:43:38.586Z",
+    "benchmark_base_commit": "485ff55d6f89a5c26035ccb7dbdc2d26324ca9d5",
+    "benchmark_checkout_commit": "485ff55d6f89a5c26035ccb7dbdc2d26324ca9d5",
     "benchmark_dirty_paths": [
+      ".gitignore",
+      "COMPARISON.md",
+      "README.md",
+      "RESULTS.md",
+      "compare.mjs",
+      "engines/js/package-lock.json",
+      "engines/js/package.json",
+      "engines/php/composer.json",
+      "engines/php/composer.lock",
+      "engines/rs/Cargo.lock",
+      "engines/rs/Cargo.toml",
       "reports/dev-main-core.json",
       "reports/dev-main-core.md",
-      "reports/dev-main-rust.Cargo.lock"
+      "run.mjs",
+      "scripts/build-rs-engine.mjs",
+      "scripts/check-engine-pins.mjs",
+      "scripts/check-full-outputs.mjs",
+      "scripts/compare-dev-main.mjs",
+      "scripts/compare-full-feature.mjs",
+      "scripts/full-results.mjs",
+      "scripts/history/refresh-main.py",
+      "scripts/history/report.py",
+      "scripts/history/run.py",
+      "scripts/measured-sources.mjs",
+      "scripts/test-paired-full.mjs",
+      "scripts/test-revision-controls.mjs"
     ],
     "benchmark_dirty": true,
     "node": "v22.22.2",
@@ -19,13 +42,13 @@
     "cpu": "AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics",
     "logical_cpus": 16,
     "load_start": [
-      6.21,
-      4.98,
-      4.23
+      18.02,
+      19.69,
+      23.79
     ],
     "package_versions": {
       "@djot/djot": "0.3.2",
-      "@markup-carve/carve": "merged-main 43c888310a8b1f96b77e0a79672e96d6cfbe1b86",
+      "@markup-carve/carve": "merged-main 224b0c32e22480571c99aae3f0055a6e5a091f74",
       "commonmark": "0.31.2",
       "markdown-it": "15.0.0",
       "parse5": "7.3.0"
@@ -33,18 +56,18 @@
     "carve_main": {
       "kind": "merged-main",
       "repository": "https://github.com/markup-carve/carve-js",
-      "commit": "43c888310a8b1f96b77e0a79672e96d6cfbe1b86",
-      "version": "0.1.11",
-      "lock_sha256": "b76e4d318ef0981558dc839e839f4cfb5d9cb42b04023ff392d8ec93e8fc7ab9",
+      "commit": "224b0c32e22480571c99aae3f0055a6e5a091f74",
+      "version": "0.1.12",
+      "lock_sha256": "cea881d01710d49e758b210c2a9e2790770869718aaba5fa4d00ceb4eb4f630e",
       "dist_sha256": {
         "abbr-budget.js": "5afd0fe435a9392ef96b7f4465c16363002a4487eed50563e5830ce510cc986d",
         "abbr-expansion-emitted.js": "b61083d2dc19f628f3102d9e066f4ad5f79af5027427bb27ec73a6535b7eb870",
         "accessibility.js": "2877ed43d42cc46970304b63bd623955ff172e693f49a33fa25517e7dded898f",
         "append-only-closer.js": "442692424550305b893283ac721b8339b37cce74b57c4c912a88735470650041",
-        "ast-envelope.js": "77f93f9df76f47a4c7073bf4f23df5ce201972f7e96ecb47edaa25094d047368",
+        "ast-envelope.js": "3cd8f6bcf34c0d813726568b3e1cee569954e2409c55399c528012443d3b11e7",
         "ast-json.js": "1730917e0cc3b9fcba5ba61444f5101d1be10239c5ef81a13bb80a15b17bab00",
         "ast-patch.js": "90fe0081fcb23f429c25c0f2dceb97d8fa9958374a73758cd17c94e8095e4cf3",
-        "ast-sidecars.js": "3d4bdb7071e05a7a90ebbdc453294776b4976de521da87b4a37a8defe4a56099",
+        "ast-sidecars.js": "e90c10adb528b099c34220ea73555ed4bfc637a81a3fb3ecaa98dc734e8204e6",
         "ast-structural-index.js": "4e55fbed0de321f227d260688dfa6745e7642e61a2be01c14de4a29e5f80a833",
         "ast.js": "07d491e1d98832987518fef5bf8f80e4fb14a84356e2c3c088224d63c2284bd6",
         "attachment-fence-closers.js": "3e4af3c34dd409e6573f749304a386328b4808ae1012e7d20c85262cc3912fbf",
@@ -52,7 +75,7 @@
         "attribute-parser.js": "a85e04ea8c6cdc2bb44e00a1c87330f01014161d8e342aeea414b8e4c2e37d2a",
         "autolink.js": "679e3b953bab12508dd3388dc63f659674b9db35aadfda391c2133f3695a5400",
         "backtick-run-index.js": "9e1767d3e60263bca009dfcc233cc19a9f96c824104fc81c3840d15c9e1dc78d",
-        "bbcode-migrate.js": "26dad68fd51889c4fc82246faf6be3a5c8136ac4d5405eb213233241bcb3401d",
+        "bbcode-migrate.js": "38974b466a000b0116a8b5bc2b9daf3b05da0631e4e7c0d6766492c4ea6c76ff",
         "bidi-controls.js": "46896cfa15aaa46fbd7572adee665d981541e612ecb862dd541e7255257cbc80",
         "block-children.js": "f1a6426592d067d9a135324ae87948b874b3f4b10e12f6a49f05b85439e1c3ac",
         "bracket-escapes.js": "87d2e9b9d4426d0f2998508893e029fc579fe4bcf7df113660959feb6d158e7c",
@@ -60,38 +83,42 @@
         "carve-escape.js": "1c8ca1e9cba76f4e110a21c8e1614843f717a3797252b5b139126c39a8e264f7",
         "case-migrate.js": "a50e4486a7fbe1e40472b96b2eaa3d819add5577e5875f74ae74e5cede5c814b",
         "citations.js": "48854e70fba408e8a5c6ed0a8471b1f70e69021a052ad2b8dc75afd78c00aa99",
-        "cli.js": "b567dab0b5d9f78a728074ecef1efa4211abb9ee71b4feac89f5aea3333da3e3",
+        "cli.js": "0a87ae4faf776e6196e592f8ba242262d31e6863746a25145eedf317b30e7307",
         "coalesce-text-runs.js": "67c978f03781a9b1c5a8ebfe4d099a756f539b12bd44c4352e2e4e9d97119fb0",
         "code-callouts.js": "c67bffce481938b7e6b79c5d24541dcb0b445b70258697ad41bd0a6fa1bf0512",
         "code-group.js": "61e459fb888d19abe6382aad086073f546c23b4cf51bc0d4982d9e923df14134",
         "colon-fences.js": "234902a4ad2a22c6da5128e42b7ef2a93a6068b49c5837201cf2760e7750d0d5",
         "color-swatch.js": "9c7997cfe6c82961e44719c2aae07cb85661fbfe51634b49979db7fe8fd0a125",
         "column-reservations.js": "6d28b9dbed985549ff4232cfc6c6a884abd2c55c41c20c939d6bdad5eab09293",
-        "conversion-diagnostics.js": "bc0761f25102d624decfee0f14b2d07627335f6a209e82792ccc680487c6433d",
+        "conversion-diagnostics.js": "cb663c14a2a36362b55fbe7731a83d68a3eabac90ecca9122533822ea39b8a5a",
         "default-attributes.js": "67bdafdd8d217956a2102ef9b7c588187f032b73093d5185bbfe6639fb116b1f",
         "definition-list-wire.js": "05b2438e1df7bef9a441caabe26278ea4afad659c79d37bc0a412d5859279ef9",
         "deny-listed-destination.js": "ef61966f4a204d215e7329f4804cb99377c2fb3abf90796fb9cd4b70d5598334",
         "details.js": "0ad84827cae1351680078dd301beec9b304cb3233502766f6b7a9e4584627094",
-        "diff.js": "3c0d45633c1cf401e280240b4fa299cf6b8966d297056b5f6029213017be160b",
+        "diff.js": "55a63fdc0aa026c91f0e5b286e813c27acdf893bddfcc3d3157ef8898d443db6",
         "djot-attributes.js": "3f533a794891590030338774d642221ec6d49d9d9ebbc808aaeaa169c10b7fae",
-        "djot-block-layout.js": "154c8457814bcd77276dcb786c9b27a61000bd0db09d34c284c22a9fbd18e703",
-        "djot-collapsed-reference.js": "75db7cfae6d860fa916db556ebac2d61c1dc0a0add1ef4dc1b9231dca70d995a",
+        "djot-block-layout.js": "6c4731bc6cd6b6375e1132b8a34bf1dee288df7e005e8dcff18d73c431320cae",
+        "djot-collapsed-reference.js": "77c11dd74d1d704996d1d4451db1e593198ca11729ce996e40ea8bf54fddde76",
         "djot-destination-lines.js": "6eb5c6ff43c3bf067bbc1a114b70b21dabb00c7a645227456d42bd7093acb31c",
+        "djot-div-classes.js": "d3bca46ac5b4cddb4605af5adbb94bc6fa9aedb77fbd20b896589fa1ab9b2cb1",
         "djot-emphasis.js": "cc12aaeede9026b6bec959b1db011c660365d7ed64db2c21301f95f5c2422a08",
-        "djot-image-child-text.js": "05ac395d51f0c337fea5578e46fefd33e640beb08d79d2f5ae11c097b031414d",
-        "djot-import-losses.js": "7f33d3d4060f94b491687a25bdec3bac14e481f1d6bf58f71beddbd6da866ad6",
-        "djot-import.js": "d2897a29f8e01781c5d6dea7867e84f1491de5b692f0d5219bc7ef84209e4699",
-        "djot-inline-boundaries.js": "67baa79ab711b3ed5029d46d641c2ab468a84cb3f76d2df3364f332f8cdd32de",
-        "djot-migrate.js": "64a3c7721603f31891c1f5b4f485e8dafe54e0a0e78e3d7f7c14f16c2f32e277",
-        "djot-opaque.js": "96fabbb999e19dd6e72a72bddd02e1039e11eb8b0a57a33ca9a4776afdeb33ca",
+        "djot-heading-targets.js": "2cecdea1a9d4763d3193ec2f625dbdd3357648091d0b8efa77c3ae312d33c31f",
+        "djot-image-child-text.js": "fad83ca0fa80206ed4ce1b9088071e6c541580ed60770ab6bde97ef3d0e3f3a4",
+        "djot-image-empty-destinations.js": "f11e013193d00d3ff61267bbee901a0e9955dc15a488497ed94a0919ba082a35",
+        "djot-import-losses.js": "51ac059404e40f2689af2e6a42622f61832f3dff4ad3eaf45323d9a0e8308d35",
+        "djot-import.js": "3e000e44b30dec579b05c8f0c8759e751818fc4849bf56b69549a25f85c34c0e",
+        "djot-inline-boundaries.js": "7f835182b293ca79640d7766c2750eb0ba1336ecb42bcd9da8f3632307b5afa9",
+        "djot-migrate.js": "5461271a064c4975caf8e71797e5b2374d9fd6a762fce4d15940e03c51d1bb5b",
+        "djot-opaque.js": "ec5f800ece4ed617f59ae6f2ad630309139eb11817716539e336109302fb5412",
         "djot-placeholder-prefix.js": "93e70f2412dcb50b9038e344984531c251eb29f49d263147e22447829d967863",
         "djot-plain-text.js": "7d71f817f17c1cd8c334f94fd2052a1963f6d15ac15cfe1479934e2d01bdb728",
         "djot-reference-label.js": "8a30de721069fc4d4d6008a93111a4272ff5feed5fda422bf980a47c700ab6d2",
-        "djot-reference-layout.js": "bb1b744710f53fc1f7c558696b949c587d0d8ab7a9da9ce25ec61a785c6f1f4d",
+        "djot-reference-layout.js": "05e6ebdeb93052c63396535288c53486ca8e0365cbbbb28298b79cba3bc6288b",
         "djot-structural-prefix.js": "739d521fb7ccb7a8fc4a7ce1c00cc3cb89ea168cf9b7d230abe1c14eda8e8722",
+        "djot-tight-definition-descriptions.js": "ca5ab7bc3bc4091e6b4d31db0704f702f0f19c705bd546b796639809ecf1965d",
         "djot-word-attributes.js": "65cff23f31c006130dffbf5202b3517a30227bbbc597665c03aa02aaacb3a919",
         "document-ids.js": "cd4aa4545b1078a375f0be4c18cce4cc9b4e3ea72dd20a401b5ae7553fdea572",
-        "editor-session.js": "12a605d35d4e0f4e5f1bcbf675cc026a50b5fb5f3dd4f39a7f22b22ff4a86c54",
+        "editor-session.js": "9423929f10c78b8b3c8e6190de4cf22c150a4a3994351da564a953add1f9adbd",
         "escape-window.js": "3fe171086a138c5319cccccd3332869673fe44381305afafeaf892d881871c69",
         "extension-transforms.js": "72139bed15022f304ae566ad3ee7ba3cfa55202a465f76ba9bfe3927f6ed786c",
         "extension.js": "3249fbb94ebcfd1f2dbb5992aefec4af3ae641757191703bfc305573a3ee76ea",
@@ -108,54 +135,54 @@
         "html-import-code-language.js": "e5f15a441e448cc904820b0cd288e847ed1c96b871d42f257e5c7163545576e0",
         "html-import-dom.js": "120250de26930287f225392a3e63b85619a6d25147d29d8464f03275d72b2f0a",
         "html-import-report.js": "a9070e561815bcdeb7a836b10fefb6f79b1e24e371b2f2ce372e5349a44702d5",
-        "html-import.js": "a1444dd873cde33449b67e99952bb6c1f1645209eec8affc51e52726b73ae018",
+        "html-import.js": "e7d766cc50cdbda65815db39938236774a14132285ebcab91fd6693fc280ca0d",
         "import-report-messages.js": "70cf9d5755453749c3fec3dc340600042be06a16119bcc9abbf9671604380fd2",
-        "include-directive.js": "6e34ae11f6fe8a26351a21fca59cfffc0dd1dbb7841fd8035e161ce887c53467",
-        "includes-fs.js": "636f920b4fd1a26fb1e7de91ff9387fdf68b8c4de5155b2ffe20b54e8c503970",
-        "includes.js": "5acffb0d91e3366434d650a131b3d7d83a5267a3cc71146bd0103fb20bc2b019",
+        "include-directive.js": "d98094b9faab51cb727f381408ee34282e5e1b2354c50b1dc968971fa49a1897",
+        "includes-fs.js": "b5a7ea58a4e8ae3c96de676e49e6e0e98a5ba4a14bd2208ef34487dbb7801251",
+        "includes.js": "0fcce248956698766734e88d401e3f559d50cd92e13bdec85c24eaa19e979a66",
         "index-terms.js": "0f87a922fb195ad5fe53a9c44abed192f1398c98d3a6ea9270563772cf80e31f",
         "index.js": "e0d7dc4c9db2c193a2d9e059750cd174060bb944259c746b352eb40edf4c9095",
         "inline-children.js": "f1d2bb38100a96fa356c7b7507db6225c7cfca2eec6edeefc4b6b4340c666512",
         "inline-resolution.js": "5542cb104331a05c73500e617f6382f6274e853ddf585514725735103781a644",
         "label-key.js": "64e36a4bef8117c7c0226f49df6c12bc3e45c61faad2d48679be433b1765c9dc",
         "legacy-nodes.js": "d3ade56ce5cccd8595599d6582cffaf543e8a0274b91db0c8e76f5bd128c2450",
-        "link-destination.js": "5facf96956fdadba15a12de93c7258898bc43f39606d78bf80e008e71e3d3924",
-        "lint.js": "15f1a59cc83db4762a70df6ef9b628adf4b14b5738ad4893f2a5d9d46f321756",
+        "link-destination.js": "963dbfd9449a0d2de29548127fee8fcc440a9445a81a8024e1e2f4a180506f38",
+        "lint.js": "189d63d0f6ec2e0ed42acb5db42fd3a8e1a31d66021601de2232b8850b752471",
         "list-table.js": "fdc6d505e7322fae723cc3a5801f44a741f3367b7c82731dcad796fc7c6094ea",
         "literal-comment-closers.js": "6b4605eafc68c52b6342e9565629679aefd9e50ea7f3037c2eef53c6dd90952d",
         "markdown-assessment.js": "8230616e8fd6fdb92c7413221cd485fa4bbdd53e7c17f8dc0e811c6c9b9c4bdf",
         "markdown-email-links.js": "bb18ca6d7fcea968993c138560f3d5993bc9a6d15c37afd021bfbd07fc9ae80d",
         "markdown-emphasis.js": "6b87ae13873bf03a75f497a4249019d7ae8d1eb8f6c31b0638c49b9f96f60e10",
-        "markdown-empty-destination.js": "c11edea3b14c30962b9d395094d03d92484d63cfd44fde661a06b836ea0e5fe3",
+        "markdown-empty-destination.js": "38453a18e4cff52ca26081667417bf27f8cc0464c4cb287fd46ffe40d01009f9",
         "markdown-gfm-autolinks.js": "be79e73c7d8e0f42daee0a73ec505f272457d0c5f3f3a87741f8829bd2ac97f6",
         "markdown-link-scopes.js": "3bfdd532f0ebcd6c43f2615527de42a31fa41275fd2bfc1f5f7dfbef7d182379",
-        "markdown-migrate.js": "985f5fde2c5b9c36c566290fd6c4dbbdc1b83d288f69b47b763cd7d5ce0114a0",
+        "markdown-migrate.js": "6a45d8c1a65378f1224c43e333ad1f5c5e3574a851a888a04129c20f40cd156f",
         "markdown-native-destination-glyphs.js": "21dcd262b181bdfc0ae9ee3eac8c5c65cc291eccdbc0d590a4e58bc306eeb0d2",
         "markdown-reference-definition.js": "4db99aa9bd09fbeb8ef566e48c740c70349258626e96d4a762c6f1b9bccd0ad0",
         "math-block.js": "3ba4ef3412091575766678cfa367ac7b25c45140ea18502e51fc0d65aa1e0a19",
-        "merge.js": "763787921c1deaa2ba1b0b35d0acef4a2306b5d3491d5eef8313a90f46811da1",
+        "merge.js": "177ab296429b88dda38d7c96e91ae45c2d869d3ca88f75930d65de47734494fc",
         "migration.js": "c00a772f82eaae17a118fcf91deb21bfa287e903aa4b1694c4408cbac2f8bbfc",
         "node.js": "515130342c38ff335bf53b9c85a3646f80bceb58cf3e186e367447aa88598abe",
         "own-property.js": "ca0edb3d0be2243c41dfc938f3b957f494006689fcc523192090499afa58fbeb",
         "owned-child-fields.js": "8180cf79491fe591edfebf93b6957c252fc4e0992b0a37ff6c6fb951a0cd294b",
         "paragraph-indent.js": "9e619dc0440eec519cf7a61d6d915d8914b089917155b47cbe297c25461d7f6a",
         "parse-document.js": "7db3867e2797a3943eb63f6af754d6186c164f371047a69a3f0955aa02c7e36c",
-        "parse.js": "6fc866887e49d374913d4f6b435ee92d93994d4dafa81b279cdabf351d7f1222",
+        "parse.js": "26d91e49c6447d777881aeee2176fa37d600434cfedb693abcba09e761941508",
         "portability.js": "fd9cadcffa894c17a75006dd776dc0b32758fe496454612d7b1b585d60fc0849",
-        "prettier.js": "8910a7dbc30963ef274db08d1636b45a9c6718e81b99dcfc664f95b3a5cc3c25",
+        "prettier.js": "29fc07a50b540e61a27d8fe56fa51414a9afcdf20fadb7a4f8ee602e085d06c2",
         "profile-filter.js": "b062a94b0f611ec861fe61617ff7a088578461c32a2148754436a501a72feec3",
         "profile.js": "77eb5062f1de6fecef13f45203933274e79be559cce657f03b43369884778198",
         "reference-resolution.js": "677654dd8a05ed5432c924515da2bab70fd96c4dac97c9eca830450e166a62b7",
-        "reference-state.js": "fbd32fb32863173c13775e6d82f1a81a7fd38a0a90a1516ef2ecc9a90fc303f2",
-        "referenced-link-labels.js": "95bac5cb0364de12bde1f78d39cbd450af4e5e9d150901d8e57b21b827cda098",
-        "render-ansi.js": "fe9f73695cb538ba523e4d5cefe3dfee4ae74dc1e7e35a14d5f6b4a13eb94a5f",
-        "render-carve.js": "fe1d746c967aa304fca871588c38d7e1ac61244ba4e6875f93350298283c6e9e",
+        "reference-state.js": "68070bf72067a5c6dd49c0587d751dce9cdd13d90589e14509fbf09ac8968b16",
+        "referenced-link-labels.js": "32cd081d6c0bc52161845c62342014bf0cbdd82bede659d4696f45075889db7c",
+        "render-ansi.js": "0a347dfc4debab9180b0c71749ceb9057c45f5b8d4763748d1c1d364d150fe67",
+        "render-carve.js": "bfecd998de69f768dea98aeebe2d719c65ff303bb3ab896dbb3828a9593278b6",
         "render-cell-content.js": "7bc9eb8d9ed3efe7912caa17f255029cf6165a2f21013de46d683595fac1f677",
         "render-depth.js": "0b5437e9471f67ef13214df92fd04e119294917fce9ce108fc7ae250d021861b",
-        "render-html.js": "0671428ad49888c09144c9c7412e4729e64ead2c64714821d119e31681ee042e",
-        "render-loss.js": "1fbe36042aa9f6ab9ddab0d74f9795dedbaf64a72bd31ad4d603563597b781ec",
-        "render-markdown.js": "c858bd4f9711e78b0f645e751ad14ea48d61a7c5c935f672dfaa0194db060a84",
-        "render-plain.js": "dc7becb7036431b28260c33bc4d684b5dca583e43441101bd12d95d5d4547407",
+        "render-html.js": "bfa6519f7f332d79fd97f48519b6d8b3a1f7cf46ed32e1701ca4e6250e3df567",
+        "render-loss.js": "a1413555a7957090449e080781a110fd619e59f8c6b81f2de7881e3ea6d907ef",
+        "render-markdown.js": "b93308a4ce7e7f05910b4dc5fa508899442ab05f6921d4bafde15e8929e8091a",
+        "render-plain.js": "3f790bee9879893a121db57fe708a6b4b7a63338df65ac46a5a42b35d1376f29",
         "roundtrip-carriers.js": "fab917b8da718467e341697e719f6c73c62bebe157a3396b0b32c60e3f788e97",
         "scoped-fence-closers.js": "0a39a230c51f46921c76cc66c42cd4d0c27bb095dbd46587237705d1438e80b8",
         "semantic-span.js": "dd0208f7ee1d71c94a507376815f4b8913b73274471b47acf82e01d374db19bf",
@@ -173,24 +200,26 @@
         "svg-fence.js": "ff2f86c00497e5e1ad07e3e1192d6d22d42d56b9292fa97b94226aa042a496fa",
         "svg-sanitize.js": "9ff6c463dedf43177bf1b8e0872410e71327c454bedc21363644de14cdb5aa72",
         "tab-normalize.js": "931d3946706d09ef5a38face882633138157c96bbdde7a462401e2902c0c404d",
+        "table-display-width.js": "aafb2dbb9e09fe600ad289436531a45d40fb1cc625fce3716acc34dc6e12b7ef",
         "table-of-contents.js": "794917c8cf6f0f23e1e607a8d1feb311fab0e653b566ae04cfe7289176503035",
         "table-preservation.js": "781535dbe452cd5ce8a1aaf5304380a1bbc062d940f77643188025dff37b068e",
         "table-source-metadata.js": "8abe5dc0ef1dcb0e707e066db926db10a3e8e6c95c3e16985bb5e4a81e1d66c8",
         "table-spans.js": "031b07a3ab8166c996755ea4b6b35c464b329e5d2fb326400ac86cb97895a2e1",
+        "table-unicode-18-data.js": "7ca1c643b8db4a94ea1c954b60c8c06fb76f06d65a2ef58514f68aeabe3991dc",
         "tabs.js": "1b745dc40f29de58d255cb82c32d481103f1536e07902b89a665fe4a4b944035",
         "thematic-break-marker.js": "616e7c802cac50b54542a3e7a348f24faf84d3e5aaf933c72542825615bd17ac",
         "translit-map.js": "3bf3e46b2e8356d9acd1182a1712a27938e88a922fce4e9f994f9b259d24a640",
         "trim-non-nbsp.js": "2653dc2d20f5d0fca73d2bef82df8cf6e4710fbb031792236b35834d9f65a24a",
-        "unresolved-reference.js": "d9cf9f3f983634d09c3259b7da6df5e8e0cb426ee0bb93c10375cddf2aadd86f",
+        "unresolved-reference.js": "28b4c0aa5d0a8b04bc639eeaac289cb6db8cf45d3912bb33b431c08793ab6714",
         "verbatim-payload.js": "32e65f415a0e3fa3a1abb7edc0de2efca6a2b256a9105c1697b1df63e1303312",
         "verse-whitespace.js": "53a00ff6e3b7cf6c7878357dd59386575d2c6ecdb9982f483473fc80d997f16a",
-        "version.js": "ed2793c21fb2c894c07da60fbda627001959b40b3b564b50a94221487147ab3b",
-        "wikilinks.js": "8a3e1782990a575a4cdec9932728d891ea04c256f0576225dc150513f1776277",
-        "wire-fields.js": "dde53f0fb41a420278e607035adeb1521b1116d56908e6d22fe7cb821ca30105"
+        "version.js": "37836b593aa5ab15cc68707150ece350ed81ede1ce084c01890f3809f171b29a",
+        "wikilinks.js": "eec0d4bab6bca69e231265e188406e83231bade52c1d62b6a0e29b388cef4ba4",
+        "wire-fields.js": "7504df65efb630616c5e02cce4cffe292691ce5f3bd5718870b6c92eee5521a9"
       },
       "fast_path": true
     },
-    "lock_sha256": "45f8d03fe75310475609ff8447ff2d318e9cdc30c28832bddb81de61a8861458",
+    "lock_sha256": "d8c120bedeffa8ca27f5736e66859a5c16bd007c54a7c7aa7f9c5910573ae699",
     "harness_sha256": {
       "scripts/benchmark-metadata.mjs": "8fcb099b1f8183aed318259c7e6691eea89bebbef0dbe28fb406a7a20a9ee8b2",
       "scripts/compare-commonmark.mjs": "ab74d9b58f85e10f223631ceaf4b44c8115dbf01c15c056e503316c3cc6d10df",
@@ -202,9 +231,9 @@
     "sections": 150,
     "projection": "Ignore section wrappers, generated IDs, list paragraph wrappers and non-code whitespace formatting. Preserve element hierarchy, strong/emphasis, link destinations, code language and code bytes.",
     "load_end": [
-      7.01,
-      5.95,
-      4.67
+      9.1,
+      16.35,
+      22.21
     ]
   },
   "controls": [
@@ -250,9 +279,9 @@
         "commonmark.js-fresh"
       ],
       "load_end": [
-        9.23,
-        6.09,
-        4.65
+        13.39,
+        18.21,
+        23.07
       ],
       "rows": [
         {
@@ -263,17 +292,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.4176034349999997,
-            2.9939588149999996,
-            2.6751135,
-            2.6730794450000004,
-            2.6687148250000003,
-            2.6968163900000004,
-            2.7528516400000003
+            2.88788248,
+            2.94867597,
+            2.78649423,
+            3.052810325,
+            2.94196751,
+            2.890227835,
+            2.86596111
           ],
-          "ms_per_op": 2.6687148250000003,
-          "mb_per_s": 17.77189928995715,
-          "carve_source": "@markup-carve/carve 0.1.11 (merged main 43c888310a8b1f96b77e0a79672e96d6cfbe1b86)"
+          "ms_per_op": 2.78649423,
+          "mb_per_s": 17.0207174997508,
+          "carve_source": "@markup-carve/carve 0.1.12 (merged main 224b0c32e22480571c99aae3f0055a6e5a091f74)"
         },
         {
           "engine": "djot.js",
@@ -283,16 +312,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            10.155140515000001,
-            10.112004445,
-            9.185841775,
-            10.784129230000001,
-            9.998971975,
-            10.03766136,
-            9.3997727
+            11.081280385,
+            10.459741529999999,
+            10.371251495,
+            12.61698636,
+            12.0276387,
+            11.794694565,
+            16.20867751
           ],
-          "ms_per_op": 9.185841775,
-          "mb_per_s": 5.163177449082028
+          "ms_per_op": 10.371251495,
+          "mb_per_s": 4.573038376938484
         },
         {
           "engine": "markdown-it",
@@ -302,16 +331,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            9.086252909999999,
-            10.08910462,
-            13.057678775,
-            20.763423585,
-            11.148790855,
-            9.555595125,
-            8.32517777
+            9.31144533,
+            10.73302232,
+            9.24462106,
+            8.494590715000001,
+            8.305435575,
+            7.838130115,
+            8.563632075000001
           ],
-          "ms_per_op": 8.32517777,
-          "mb_per_s": 5.765682970318047
+          "ms_per_op": 7.838130115,
+          "mb_per_s": 6.123952395418914
         },
         {
           "engine": "commonmark.js",
@@ -321,16 +350,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.88469263,
-            3.77521998,
-            4.027635184999999,
-            3.639416905,
-            3.700602405,
-            3.8612460850000003,
-            3.502481385
+            4.7178334699999995,
+            4.687042235,
+            4.661938075,
+            4.422169374999999,
+            5.140575435,
+            4.0839217350000006,
+            3.973259615
           ],
-          "ms_per_op": 3.502481385,
-          "mb_per_s": 13.70466546915263
+          "ms_per_op": 3.973259615,
+          "mb_per_s": 12.080845538546411
         },
         {
           "engine": "commonmark.js-fresh",
@@ -340,16 +369,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.01377212,
-            3.0728133050000004,
-            3.4763144,
-            3.3464272449999997,
-            3.42533024,
-            3.204578435,
-            3.0905448
+            3.450086185,
+            3.44869325,
+            3.3600613650000004,
+            3.285298305,
+            3.5582722799999997,
+            3.38001618,
+            3.52140378
           ],
-          "ms_per_op": 3.01377212,
-          "mb_per_s": 15.926995732298225
+          "ms_per_op": 3.285298305,
+          "mb_per_s": 14.610647568991265
         }
       ]
     },
@@ -363,9 +392,9 @@
         "carve-js"
       ],
       "load_end": [
-        7.01,
-        5.95,
-        4.67
+        9.1,
+        16.35,
+        22.21
       ],
       "rows": [
         {
@@ -376,16 +405,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.25267169,
-            3.1435699749999997,
-            3.30175986,
-            3.218086915,
-            3.356801665,
-            3.28454233,
-            3.297274735
+            3.5919212,
+            3.376120265,
+            3.39691126,
+            3.16224417,
+            2.992598185,
+            3.113116945,
+            3.0150804900000003
           ],
-          "ms_per_op": 3.1435699749999997,
-          "mb_per_s": 15.269370834781363
+          "ms_per_op": 2.992598185,
+          "mb_per_s": 16.039686160993707
         },
         {
           "engine": "commonmark.js",
@@ -395,16 +424,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            3.72308724,
-            3.65149948,
-            3.514703245,
-            3.4595581199999996,
-            3.92917959,
-            3.54872304,
-            3.461618595
+            3.248461145,
+            3.2872837099999996,
+            3.45100708,
+            3.69991195,
+            4.697542245,
+            4.0608420899999995,
+            4.31788158
           ],
-          "ms_per_op": 3.4595581199999996,
-          "mb_per_s": 13.87470134288693
+          "ms_per_op": 3.248461145,
+          "mb_per_s": 14.776330561084603
         },
         {
           "engine": "markdown-it",
@@ -414,16 +443,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            8.660246155,
-            8.394177055,
-            8.41648019,
-            8.388840605,
-            8.375479305,
-            8.291744115,
-            8.26258195
+            7.99028024,
+            7.96683633,
+            8.05122354,
+            7.7745579750000005,
+            7.849015325,
+            7.87729642,
+            7.94829081
           ],
-          "ms_per_op": 8.26258195,
-          "mb_per_s": 5.8093627371961345
+          "ms_per_op": 7.7745579750000005,
+          "mb_per_s": 6.174027622883521
         },
         {
           "engine": "djot.js",
@@ -433,16 +462,16 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            7.993396305,
-            8.065128979999999,
-            8.566989975,
-            8.862321204999999,
-            8.74574473,
-            8.959331539999999,
-            8.497831230000001
+            9.496535549999999,
+            9.218242265,
+            8.725555739999999,
+            8.285808215,
+            8.62618448,
+            8.79730368,
+            8.616456425
           ],
-          "ms_per_op": 7.993396305,
-          "mb_per_s": 5.933414195146129
+          "ms_per_op": 8.285808215,
+          "mb_per_s": 5.724019899188027
         },
         {
           "engine": "carve-js",
@@ -452,17 +481,17 @@
           "iterations": 200,
           "trials": 7,
           "samples": [
-            2.605172665,
-            2.5818033600000003,
-            2.505367385,
-            2.528717545,
-            2.553668125,
-            2.84082497,
-            2.51611101
+            2.489786125,
+            2.399910525,
+            2.555883715,
+            2.50607489,
+            2.6069745749999997,
+            2.473016555,
+            2.430954505
           ],
-          "ms_per_op": 2.505367385,
-          "mb_per_s": 18.93060929405993,
-          "carve_source": "@markup-carve/carve 0.1.11 (merged main 43c888310a8b1f96b77e0a79672e96d6cfbe1b86)"
+          "ms_per_op": 2.399910525,
+          "mb_per_s": 19.762458062271143,
+          "carve_source": "@markup-carve/carve 0.1.12 (merged main 224b0c32e22480571c99aae3f0055a6e5a091f74)"
         }
       ]
     }

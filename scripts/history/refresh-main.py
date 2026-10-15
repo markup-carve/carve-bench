@@ -19,6 +19,10 @@ for engine in ['js', 'php', 'rs']:
         raise ValueError('History and core main commits must match')
 record = json.loads((root / 'reports/engine-history.json').read_text())
 report.validate_measurements(record)
+for key in ['retained_main_snapshot', 'main_selection_note']:
+    record.pop(key, None)
+    if key in core['metadata']:
+        record[key] = core['metadata'][key]
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 now = lambda: datetime.datetime.now(datetime.timezone.utc).isoformat()
 prepared = {}

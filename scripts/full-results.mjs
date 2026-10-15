@@ -1,3 +1,4 @@
+import {rustBinary as rustBinaryForReport} from './rust-binaries.mjs'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -35,7 +36,7 @@ export function validateFullReportSources(root, rustBinary, env = process.env, c
     }
   }
   assert.deepEqual(Object.keys(sourceCommits).sort(), ['js', 'php', 'rs'], 'Full main report requires all three checkout overrides')
-  assert.equal(resolve(rustBinary), resolve(root, 'engines/rs/target/local-override/target/release/carve-bench-rs'), 'Full main report requires the release binary built by build-rs-engine.mjs')
+  assert.equal(resolve(rustBinary), rustBinaryForReport(root, {checkout: true, env: {...env, CARVE_RS_BIN: undefined}}), 'Full main report requires the release binary built by build-rs-engine.mjs')
   if (!checkRustBuild) return { sourceCommits, rustLock: null }
   const rustLock = readFileSync(resolve(root, 'engines/rs/target/local-override/crate/Cargo.lock'))
   assert.deepEqual(rustLock, readFileSync(resolve(root, 'reports/dev-main-rust.Cargo.lock')), 'Full Rust build and core report dependency locks differ')
@@ -61,7 +62,7 @@ export function fullResults(root, results, tiers, rustBinary, env = process.env,
     const commit = row.carve_source.match(/ @ ([0-9a-f]{9,40})\)$/)?.[1]
     assert.ok(commit && sourceCommits[engine].commit.startsWith(commit), 'Worker source differs from recorded commit')
   }
-  const files = ['run.mjs', 'scripts/full-results.mjs', 'scripts/benchmark-metadata.mjs', 'engines/js/bench.mjs', 'engines/js/carve-src.mjs', 'engines/php/bench.php', 'engines/php/tiers.php', 'engines/php/carve-src.php', 'engines/rs/src/main.rs', 'engines/rs/build.rs', 'scripts/measured-sources.mjs', 'scripts/build-rs-engine.mjs']
+  const files = ['scripts/rust-binaries.mjs', 'run.mjs', 'scripts/full-results.mjs', 'scripts/benchmark-metadata.mjs', 'engines/js/bench.mjs', 'engines/js/carve-src.mjs', 'engines/php/bench.php', 'engines/php/tiers.php', 'engines/php/carve-src.php', 'engines/rs/src/main.rs', 'engines/rs/build.rs', 'scripts/measured-sources.mjs', 'scripts/build-rs-engine.mjs']
   const inputs = [...new Set(corpus.map(row => row.document)), 'corpus/comparison/carve.crv']
   const dependencies = ['engines/js/package-lock.json', 'engines/php/composer.lock', 'reports/dev-main-rust.Cargo.lock']
   return {
@@ -70,6 +71,7 @@ export function fullResults(root, results, tiers, rustBinary, env = process.env,
       ...benchmarkCheckout(root), completed_at: new Date().toISOString(),
       cpu_affinity: cpuAffinity(), cpu: cpus()[0].model, logical_cpus: cpus().length,
       runtimes: { node: process.version, php: execFileSync('php', ['-n', '-v'], { encoding: 'utf8' }).split('\n')[0], rustc: execFileSync('rustc', ['--version'], { encoding: 'utf8' }).trim() },
+      ...(JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'))).metadata.retained_main_snapshot ? {retained_main_snapshot: JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'))).metadata.retained_main_snapshot, main_selection_note: JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'))).metadata.main_selection_note} : {}),
       method: 'Serial full run.mjs workload. Corpus rows average in-process iterations after warm-up; PHP tier rows report minimum of five trials and retain every trial. Measurements are host-specific snapshots, not paired speedup evidence.',
       corpus_snapshot: env.CARVE_CORPUS_SNAPSHOT ?? null,
       load_start: loadStart, load_end: loadavg(),

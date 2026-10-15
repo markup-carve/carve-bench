@@ -1,3 +1,5 @@
+import {createInterface} from 'node:readline'
+import {retainedRustDirectory} from './rust-binaries.mjs'
 // Builds the Rust harness and states which carve-rs tree it compiled against.
 //
 // A checkout is built as a PATH DEPENDENCY, from a generated manifest with no
@@ -17,20 +19,21 @@
 //   node scripts/build-rs-engine.mjs --carve-rs ... --debug # skip optimization
 //   node scripts/build-rs-engine.mjs ... --resolve-only     # resolve, do not build
 
-import { execFileSync, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { execFileSync, spawnSync, spawn } from 'node:child_process'
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync, renameSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ENGINE = 'carve-lang'
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
 const lane = join(root, 'engines/rs')
-// The generated crate and its build output are siblings: regenerating the crate
-// must not throw away the compiled dependencies, or every checkout build starts
-// from nothing and even a resolve-only check deletes a usable harness.
+// Keep the generated crate separate from cached build output. Shared builds
+// retain verified binaries per mode after compilation.
 const overrideDir = join(lane, 'target/local-override')
 const crateDir = join(overrideDir, 'crate')
-const overrideTarget = join(overrideDir, 'target')
+const sharedTarget = process.env.CARGO_TARGET_DIR ? resolve(process.env.CARGO_TARGET_DIR)
+  : process.env.CI ? null : '/var/tmp/cargo-shared/carve-bench'
+const overrideTarget = sharedTarget ?? join(overrideDir, 'target')
 
 const args = process.argv.slice(2)
 if (args.includes('--help')) {
@@ -49,7 +52,15 @@ if (flag >= 0 && !args[flag + 1]) die('--carve-rs needs the path to a carve-rs c
 // choose different trees from the same environment.
 const checkout = flag >= 0 ? resolve(args[flag + 1]) : envCheckout()
 
-const built = checkout ? buildCheckout(checkout) : buildPinnedRelease()
+if (sharedTarget && !resolveOnly && process.env.CARVE_BENCH_ARTIFACT_LOCK !== sharedTarget) {
+  mkdirSync(sharedTarget, {recursive: true})
+  const locked = spawnSync('flock', ['--exclusive', join(sharedTarget, '.build.lock'), process.execPath, fileURLToPath(import.meta.url), ...args], {
+    stdio: 'inherit', env: {...process.env, CARVE_BENCH_ARTIFACT_LOCK: sharedTarget},
+  })
+  process.exit(locked.status ?? 1)
+}
+
+const built = checkout ? await buildCheckout(checkout) : await buildPinnedRelease()
 console.log(`\n${resolveOnly ? 'resolves to' : 'measured tree'}: ${built.source}`)
 if (!resolveOnly) {
   console.log(`  ${relative(root, built.bin)}`)
@@ -60,14 +71,14 @@ if (checkout && !resolveOnly) {
     '\nRun against it by naming the same tree, which run.mjs and compare.mjs verify\n' +
       'against what the harness reports:\n' +
       `  export CARVE_RS_SRC=${relative(root, checkout) || checkout}\n` +
-      '  node run.mjs',
+      `  CARVE_RS_BIN=${built.bin} CARVE_RS_COMPARE_BIN=${built.compareBin} node run.mjs`,
   )
 }
 
 /** The pinned release: resolve under `--locked`, then confirm the binary agrees. */
-function buildPinnedRelease() {
+async function buildPinnedRelease() {
   const manifest = join(lane, 'Cargo.toml')
-  const targetDir = join(lane, 'target')
+  const targetDir = sharedTarget ?? join(lane, 'target')
   const resolved = resolveEngine(manifest, ['--locked'])
   if (resolved.source === null) {
     die(
@@ -78,15 +89,15 @@ function buildPinnedRelease() {
   }
   const expected = `${ENGINE} ${resolved.version} (crates.io`
   if (resolveOnly) return { source: `${expected}, ...) from ${resolved.source}` }
-  cargo(manifest, targetDir, ['--locked'], {})
-  return verify(targetDir, expected)
+  await cargo(manifest, targetDir, ['--locked'], {})
+  return verify(sharedTarget ? dirname(retainedRustDirectory(root, null, profile)) : targetDir, expected)
 }
 
 /**
  * A checkout: generate a manifest whose carve dependency is a path, so the
  * resolution cannot silently land anywhere else, and build that.
  */
-function buildCheckout(tree) {
+async function buildCheckout(tree) {
   const manifest = join(tree, 'Cargo.toml')
   if (!existsSync(manifest)) die(`no ${manifest} - --carve-rs wants a carve-rs checkout`)
   const pkg = readFileSync(manifest, 'utf8').split(/^\[/m)[1] ?? ''
@@ -106,8 +117,8 @@ function buildCheckout(tree) {
   const stamp = `${tree}${revisionOf(tree)}`
   const expected = `${ENGINE} ${version} (local checkout ${stamp})`
   if (resolveOnly) return { source: expected }
-  cargo(generated, overrideTarget, [], { CARVE_BENCH_RS_OVERRIDE: stamp })
-  return verify(overrideTarget, expected)
+  await cargo(generated, overrideTarget, [], { CARVE_BENCH_RS_OVERRIDE: stamp })
+  return verify(sharedTarget ? dirname(retainedRustDirectory(root, tree, profile)) : overrideTarget, expected)
 }
 
 /**
@@ -176,16 +187,28 @@ function resolveEngine(manifest, extra) {
   return found[0]
 }
 
-function cargo(manifest, targetDir, extra, env) {
-  const argv = ['build', '--manifest-path', manifest, '--target-dir', targetDir, ...extra]
+async function cargo(manifest, targetDir, extra, env) {
+  const argv = ['build', '--message-format=json', '--manifest-path', manifest, '--target-dir', targetDir, ...extra]
   if (!debug) argv.push('--release')
   console.error(`+ cargo ${argv.join(' ')}`)
-  const run = spawnSync('cargo', argv, {
-    cwd: dirname(manifest),
-    stdio: 'inherit',
-    env: { ...process.env, ...env },
-  })
-  if (run.status !== 0) die('cargo build failed')
+  const child = spawn('cargo', argv, {cwd: dirname(manifest), stdio: ['ignore', 'pipe', 'inherit'], env: {...process.env, ...env}})
+  const exited = new Promise(resolveExit => child.on('close', resolveExit))
+  const captured = new Set()
+  for await (const line of createInterface({input: child.stdout})) {
+    const event = JSON.parse(line)
+    if (event.reason === 'compiler-message') process.stderr.write(event.message.rendered ?? '')
+    if (sharedTarget && event.reason === 'compiler-artifact' && event.manifest_path === manifest && event.executable && ['carve-bench-rs', 'carve-bench-rs-compare'].includes(event.target.name)) {
+      const retained = retainedRustDirectory(root, checkout, profile)
+      mkdirSync(retained, {recursive: true})
+      const to = join(retained, event.target.name)
+      const temporary = to + '.' + process.pid + '.tmp'
+      cpSync(event.executable, temporary)
+      renameSync(temporary, to)
+      captured.add(event.target.name)
+    }
+  }
+  if (await exited !== 0) die('cargo build failed')
+  if (sharedTarget && captured.size !== 2) die('Cargo did not identify both artifacts from the requested manifest')
 }
 
 /** Ask the binary itself, so a stale or misplaced artifact cannot pass. */
@@ -200,6 +223,8 @@ function verify(targetDir, expected) {
   if (!source?.startsWith(expected)) {
     die(`the built harness reports \`${source}\`, expected \`${expected}...\``)
   }
+  const compared = JSON.parse(execFileSync(compareBin, ['carve-rs', join(root, 'corpus/small.crv'), '1', '1'], {encoding: 'utf8'})).carve_source
+  if (!compared?.startsWith(expected)) die(`compare harness reports ${compared}, expected ${expected}`)
   return { bin, compareBin, source }
 }
 

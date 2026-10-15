@@ -1,0 +1,35 @@
+[package]
+name = "carve-bench-rs"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# carve-rs engine, published as the `carve-lang` crate (aliased here as `carve`,
+# so the harness keeps `use carve`). The requirement is EXACT (`=`), not the
+# caret Cargo would infer from a bare version: the JS and PHP lanes name one
+# published release each and cannot walk to another, and comparability is this
+# repo's product, so the Rust lane must not move under `cargo update` either.
+# Build this lane through `node scripts/build-rs-engine.mjs`, which resolves the
+# engine before it compiles and reads the built binary back afterward. To measure
+# a checkout instead, pass `--carve-rs <path>`: it builds from a generated
+# manifest whose carve dependency is a path, because a `[patch]` to a checkout is
+# refused whenever its version does not satisfy the line below - and cargo
+# refuses it by warning and exiting 0, which measured the release for a while
+# (carve-bench#19).
+carve = { package = "carve-lang", version = "=0.1.8" }
+comrak = { version = "0.54.0", default-features = false }
+jotdown = "0.10.0"
+pulldown-cmark = { version = "0.13.4", default-features = false, features = ["html"] }
+
+[[bin]]
+name = "carve-bench-rs"
+path = "src/main.rs"
+
+[[bin]]
+name = "carve-bench-rs-compare"
+path = "src/compare.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
