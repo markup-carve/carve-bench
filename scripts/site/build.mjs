@@ -181,7 +181,7 @@ export function build(root, destination) {
     .replaceAll('(scripts/deep-review/README.md)', `(${source}/scripts/deep-review/README.md)`))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) writeFileSync(resolve(destination, file), read(file).replaceAll('(./FINDINGS.md', '(reports/FINDINGS.md').replaceAll('(./COMPETITOR_ARCHITECTURE.md)', `(${source}/COMPETITOR_ARCHITECTURE.md)`))
   }
-  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)(?:-pre-queue-audit-\d{8})?|engine-history-pre-queue-audit-\d{8}|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full)-(?:pre-queue-audit|pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'php-tiers-unpaired-20261015.md', 'php-tiers-unpaired-20261015.json', 'php-tier-pairs.md', 'php-tier-pairs.json', 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-rust-pre-queue-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
+  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)(?:-pre-queue-audit-\d{8})?|engine-history-pre-queue-audit-\d{8}|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full(?:-output-controls)?|php-tier-pairs)-(?:pre-postfix|pre-queue-audit|pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'php-tiers-unpaired-20261015.md', 'php-tiers-unpaired-20261015.json', 'php-tier-pairs.md', 'php-tier-pairs.json', 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-rust-pre-queue-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   if (data.smallInputNote)
@@ -194,7 +194,7 @@ export function build(root, destination) {
     assert.ok(history.measurement_signature, 'Missing history timing signature')
     for (const [engine, snapshot] of Object.entries(history.engines)) {
       const main = snapshot.revisions.find(row => row.label === 'dev-main') ?? snapshot.main_alias
-      if (mainRecord && main) assert.equal(main.sha, mainRecord.metadata.carve_main[engine].commit, 'History and core main commits differ')
+      if (mainRecord && main) assert.match(main.sha, /^[a-f0-9]{40}$/, 'History main needs a pinned commit')
       const file = { js: 'worker.mjs', php: 'worker.php', rs: 'worker.rs' }[engine]
       const hash = createHash('sha256').update(read(`scripts/history/${file}`)).digest('hex')
       assert.equal((snapshot.measurement_session ?? history).harness_sha256[file], hash, `Engine history used a different ${file}; refresh measurements`)
@@ -202,7 +202,7 @@ export function build(root, destination) {
     const publishedHistory = resolve(destination, 'reports/engine-history.json')
     cpSync(historyPath, publishedHistory)
     execFileSync('python3', [resolve(root, 'scripts/history/report.py'), publishedHistory])
-    historySection = `<section id="history"><h2>Engine release history</h2><p>${history.tags_per_engine} tags per engine, a pinned development main when its measured source differs, and candidate PRs when requested. Compare elapsed time within each engine; graphs mark changed output.</p><p><a href="reports/engine-history.html">Explore the version history</a> · <a href="reports/engine-history.csv" download>History CSV</a> · <a href="reports/engine-history.json" download>Samples and source commits</a></p>${Object.keys(history.engines).map(engine => `<figure><img loading="lazy" src="reports/engine-history-${escape(engine)}.svg" alt="${escape(engine)} elapsed time across release tags, development main and candidate PRs"><figcaption><a href="reports/engine-history-${escape(engine)}.svg" download>Download ${escape(engine)} history SVG</a></figcaption></figure>`).join('')}</section>`
+    historySection = `<section id="history"><h2>Engine release history</h2><p>${history.tags_per_engine} tags per engine, an earlier pinned development main, and candidate PRs when requested. These history points were measured separately from the current core and full-corpus runs. Compare elapsed time within each engine; graphs mark changed output.</p><p><a href="reports/engine-history.html">Explore the version history</a> · <a href="reports/engine-history.csv" download>History CSV</a> · <a href="reports/engine-history.json" download>Samples and source commits</a></p>${Object.keys(history.engines).map(engine => `<figure><img loading="lazy" src="reports/engine-history-${escape(engine)}.svg" alt="${escape(engine)} elapsed time across release tags, development main and candidate PRs"><figcaption><a href="reports/engine-history-${escape(engine)}.svg" download>Download ${escape(engine)} history SVG</a></figcaption></figure>`).join('')}</section>`
   }
   writeFileSync(resolve(destination, 'evidence.json'), JSON.stringify(data, null, 2) + '\n')
   writeFileSync(resolve(destination, 'core-throughput.csv'), 'Language,Engine,MB/s\n' + data.peers.map(row => [row.language, row.engine, row.throughput].join(',')).join('\n') + '\n')
@@ -213,19 +213,13 @@ export function build(root, destination) {
     const summary = tierResults(diagnostic)
     assert.deepEqual(diagnostic.summary, summary)
     assert.ok(fullRecord, 'Tier follow-up requires the full-corpus source record')
-    const previous = JSON.parse(read('reports/release-before-2962-20261015/dev-main-full.json'))
+    const previous = JSON.parse(read('reports/dev-main-full-pre-postfix-20261015.json'))
     assert.equal(diagnostic.metadata.sources.previous.commit, previous.metadata.source_commits.php.commit)
     assert.equal(diagnostic.report_md_sha256, createHash('sha256').update(read('reports/php-tier-pairs.md')).digest('hex'))
     assert.equal(diagnostic.metadata.sources.published.commit, fullRecord.metadata.source_commits.php.commit, 'Tier follow-up must use the published PHP snapshot')
     assert.equal(summary.length, 6)
-    const originalTiers = JSON.parse(read('reports/php-tiers-unpaired-20261015.json')).tiers
-    const archiveTable = sections(read('reports/php-tiers-unpaired-20261015.md')).find(group => group.title === 'PHP authoritative extension tiers')?.tables[0]
-    assert.ok(archiveTable && archiveTable.rows.length === 3, 'Missing archived PHP tier table')
-    for (const row of originalTiers) {
-      const index = ['tier1', 'tier2', 'tier3'].indexOf(row.profile)
-      assert.deepEqual(archiveTable.rows[index].slice(2, 4), [row.ms_per_op.toFixed(2), row.mb_per_s.toFixed(2)], 'Archived tier display differs from original worker results')
-    }
-    phpTierNote = '<p>The PHP tier table and chart use the <a href="reports/php-tier-pairs.md">balanced paired recheck</a> at the same PHP commit. Values are medians of eight round medians. The <a href="reports/php-tiers-unpaired-20261015.md">original unpaired observations</a> are preserved separately.</p>'
+    assert.equal(fullRecord.tiers.length, 3, 'Missing current unpaired PHP tiers')
+    phpTierNote = '<p>The PHP tier table and chart use the <a href="reports/php-tier-pairs.md">balanced paired recheck</a> at the same PHP commit. Values are medians of eight round medians. Current unpaired full-run observations and <a href="reports/php-tiers-unpaired-20261015.md">earlier unpaired observations</a> are preserved separately.</p>'
   }
   const smallInputNote = data.smallInputNote ? `<p>${escape(data.smallInputNote)} <a href="${escape(data.smallInputEvidence)}" download>Download the diagnostic report</a>.</p>` : ''
   const coreTables = data.core.filter(group => ['JavaScript', 'PHP', 'Rust'].includes(group.title)).map(group => `<section class="language-table" data-language="${escape(group.title)}"><h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}</section>`).join('')

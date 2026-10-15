@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync, mkdtempSync, rmSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -22,14 +23,20 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
       'dev-main-core-pre-queue-audit-20261007.md', 'dev-main-full-pre-queue-audit-20261007.json',
       'commonmark-js-pre-queue-audit-20261007.md', 'engine-history-pre-queue-audit-20261007.json',
       'final-audit-pairs-pre-queue-audit-20261007.json', 'final-audit-conversion-checks-pre-queue-audit-20261007.md',
-      'dev-main-rust-pre-queue-audit-20261007.Cargo.lock'])
+      'dev-main-rust-pre-queue-audit-20261007.Cargo.lock',
+      'dev-main-core-pre-postfix-20261015.json', 'dev-main-full-pre-postfix-20261015.json',
+      'php-tier-pairs-pre-postfix-20261015.md', 'commonmark-js-pre-postfix-20261015.json',
+      'dev-main-full-output-controls-pre-postfix-20261015.json'])
       assert.equal(readFileSync(join(destination, 'reports', file), 'utf8'), readFileSync(new URL(`reports/${file}`, root), 'utf8'))
+    const archivedTier = JSON.parse(readFileSync(join(destination, 'reports/php-tier-pairs-pre-postfix-20261015.json')))
+    assert.equal(archivedTier.report_md_sha256, createHash('sha256').update(readFileSync(join(destination, 'reports/php-tier-pairs-pre-postfix-20261015.md'))).digest('hex'))
     const html = readFileSync(join(destination, 'index.html'), 'utf8')
+    assert.ok(html.includes('These history points were measured separately from the current core and full-corpus runs.'))
     assert.ok(html.includes('href="reports/final-audit-pairs.json"'))
     assert.ok(html.includes('reports/php-tiers-unpaired-20261015.md'))
-    assert.ok(html.includes('<td>3.56</td>'))
-    assert.ok(html.includes('<td>3.85</td>'))
-    assert.ok(html.includes('<td>4.62</td>'))
+    assert.ok(html.includes('<td>3.39</td>'))
+    assert.ok(html.includes('<td>3.69</td>'))
+    assert.ok(html.includes('<td>4.17</td>'))
     assert.match(html, /charts\/php-tiers\.svg\?v=[a-f0-9]{12}/)
     const tierChart = readFileSync(join(destination, 'charts/php-tiers.svg'), 'utf8')
     const widths = [...tierChart.matchAll(/<rect x="245"[^>]*width="([0-9.]+)"/g)].map(match => Number(match[1]))

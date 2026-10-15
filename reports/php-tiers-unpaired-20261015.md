@@ -4,7 +4,7 @@ These observations are retained from the original October 15 full run. The [raw 
 
 ## PHP authoritative extension tiers
 
-The apparent Tier 1 increase in this unpaired run is rechecked in the [paired PHP tier report](php-tier-pairs.md). Its alternating measurements retain both elapsed and process CPU time. This table preserves the original observations; it does not establish a PHP regression.
+The apparent Tier 1 increase in this unpaired run was rechecked in the [paired PHP tier report for these commits](php-tier-pairs-pre-postfix-20261015.md). Its alternating measurements retain both elapsed and process CPU time. This table preserves the original observations; it does not establish a PHP regression.
 
 These are internal Carve measurements over the same core document, measured
 by this run rather than transcribed. Tier 1 is the default public conversion
