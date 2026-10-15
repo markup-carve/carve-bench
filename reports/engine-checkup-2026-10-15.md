@@ -1,6 +1,6 @@
 # Engine checkup, 2026-10-15
 
-These samples compare the pinned engines with commits that were on each engine's merged `main` at measurement time. The host was shared and had 16 logical CPUs. The [raw samples](data/engine-checkup-2026-10-15) retain input hashes and observations. The paired wall run finished at 17:21 CEST, the CPU run at 17:53 CEST, the PHP phase run at 16:47 CEST, and the Rust allocation probe at 18:05 CEST on 2026-10-15. The PHP memory probe ran that afternoon with JIT and opcache off. It used `php -n` with `ctype` and `mbstring` enabled.
+These samples compare the pinned engines with commits that were on each engine's merged `main` at measurement time. The host was shared and had 16 logical CPUs. The [raw samples](data/engine-checkup-2026-10-15) retain input hashes and observations. On 2026-10-15, the PHP phase and memory probes finished at 16:47 and 16:48 CEST, the paired wall run at 17:21 CEST, the CPU run at 17:53 CEST, and the Rust allocation probe at 18:05 CEST. The PHP memory probe used `php -n` with `ctype` and `mbstring` enabled, so JIT and opcache were off.
 
 ## Revisions and inputs
 
