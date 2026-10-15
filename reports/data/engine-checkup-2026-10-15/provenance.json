@@ -9,7 +9,8 @@
   "revisions": {
     "js": {
       "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
-      "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+      "main": "4f299589529405a3e583926a41c5021d390ef8ba",
+      "postFixMergedMain": "51996af1540b76ced08536a7bd1e473d48e01096"
     },
     "php": {
       "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
@@ -56,6 +57,30 @@
     "rust-perf-tests.txt": {
       "method": "CARGO_TARGET_DIR=/var/tmp/cargo-shared/carve-rs cargo test --test perf_regressions -- --test-threads=1",
       "revision": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+    },
+    "js-merged-allocation.json": {
+      "completedAt": "2026-10-15T18:27:36+02:00",
+      "revisions": {
+        "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+        "main": "51996af1540b76ced08536a7bd1e473d48e01096"
+      },
+      "method": "20 warmed HTML operations with Node --trace-gc-nvp; allocated fields cover GC intervals only"
+    },
+    "js-merged-profiles.json": {
+      "completedAt": "2026-10-15T18:28:34+02:00",
+      "revisions": {
+        "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+        "main": "51996af1540b76ced08536a7bd1e473d48e01096"
+      },
+      "method": "20 warmed operations with Node --cpu-prof; statistical samples include startup"
+    },
+    "js-merged-render.json": {
+      "completedAt": "2026-10-15T18:36:37+02:00",
+      "revisions": {
+        "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+        "main": "51996af1540b76ced08536a7bd1e473d48e01096"
+      },
+      "method": "four ABBA rounds; pre-parsed comparison input; process CPU time"
     }
   },
   "harness": "The one-off runner scripts remained local; the raw samples and fixture bases are archived here."
