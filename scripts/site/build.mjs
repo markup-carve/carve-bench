@@ -5,6 +5,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync, cpSync, rmSync, ex
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import {displayedPhpTiers} from '../php-tier-display.mjs'
 import {tierResults} from '../php-tier-results.mjs'
 import { affinityDescription } from '../benchmark-metadata.mjs'
 import { engineLabel } from '../engine-labels.mjs'
@@ -37,7 +38,7 @@ export function sections(markdown) {
   return groups.filter(group => group.tables.length)
 }
 
-export function collect(comparison, results, revision, fullRecord = null) {
+export function collect(comparison, results, revision, fullRecord = null, phpTierRecord = null) {
   const core = sections(comparison)
   const full = sections(results)
   const headline = core.find(group => group.title.startsWith('Headline:'))?.tables[0]
@@ -90,7 +91,7 @@ export function collect(comparison, results, revision, fullRecord = null) {
     }
     const tiers = full.find(group => group.title === 'PHP authoritative extension tiers')?.tables[0]
     assert.ok(tiers && tiers.rows.length === 3, 'Missing published PHP tiers')
-    for (const row of fullRecord.tiers) {
+    for (const row of phpTierRecord ? displayedPhpTiers(phpTierRecord, fullRecord.metadata.source_commits.php.commit) : fullRecord.tiers) {
       const index = ['tier1', 'tier2', 'tier3'].indexOf(row.profile)
       assert.deepEqual(tiers.rows[index].slice(2, 4), [row.ms_per_op.toFixed(2), row.mb_per_s.toFixed(2)], 'PHP tier report and worker timings differ')
     }
@@ -113,7 +114,8 @@ export function build(root, destination) {
   const read = file => readFileSync(resolve(root, file), 'utf8')
   const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
   const fullRecord = existsSync(resolve(root, 'reports/dev-main-full.json')) ? JSON.parse(read('reports/dev-main-full.json')) : null
-  const data = collect(read('COMPARISON.md'), read('RESULTS.md'), revision, fullRecord)
+  const phpTierRecord = existsSync(resolve(root, 'reports/php-tier-pairs.json')) ? JSON.parse(read('reports/php-tier-pairs.json')) : null
+  const data = collect(read('COMPARISON.md'), read('RESULTS.md'), revision, fullRecord, phpTierRecord)
   const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(read('reports/dev-main-core.json')) : null
   if (mainRecord) {
     if (fullRecord) {
@@ -179,7 +181,7 @@ export function build(root, destination) {
     .replaceAll('(scripts/deep-review/README.md)', `(${source}/scripts/deep-review/README.md)`))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) writeFileSync(resolve(destination, file), read(file).replaceAll('(./FINDINGS.md', '(reports/FINDINGS.md').replaceAll('(./COMPETITOR_ARCHITECTURE.md)', `(${source}/COMPETITOR_ARCHITECTURE.md)`))
   }
-  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)(?:-pre-queue-audit-\d{8})?|engine-history-pre-queue-audit-\d{8}|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full)-(?:pre-queue-audit|pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'php-tier-pairs.md', 'php-tier-pairs.json', 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-rust-pre-queue-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
+  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)(?:-pre-queue-audit-\d{8})?|engine-history-pre-queue-audit-\d{8}|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full)-(?:pre-queue-audit|pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'php-tiers-unpaired-20261015.md', 'php-tier-pairs.md', 'php-tier-pairs.json', 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-rust-pre-queue-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   if (data.smallInputNote)
@@ -216,7 +218,7 @@ export function build(root, destination) {
     assert.equal(diagnostic.report_md_sha256, createHash('sha256').update(read('reports/php-tier-pairs.md')).digest('hex'))
     assert.equal(diagnostic.metadata.sources.published.commit, fullRecord.metadata.source_commits.php.commit, 'Tier follow-up must use the published PHP snapshot')
     assert.equal(summary.length, 6)
-    phpTierNote = '<p>The apparent Tier 1 increase in this unpaired snapshot is rechecked in the <a href="reports/php-tier-pairs.md">paired PHP tier report</a>, with elapsed and process CPU times. The table below preserves the original observations and does not establish a PHP regression.</p>'
+    phpTierNote = '<p>The PHP tier table and chart use the <a href="reports/php-tier-pairs.md">balanced paired recheck</a> at the same PHP commit. Values are medians of eight round medians. The <a href="reports/php-tiers-unpaired-20261015.md">original unpaired observations</a> are preserved separately.</p>'
   }
   const smallInputNote = data.smallInputNote ? `<p>${escape(data.smallInputNote)} <a href="${escape(data.smallInputEvidence)}" download>Download the diagnostic report</a>.</p>` : ''
   const coreTables = data.core.filter(group => ['JavaScript', 'PHP', 'Rust'].includes(group.title)).map(group => `<section class="language-table" data-language="${escape(group.title)}"><h3>${escape(group.title)}</h3>${group.tables.map(table).join('')}</section>`).join('')
