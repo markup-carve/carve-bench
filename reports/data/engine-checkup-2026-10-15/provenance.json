@@ -26,27 +26,113 @@
   "files": {
     "php-phases.json": {
       "completedAt": "2026-10-15T16:47:36+02:00",
-      "method": "two reversed fresh-process rounds; php -n with ctype and mbstring; no JIT or opcache"
+      "method": "two reversed fresh-process rounds; php -n with ctype and mbstring; no JIT or opcache",
+      "revisions": {
+        "js": {
+          "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+          "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+        },
+        "php": {
+          "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+          "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+        },
+        "rust": {
+          "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
+          "main": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+        }
+      }
     },
     "php-memory.json": {
       "completedAt": "2026-10-15T16:48:01+02:00",
-      "method": "one fresh-process sample per depth and phase after five warmups; php -n with ctype and mbstring; no JIT or opcache"
+      "method": "one fresh-process sample per depth and phase after five warmups; php -n with ctype and mbstring; no JIT or opcache",
+      "revisions": {
+        "js": {
+          "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+          "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+        },
+        "php": {
+          "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+          "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+        },
+        "rust": {
+          "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
+          "main": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+        }
+      }
     },
     "output-hashes.json": {
       "completedAt": "2026-10-15T16:55:13+02:00",
-      "method": "SHA-256 of input and output for each fixed and mixed input"
+      "method": "SHA-256 of input and output for each fixed and mixed input",
+      "revisions": {
+        "js": {
+          "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+          "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+        },
+        "php": {
+          "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+          "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+        },
+        "rust": {
+          "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
+          "main": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+        }
+      }
     },
     "wall.json": {
       "completedAt": "2026-10-15T17:21:15+02:00",
-      "method": "two ABBA rounds; PHP JIT enabled; mode not retained in raw sample"
+      "method": "two ABBA rounds; PHP JIT enabled; mode not retained in raw sample",
+      "revisions": {
+        "js": {
+          "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+          "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+        },
+        "php": {
+          "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+          "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+        },
+        "rust": {
+          "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
+          "main": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+        }
+      }
     },
     "cpu.json": {
       "completedAt": "2026-10-15T17:53:55+02:00",
-      "method": "four ABBA rounds for JavaScript and Rust; process CPU time"
+      "method": "four ABBA rounds for JavaScript and Rust; process CPU time",
+      "revisions": {
+        "js": {
+          "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+          "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+        },
+        "php": {
+          "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+          "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+        },
+        "rust": {
+          "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
+          "main": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+        }
+      },
+      "startTime": "not recorded",
+      "possibleSuiteOverlap": "not recorded; host load was 30.68 on 16 logical CPUs"
     },
     "rust-alloc.json": {
       "completedAt": "2026-10-15T18:05:28+02:00",
-      "method": "one release-build allocation probe per depth and phase"
+      "method": "one release-build allocation probe per depth and phase",
+      "revisions": {
+        "js": {
+          "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+          "main": "4f299589529405a3e583926a41c5021d390ef8ba"
+        },
+        "php": {
+          "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+          "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+        },
+        "rust": {
+          "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
+          "main": "7d2fd546e2d9cb484fda3d365348317c0f3d293b"
+        }
+      }
     },
     "js-perf-tests.txt": {
       "method": "CARVE_PERF=1 vitest run --no-file-parallelism over focused performance files",
@@ -123,6 +209,22 @@
         "main": "9eb33ad2ebf16a8f14a6252b30d2b3190fda3739"
       },
       "method": "two reversed fresh-process rounds; php -n with ctype and mbstring; no JIT or opcache"
+    },
+    "php-quote-full-tests.txt": {
+      "revisions": {
+        "branch": "6a3f522d964e4ffa12ae5dbfbbe1638a1616c623",
+        "mergedMain": "9eb33ad2ebf16a8f14a6252b30d2b3190fda3739"
+      },
+      "method": "PHP 8.5.11 phpunit full suite; log copied from quote-fix branch before merge",
+      "completedAt": "2026-10-15T18:57:36+02:00"
+    },
+    "php-quote-scaling-tests.txt": {
+      "revisions": {
+        "branch": "6a3f522d964e4ffa12ae5dbfbbe1638a1616c623",
+        "mergedMain": "9eb33ad2ebf16a8f14a6252b30d2b3190fda3739"
+      },
+      "method": "PHP 8.5.11 php -n with ctype, dom, mbstring, tokenizer, xmlwriter and unlimited memory; --group scaling; log copied from quote-fix branch before merge",
+      "completedAt": "2026-10-15T19:07:36+02:00"
     }
   },
   "harness": "The one-off runner scripts remained local; the raw samples and fixture bases are archived here."
