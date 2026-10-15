@@ -163,7 +163,7 @@ writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
 ))
 writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   'carve-php extension profile throughput',
-  'Internal diagnostic only; competitor comparisons use Tier 1/core.',
+  'Unpaired shared-host snapshot; use the paired PHP tier follow-up to assess regressions.',
   sections(resolve(root, 'RESULTS.md'), 3)
     .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))

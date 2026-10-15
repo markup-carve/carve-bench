@@ -601,3 +601,5 @@ raw samples and output checks for import and rendering separately. Rows with
 changed converted output or a Native mismatch do not support speedup claims.
 
 The [previous fleet reports](reports/release-before-2962-20261015/README.md) preserve the reports and charts replaced by this refresh. The current released-core raw samples are in [the release record](reports/release-core-20261015.json).
+
+The [paired PHP tier follow-up](reports/php-tier-pairs.md) rechecks the apparent Tier 1 slowdown between the previous and current fleet snapshots. It retains alternating wall-time and CPU-time samples, output controls and exact source commits. The original unpaired samples remain unchanged.
