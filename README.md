@@ -603,3 +603,13 @@ changed converted output or a Native mismatch do not support speedup claims.
 The [previous fleet reports](reports/release-before-2962-20261015/README.md) preserve the reports and charts replaced by this refresh. The current released-core raw samples are in [the release record](reports/release-core-20261015.json).
 
 The [paired PHP tier follow-up](reports/php-tier-pairs.md) rechecks the apparent Tier 1 slowdown between the previous and current fleet snapshots. It retains alternating wall-time and CPU-time samples, output controls and exact source commits. The original unpaired samples remain unchanged.
+
+The current PHP tier chart and table use the balanced recheck; the original unpaired chart and full-run record are retained separately. After a fleet refresh, regenerate the paired PHP report for the same PHP commit before publishing the current tier display. Run these steps after the paired report and raw JSON are generated:
+
+```sh
+node scripts/publish-php-tier-display.mjs
+node scripts/gen-charts.mjs
+node scripts/site/build.mjs
+```
+
+The display step rejects a PHP commit that differs from the fleet snapshot. Site validation checks the current table against paired samples and the archived table against its original worker results.

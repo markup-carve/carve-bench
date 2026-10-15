@@ -1,6 +1,6 @@
 # Historical unpaired PHP tier observations
 
-These observations are retained from the original October 15 full run. The [raw full-run record](dev-main-full.json) retains the samples and measurement method. Current tier displays use the paired recheck.
+These observations are retained from the original October 15 full run. The [raw full-run record](php-tiers-unpaired-20261015.json) retains the samples and measurement method. Current tier displays use the paired recheck.
 
 ## PHP authoritative extension tiers
 
@@ -24,5 +24,5 @@ apparent negative overhead. These are internal diagnostics, not competitor rows.
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](../charts/php-tiers-unpaired-20261015.svg)
 
 The exact extension bundles and interpretation are documented in
-[`FINDINGS.md`](../FINDINGS.md#extension-tier-cost). There is no normative Tier
+[`FINDINGS.md`](https://github.com/markup-carve/carve-bench/blob/44533194378f8f111ca78e9d040963916877ad66/FINDINGS.md#extension-tier-cost). There is no normative Tier
 3 profile; it is a reproducible internal stress stack.
