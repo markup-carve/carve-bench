@@ -75,6 +75,7 @@ Historical release results remain in [COMPARISON.md](COMPARISON.md).
 The September 30 development-main snapshot, taken after the PHP
 parser and renderer changes and naming its exact commits and input hashes, is in
 [the refresh report](reports/performance-refresh.md).
+The [October 15 three-engine checkup](reports/engine-checkup-2026-10-15.md) compares pinned and merged-main revisions with paired timing, memory, and allocation samples.
 
 The table below records the core route: the default conversion API with **no
 opt-in extensions registered**, against the fastest same-language peer.

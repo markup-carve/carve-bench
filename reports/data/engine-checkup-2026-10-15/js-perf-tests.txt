@@ -1,0 +1,79 @@
+
+> @markup-carve/carve@0.1.12 test:perf
+> CARVE_PERF=1 vitest run --no-file-parallelism --run test/crossref-label-budget-perf.test.ts test/escaper-perf.test.ts test/html-import-padding-perf.test.ts test/inline-position-perf.test.ts test/markdown-deep-list-perf.test.ts test/markdown-escape-perf.test.ts test/perf-regression.test.ts test/table-alignment-regional-indicator-perf.test.ts test/table-rowspan-perf.test.ts test/writer-deep-list-perf.test.ts
+
+
+ RUN  v2.1.9 /var/tmp/carve-full-main-js
+
+ ✓ test/perf-regression.test.ts (16 tests) 28561ms
+   ✓ parser perf regression (near-linear scaling) > link/image tail (no closing paren) scales near-linearly 2564ms
+   ✓ parser perf regression (near-linear scaling) > reference/link tail (no closing paren) scales near-linearly 1616ms
+   ✓ parser perf regression (near-linear scaling) > span tail (no closing brace) scales near-linearly 1571ms
+   ✓ parser perf regression (near-linear scaling) > critic insert (no closing +}) scales near-linearly 637ms
+   ✓ parser perf regression (near-linear scaling) > block attributes scales near-linearly 777ms
+   ✓ parser perf regression: far-brace span attributes > far-brace span (one distant closing brace) scales near-linearly 1432ms
+   ✓ parser perf regression: far-brace span attributes > far-brace span, valid first token scales near-linearly 2923ms
+   ✓ parser perf regression: far-brace span attributes > far-brace span, leading class token scales near-linearly 3229ms
+   ✓ parser perf regression: far-brace span attributes > far-brace span, empty key= value scales near-linearly 3353ms
+   ✓ parser perf regression: deeply-indented list staircase > nested-list dedent stays linear in input bytes 4060ms
+   ✓ parser perf regression: a `+`-attached fence that never closes > an unclosable colon fence per continuation marker scales near-linearly 2080ms
+   ✓ parser perf regression: a `+`-attached fence that never closes > an unclosable code fence per continuation marker scales near-linearly 1468ms
+   ✓ parser perf regression: a `+`-attached fence that never closes > an unclosable comment fence per continuation marker scales near-linearly 1592ms
+   ✓ parser perf regression: table continuation rows > a run of continuation rows scales near-linearly 1253ms
+ ✓ test/markdown-deep-list-perf.test.ts (11 tests) 1639ms
+   ✓ the Markdown target on a deep list ladder > renders the deepest document the parse cap accepts 572ms
+   ✓ the Markdown target on a deep list ladder > leaves plain text and the terminal fast too 929ms
+ ✓ test/html-import-padding-perf.test.ts (45 tests) 71963ms
+   ✓ HTML import inline padding > imports internal space runs in linear time 7325ms
+   ✓ whitespace edge scans > matches each caller whitespace set without widening it 1255ms
+   ✓ whitespace edge scans > checks URLs with internal whitespace in linear time 2501ms
+   ✓ whitespace edge scans > reads invalid data-lang with internal whitespace in linear time 2563ms
+   ✓ public whitespace paths > imports verbatim spaces in linear time 2521ms
+   ✓ public whitespace paths > imports destination spaces in linear time 2525ms
+   ✓ public whitespace paths > imports leading spans in linear time 6152ms
+   ✓ public whitespace paths > imports link leading spans in linear time 6056ms
+   ✓ public whitespace paths > renders Markdown heading padding in linear time 2537ms
+   ✓ public whitespace paths > renders Markdown paragraph padding in linear time 2516ms
+   ✓ parser and migration whitespace scans > scans internal spaces through parse in linear time 2522ms
+   ✓ parser and migration whitespace scans > scans internal spaces through HTML in linear time 2510ms
+   ✓ parser and migration whitespace scans > scans internal spaces through Markdown import in linear time 2548ms
+   ✓ parser and migration whitespace scans > scans internal spaces through Djot import in linear time 2689ms
+   ✓ whitespace in optional features > scans code without callout markers in linear time 2514ms
+   ✓ whitespace in optional features > scans invalid container titles in linear time 2530ms
+   ✓ whitespace in optional features > rejects padded invalid Djot fence info in linear time 2666ms
+   ✓ rejects invalid container title line endings "\r" in linear time 2512ms
+   ✓ rejects invalid container title line endings " " in linear time 2510ms
+   ✓ rejects invalid container title line endings " " in linear time 2510ms
+   ✓ scans invalid fence attributes in linear time 2515ms
+   ✓ imports label internal space runs in linear time 7927ms
+ ✓ test/escaper-perf.test.ts (9 tests) 14635ms
+   ✓ escaper perf: inserting many escapes stays linear > a post of backslashes and backticks scales near-linearly 715ms
+   ✓ escaper perf: inserting many escapes stays linear > a Djot line of braced openers with a padded closer scales near-linearly 1881ms
+   ✓ escaper perf: narrowing an escalation stays linear > a document where every block escalates scales near-linearly 2276ms
+   ✓ escaper perf: narrowing to the occurrence stays linear > a document where every line holds a failing and an idle candidate scales near-linearly 9182ms
+ ✓ test/markdown-escape-perf.test.ts (3 tests) 34652ms
+   ✓ the Markdown target on a line of authored escapes > a run of adjacent authored hashes scales near-linearly 14359ms
+   ✓ the Markdown target on a line of authored escapes > authored hashes spaced along one line scale near-linearly 17025ms
+   ✓ the Markdown target on a line of authored escapes > a run of adjacent authored underscores scales near-linearly 3268ms
+ ✓ test/crossref-label-budget-perf.test.ts (4 tests) 13852ms
+   ✓ cross-reference label expansion (work, not just output) > HTML: references to one long heading scale linearly 4630ms
+   ✓ cross-reference label expansion (work, not just output) > plain text: references to one long heading scale linearly 3873ms
+   ✓ cross-reference label expansion (work, not just output) > ANSI: references to one long heading scale linearly 4522ms
+   ✓ cross-reference label expansion (work, not just output) > emits exactly the labels the budget affords, and degrades the rest 827ms
+ ✓ test/table-rowspan-perf.test.ts (7 tests) 2906ms
+   ✓ table rowspan resolution (perf) > resolves a tall all-^ table in linear time 2146ms
+   ✓ renders many attributed row groups in linear time 463ms
+ ✓ test/inline-position-perf.test.ts (8 tests) 5343ms
+   ✓ inline position mapping (perf + correctness) > parses a many-line single paragraph in linear time 356ms
+   ✓ inline position mapping (perf + correctness) > parses a quote-dense paragraph in linear time 2280ms
+   ✓ inline position mapping (perf + correctness) > parses repeated unclosed line-block openers in linear time 1832ms
+   ✓ inline position mapping (perf + correctness) > parses repeated emphasis openers with no closer in linear time 839ms
+ ✓ test/writer-deep-list-perf.test.ts (3 tests) 999ms
+   ✓ the canonical writer on a deep list ladder > formats the deepest document the parse cap accepts 893ms
+ ✓ test/table-alignment-regional-indicator-perf.test.ts (2 tests) 188ms
+
+ Test Files  10 passed (10)
+      Tests  108 passed (108)
+   Start at  17:21:53
+   Duration  180.52s (transform 4.06s, setup 0ms, collect 5.07s, tests 174.74s, environment 1ms, prepare 100ms)
+
