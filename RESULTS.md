@@ -23,6 +23,8 @@ One-minute host load was 19.31 at start and 24.32 at end. CPU affinity does not 
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
 before treating cross-engine results as equal work.
+PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.
+The controls do not establish what every timed conversion rendered.
 
 **Engines measured:** carve-js `@markup-carve/carve 0.1.12 (local checkout carve-js-main @ 224b0c32e)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 967f25397)`, carve-rs `carve-lang 0.1.9 (local checkout carve-rs-main @ 76f95de6b)`
 
