@@ -14,7 +14,9 @@
     },
     "php": {
       "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
-      "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61"
+      "main": "c7886ac5311b42a5ea81f9ecaeb131270e005b61",
+      "postFixMergedMain": "0309966a67954a6cb6227c9c416f5501ce5559ed",
+      "postQuoteFixMergedMain": "9eb33ad2ebf16a8f14a6252b30d2b3190fda3739"
     },
     "rust": {
       "pin": "ee85c4cae6976d220b34727fd68727649b5d4da0",
@@ -81,6 +83,46 @@
         "main": "51996af1540b76ced08536a7bd1e473d48e01096"
       },
       "method": "four ABBA rounds; pre-parsed comparison input; process CPU time"
+    },
+    "php-merged-memory.json": {
+      "completedAt": "2026-10-15T18:42:41+02:00",
+      "revisions": {
+        "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+        "main": "0309966a67954a6cb6227c9c416f5501ce5559ed"
+      },
+      "method": "one fresh-process sample per depth and phase after five warmups; php -n with ctype and mbstring; no JIT or opcache"
+    },
+    "php-merged-phases.json": {
+      "completedAt": "2026-10-15T18:43:16+02:00",
+      "revisions": {
+        "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+        "main": "0309966a67954a6cb6227c9c416f5501ce5559ed"
+      },
+      "method": "two reversed fresh-process rounds; php -n with ctype and mbstring; no JIT or opcache"
+    },
+    "js-merged-html.json": {
+      "completedAt": "2026-10-15T18:46:07+02:00",
+      "revisions": {
+        "pin": "672d0a0a50af5de1e27e052e81f97c06c532c7a4",
+        "main": "51996af1540b76ced08536a7bd1e473d48e01096"
+      },
+      "method": "three ABBA rounds on small, medium, large, and AST-variant inputs; fresh warmed Node processes; process CPU time"
+    },
+    "php-merged-quote-memory.json": {
+      "completedAt": "2026-10-15T19:08:23+02:00",
+      "revisions": {
+        "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+        "main": "9eb33ad2ebf16a8f14a6252b30d2b3190fda3739"
+      },
+      "method": "one fresh-process sample per depth and phase after five warmups; php -n with ctype and mbstring; no JIT or opcache"
+    },
+    "php-merged-quote-phases.json": {
+      "completedAt": "2026-10-15T19:08:58+02:00",
+      "revisions": {
+        "pin": "29e428174d9c5c61fcb5649f156568152db159d4",
+        "main": "9eb33ad2ebf16a8f14a6252b30d2b3190fda3739"
+      },
+      "method": "two reversed fresh-process rounds; php -n with ctype and mbstring; no JIT or opcache"
     }
   },
   "harness": "The one-off runner scripts remained local; the raw samples and fixture bases are archived here."
