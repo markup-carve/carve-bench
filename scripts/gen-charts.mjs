@@ -129,8 +129,8 @@ const commonmarkGroups = sharedRecord ? [{
   rows: finalCommonmarkResults(sharedRecord).map(row => ({ name: row.engine, value: row.mb_per_s })).sort((a, b) => b.value - a.value),
 }] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
-  'Core route throughput, all measured engines',
-  mainRecord ? `Carve dev-main in every panel: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}. Median timing; compare within each workload.` : 'With pipe tables: fastest trial. Without pipe tables: median timing. Compare within each panel.',
+  'Core fixture throughput, Carve direct HTML route',
+  mainRecord ? `ASCII direct route, not typical file speed. Median; JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}.` : 'ASCII direct route, not typical file speed. Fastest trial; compare within each panel.',
   [
     { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
@@ -140,8 +140,8 @@ writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   ],
 ))
 writeFileSync(resolve(root, 'charts/carve-core-throughput.svg'), chart(
-  'Carve core route throughput',
-  mainRecord ? 'With pipe tables: 18 points. Pinned Carve dev-main; median timing across all samples.' : 'With pipe tables: 18 points. Fastest trial from the recorded release comparison.',
+  'Carve direct HTML route on core fixture',
+  mainRecord ? 'ASCII core fixture with pipe tables; median timing. Not typical file throughput.' : 'ASCII core fixture with pipe tables; fastest trial. Not typical file throughput.',
   [{
     name: `Carve with pipe tables · 18 points (${comparisonDate})`,
     rows: allEngines.filter(row => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),

@@ -57,7 +57,9 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   const archive = JSON.parse(readFileSync('reports/commonmark-js-release-0.1.9.json'))
   assert.equal(archive.metadata.package_versions['@markup-carve/carve'], '0.1.9')
   assert.ok(!archive.metadata.carve_main)
-  assert.match(readFileSync('charts/core-throughput.svg', 'utf8'), /Carve dev-main in every panel/)
+  const coreChart = readFileSync('charts/core-throughput.svg', 'utf8')
+  assert.match(coreChart, /ASCII direct route, not typical file speed/)
+  for (const engine of ['js', 'php', 'rs']) assert.ok(coreChart.includes(record.metadata.carve_main[engine].commit.slice(0, 7)))
 })
 
 test('benchmark provenance distinguishes the measured checkout from remote main', async () => {
