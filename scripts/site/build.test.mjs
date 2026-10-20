@@ -26,12 +26,23 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
       'dev-main-rust-pre-queue-audit-20261007.Cargo.lock',
       'dev-main-core-pre-postfix-20261015.json', 'dev-main-full-pre-postfix-20261015.json',
       'php-tier-pairs-pre-postfix-20261015.md', 'commonmark-js-pre-postfix-20261015.json',
-      'dev-main-full-output-controls-pre-postfix-20261015.json'])
+      'dev-main-full-output-controls-pre-postfix-20261015.json',
+      'realistic-engine.json', 'realistic-output-control.json', 'engine-history-audit-20261020.md',
+      'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json',
+      'engine-history-audit-rs-128-20261020.json', 'engine-history-audit-rs-1024-20261020.json'])
       assert.equal(readFileSync(join(destination, 'reports', file), 'utf8'), readFileSync(new URL(`reports/${file}`, root), 'utf8'))
+    const authoredReport = readFileSync(join(destination, 'reports/realistic-engine.md'), 'utf8')
+    assert.match(authoredReport, /github\.com\/markup-carve\/carve-bench\/blob\/[a-f0-9]{40}\/corpus\/realistic\/provenance\.json/)
+    assert.match(authoredReport, /github\.com\/markup-carve\/carve-bench\/blob\/[a-f0-9]{40}\/scripts\/realistic\/run\.py/)
     const archivedTier = JSON.parse(readFileSync(join(destination, 'reports/php-tier-pairs-pre-postfix-20261015.json')))
     assert.equal(archivedTier.report_md_sha256, createHash('sha256').update(readFileSync(join(destination, 'reports/php-tier-pairs-pre-postfix-20261015.md'))).digest('hex'))
     const html = readFileSync(join(destination, 'index.html'), 'utf8')
-    assert.ok(html.includes('These history points were measured separately from the current core and full-corpus runs.'))
+    assert.ok(html.includes('These points are historical, not today\'s engine heads.'))
+    assert.ok(html.includes('Structured document conversion (AST)'))
+    assert.ok(html.includes('These core examples use the direct HTML route in all three engines.'))
+    assert.ok(html.includes('href="reports/engine-history-audit-20261020.md"'))
+    assert.ok(html.includes('href="reports/realistic-engine.json"'))
+    assert.ok(html.includes('charts/realistic-full-parse.svg'))
     assert.ok(html.includes('href="reports/final-audit-pairs.json"'))
     assert.ok(html.includes('reports/php-tiers-unpaired-20261015.md'))
     assert.ok(html.includes('<td>3.39</td>'))
