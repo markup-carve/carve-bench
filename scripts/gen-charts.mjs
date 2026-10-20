@@ -119,10 +119,6 @@ const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json'))
 if (sharedRecord) {
   const path = resolve(root, 'reports/commonmark-js.md')
   writeFileSync(path, withFinalCommonmarkSummary(readFileSync(path, 'utf8'), sharedRecord))
-  if (sharedRecord.metadata.carve_main) {
-    const readme = resolve(root, 'README.md')
-    writeFileSync(readme, readFileSync(readme, 'utf8').replace(/The current comparison measures Carve JS merged main `[^`]+`/, `The current comparison measures Carve JS merged main \`${sharedRecord.metadata.carve_main.commit.slice(0, 7)}\``))
-  }
 }
 const commonmarkGroups = sharedRecord ? [{
   name: 'Final results',
@@ -130,7 +126,7 @@ const commonmarkGroups = sharedRecord ? [{
 }] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core fixture throughput, Carve direct HTML route',
-  mainRecord ? `ASCII direct route, not typical file speed. Median; JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}.` : 'ASCII direct route, not typical file speed. Fastest trial; compare within each panel.',
+  mainRecord ? `ASCII core examples, direct HTML route. Median; pipe-table panel: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}${sharedRecord ? `; no-table panel: JS ${sharedRecord.metadata.carve_main?.commit.slice(0, 7) ?? 'release'}` : ''}.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
   [
     { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
@@ -141,7 +137,7 @@ writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
 ))
 writeFileSync(resolve(root, 'charts/carve-core-throughput.svg'), chart(
   'Carve direct HTML route on core fixture',
-  mainRecord ? 'ASCII core fixture with pipe tables; median timing. Not typical file throughput.' : 'ASCII core fixture with pipe tables; fastest trial. Not typical file throughput.',
+  mainRecord ? 'ASCII core fixture with pipe tables; direct HTML route, median timing.' : 'ASCII core fixture with pipe tables; direct HTML route, fastest trial.',
   [{
     name: `Carve with pipe tables · 18 points (${comparisonDate})`,
     rows: allEngines.filter(row => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),
@@ -163,7 +159,15 @@ writeFileSync(resolve(root, 'charts/full-corpus.svg'), chart(
 ))
 writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   'carve-php extension profile throughput',
-  `Balanced paired recheck; median of eight round medians. PHP ${JSON.parse(readFileSync(resolve(root, 'reports/php-tier-pairs.json'))).metadata.sources.published.commit.slice(0, 9)}.`,
+  (() => {
+    const fullPath = resolve(root, 'reports/dev-main-full.json')
+    const paired = JSON.parse(readFileSync(resolve(root, 'reports/php-tier-pairs.json')))
+    if (!existsSync(fullPath)) return `Balanced paired recheck; median of eight round medians. PHP ${paired.metadata.sources.published.commit.slice(0, 9)}.`
+    const commit = JSON.parse(readFileSync(fullPath)).metadata.source_commits.php.commit
+    return paired.metadata.sources.published.commit === commit
+      ? `Balanced paired recheck; median of eight round medians. PHP ${commit.slice(0, 9)}.`
+      : `Current unpaired full-corpus run. PHP ${commit.slice(0, 9)}.`
+  })(),
   sections(resolve(root, 'RESULTS.md'), 3)
     .filter((group) => group.name === 'PHP authoritative extension tiers'),
 ))

@@ -63,6 +63,30 @@ def route(engine, tree, fixture, rust_binary):
     return result
 
 
+def measure(engine, tree, fixture, rust_binary, count):
+    warm = 20 if engine != 'php' else 5
+    if engine == 'js':
+        command = ['node', str(HERE / 'measure.mjs'), str(tree), str(fixture), str(count), str(warm)]
+    elif engine == 'php':
+        command = ['php', '-n', '-d', 'extension=ctype', '-d', 'extension=mbstring',
+                   '-d', 'opcache.enable_cli=0', str(HERE / 'measure.php'), str(tree),
+                   str(fixture), str(count), str(warm)]
+    else:
+        command = [str(rust_binary), 'measure', str(fixture), str(count), str(warm)]
+    output = subprocess.check_output(command)
+    if engine == 'rs':
+        wall, cpu, html = output.split(b'\n', 2)
+        result = {'samples_ms': [float(x) for x in wall.split(b',')],
+                  'cpu_samples_ms': [float(x) for x in cpu.split(b',')],
+                  'hash': digest(html)}
+    else:
+        result = json.loads(output)
+    for key in ('samples_ms', 'cpu_samples_ms'):
+        if len(result[key]) != count or any(not (0 < value < float('inf')) for value in result[key]):
+            raise ValueError(f'Invalid {key}: {engine} {fixture}')
+    return dict(result, warmups=warm)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--cache', type=Path, default=ROOT / '.realistic-cache')
@@ -110,11 +134,13 @@ def main():
             engines = list(pins)
             engines = engines[round_index % len(engines):] + engines[:round_index % len(engines)]
             for engine in engines:
-                measured = HISTORY.measure(engine, prepared[engine], path, name, 1024, args.samples)
+                measured = measure(engine, prepared[engine], path, rust_binary, args.samples)
                 records[(name, engine)].append({
                     'round': round_index + 1,
                     'samples_ms': measured['samples_ms'],
                     'median_ms': statistics.median(measured['samples_ms']),
+                    'cpu_samples_ms': measured['cpu_samples_ms'],
+                    'median_cpu_ms': statistics.median(measured['cpu_samples_ms']),
                     'output_sha256': measured['hash'],
                     'warmup_iterations': measured.get('warmup_iterations'),
                     'warmup_ms': measured.get('warmup_ms'),
@@ -133,23 +159,25 @@ def main():
                 'document': name, 'fixture': item['fixture'], 'bytes': path.stat().st_size,
                 'engine': engine, 'route': routes[(name, engine)],
                 'median_ms': statistics.median(value for trial in trials for value in trial['samples_ms']),
+                'median_cpu_ms': statistics.median(value for trial in trials for value in trial['cpu_samples_ms']),
                 'output_sha256': hashes.pop(), 'rounds': trials,
             })
     result = {
-        'schema': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
+        'schema': 2, 'generated_at': datetime.now(timezone.utc).isoformat(),
         'benchmark_commit': subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip(),
         'benchmark_dirty_paths': subprocess.check_output(['git', '-C', str(ROOT), 'status', '--porcelain'], text=True).splitlines(),
         'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)),
         'rounds': args.rounds, 'samples_per_round': args.samples,
         'order': 'fixtures and engines rotate one position per round',
-        'timing': 'in-process source-to-HTML, process startup excluded; PHP CLI opcache/JIT off; Rust release build',
+        'timing': 'in-process source-to-HTML; process CPU time is primary, elapsed wall time retained; process startup excluded; PHP CLI clean ini with ctype/mbstring and opcache/JIT off; Rust release build',
         'source_commits': pins,
         'source_fingerprints': {engine: HISTORY.source_fingerprint(cache / f'{engine}.git', sha, engine) for engine, sha in pins.items()},
         'runtimes': {engine: HISTORY.runtime(engine, prepared[engine] if engine == 'rs' else None) for engine in pins},
         'harness_sha256': {str(file.relative_to(ROOT)): digest(file.read_bytes()) for file in [
             HISTORY_PATH, ROOT / 'scripts/history/worker.mjs', ROOT / 'scripts/history/worker.php',
             ROOT / 'scripts/history/worker.rs', HERE / 'run.py', HERE / 'route.mjs', HERE / 'route.php',
-            HERE / 'route.rs', HERE / 'output-control.py', HERE / 'fixtures.mjs',
+            HERE / 'route.rs', HERE / 'measure.mjs', HERE / 'measure.php',
+            HERE / 'output-control.py', HERE / 'fixtures.mjs',
         ]},
         'rust_route_lock_sha256': digest(rust_route_lock.read_bytes()),
         'fixture_provenance_sha256': digest((ROOT / 'corpus/realistic/provenance.json').read_bytes()),

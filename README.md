@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current comparison measures Carve JS merged main `f0acfa3` against released
+The 15 October comparison measured Carve JS merged main `f0acfa3` against released
 peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
 remains available. To reproduce merged main, use the pinned checkout command
 in the report; the runner verifies its ancestry, clean source and fast-path use.
@@ -86,9 +86,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 115.37 | pulldown-cmark | 103.56 | 1.11x |
-| JavaScript | carve-js | 12.11 | markdown-it | 3.60 | 3.37x |
-| PHP | carve-php | 13.11 | djot-php | 15.39 | 0.85x |
+| Rust | carve-rs | 131.02 | pulldown-cmark | 124.79 | 1.05x |
+| JavaScript | carve-js | 11.87 | markdown-it | 4.67 | 2.54x |
+| PHP | carve-php | 14.06 | djot-php | 17.39 | 0.81x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -98,9 +98,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 4.9340 | 12.11 | 9.53x |
-| carve-php | PHP | 4.5568 | 13.11 | 8.80x |
-| carve-rs | Rust | 0.5177 | 115.37 | 1.00x |
+| carve-js | JavaScript | 5.0312 | 11.87 | 11.04x |
+| carve-php | PHP | 4.2476 | 14.06 | 9.32x |
+| carve-rs | Rust | 0.4559 | 131.02 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
@@ -137,7 +137,8 @@ report full parse before timing. To rerun the snapshot, set
 `python3 scripts/realistic/output-control.py`, then
 `node scripts/realistic/report.mjs`. The runner builds pinned engine sources in
 `.realistic-cache`, excludes process startup, and records every sample in
-[realistic-engine.json](reports/realistic-engine.json).
+[realistic-engine.json](reports/realistic-engine.json). The chart uses process
+CPU time; the raw record also keeps elapsed wall time for each conversion.
 To verify fixture conversion, use a built carve-js checkout at the
 `migrator_commit` in [provenance](corpus/realistic/provenance.json), then run
 `node scripts/realistic/fixtures.mjs <carve-repo> <migrator-checkout> --check`.
@@ -235,12 +236,12 @@ CARVE_PHP_SRC=/tmp/carve-php-main/src \
 CARVE_RS_SRC=/tmp/carve-rs-main \
 CARVE_PHP_INI="-n -d extension=ctype -d extension=mbstring -d memory_limit=512M" \
 CARVE_FULL_REPORT=reports/dev-main-full.json \
-CARVE_RUN_META="Fresh pinned merged-main benchmark after moving the release pins to carve-js 0.1.11, carve-php 0.1.12 and carve-lang 0.1.9; CPU 13; PHP memory limit 512M." \
+CARVE_RUN_META='Pinned merged-main benchmark after AST performance changes; CPU 13; PHP memory limit 512M.' \
 CARVE_CORPUS_SNAPSHOT='carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.' \
 taskset -c 13 node run.mjs
 node scripts/check-full-outputs.mjs /tmp/carve-main-config.json
 python3 scripts/public_report.py reports/dev-main-full.json
-node scripts/publish-full-notes.mjs reports/final-audit-conversion-checks.md
+node scripts/publish-full-notes.mjs
 node scripts/gen-charts.mjs
 ```
 
