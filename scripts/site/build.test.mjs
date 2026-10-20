@@ -11,7 +11,9 @@ const comparison = readFileSync(new URL('COMPARISON.md', root), 'utf8')
 const results = readFileSync(new URL('RESULTS.md', root), 'utf8')
 const phpTierRecord = JSON.parse(readFileSync(new URL('reports/php-tier-pairs.json', root), 'utf8'))
 const fullRecord = JSON.parse(readFileSync(new URL('reports/dev-main-full.json', root), 'utf8'))
-const currentTierRecord = phpTierRecord.metadata.sources.published.commit === fullRecord.metadata.source_commits.php.commit ? phpTierRecord : null
+const balancedTierRecord = JSON.parse(readFileSync(new URL('reports/php-tier-balanced.json', root), 'utf8'))
+assert.equal(balancedTierRecord.metadata.source_commit, fullRecord.metadata.source_commits.php.commit, 'Balanced tiers must match the fleet PHP commit')
+const currentTierRecord = balancedTierRecord
 test('site publishes current audit reports and preserved snapshot evidence', () => {
   const destination = mkdtempSync(join(tmpdir(), 'carve-bench-site-test-'))
   try {
@@ -45,13 +47,14 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
     assert.ok(html.includes('href="reports/realistic-engine.json"'))
     assert.ok(html.includes('charts/realistic-full-parse.svg'))
     assert.ok(html.includes('href="reports/final-audit-pairs.json"'))
-    assert.ok(html.includes('reports/php-tier-pairs.md'))
-    for (const tier of fullRecord.tiers) assert.ok(html.includes(`<td>${tier.ms_per_op.toFixed(2)}</td>`))
+    assert.ok(html.includes('reports/php-tier-balanced.json'))
+    for (const tier of currentTierRecord.rows) assert.ok(html.includes(`<td>${tier.ms_per_op.toFixed(2)}</td>`))
     assert.match(html, /charts\/php-tiers\.svg\?v=[a-f0-9]{12}/)
     const tierChart = readFileSync(join(destination, 'charts/php-tiers.svg'), 'utf8')
     const widths = [...tierChart.matchAll(/<rect x="245"[^>]*width="([0-9.]+)"/g)].map(match => Number(match[1]))
     assert.equal(widths.length, 3)
-    assert.ok(widths[1] > widths[0] && widths[0] > widths[2], 'Current unpaired chart must follow measured tier throughput')
+    const speeds = currentTierRecord.rows.map(row => row.mb_per_s)
+    for (let i = 0; i < 3; i++) for (let j = i + 1; j < 3; j++) assert.equal(Math.sign(widths[i] - widths[j]), Math.sign(speeds[i] - speeds[j]), 'Tier chart must follow recorded throughput')
     assert.equal(readFileSync(join(destination, 'charts/php-tiers-unpaired-20261015.svg'), 'utf8'), readFileSync(new URL('charts/php-tiers-unpaired-20261015.svg', root), 'utf8'))
     assert.ok(html.includes('href="reports/final-audit-conversion-checks.md"'))
     assert.equal(readFileSync(join(destination, 'charts/commonmark-js-pre-final-audit-20261007.svg'), 'utf8'),

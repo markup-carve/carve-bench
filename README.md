@@ -627,12 +627,14 @@ The [previous fleet reports](reports/release-before-2962-20261015/README.md) pre
 
 The [paired PHP tier follow-up](reports/php-tier-pairs.md) compares the previous and current merged-main PHP snapshots. It retains alternating wall-time and CPU-time samples, output controls and exact source commits. The original unpaired samples remain available in the archived full-corpus record.
 
-The current PHP tier chart and table use the balanced recheck; the original unpaired chart and full-run record are retained separately. After a fleet refresh, regenerate the paired PHP report for the same PHP commit before publishing the current tier display. Run these steps after the paired report and raw JSON are generated:
+The current PHP tier chart and table use [one PHP process with alternating profile order](reports/php-tier-balanced.json). This limits process startup and JIT differences between profiles. The earlier separate-process results remain as historical evidence. After a fleet refresh, rerun the tier diagnostic on the pinned PHP checkout before publishing the current display:
 
 ```sh
+node scripts/run-php-tier-balanced.mjs ../carve-php reports/php-tier-balanced.json
+python3 scripts/public_report.py reports/php-tier-balanced.json
 node scripts/publish-php-tier-display.mjs
 node scripts/gen-charts.mjs
 node scripts/site/build.mjs
 ```
 
-The display step rejects a PHP commit that differs from the fleet snapshot. Site validation checks the current table against paired samples and the archived table against its original worker results.
+The runner refuses to overwrite an existing record; archive the previous record before a refresh. The 2026-10-20 run used CPU affinity 13; pinning one available CPU is optional. The display step rejects a PHP commit that differs from the fleet snapshot. Site validation checks the current table against the alternating samples.

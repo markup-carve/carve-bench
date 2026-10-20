@@ -58,20 +58,15 @@ The controls do not establish what every timed conversion rendered.
 
 ## PHP authoritative extension tiers
 
-These are internal Carve measurements over the same core document, measured
-by this run rather than transcribed. Tier 1 is the default public conversion
-route; Tier 2 and Tier 3 register opt-in extensions on top of it. Since
-carve-php #1515 made configured conversion allocation-light, registering an
-extension no longer forces a wholly separate slow path, so these rows read as
-registration and hook costs on a document whose content does not trigger
-the registered extensions. Shared host noise can affect ratios, including
-apparent negative overhead. These are internal diagnostics, not competitor rows.
+Current tier values use the [same-process alternating run](reports/php-tier-balanced.json) at PHP commit `8752b183da661c5fec5296657b56ddb7025a0f4c`. Each value is the median of 15 rounds with 40 conversions per profile and round. These measurements are separate from the full-corpus rows above.
 
-| Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 |
-|---|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 4.15 | 11.32 | baseline |
-| Tier 2 stack | 8 | 3.71 | 12.66 | -11% |
-| Tier 3 stack | 20 | 4.57 | 10.29 | +10% |
+The [original unpaired tier observations](reports/php-tiers-unpaired-20261015.md) and full-run JSON remain unchanged as historical evidence. Tier 1 and Tier 2 render identical HTML on this input. Tier 3 changes output, so its timing includes that work. The three profiles share one JIT buffer and warm up in Tier 1, Tier 2, Tier 3 order before alternating measured rounds.
+
+| Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 | round range, ms |
+|---|---:|---:|---:|---:|---:|
+| Tier 1 core/default | 0 | 3.88 | 12.10 | baseline | 3.63 to 4.24 |
+| Tier 2 stack | 8 | 4.35 | 10.81 | +12% | 3.68 to 5.30 |
+| Tier 3 stack | 20 | 5.13 | 9.17 | +32% | 4.30 to 6.23 |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 
