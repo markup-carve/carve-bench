@@ -33,7 +33,6 @@ for (const fixture of provenance.fixtures) {
 }
 
 const labels = { js: 'JavaScript', php: 'PHP', rs: 'Rust' }
-const colors = { js: '#2d6cdf', php: '#a850ac', rs: '#16865c' }
 const escape = text => String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
 const ms = value => value < 1 ? value.toFixed(3) : value.toFixed(2)
 const size = bytes => `${(bytes / 1024).toFixed(1)} KiB`
@@ -51,13 +50,13 @@ const ticks = [0.01, 0.1, 1, 10, 100, 1000]
 const svg = [`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 ${width} ${height}">`,
   '<title id="title">Structured document conversion (AST) on three public documents</title>',
   '<desc id="desc">Median milliseconds per conversion for Carve JavaScript, PHP, and Rust on three adapted documentation files. The horizontal axis uses a logarithmic scale.</desc>',
-  '<rect width="100%" height="100%" fill="#fff"/>',
-  '<style>text{font-family:system-ui,sans-serif;fill:#1c2734}.sub{fill:#596778;font-size:14px}.name{font-size:18px;font-weight:700}.engine{font-size:14px}.value{font-size:14px;font-weight:700}</style>',
+  '<style>text{font-family:system-ui,sans-serif;fill:#1c2734}.background{fill:#fff}.grid{stroke:#e1e6ec}.js{fill:#2d6cdf}.php{fill:#a850ac}.rs{fill:#16865c}.sub{fill:#596778;font-size:14px}.name{font-size:18px;font-weight:700}.engine{font-size:14px}.value{font-size:14px;font-weight:700}@media(prefers-color-scheme:dark){text,.value{fill:#f0f6fc}.background{fill:#0d1117}.grid{stroke:#30363d}.sub{fill:#9aa9ba}.js{fill:#79a6ff}.php{fill:#d9a2e0}.rs{fill:#65c5a0}}</style>',
+  '<rect class="background" width="100%" height="100%"/>',
   '<text x="28" y="35" class="name">Structured document conversion (AST)</text>',
   '<text x="28" y="58" class="sub">Milliseconds per conversion, lower is faster; logarithmic horizontal scale</text>']
 for (const tick of ticks) {
   const x = axis(tick)
-  svg.push(`<line x1="${x}" y1="90" x2="${x}" y2="540" stroke="#e1e6ec"/>`)
+  svg.push(`<line class="grid" x1="${x}" y1="90" x2="${x}" y2="540"/>`)
   svg.push(`<text x="${x}" y="559" text-anchor="middle" class="sub">${tick}</text>`)
 }
 rows.forEach(({ fixture, measured }, index) => {
@@ -69,7 +68,7 @@ rows.forEach(({ fixture, measured }, index) => {
     const y = top + 32 + engineIndex * 28
     const end = axis(row.median_ms)
     svg.push(`<text x="150" y="${y + 14}" class="engine">${labels[engine]}</text>`)
-    svg.push(`<circle cx="${end.toFixed(1)}" cy="${y + 10}" r="7" fill="${colors[engine]}"/>`)
+    svg.push(`<circle class="${engine}" cx="${end.toFixed(1)}" cy="${y + 10}" r="7"/>`)
     svg.push(`<text x="${Math.min(end + 12, 1005).toFixed(1)}" y="${y + 15}" class="value">${ms(row.median_ms)} ms</text>`)
   }
 })

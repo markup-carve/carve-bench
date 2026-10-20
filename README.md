@@ -133,7 +133,7 @@ JavaScript Markdown importer. The [provenance](corpus/realistic/provenance.json)
 records both source and fixture hashes. Each pinned engine's route probe must
 report full parse before timing. To rerun the snapshot, set
 `CARGO_TARGET_DIR=/var/tmp/cargo-shared/carve-bench`, then run
-`python3 scripts/realistic/run.py --cpu 12` and
+`python3 scripts/realistic/run.py --cpu 14` and
 `python3 scripts/realistic/output-control.py`, then
 `node scripts/realistic/report.mjs`. The runner builds pinned engine sources in
 `.realistic-cache`, excludes process startup, and records every sample in
