@@ -28,7 +28,7 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
       'php-tier-pairs-pre-postfix-20261015.md', 'commonmark-js-pre-postfix-20261015.json',
       'dev-main-full-output-controls-pre-postfix-20261015.json',
       'realistic-engine.json', 'realistic-output-control.json', 'engine-history-audit-20261020.md',
-      'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json',
+      'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-js-11d-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json', 'engine-history-audit-php-ee152-1024-20261020.json',
       'engine-history-audit-rs-128-20261020.json', 'engine-history-audit-rs-1024-20261020.json'])
       assert.equal(readFileSync(join(destination, 'reports', file), 'utf8'), readFileSync(new URL(`reports/${file}`, root), 'utf8'))
     const authoredReport = readFileSync(join(destination, 'reports/realistic-engine.md'), 'utf8')
