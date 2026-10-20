@@ -109,11 +109,13 @@ The published numbers are deliberately split into two tracks:
 
 | Track | Question | Route | Peers |
 |---|---|---|---|
-| A: [core source-to-HTML](reports/dev-main-core.md) | How fast is the normal core conversion API? | Default configuration, borrowed facade where accepted | Same-language Djot/CommonMark libraries |
+| A: [direct HTML conversion](reports/dev-main-core.md) | How fast are the measured core examples through the default API? | Direct HTML route for these inputs | Same-language Djot/CommonMark libraries |
 | B: [full corpus and configured tiers](./RESULTS.md) | How does the whole language scale, and what do opt-in extensions cost? | Mixed 2,134-document corpus plus PHP Tier 1/2/3 | Carve implementations and internal tiers |
+| C: [structured document conversion](reports/realistic-engine.md) | How do pinned merged-main engines convert complete documentation files? | Full parse (AST) on three fixed public documents | Carve JavaScript, PHP, and Rust |
 
-Track A and Track B are not interchangeable. A Track-A library may avoid an
-owned public AST; Track B intentionally measures the cost that facade hides.
+The tracks use different inputs and routes. A Track-A library may avoid an
+owned public AST; Track B measures a concatenated stress input, and Track C
+measures complete authored documents that require full parsing in each engine.
 Competitors are absent from the full Carve corpus because they do not implement
 equivalent syntax there, so such rows would measure literal/error recovery
 rather than equal work.
@@ -125,6 +127,21 @@ The historical `COMPARISON.md` tables measure the pinned published releases.
 The current `RESULTS.md` tables measure the same merged main commits as the core
 report, using runtime checkout overrides. The [full-run record](reports/dev-main-full.json)
 contains worker results, source commits, input hashes and runtime settings.
+
+Track C freezes three public documentation files after conversion with the pinned
+JavaScript Markdown importer. The [provenance](corpus/realistic/provenance.json)
+records both source and fixture hashes. Each pinned engine's route probe must
+report full parse before timing. To rerun the snapshot, set
+`CARGO_TARGET_DIR=/var/tmp/cargo-shared/carve-bench`, then run
+`python3 scripts/realistic/run.py --cpu 12` and
+`python3 scripts/realistic/output-control.py`, then
+`node scripts/realistic/report.mjs`. The runner builds pinned engine sources in
+`.realistic-cache`, excludes process startup, and records every sample in
+[realistic-engine.json](reports/realistic-engine.json).
+To verify fixture conversion, use a built carve-js checkout at the
+`migrator_commit` in [provenance](corpus/realistic/provenance.json), then run
+`node scripts/realistic/fixtures.mjs <carve-repo> <migrator-checkout> --check`.
+The migrator commit is separate from the JavaScript engine pin used for timing.
 
 The [historical final-audit paired comparison](reports/final-audit-pairs.md) retains
 the preceding published snapshot and the merged-main commits it measured. Its
