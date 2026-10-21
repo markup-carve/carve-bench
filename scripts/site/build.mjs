@@ -236,6 +236,7 @@ export function build(root, destination) {
   }
   for (const file of ['realistic-peer.crv', 'realistic-peer.json', 'realistic-peer-routes.json'])
     cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
+  cpSync(resolve(root, 'reports/realistic-peer-runs'), resolve(destination, 'reports/realistic-peer-runs'), { recursive: true })
   mkdirSync(resolve(destination, 'corpus/realistic'), { recursive: true })
   cpSync(resolve(root, 'corpus/realistic/peer'), resolve(destination, 'corpus/realistic/peer'), { recursive: true })
   writeFileSync(resolve(destination, 'reports/realistic-engine.md'), read('reports/realistic-engine.md')
