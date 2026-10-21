@@ -126,6 +126,8 @@ export function build(root, destination) {
   const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(read('reports/dev-main-core.json')) : null
   const rustRecheck = existsSync(resolve(root, 'reports/rust-core-recheck-20261021.json'))
     ? JSON.parse(read('reports/rust-core-recheck-20261021.json')) : null
+  const rustRerun = existsSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json'))
+    ? JSON.parse(read('reports/rust-core-recheck-20261021-rerun.json')) : null
   let rustRankingNote = ''
   if (rustRecheck && mainRecord &&
       rustRecheck.metadata.rust_engine_commit === mainRecord.metadata.carve_main.rs.commit &&
@@ -147,7 +149,22 @@ export function build(root, destination) {
     const fasterRounds = rustRecheck.rounds.filter(round =>
       median(round.rows['carve-rs'].cpu_samples_ms) < median(round.rows['pulldown-cmark'].cpu_samples_ms)).length
     assert.equal(fasterRounds, rustRecheck.summary.carve_faster_rounds)
-    rustRankingNote = `<p id="rust-ranking-note">The Rust positions came from a loaded two-round snapshot (one-minute host load ${mainRecord.metadata.load_start[0].toFixed(2)}). An eight-round recheck with the same binary found carve-rs faster in ${fasterRounds} of ${rustRecheck.rounds.length} rounds, at ${rustRecheck.summary.engines['carve-rs'].pooled_median_cpu_ms.toFixed(3)} versus ${rustRecheck.summary.engines['pulldown-cmark'].pooled_median_cpu_ms.toFixed(3)} process CPU ms/op. Treat the displayed order as a snapshot. <a href="reports/rust-core-recheck-20261021.md">Method and raw samples</a>.</p>`
+    rustRankingNote = `<p id="rust-ranking-note">The Rust positions came from a loaded two-round snapshot (one-minute host load ${mainRecord.metadata.load_start[0].toFixed(2)}). An eight-round recheck with the same binary found carve-rs faster in ${fasterRounds} of ${rustRecheck.rounds.length} rounds, at ${rustRecheck.summary.engines['carve-rs'].pooled_median_cpu_ms.toFixed(3)} versus ${rustRecheck.summary.engines['pulldown-cmark'].pooled_median_cpu_ms.toFixed(3)} process CPU ms/op. Treat the displayed order as a snapshot. <a href="reports/rust-core-recheck-20261021.md">First recheck</a>.</p>`
+    if (rustRerun) {
+      assert.equal(rustRerun.metadata.rust_engine_commit, rustRecheck.metadata.rust_engine_commit)
+      assert.equal(rustRerun.metadata.binary_sha256, rustRecheck.metadata.binary_sha256)
+      assert.deepEqual(rustRerun.metadata.inputs, rustRecheck.metadata.inputs)
+      assert.equal(rustRerun.rounds.length, rustRerun.summary.rounds)
+      for (const engine of engines) {
+        const samples = rustRerun.rounds.flatMap(round => round.rows[engine].cpu_samples_ms)
+        assert.ok(samples.every(value => Number.isFinite(value) && value > 0))
+        assert.equal(median(samples), rustRerun.summary.engines[engine].pooled_median_cpu_ms)
+      }
+      const wins = rustRerun.rounds.filter(round =>
+        median(round.rows['carve-rs'].cpu_samples_ms) < median(round.rows['pulldown-cmark'].cpu_samples_ms)).length
+      assert.equal(wins, rustRerun.summary.carve_faster_rounds)
+      rustRankingNote += `<p id="rust-rerun-note">A second, 24-round paired run of that binary found carve-rs faster in ${wins} of ${rustRerun.rounds.length} rounds. Pooled process CPU time was ${rustRerun.summary.engines['carve-rs'].pooled_median_cpu_ms.toFixed(3)} ms/op for carve-rs and ${rustRerun.summary.engines['pulldown-cmark'].pooled_median_cpu_ms.toFixed(3)} ms/op for pulldown-cmark. This measures the two Rust libraries on the core fixture; the shared host remained busy. <a href="reports/rust-core-recheck-20261021-rerun.md">Rerun method</a> · <a href="reports/rust-core-recheck-20261021-rerun.json" download>Raw rounds</a>.</p>`
+    }
   }
   if (mainRecord) {
     if (fullRecord) {
@@ -213,7 +230,7 @@ export function build(root, destination) {
     .replaceAll('(scripts/deep-review/README.md)', `(${source}/scripts/deep-review/README.md)`))
     if (['COMPARISON.md', 'RESULTS.md'].includes(file)) writeFileSync(resolve(destination, file), read(file).replaceAll('(./FINDINGS.md', '(reports/FINDINGS.md').replaceAll('(./COMPETITOR_ARCHITECTURE.md)', `(${source}/COMPETITOR_ARCHITECTURE.md)`))
   }
-  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)(?:-pre-queue-audit-\d{8})?|engine-history-pre-queue-audit-\d{8}|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full(?:-output-controls)?|php-tier-pairs)-(?:pre-postfix|pre-queue-audit|pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'realistic-engine.md', 'realistic-engine.json', 'realistic-output-control.json', 'rust-core-recheck-20261021.md', 'rust-core-recheck-20261021.json', 'engine-history-audit-20261020.md', 'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-js-11d-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json', 'engine-history-audit-php-ee152-1024-20261020.json', 'engine-history-audit-rs-128-20261020.json', 'engine-history-audit-rs-1024-20261020.json', 'php-tiers-unpaired-20261015.md', 'php-tiers-unpaired-20261015.json', 'php-tier-pairs.md', 'php-tier-pairs.json', 'php-tier-balanced.json', 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-rust-pre-queue-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
+  for (const file of [...readdirSync(resolve(root, 'reports')).filter(file => /^(?:final-audit-(?:pairs|conversion-checks)(?:-pre-queue-audit-\d{8})?|engine-history-pre-queue-audit-\d{8}|conversion-snapshot-pairs|rust-core-ranking|php-large-(?:jit-output|memory)-control|paired-full-feature(?:-[0-9T]+)?|(?:commonmark-js|dev-main-core|dev-main-full(?:-output-controls)?|php-tier-pairs)-(?:pre-postfix|pre-queue-audit|pre-final-audit|pre-audit|audit)-\d{8})\.(json|md)$/.test(file)), 'realistic-engine.md', 'realistic-engine.json', 'realistic-output-control.json', 'rust-core-recheck-20261021.md', 'rust-core-recheck-20261021.json', 'rust-core-recheck-20261021-rerun.md', 'rust-core-recheck-20261021-rerun.json', 'engine-history-audit-20261020.md', 'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-js-11d-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json', 'engine-history-audit-php-ee152-1024-20261020.json', 'engine-history-audit-rs-128-20261020.json', 'engine-history-audit-rs-1024-20261020.json', 'php-tiers-unpaired-20261015.md', 'php-tiers-unpaired-20261015.json', 'php-tier-pairs.md', 'php-tier-pairs.json', 'php-tier-balanced.json', 'latest-main-comparison.md', 'latest-main-comparison.csv', 'merged-core-peers.md', 'merged-core-peers.json', 'merged-core-peers.csv', 'dev-main-full-output-controls.json', 'dev-main-full.json', 'dev-main-rust.Cargo.lock', 'dev-main-rust-audit-20261006.Cargo.lock', 'dev-main-rust-pre-final-audit-20261007.Cargo.lock', 'dev-main-rust-pre-queue-audit-20261007.Cargo.lock', 'dev-main-core.md', 'dev-main-core.json', 'performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json', 'commonmark-js.md', 'commonmark-js.json', 'commonmark-js-release-0.1.9.md', 'commonmark-js-release-0.1.9.json']) {
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   }
   writeFileSync(resolve(destination, 'reports/realistic-engine.md'), read('reports/realistic-engine.md')
