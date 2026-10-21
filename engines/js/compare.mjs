@@ -30,10 +30,14 @@ const html = process.env.CARVE_COMPARE_OBSERVE === '1' ? render() : null
 const sha256 = text => createHash('sha256').update(text).digest('hex')
 for (let i = 0; i < Number(process.env.CARVE_COMPARE_WARMUP ?? 20); i++) render()
 const samples = []
+const cpuSamples = []
 for (let trial = 0; trial < trials; trial++) {
   const start = process.hrtime.bigint()
+  const cpuStart = process.cpuUsage()
   for (let i = 0; i < iterations; i++) render()
   samples.push(Number(process.hrtime.bigint() - start) / 1e6 / iterations)
+  const cpu = process.cpuUsage(cpuStart)
+  cpuSamples.push((cpu.user + cpu.system) / 1000 / iterations)
 }
 const min = Math.min(...samples)
 console.log(JSON.stringify({
@@ -45,6 +49,7 @@ console.log(JSON.stringify({
   iterations,
   trials,
   samples,
+  cpu_samples_ms: cpuSamples,
   ms_per_op: min,
   mb_per_s: bytes / 1048576 / (min / 1000),
   // Only the Carve row carries this; on a peer row it would name an engine

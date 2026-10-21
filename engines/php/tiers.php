@@ -72,7 +72,7 @@ echo json_encode([
     'samples' => $samples,
     'ms_per_op' => $min,
     'mb_per_s' => $bytes / 1048576 / ($min / 1000),
-    'jit' => (@opcache_get_status(false)['jit']['enabled'] ?? false) === true,
+    'jit' => (@opcache_get_status(false)['jit']['on'] ?? false) === true,
     'tier2_extensions' => count($profile === 'tier1' ? [] : $tier2),
     'tier3_extensions' => count($profile === 'tier3' ? $tier3 : []),
     'carve_source' => carve_bench_describe_src(CarveConverter::class),

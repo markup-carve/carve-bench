@@ -14,21 +14,21 @@ ms/op and higher MB/s are better. `rel` is relative to the fastest engine for
 that document (1.00x = fastest). Numbers are machine-specific - run it yourself
 with `node run.mjs`; see README for setup.
 
-**Run:** 2026-10-20T12:48:50.168Z; Pinned merged-main benchmark after AST performance changes; CPU 13; PHP memory limit 512M.
+**Run:** 2026-10-21T03:24:46.274Z; serial processes; Node v22.22.2; PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS); rustc 1.97.1 (8bab26f4f 2026-07-14).
 
-Allowed CPUs: 13. Child processes inherit this affinity, including Node compiler and GC threads.
+Allowed CPUs: 12. Child processes inherit this affinity, including Node compiler and GC threads.
 
-One-minute host load was 26.82 at start and 12.67 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
+One-minute host load was 21.29 at start and 10.64 at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.
 
 The `rel` column compares elapsed time. Check the
 [output byte counts and hashes](reports/dev-main-full-output-controls.json)
 before treating cross-engine results as equal work.
+
 PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.
-The controls do not establish what every timed conversion rendered.
 
-**Engines measured:** carve-js `@markup-carve/carve 0.1.12 (local checkout carve-js-main @ ccbbdcc98)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 8752b183d)`, carve-rs `carve-lang 0.1.10 (local checkout carve-rs-main @ f95434c91)`
+**Engines measured:** carve-js `@markup-carve/carve 0.1.12 (local checkout carve-js-main @ 2ce388c28)`, carve-php `markup-carve/carve-php (local checkout carve-php-main @ 2a7a38145)`, carve-rs `carve-lang 0.1.10 (local checkout carve-rs-main @ 47fdd7e48)`
 
-**Corpus snapshot:** carve 9db91206d1a4a8a8cf795c48210bca49d66f14d6 (2,134 documents); fixed committed corpus retained.
+**Corpus snapshot:** Fixed committed corpus; input hashes are recorded in the full-run JSON.
 
 ![Bar chart of Carve engine throughput for each corpus size](./charts/full-corpus.svg)
 
@@ -36,37 +36,37 @@ The controls do not establish what every timed conversion rendered.
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 1.5758 | 0.75 | 11.78x |
-| carve-php | 2.5127 | 0.47 | 18.78x |
-| carve-rs | 0.1338 | 8.79 | 1.00x |
+| carve-js | 2.1669 | 0.54 | 15.86x |
+| carve-php | 2.9667 | 0.40 | 21.72x |
+| carve-rs | 0.1366 | 8.61 | 1.00x |
 
 ## medium (63.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 241.5840 | 0.26 | 3.80x |
-| carve-php | 433.0872 | 0.14 | 6.81x |
-| carve-rs | 63.6255 | 0.98 | 1.00x |
+| carve-js | 244.7102 | 0.25 | 3.90x |
+| carve-php | 346.7912 | 0.18 | 5.52x |
+| carve-rs | 62.7991 | 0.99 | 1.00x |
 
 ## large (508.6 KB)
 
 | Engine | ms/op | MB/s | rel |
 |---|---:|---:|---:|
-| carve-js | 2209.5665 | 0.22 | 4.83x |
-| carve-php | 2270.7186 | 0.22 | 4.97x |
-| carve-rs | 457.2600 | 1.09 | 1.00x |
+| carve-js | 1696.6831 | 0.29 | 3.53x |
+| carve-php | 2622.7445 | 0.19 | 5.45x |
+| carve-rs | 481.0156 | 1.03 | 1.00x |
 
 ## PHP authoritative extension tiers
 
-Current tier values use the [same-process alternating run](reports/php-tier-balanced.json) at PHP commit `8752b183da661c5fec5296657b56ddb7025a0f4c`. Each value is the median of 15 rounds with 40 conversions per profile and round. These measurements are separate from the full-corpus rows above.
+Current tier values use the [same-process alternating run](reports/php-tier-balanced.json) at PHP commit `2a7a38145ae88e8dce294b924e937537b4a69399`. Each value is the median of 15 rounds with 40 conversions per profile and round. These measurements are separate from the full-corpus rows above.
 
 The [original unpaired tier observations](reports/php-tiers-unpaired-20261015.md) and full-run JSON remain unchanged as historical evidence. Tier 1 and Tier 2 render identical HTML on this input. Tier 3 changes output, so its timing includes that work. The three profiles share one JIT buffer and warm up in Tier 1, Tier 2, Tier 3 order before alternating measured rounds.
 
 | Profile | Registered extensions | ms/op | MB/s | cost vs Tier 1 | round range, ms |
 |---|---:|---:|---:|---:|---:|
-| Tier 1 core/default | 0 | 3.88 | 12.10 | baseline | 3.63 to 4.24 |
-| Tier 2 stack | 8 | 4.35 | 10.81 | +12% | 3.68 to 5.30 |
-| Tier 3 stack | 20 | 5.13 | 9.17 | +32% | 4.30 to 6.23 |
+| Tier 1 core/default | 0 | 6.53 | 7.19 | baseline | 3.77 to 7.53 |
+| Tier 2 stack | 8 | 7.22 | 6.50 | +11% | 4.33 to 10.17 |
+| Tier 3 stack | 20 | 8.55 | 5.49 | +31% | 5.29 to 13.92 |
 
 ![Bar chart of carve-php Tier 1, Tier 2, and Tier 3 profile throughput](./charts/php-tiers.svg)
 

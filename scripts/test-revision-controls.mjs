@@ -121,7 +121,7 @@ test('JIT controls retain the observed revision outputs and measured worker', ()
   const conversion = read('reports/conversion-snapshot-pairs.json')
   const jit = read('reports/php-large-jit-output-control.json')
   assert.equal(jit.publication_exporter_sha256, sha('scripts/public_report.py'))
-  assert.equal(jit.metadata.worker_sha256, sha('engines/php/compare.php'))
+  requireRecordedProducer('engines/php/compare.php', jit.metadata.worker_sha256)
   assert.equal(jit.metadata.source_override_sha256, sha('engines/php/carve-src.php'))
   assert.equal(jit.metadata.input_sha256, sha('corpus/large.crv'))
   for (const revision of ['before', 'after']) {
@@ -150,7 +150,7 @@ test(`${stem}: Markdown shows changes only for observed comparable rows`, () => 
 test('historical large PHP memory controls identify their measured snapshot and worker', () => {
   const control = read('reports/php-large-memory-control.json')
   const full = read('reports/dev-main-full-pre-final-audit-20261007.json')
-  assert.equal(control.metadata.worker_sha256, sha('engines/php/bench.php'))
+  requireRecordedProducer('engines/php/bench.php', control.metadata.worker_sha256)
   assert.equal(control.metadata.input_sha256, sha('corpus/large.crv'))
   assert.equal(control.metadata.failed_commit, full.metadata.source_commits.php.commit)
   assert.equal(control.metadata.failed_returncode, 255)

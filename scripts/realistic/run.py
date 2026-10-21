@@ -64,12 +64,13 @@ def route(engine, tree, fixture, rust_binary):
 
 
 def measure(engine, tree, fixture, rust_binary, count):
-    warm = 20 if engine != 'php' else 5
+    warm = 20
     if engine == 'js':
         command = ['node', str(HERE / 'measure.mjs'), str(tree), str(fixture), str(count), str(warm)]
     elif engine == 'php':
         command = ['php', '-n', '-d', 'extension=ctype', '-d', 'extension=mbstring',
-                   '-d', 'opcache.enable_cli=0', str(HERE / 'measure.php'), str(tree),
+                   '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit_buffer_size=128M',
+                   '-d', 'opcache.jit=tracing', str(HERE / 'measure.php'), str(tree),
                    str(fixture), str(count), str(warm)]
     else:
         command = [str(rust_binary), 'measure', str(fixture), str(count), str(warm)]
@@ -81,6 +82,8 @@ def measure(engine, tree, fixture, rust_binary, count):
                   'hash': digest(html)}
     else:
         result = json.loads(output)
+    if engine == 'php' and result.get('jit') is not True:
+        raise ValueError(f'PHP tracing JIT is inactive: {fixture}')
     for key in ('samples_ms', 'cpu_samples_ms'):
         if len(result[key]) != count or any(not (0 < value < float('inf')) for value in result[key]):
             raise ValueError(f'Invalid {key}: {engine} {fixture}')
@@ -169,7 +172,7 @@ def main():
         'host': platform.platform(), 'cpu_affinity': sorted(os.sched_getaffinity(0)),
         'rounds': args.rounds, 'samples_per_round': args.samples,
         'order': 'fixtures and engines rotate one position per round',
-        'timing': 'in-process source-to-HTML; process CPU time is primary, elapsed wall time retained; process startup excluded; PHP CLI clean ini with ctype/mbstring and opcache/JIT off; Rust release build',
+        'timing': 'in-process source-to-HTML; process CPU time is primary, elapsed wall time retained; process startup excluded; PHP CLI clean ini with ctype/mbstring and tracing JIT on; Rust release build',
         'source_commits': pins,
         'source_fingerprints': {engine: HISTORY.source_fingerprint(cache / f'{engine}.git', sha, engine) for engine, sha in pins.items()},
         'runtimes': {engine: HISTORY.runtime(engine, prepared[engine] if engine == 'rs' else None) for engine in pins},

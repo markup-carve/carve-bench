@@ -29,7 +29,7 @@ for (const fixture of provenance.fixtures) {
     assert.equal(row.output_sha256, expectedHashes[row.engine])
     assert.equal(row.rounds.length, data.rounds)
     assert.ok(row.rounds.every(round => round.samples_ms.length === data.samples_per_round && round.cpu_samples_ms.length === data.samples_per_round && round.output_sha256 === row.output_sha256))
-    assert.ok(row.rounds.every(round => round.warmups === (row.engine === 'php' ? 5 : 20)))
+    assert.ok(row.rounds.every(round => round.warmups === 20))
   }
 }
 
@@ -93,7 +93,7 @@ ${table}
 
 This is a fresh measurement on a shared host. Compare libraries within this run; changes from earlier reports are not controlled before/after results.
 
-${data.rounds} rotating rounds used ${data.samples_per_round} in-process samples per engine and document, on ${data.host} with CPU affinity ${data.cpu_affinity.join(', ')}. JavaScript warmed for at least 20 calls and 500 ms; PHP warmed for 5 calls and Rust for 20. PHP used a clean CLI configuration with ctype and mbstring, without opcache or JIT; Rust used a release build. Process startup was excluded. The chart uses process CPU time to reduce host scheduling noise. JavaScript CPU time includes all Node process threads. Elapsed wall times and round variation remain in the [raw samples](realistic-engine.json). [Fixture provenance](../corpus/realistic/provenance.json) and the [runner](../scripts/realistic/run.py) show the inputs and exact sources.
+${data.rounds} rotating rounds used ${data.samples_per_round} in-process samples per engine and document, on ${data.host} with CPU affinity ${data.cpu_affinity.join(', ')}. JavaScript warmed for at least 20 calls and 500 ms; PHP and Rust warmed for 20 calls. PHP used a clean CLI configuration with ctype, mbstring, and tracing JIT; Rust used a release build. Process startup was excluded. The chart uses process CPU time to reduce host scheduling noise. JavaScript CPU time includes all Node process threads. Elapsed wall times and round variation remain in the [raw samples](realistic-engine.json). [Fixture provenance](../corpus/realistic/provenance.json) and the [runner](../scripts/realistic/run.py) show the inputs and exact sources.
 
 | Document | Engine | Round median range, CPU ms/op |\n|---|---|---:|\n${roundRanges}\n\nEngine commits: JavaScript \`${pins.js}\`, PHP \`${pins.php}\`, Rust \`${pins.rs}\`.
 `
