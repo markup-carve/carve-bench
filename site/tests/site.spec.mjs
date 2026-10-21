@@ -32,7 +32,7 @@ test('language filter uses measured rows and downloads match the report', async 
   expect(svg).not.toContain('Carve with pipe tables')
   const carveSvg = await (await request.get('charts/carve-core-throughput.svg')).text()
   expect(carveSvg).toContain('Carve with pipe tables')
-  expect(carveSvg).toContain('direct HTML route, median timing')
+  expect(carveSvg).toContain('direct HTML route, median process CPU timing')
   expect(carveSvg).not.toContain('commonmark.js')
   const coreImages = await page.locator('#core figure img').evaluateAll(images => images.map(image => image.getAttribute('src')))
   expect(coreImages.slice(0, 2)).toEqual(['charts/core-throughput.svg', 'charts/carve-core-throughput.svg'])

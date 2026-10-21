@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 import { engineLabel } from './engine-labels.mjs'
 import { finalCommonmarkResults, withFinalCommonmarkSummary } from './commonmark-results.mjs'
+import { directHtmlResults } from './direct-html-display.mjs'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
 const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
@@ -88,12 +89,14 @@ const LANGUAGES = new Set(['Rust', 'JavaScript', 'PHP'])
 const languageSections = (path, valueColumn) =>
   sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
 const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'), 'utf8')) : null
-const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => ({ name, rows: finalCommonmarkResults(mainRecord).filter(row => mainRecord.final.find(item => item.engine === row.engine).language === name).map(row => ({ name: row.engine, value: row.mb_per_s })) })) : languageSections(resolve(root, 'COMPARISON.md'), 3)
+const rustRerun = existsSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json'), 'utf8')) : null
+const directRows = mainRecord ? directHtmlResults(mainRecord, rustRerun) : null
+const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => ({ name, rows: directRows.filter(row => mainRecord.final.find(item => item.engine === row.engine).language === name).map(row => ({ name: row.engine, value: row.mb_per_s })) })) : languageSections(resolve(root, 'COMPARISON.md'), 3)
 // Rows from every language share one scale here, so each label carries its
 // language.
 const comparisonDate = mainRecord?.metadata.generated_at.slice(0, 10) ?? readFileSync(resolve(root, 'COMPARISON.md'), 'utf8').match(/measured\s+(\d{4}-\d{2}-\d{2})/)?.[1] ?? 'recorded run'
 if (mainRecord) {
-  const rows = finalCommonmarkResults(mainRecord)
+  const rows = directRows
   const byLanguage = language => rows.filter(row => mainRecord.final.find(item => item.engine === row.engine).language === language)
   const headline = ['| Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |', '|---|---|---:|---|---:|---:|', ...['Rust', 'JavaScript', 'PHP'].map(language => {
     const group = byLanguage(language), carve = group.find(row => row.engine.startsWith('carve-'))
@@ -126,7 +129,7 @@ const commonmarkGroups = sharedRecord ? [{
 }] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core fixture throughput, Carve direct HTML route',
-  mainRecord ? `ASCII core examples, direct HTML route. Median; pipe-table panel: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}${sharedRecord ? `; no-table panel: JS ${sharedRecord.metadata.carve_main?.commit.slice(0, 7) ?? 'release'}` : ''}.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
+  mainRecord ? `ASCII core examples, direct HTML route. Pipe tables: median process CPU; Rust leading pair uses 24 paired rounds, other rows two rounds. No-table JS: wall-time median${sharedRecord ? `; no-table panel: JS ${sharedRecord.metadata.carve_main?.commit.slice(0, 7) ?? 'release'}` : ''}. Carve commits: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
   [
     { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
@@ -137,7 +140,7 @@ writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
 ))
 writeFileSync(resolve(root, 'charts/carve-core-throughput.svg'), chart(
   'Carve direct HTML route on core fixture',
-  mainRecord ? 'ASCII core fixture with pipe tables; direct HTML route, median timing.' : 'ASCII core fixture with pipe tables; direct HTML route, fastest trial.',
+  mainRecord ? 'ASCII core fixture with pipe tables; direct HTML route, median process CPU timing.' : 'ASCII core fixture with pipe tables; direct HTML route, fastest trial.',
   [{
     name: `Carve with pipe tables · 18 points (${comparisonDate})`,
     rows: allEngines.filter(row => row.name.startsWith('carve-')).sort((a, b) => b.value - a.value),

@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { build, collect, sections } from './build.mjs'
+import { directHtmlResults } from '../direct-html-display.mjs'
 const root = new URL('../../', import.meta.url)
 const comparison = readFileSync(new URL('COMPARISON.md', root), 'utf8')
 const results = readFileSync(new URL('RESULTS.md', root), 'utf8')
@@ -14,6 +15,21 @@ const fullRecord = JSON.parse(readFileSync(new URL('reports/dev-main-full.json',
 const balancedTierRecord = JSON.parse(readFileSync(new URL('reports/php-tier-balanced.json', root), 'utf8'))
 assert.equal(balancedTierRecord.metadata.source_commit, fullRecord.metadata.source_commits.php.commit, 'Balanced tiers must match the fleet PHP commit')
 const currentTierRecord = balancedTierRecord
+test('direct HTML ranking uses verified paired CPU samples for the Rust leaders', () => {
+  const snapshot = JSON.parse(readFileSync(new URL('reports/dev-main-core.json', root), 'utf8'))
+  const rerun = JSON.parse(readFileSync(new URL('reports/rust-core-recheck-20261021-rerun.json', root), 'utf8'))
+  const rows = directHtmlResults(snapshot, rerun)
+  const rust = rows.find(row => row.engine === 'carve-rs')
+  const peer = rows.find(row => row.engine === 'pulldown-cmark')
+  assert.equal(rust.ms_per_op, rerun.summary.engines['carve-rs'].pooled_median_cpu_ms)
+  assert.equal(peer.ms_per_op, rerun.summary.engines['pulldown-cmark'].pooled_median_cpu_ms)
+  assert.ok(rust.mb_per_s > peer.mb_per_s)
+  assert.equal(rust.mb_per_s.toFixed(2), '110.77')
+  assert.equal(peer.mb_per_s.toFixed(2), '99.65')
+  const altered = structuredClone(rerun)
+  altered.metadata.binary_sha256 = 'different binary'
+  assert.throws(() => directHtmlResults(snapshot, altered), /binary|Expected values to be strictly equal/)
+})
 test('site publishes current audit reports and preserved snapshot evidence', () => {
   const destination = mkdtempSync(join(tmpdir(), 'carve-bench-site-test-'))
   try {
