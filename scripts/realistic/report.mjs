@@ -91,6 +91,8 @@ The pinned JavaScript and PHP probes call the direct renderers used by their def
 |---|---:|---:|---:|---:|
 ${table}
 
+This is a fresh measurement on a shared host. Compare libraries within this run; changes from earlier reports are not controlled before/after results.
+
 ${data.rounds} rotating rounds used ${data.samples_per_round} in-process samples per engine and document, on ${data.host} with CPU affinity ${data.cpu_affinity.join(', ')}. JavaScript warmed for at least 20 calls and 500 ms; PHP warmed for 5 calls and Rust for 20. PHP used a clean CLI configuration with ctype and mbstring, without opcache or JIT; Rust used a release build. Process startup was excluded. The chart uses process CPU time to reduce host scheduling noise. JavaScript CPU time includes all Node process threads. Elapsed wall times and round variation remain in the [raw samples](realistic-engine.json). [Fixture provenance](../corpus/realistic/provenance.json) and the [runner](../scripts/realistic/run.py) show the inputs and exact sources.
 
 | Document | Engine | Round median range, CPU ms/op |\n|---|---|---:|\n${roundRanges}\n\nEngine commits: JavaScript \`${pins.js}\`, PHP \`${pins.php}\`, Rust \`${pins.rs}\`.
