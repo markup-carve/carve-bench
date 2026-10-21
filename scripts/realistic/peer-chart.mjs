@@ -24,7 +24,7 @@ const height = 1240
 const x = [280, 590, 900]
 const svg = [`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 ${width} ${height}">`,
   '<title id="title">Carve AST conversion on authored documents against peer libraries</title>',
-  '<desc id="desc">Three runtime panels compare peer speed relative to Carve on three authored documentation files. Each point is the median of four paired round ratios. Higher means the peer used less process CPU time. All Carve conversions used the AST route.</desc>',
+  `<desc id="desc">Three runtime panels compare peer speed relative to Carve on three authored documentation files. Each point is the median of ${data.rounds} paired round ratios from ${data.sessions.length} recorded sessions. Higher means the peer used less process CPU time. All Carve conversions used the AST route.</desc>`,
   '<style>text{font-family:system-ui,sans-serif;fill:#1d2732}.bg{fill:#fff}.grid{stroke:#dce3e9}.axis{stroke:#687889}.title{font-size:26px;font-weight:700}.panel{font-size:21px;font-weight:700}.label{font-size:15px}.note{font-size:14px;fill:#526273}.line{fill:none;stroke-width:3}.dot{stroke:#fff;stroke-width:2}@media(prefers-color-scheme:dark){text{fill:#edf3f8}.bg{fill:#0e1520}.grid{stroke:#354252}.axis{stroke:#a6b4c3}.note{fill:#a6b4c3}.dot{stroke:#0e1520}}</style>',
   '<rect class="bg" width="100%" height="100%"/>',
   '<text x="42" y="45" class="title">Carve AST conversion on authored documents</text>',

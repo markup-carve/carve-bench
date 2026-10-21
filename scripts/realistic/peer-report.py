@@ -48,17 +48,22 @@ for title, language, engines in panels:
             lines.append(f'| {label} | {engine} | {row["median_cpu_ms"]:.3f} | '
                          f'{median(ratios):.2f}× | {min(ratios):.2f}–{max(ratios):.2f}× |')
 
-load_start = DATA['load_start'][0]
-load_end = DATA['load_end'][0]
+sessions = DATA.get('sessions', [])
+assert len(sessions) == 3 and sum(session['rounds'] for session in sessions) == DATA['rounds']
+session_links = ', '.join(
+    f'[session {index}]({session["path"].removeprefix("reports/")}) '
+    f'({session["rounds"]} rounds; load {session["load_start"][0]:.2f} to {session["load_end"][0]:.2f})'
+    for index, session in enumerate(sessions, 1)
+)
 lines += [
     '',
     '## Output and method',
     '',
     'All eleven libraries produced identical projected HTML on each file. The projection ignores section wrappers, generated IDs, and presentational attributes while retaining tags, link targets, and text. The [raw record](realistic-peer.json) keeps original output hashes and the projection hashes. The fixed Composer lock includes [merged djot-php PR #325](https://github.com/php-collective/djot-php/pull/325), which corrected code-span padding in this corpus.',
     '',
-    f'{DATA["rounds"]} rounds rotated document and library order. Every worker warmed for 20 conversions, then measured {DATA["trials_per_round"]} batches per round, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. One-minute host load changed from {load_start:.2f} to {load_end:.2f} on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The raw record retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
+    f'{DATA["rounds"]} rounds rotated document and library order across three sessions: {session_links}. Every worker warmed for 20 conversions, then measured {DATA["trials_per_round"]} batches per round, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. The load gate waited for one-minute host load below 20 before each round on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
     '',
-    'These authored files exercise prose, lists, links, and code without pipe tables. They are three selected documents, not a population estimate for normal files. Carve handles a broader grammar and builds its public AST on this route; the peers’ native converters do different internal work. The chart measures conversion cost for equivalent rendered content on these files, not equal feature sets or equal AST construction.',
+    'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
 ]
 OUTPUT.write_text('\n'.join(lines) + '\n')
 print(OUTPUT)
