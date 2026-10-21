@@ -30,7 +30,7 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
       'dev-main-core-pre-postfix-20261015.json', 'dev-main-full-pre-postfix-20261015.json',
       'php-tier-pairs-pre-postfix-20261015.md', 'commonmark-js-pre-postfix-20261015.json',
       'dev-main-full-output-controls-pre-postfix-20261015.json',
-      'realistic-engine.json', 'realistic-output-control.json', 'rust-core-recheck-20261021.md', 'rust-core-recheck-20261021.json', 'engine-history-audit-20261020.md',
+      'realistic-engine.json', 'realistic-output-control.json', 'rust-core-recheck-20261021.md', 'rust-core-recheck-20261021.json', 'rust-core-recheck-20261021-rerun.md', 'rust-core-recheck-20261021-rerun.json', 'engine-history-audit-20261020.md',
       'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-js-11d-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json', 'engine-history-audit-php-ee152-1024-20261020.json',
       'engine-history-audit-rs-128-20261020.json', 'engine-history-audit-rs-1024-20261020.json'])
       assert.equal(readFileSync(join(destination, 'reports', file), 'utf8'), readFileSync(new URL(`reports/${file}`, root), 'utf8'))
@@ -46,6 +46,8 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
     assert.ok(html.includes('id="rust-ranking-note"'))
     assert.ok(html.includes('carve-rs faster in 6 of 8 rounds'))
     assert.ok(html.includes('href="reports/rust-core-recheck-20261021.md"'))
+    assert.ok(html.includes('carve-rs faster in 22 of 24 rounds'))
+    assert.ok(html.includes('href="reports/rust-core-recheck-20261021-rerun.json"'))
     assert.ok(html.includes('href="reports/engine-history-audit-20261020.md"'))
     assert.ok(html.includes('href="reports/realistic-engine.json"'))
     assert.ok(html.includes('charts/realistic-full-parse.svg'))
