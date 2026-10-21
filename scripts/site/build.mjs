@@ -129,19 +129,25 @@ export function build(root, destination) {
     ? JSON.parse(read('reports/rust-core-recheck-20261021.json')) : null
   const rustRerun = existsSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json'))
     ? JSON.parse(read('reports/rust-core-recheck-20261021-rerun.json')) : null
-  const phpRerun = existsSync(resolve(root, 'reports/php-core-recheck-20261021.json'))
-    ? JSON.parse(read('reports/php-core-recheck-20261021.json')) : null
+  const phpRerunPath = existsSync(resolve(root, 'reports/php-core-quiet-20261021.json'))
+    ? 'reports/php-core-quiet-20261021.json' : 'reports/php-core-recheck-20261021.json'
+  const phpRerun = existsSync(resolve(root, phpRerunPath))
+    ? JSON.parse(read(phpRerunPath)) : null
   let phpRerunNote = ''
   if (phpRerun) {
+    if (phpRerunPath === 'reports/php-core-quiet-20261021.json') {
+      assert.ok(phpRerun.metadata.load_start_1m_range[1] <= 8.2)
+    }
     assert.equal(phpRerun.metadata.benchmark_snapshot_sha256, createHash('sha256').update(read('reports/dev-main-core.json')).digest('hex'))
     assert.equal(phpRerun.metadata.worker_sha256, createHash('sha256').update(read('engines/php/compare-cpu.php')).digest('hex'))
     assert.equal(phpRerun.metadata.runner_sha256, createHash('sha256').update(read('scripts/php-core-recheck.py')).digest('hex'))
     assert.equal(phpRerun.sessions.length, 2)
     for (const session of phpRerun.sessions) {
-      assert.match(session.path, /^reports\/php-core-recheck-runs\/[^/]+\.json$/)
+      assert.match(session.path, /^reports\/php-core-(?:recheck|quiet)-runs\/[^/]+\.json$/)
       assert.equal(session.sha256, createHash('sha256').update(read(session.path)).digest('hex'))
     }
-    phpRerunNote = `<p id="php-rerun-note">The displayed PHP pair comes from a ${phpRerun.rounds.length}-round process-CPU rerun of merged carve-php <code>${escape(phpRerun.metadata.carve_engine_commit.slice(0, 8))}</code> and the locked djot-php revision. Carve used less CPU in ${phpRerun.summary.carve_faster_rounds} of ${phpRerun.rounds.length} rounds. Pooled medians were ${phpRerun.summary.engines['carve-php'].pooled_median_cpu_ms.toFixed(3)} and ${phpRerun.summary.engines['djot-php'].pooled_median_cpu_ms.toFixed(3)} ms/op. The second session ran under higher host load. <a href="reports/php-core-recheck-20261021.md">Method and load range</a> · <a href="reports/php-core-recheck-20261021.json" download>Raw rounds</a>.</p>`
+    const phpReportPath = phpRerunPath.replace(/\.json$/, '.md')
+    phpRerunNote = `<p id="php-rerun-note">The displayed PHP pair comes from a ${phpRerun.rounds.length}-round process-CPU rerun of merged carve-php <code>${escape(phpRerun.metadata.carve_engine_commit.slice(0, 8))}</code> and the locked djot-php revision. Carve used less CPU in ${phpRerun.summary.carve_faster_rounds} of ${phpRerun.rounds.length} rounds. Pooled medians were ${phpRerun.summary.engines['carve-php'].pooled_median_cpu_ms.toFixed(3)} and ${phpRerun.summary.engines['djot-php'].pooled_median_cpu_ms.toFixed(3)} ms/op. One-minute load at round starts stayed between ${phpRerun.metadata.load_start_1m_range.map(value => value.toFixed(2)).join(' and ')}. <a href="${phpReportPath}">Method and load range</a> · <a href="${phpRerunPath}" download>Raw rounds</a>.</p>`
   }
   let rustRankingNote = ''
   if (rustRecheck && mainRecord &&
@@ -253,9 +259,10 @@ export function build(root, destination) {
   }
   for (const file of ['realistic-peer.crv', 'realistic-peer.json', 'realistic-peer-routes.json'])
     cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
-  for (const file of ['php-core-recheck-20261021.md', 'php-core-recheck-20261021.json'])
+  for (const file of ['php-core-recheck-20261021.md', 'php-core-recheck-20261021.json', 'php-core-quiet-20261021.md', 'php-core-quiet-20261021.json'])
     if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
   if (phpRerun) cpSync(resolve(root, 'reports/php-core-recheck-runs'), resolve(destination, 'reports/php-core-recheck-runs'), { recursive: true })
+  if (existsSync(resolve(root, 'reports/php-core-quiet-runs'))) cpSync(resolve(root, 'reports/php-core-quiet-runs'), resolve(destination, 'reports/php-core-quiet-runs'), { recursive: true })
   cpSync(resolve(root, 'reports/realistic-peer-runs'), resolve(destination, 'reports/realistic-peer-runs'), { recursive: true })
   mkdirSync(resolve(destination, 'corpus/realistic'), { recursive: true })
   cpSync(resolve(root, 'corpus/realistic/peer'), resolve(destination, 'corpus/realistic/peer'), { recursive: true })
