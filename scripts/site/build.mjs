@@ -129,6 +129,20 @@ export function build(root, destination) {
     ? JSON.parse(read('reports/rust-core-recheck-20261021.json')) : null
   const rustRerun = existsSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json'))
     ? JSON.parse(read('reports/rust-core-recheck-20261021-rerun.json')) : null
+  const phpRerun = existsSync(resolve(root, 'reports/php-core-recheck-20261021.json'))
+    ? JSON.parse(read('reports/php-core-recheck-20261021.json')) : null
+  let phpRerunNote = ''
+  if (phpRerun) {
+    assert.equal(phpRerun.metadata.benchmark_snapshot_sha256, createHash('sha256').update(read('reports/dev-main-core.json')).digest('hex'))
+    assert.equal(phpRerun.metadata.worker_sha256, createHash('sha256').update(read('engines/php/compare-cpu.php')).digest('hex'))
+    assert.equal(phpRerun.metadata.runner_sha256, createHash('sha256').update(read('scripts/php-core-recheck.py')).digest('hex'))
+    assert.equal(phpRerun.sessions.length, 2)
+    for (const session of phpRerun.sessions) {
+      assert.match(session.path, /^reports\/php-core-recheck-runs\/[^/]+\.json$/)
+      assert.equal(session.sha256, createHash('sha256').update(read(session.path)).digest('hex'))
+    }
+    phpRerunNote = `<p id="php-rerun-note">The displayed PHP pair comes from a ${phpRerun.rounds.length}-round process-CPU rerun of merged carve-php <code>${escape(phpRerun.metadata.carve_engine_commit.slice(0, 8))}</code> and the locked djot-php revision. Carve used less CPU in ${phpRerun.summary.carve_faster_rounds} of ${phpRerun.rounds.length} rounds. Pooled medians were ${phpRerun.summary.engines['carve-php'].pooled_median_cpu_ms.toFixed(3)} and ${phpRerun.summary.engines['djot-php'].pooled_median_cpu_ms.toFixed(3)} ms/op. The second session ran under higher host load. <a href="reports/php-core-recheck-20261021.md">Method and load range</a> · <a href="reports/php-core-recheck-20261021.json" download>Raw rounds</a>.</p>`
+  }
   let rustRankingNote = ''
   if (rustRecheck && mainRecord &&
       rustRecheck.metadata.rust_engine_commit === mainRecord.metadata.carve_main.rs.commit &&
@@ -173,11 +187,14 @@ export function build(root, destination) {
         assert.equal(fullRecord.metadata.source_commits[engine].commit, mainRecord.metadata.carve_main[engine].commit, 'Core and full main commits differ')
       }
     }
-    const rows = directHtmlResults(mainRecord, rustRerun)
+    const rows = directHtmlResults(mainRecord, rustRerun, phpRerun)
     data.peers = rows.map(row => ({ language: mainRecord.final.find(item => item.engine === row.engine).language, engine: row.engine, throughput: row.mb_per_s }))
-    data.coreTitle = `With pipe tables · 18 points (${mainRecord.metadata.generated_at.slice(0, 10)}, Carve dev-main)`
-    data.coreStatistic = 'Median process CPU time; 24 paired rounds for carve-rs and pulldown-cmark, two recorded rounds for other engines'
-    data.coreSources = mainRecord.metadata.carve_main
+    data.coreTitle = `With pipe tables · 18 points (${mainRecord.metadata.generated_at.slice(0, 10)} snapshot with verified pair reruns)`
+    data.coreStatistic = phpRerun
+      ? `Median process CPU time; 24 paired Rust rounds, ${phpRerun.rounds.length} paired PHP rounds, two recorded rounds for JavaScript and other peers`
+      : 'Median process CPU time; 24 paired rounds for carve-rs and pulldown-cmark, two recorded rounds for other engines'
+    data.coreSources = { ...mainRecord.metadata.carve_main }
+    if (phpRerun) data.coreSources.php = { repository: data.coreSources.php.repository, commit: phpRerun.metadata.carve_engine_commit, kind: 'merged-main' }
     data.core = ['JavaScript', 'PHP', 'Rust'].map(title => ({ title, tables: [{ headers: ['Engine', 'MB/s'], rows: data.peers.filter(row => row.language === title).map(row => [row.engine, row.throughput.toFixed(2)]) }] }))
     data.headline = { headers: ['Language', 'Carve', 'MB/s', 'Fastest peer', 'Peer MB/s'], rows: ['JavaScript', 'PHP', 'Rust'].map(language => {
       const peers = data.peers.filter(row => row.language === language)
@@ -185,9 +202,9 @@ export function build(root, destination) {
       const best = peers.filter(row => !row.engine.startsWith('carve-')).sort((a, b) => b.throughput - a.throughput)[0]
       return [language, carve.engine, carve.throughput.toFixed(2), best.engine, best.throughput.toFixed(2)]
     }) }
-    data.host = `${mainRecord.metadata.generated_at}; ${mainRecord.metadata.cpu}; Node ${mainRecord.metadata.node}; PHP ${mainRecord.metadata.php}; ${mainRecord.metadata.rust}; ${affinityDescription(mainRecord.metadata.cpu_affinity)}`
+    data.host = `${mainRecord.metadata.generated_at}; ${mainRecord.metadata.cpu}; Node ${mainRecord.metadata.node}; PHP ${mainRecord.metadata.php}; ${mainRecord.metadata.rust}; ${affinityDescription(mainRecord.metadata.cpu_affinity)}${phpRerun ? `; PHP pair completed ${phpRerun.metadata.completed_at}` : ''}`
     const jsPackages = JSON.parse(read('engines/js/package-lock.json')).packages
-    data.peerVersions = 'djot.js ' + jsPackages['node_modules/@djot/djot'].version + '; markdown-it ' + jsPackages['node_modules/markdown-it'].version + '; Djot PHP ' + mainRecord.metadata.php_dependencies['php-collective/djot'].reference + '; league/commonmark ' + mainRecord.metadata.php_dependencies['league/commonmark'].version + '. Carve source commits: ' + Object.entries(mainRecord.metadata.carve_main).map(([engine, value]) => engine + ' ' + value.commit).join('; ') + '. Rust peer versions are recorded in the downloadable Cargo lock.'
+    data.peerVersions = 'djot.js ' + jsPackages['node_modules/@djot/djot'].version + '; markdown-it ' + jsPackages['node_modules/markdown-it'].version + '; Djot PHP ' + mainRecord.metadata.php_dependencies['php-collective/djot'].reference + '; league/commonmark ' + mainRecord.metadata.php_dependencies['league/commonmark'].version + '. Carve source commits: ' + Object.entries(data.coreSources).map(([engine, value]) => engine + ' ' + value.commit).join('; ') + '. Rust peer versions are recorded in the downloadable Cargo lock.'
   }
   const sharedRecord = existsSync(resolve(root, 'reports/commonmark-js.json')) ? JSON.parse(read('reports/commonmark-js.json')) : null
   const finalRows = sharedRecord ? finalCommonmarkResults(sharedRecord) : []
@@ -236,6 +253,9 @@ export function build(root, destination) {
   }
   for (const file of ['realistic-peer.crv', 'realistic-peer.json', 'realistic-peer-routes.json'])
     cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
+  for (const file of ['php-core-recheck-20261021.md', 'php-core-recheck-20261021.json'])
+    if (existsSync(resolve(root, 'reports', file))) cpSync(resolve(root, 'reports', file), resolve(destination, 'reports', file))
+  if (phpRerun) cpSync(resolve(root, 'reports/php-core-recheck-runs'), resolve(destination, 'reports/php-core-recheck-runs'), { recursive: true })
   cpSync(resolve(root, 'reports/realistic-peer-runs'), resolve(destination, 'reports/realistic-peer-runs'), { recursive: true })
   mkdirSync(resolve(destination, 'corpus/realistic'), { recursive: true })
   cpSync(resolve(root, 'corpus/realistic/peer'), resolve(destination, 'corpus/realistic/peer'), { recursive: true })
@@ -389,7 +409,7 @@ export function build(root, destination) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Carve engine benchmarks, measured development snapshots, and downloadable charts."><title>Carve benchmarks</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>
 <body><a class="skip" href="#main">Skip to results</a><header><a class="brand" href="./">Carve / benchmarks</a><nav aria-label="Sections"><a href="#core">Direct conversion</a><a href="#full">Stress corpus</a><a href="#realistic">Structured documents</a><a href="#realistic-peers">Real-document peers</a>${pairedSection ? '<a href="#paired-full">Paired comparison</a>' : ''}<a href="#method">Method &amp; sources</a>${historySection ? '<a href="#history">History</a>' : ''}<a href="https://markup-carve.github.io/carve-conformance/proofs/">Proofs</a><a href="https://github.com/markup-carve/carve-bench">GitHub</a></nav></header>
 <main id="main"><section class="intro"><p class="eyebrow">Recorded performance evidence</p><h1>How fast does Carve render?</h1><p>Measured engine snapshots on shared hardware. Compare direct conversion, full parsing of authored documents, and the stress corpus.</p><p class="run">${escape(data.run)}</p></section>
-<section id="core"><p class="eyebrow">Track A</p><h2>Direct HTML conversion on core examples</h2><p>Default public conversion APIs, without opt-in extensions. Peers use equivalent logical content in their native syntax. Features and output differ; these rows measure rendering cost.</p><p id="core-route-note">These core examples use the direct HTML route in all three engines. The authored-document track below measures full parse (AST) on public documentation files. Both tracks use the default conversion APIs; document features decide the route.</p>${table({...data.headline, headers: data.headline.headers.map((header, index) => header === 'MB/s' ? (index === 2 ? 'Carve MB/s' : 'Peer MB/s') : header)})}${rustRankingNote}<p id="php-peer-route-note">The PHP peer changed route on 2 October: <a href="https://github.com/php-collective/djot-php/commit/fab953f6e4820d0d00209668062a68658589af75"><code>fab953f6</code></a> rejected this fixture in its borrowed HTML renderer, while <a href="https://github.com/php-collective/djot-php/commit/9c52e611202e7944c857a1d68c8c715b03b77a1b"><code>9c52e611</code></a> accepted it. The benchmark updated its Djot pin that day. The old and new Carve rows use the borrowed route, so rankings across those snapshots include a peer route change. The displayed PHP values still come from the recorded two-round run.</p>
+<section id="core"><p class="eyebrow">Track A</p><h2>Direct HTML conversion on core examples</h2><p>Default public conversion APIs, without opt-in extensions. Peers use equivalent logical content in their native syntax. Features and output differ; these rows measure rendering cost.</p><p id="core-route-note">These core examples use the direct HTML route in all three engines. The authored-document track below measures full parse (AST) on public documentation files. Both tracks use the default conversion APIs; document features decide the route.</p>${table({...data.headline, headers: data.headline.headers.map((header, index) => header === 'MB/s' ? (index === 2 ? 'Carve MB/s' : 'Peer MB/s') : header)})}${rustRankingNote}<p id="php-peer-route-note">The PHP peer changed route on 2 October: <a href="https://github.com/php-collective/djot-php/commit/fab953f6e4820d0d00209668062a68658589af75"><code>fab953f6</code></a> rejected this fixture in its borrowed HTML renderer, while <a href="https://github.com/php-collective/djot-php/commit/9c52e611202e7944c857a1d68c8c715b03b77a1b"><code>9c52e611</code></a> accepted it. The benchmark updated its Djot pin that day. The old and new Carve rows use the borrowed route, so rankings across those snapshots include a peer route change. </p>${phpRerunNote}
 <div class="chart-controls"><span id="filter-controls" hidden><label for="language">Compare language</label><select id="language"><option value="all">All languages</option><option>JavaScript</option><option>PHP</option><option>Rust</option></select></span><a href="core-throughput.csv" download>CSV with pipe tables</a><a href="evidence.json" download>Snapshot JSON</a></div>
 <p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${chart('core-throughput', 'Core conversion throughput with and without pipe tables, in separate panels')}${chart('carve-core-throughput', 'Carve core throughput with pipe tables')}${coreTables}<p><a href="${source}/COMPARISON.md">Historical release comparison and capability scoring</a> · <a href="reports/dev-main-core.md">Current dev-main measurement report</a></p></section>
 ${commonmarkSection}

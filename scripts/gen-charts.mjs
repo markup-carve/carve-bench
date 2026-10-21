@@ -90,7 +90,8 @@ const languageSections = (path, valueColumn) =>
   sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
 const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'), 'utf8')) : null
 const rustRerun = existsSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json'), 'utf8')) : null
-const directRows = mainRecord ? directHtmlResults(mainRecord, rustRerun) : null
+const phpRerun = existsSync(resolve(root, 'reports/php-core-recheck-20261021.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/php-core-recheck-20261021.json'), 'utf8')) : null
+const directRows = mainRecord ? directHtmlResults(mainRecord, rustRerun, phpRerun) : null
 const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => ({ name, rows: directRows.filter(row => mainRecord.final.find(item => item.engine === row.engine).language === name).map(row => ({ name: row.engine, value: row.mb_per_s })) })) : languageSections(resolve(root, 'COMPARISON.md'), 3)
 // Rows from every language share one scale here, so each label carries its
 // language.
@@ -129,7 +130,7 @@ const commonmarkGroups = sharedRecord ? [{
 }] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core fixture throughput, Carve direct HTML route',
-  mainRecord ? `ASCII core examples, direct HTML route. Pipe tables: median process CPU; Rust leading pair uses 24 paired rounds, other rows two rounds. No-table JS: wall-time median${sharedRecord ? `; no-table panel: JS ${sharedRecord.metadata.carve_main?.commit.slice(0, 7) ?? 'release'}` : ''}. Carve commits: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
+  mainRecord ? `ASCII core examples, direct HTML route. Pipe tables: median process CPU; Rust leading pair uses 24 paired rounds${phpRerun ? `, PHP pair uses ${phpRerun.rounds.length} paired rounds` : ''}, other rows two rounds. No-table JS: wall-time median${sharedRecord ? `; no-table panel: JS ${sharedRecord.metadata.carve_main?.commit.slice(0, 7) ?? 'release'}` : ''}. Carve commits: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${(phpRerun?.metadata.carve_engine_commit ?? mainRecord.metadata.carve_main.php.commit).slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
   [
     { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({

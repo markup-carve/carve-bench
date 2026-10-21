@@ -30,6 +30,19 @@ test('direct HTML ranking uses verified paired CPU samples for the Rust leaders'
   altered.metadata.binary_sha256 = 'different binary'
   assert.throws(() => directHtmlResults(snapshot, altered), /binary|Expected values to be strictly equal/)
 })
+test('direct HTML PHP rows use the merged-head paired sessions', () => {
+  const snapshot = JSON.parse(readFileSync(new URL('reports/dev-main-core.json', root), 'utf8'))
+  const rust = JSON.parse(readFileSync(new URL('reports/rust-core-recheck-20261021-rerun.json', root), 'utf8'))
+  const php = JSON.parse(readFileSync(new URL('reports/php-core-recheck-20261021.json', root), 'utf8'))
+  const rows = directHtmlResults(snapshot, rust, php)
+  for (const engine of ['carve-php', 'djot-php']) {
+    assert.equal(rows.find(row => row.engine === engine).ms_per_op, php.summary.engines[engine].pooled_median_cpu_ms)
+  }
+  assert.equal(php.rounds.length, 32)
+  const altered = structuredClone(php)
+  altered.rounds[0].rows['carve-php'].output_sha256 = 'different output'
+  assert.throws(() => directHtmlResults(snapshot, rust, altered), /Expected values to be strictly equal/)
+})
 test('site publishes current audit reports and preserved snapshot evidence', () => {
   const destination = mkdtempSync(join(tmpdir(), 'carve-bench-site-test-'))
   try {
@@ -64,6 +77,15 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
     assert.ok(html.includes('href="reports/rust-core-recheck-20261021.md"'))
     assert.ok(html.includes('carve-rs faster in 22 of 24 rounds'))
     assert.ok(html.includes('href="reports/rust-core-recheck-20261021-rerun.json"'))
+    assert.ok(html.includes('id="php-rerun-note"'))
+    assert.ok(html.includes('href="reports/php-core-recheck-20261021.json"'))
+    const phpRecord = JSON.parse(readFileSync(new URL('reports/php-core-recheck-20261021.json', root), 'utf8'))
+    assert.ok(html.includes(`Carve used less CPU in ${phpRecord.summary.carve_faster_rounds} of ${phpRecord.rounds.length} rounds`))
+    assert.equal(readFileSync(join(destination, 'reports/php-core-recheck-20261021.json'), 'utf8'),
+      readFileSync(new URL('reports/php-core-recheck-20261021.json', root), 'utf8'))
+    for (const session of phpRecord.sessions) {
+      assert.equal(readFileSync(join(destination, session.path), 'utf8'), readFileSync(new URL(session.path, root), 'utf8'))
+    }
     assert.ok(html.includes('href="reports/engine-history-audit-20261020.md"'))
     assert.ok(html.includes('href="reports/realistic-engine.json"'))
     assert.ok(html.includes('charts/realistic-full-parse.svg'))

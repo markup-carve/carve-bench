@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { finalCommonmarkResults } from './commonmark-results.mjs'
 
-test('throughput graph uses pinned Carve main in both workloads', () => {
+test('throughput graph names the merged commits used by each row', () => {
   const record = JSON.parse(readFileSync('reports/dev-main-core.json'))
   assert.equal(record.metadata.workload_points, 18)
   assert.ok(!record.metadata.php_dependencies['markup-carve/carve-php'])
@@ -61,7 +61,10 @@ test('throughput graph uses pinned Carve main in both workloads', () => {
   assert.ok(!archive.metadata.carve_main)
   const coreChart = readFileSync('charts/core-throughput.svg', 'utf8')
   assert.match(coreChart, /ASCII core examples, direct HTML route/)
-  for (const engine of ['js', 'php', 'rs']) assert.ok(coreChart.includes(record.metadata.carve_main[engine].commit.slice(0, 7)))
+  for (const engine of ['js', 'rs']) assert.ok(coreChart.includes(record.metadata.carve_main[engine].commit.slice(0, 7)))
+  const phpRerun = JSON.parse(readFileSync('reports/php-core-recheck-20261021.json'))
+  assert.ok(coreChart.includes(phpRerun.metadata.carve_engine_commit.slice(0, 7)))
+  assert.ok(coreChart.includes(`PHP pair uses ${phpRerun.rounds.length} paired rounds`))
   assert.ok(coreChart.includes(`no-table panel: JS ${shared.metadata.carve_main.commit.slice(0, 7)}`))
 })
 
