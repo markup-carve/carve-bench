@@ -66,7 +66,7 @@ same reports with language filters and downloadable charts. See the
 
 The throughput charts use pinned merged commits for JS, PHP and Rust,
 measured 2026-10-15 UTC on CPU 13. See [the source commits and samples](reports/dev-main-core.md).
-The current core tables use median timing across fourteen samples in two rounds with reversed engine order.
+The direct HTML tables and pipe-table charts use median process CPU time. The two leading Rust rows use a [24-round paired recheck](reports/rust-core-recheck-20261021-rerun.md) of the same binary; other rows use fourteen samples in two rounds with reversed engine order. The original wall-time snapshot remains in [the dev-main report](reports/dev-main-core.md).
 The shared host's one-minute load changed from 7.83 to 9.78 during the core run.
 These sessions do not isolate code effects across snapshots.
 The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
@@ -86,8 +86,8 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 66.45 | pulldown-cmark | 84.63 | 0.79x |
-| JavaScript | carve-js | 7.49 | markdown-it | 4.26 | 1.76x |
+| Rust | carve-rs | 110.77 | pulldown-cmark | 99.65 | 1.11x |
+| JavaScript | carve-js | 8.06 | markdown-it | 4.27 | 1.89x |
 | PHP | carve-php | 12.47 | djot-php | 15.85 | 0.79x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
@@ -98,11 +98,11 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 7.9741 | 7.49 | 8.87x |
-| carve-php | PHP | 4.7916 | 12.47 | 5.33x |
-| carve-rs | Rust | 0.8989 | 66.45 | 1.00x |
+| carve-js | JavaScript | 7.4145 | 8.06 | 13.75x |
+| carve-php | PHP | 4.7905 | 12.47 | 8.88x |
+| carve-rs | Rust | 0.5392 | 110.77 | 1.00x |
 
-Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
+The [core snapshot](reports/dev-main-core.json) and [Rust paired recheck](reports/rust-core-recheck-20261021-rerun.json) contain the displayed samples and source identities.
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
 
 The published numbers are deliberately split into two tracks:
