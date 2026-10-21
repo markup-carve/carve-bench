@@ -1,0 +1,480 @@
+{
+  "schema": 1,
+  "metadata": {
+    "measured_at": "2026-10-21T06:48:59.029487+00:00",
+    "rust_engine_commit": "47fdd7e487fc793133cf6af8396f653975454dd9",
+    "binary_sha256": "1279ea0cabe1ea59b137c3f6c71cee610d0e04df78f4ddbf56d5087dbf1d992b",
+    "cpu_affinity": [
+      12
+    ],
+    "method": "Eight alternating engine-order rounds; each worker warms for 20 conversions, then records seven batches of 200 conversions; process CPU time per conversion excludes process startup.",
+    "published_core_load_start_1m": 46.54,
+    "published_core_rows": {
+      "carve-rs": 0.8989325,
+      "pulldown-cmark": 0.7125239999999999
+    },
+    "inputs": {
+      "carve-rs": {
+        "path": "corpus/dev-main-core/carve.crv",
+        "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+        "output_sha256": "9c3fcfa0a9eca5477e101052aaf662eff1bdd4c28f0568f37d7abda79c39a29e"
+      },
+      "pulldown-cmark": {
+        "path": "corpus/dev-main-core/markdown.md",
+        "source_sha256": "014386072f12d3200d94114f356054ae7d68254c8d232c0c700ff3ac8fd9de55",
+        "output_sha256": "61e66dae86ca89ffed40d76b79a799a89ee11e920cb05ce73ace10f04fc6b6ce"
+      }
+    },
+    "benchmark_snapshot_commit": "cf53642e64e010b828475c46a702f8f9ef7994a2"
+  },
+  "rounds": [
+    {
+      "order": [
+        "carve-rs",
+        "pulldown-cmark"
+      ],
+      "rows": {
+        "carve-rs": {
+          "samples_ms": [
+            0.943833,
+            0.955541,
+            0.829115,
+            0.717215,
+            0.547606,
+            0.543499,
+            0.535507
+          ],
+          "cpu_samples_ms": [
+            0.923712,
+            0.932361,
+            0.827167,
+            0.711051,
+            0.547598,
+            0.543488,
+            0.535498
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        },
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.873783,
+            0.862794,
+            0.876935,
+            0.9419,
+            0.939797,
+            0.906962,
+            0.893974
+          ],
+          "cpu_samples_ms": [
+            0.87302,
+            0.86051,
+            0.870707,
+            0.918862,
+            0.908667,
+            0.905068,
+            0.878588
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        }
+      }
+    },
+    {
+      "order": [
+        "pulldown-cmark",
+        "carve-rs"
+      ],
+      "rows": {
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.79674,
+            0.889477,
+            0.830334,
+            0.838822,
+            0.874684,
+            0.885169,
+            0.828901
+          ],
+          "cpu_samples_ms": [
+            0.783983,
+            0.872495,
+            0.821572,
+            0.835882,
+            0.871698,
+            0.872975,
+            0.818978
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        },
+        "carve-rs": {
+          "samples_ms": [
+            0.870148,
+            0.858713,
+            0.874768,
+            0.916413,
+            0.713749,
+            0.823619,
+            0.820584
+          ],
+          "cpu_samples_ms": [
+            0.865312,
+            0.85272,
+            0.874746,
+            0.898461,
+            0.708836,
+            0.815781,
+            0.818605
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        }
+      }
+    },
+    {
+      "order": [
+        "carve-rs",
+        "pulldown-cmark"
+      ],
+      "rows": {
+        "carve-rs": {
+          "samples_ms": [
+            0.78817,
+            0.893247,
+            0.918986,
+            0.833124,
+            0.862089,
+            0.901615,
+            0.945229
+          ],
+          "cpu_samples_ms": [
+            0.788134,
+            0.893182,
+            0.916159,
+            0.829764,
+            0.842726,
+            0.884813,
+            0.940017
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        },
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.853388,
+            0.946956,
+            1.051227,
+            0.945429,
+            0.871688,
+            0.951928,
+            1.301198
+          ],
+          "cpu_samples_ms": [
+            0.838815,
+            0.93317,
+            0.942819,
+            0.885008,
+            0.85973,
+            0.93923,
+            0.880636
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        }
+      }
+    },
+    {
+      "order": [
+        "pulldown-cmark",
+        "carve-rs"
+      ],
+      "rows": {
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.956948,
+            1.003374,
+            0.990639,
+            0.975277,
+            0.992309,
+            0.992769,
+            1.004076
+          ],
+          "cpu_samples_ms": [
+            0.85825,
+            0.855684,
+            0.962238,
+            0.97232,
+            0.985937,
+            0.98929,
+            0.992317
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        },
+        "carve-rs": {
+          "samples_ms": [
+            0.808147,
+            0.656769,
+            0.648638,
+            0.88788,
+            0.719396,
+            0.842702,
+            0.843386
+          ],
+          "cpu_samples_ms": [
+            0.801797,
+            0.655561,
+            0.6462,
+            0.810099,
+            0.708729,
+            0.803998,
+            0.782593
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        }
+      }
+    },
+    {
+      "order": [
+        "carve-rs",
+        "pulldown-cmark"
+      ],
+      "rows": {
+        "carve-rs": {
+          "samples_ms": [
+            0.875474,
+            0.724378,
+            0.586571,
+            0.572316,
+            0.562244,
+            0.590774,
+            0.8424
+          ],
+          "cpu_samples_ms": [
+            0.865704,
+            0.722402,
+            0.585361,
+            0.570969,
+            0.562235,
+            0.590318,
+            0.836742
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        },
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.923441,
+            0.900689,
+            0.873419,
+            0.920919,
+            0.9041,
+            0.924162,
+            0.975475
+          ],
+          "cpu_samples_ms": [
+            0.922113,
+            0.900436,
+            0.872496,
+            0.920394,
+            0.903364,
+            0.920677,
+            0.920952
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        }
+      }
+    },
+    {
+      "order": [
+        "pulldown-cmark",
+        "carve-rs"
+      ],
+      "rows": {
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.927147,
+            0.913672,
+            0.808534,
+            0.826528,
+            0.768635,
+            0.613791,
+            0.606257
+          ],
+          "cpu_samples_ms": [
+            0.925122,
+            0.913439,
+            0.808287,
+            0.826509,
+            0.768617,
+            0.613784,
+            0.606173
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        },
+        "carve-rs": {
+          "samples_ms": [
+            0.599369,
+            0.853684,
+            0.841075,
+            0.826312,
+            0.829687,
+            0.707433,
+            0.623549
+          ],
+          "cpu_samples_ms": [
+            0.598212,
+            0.852128,
+            0.8399,
+            0.825209,
+            0.823655,
+            0.706577,
+            0.620091
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        }
+      }
+    },
+    {
+      "order": [
+        "carve-rs",
+        "pulldown-cmark"
+      ],
+      "rows": {
+        "carve-rs": {
+          "samples_ms": [
+            0.629456,
+            0.652587,
+            0.65616,
+            0.551113,
+            0.557041,
+            0.559727,
+            0.575259
+          ],
+          "cpu_samples_ms": [
+            0.627038,
+            0.651455,
+            0.654627,
+            0.550615,
+            0.556663,
+            0.559718,
+            0.573666
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        },
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.676921,
+            0.665473,
+            0.708785,
+            0.708031,
+            0.678375,
+            0.651819,
+            0.697206
+          ],
+          "cpu_samples_ms": [
+            0.676717,
+            0.664784,
+            0.707931,
+            0.706744,
+            0.678282,
+            0.6504,
+            0.696371
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        }
+      }
+    },
+    {
+      "order": [
+        "pulldown-cmark",
+        "carve-rs"
+      ],
+      "rows": {
+        "pulldown-cmark": {
+          "samples_ms": [
+            0.651637,
+            0.624036,
+            0.648618,
+            0.620691,
+            0.746052,
+            0.686743,
+            0.815149
+          ],
+          "cpu_samples_ms": [
+            0.651179,
+            0.623985,
+            0.648602,
+            0.620679,
+            0.745928,
+            0.673049,
+            0.793412
+          ],
+          "output_bytes": 145860,
+          "carve_source": null
+        },
+        "carve-rs": {
+          "samples_ms": [
+            0.646345,
+            0.568826,
+            0.61962,
+            0.562285,
+            0.569696,
+            0.582185,
+            0.724972
+          ],
+          "cpu_samples_ms": [
+            0.642946,
+            0.567169,
+            0.618614,
+            0.561842,
+            0.569636,
+            0.580633,
+            0.72183
+          ],
+          "output_bytes": 179712,
+          "carve_source": "carve-lang 0.1.10 (local checkout /var/tmp/carve-rs-final-ast-20261021 @ 47fdd7e48)"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "engines": {
+      "carve-rs": {
+        "pooled_median_cpu_ms": 0.7164405,
+        "round_median_cpu_ms": [
+          0.711051,
+          0.85272,
+          0.884813,
+          0.782593,
+          0.590318,
+          0.823655,
+          0.573666,
+          0.580633
+        ]
+      },
+      "pulldown-cmark": {
+        "pooled_median_cpu_ms": 0.8656085,
+        "round_median_cpu_ms": [
+          0.878588,
+          0.835882,
+          0.885008,
+          0.97232,
+          0.920394,
+          0.808287,
+          0.678282,
+          0.651179
+        ]
+      }
+    },
+    "carve_faster_rounds": 6,
+    "rounds": 8
+  }
+}
