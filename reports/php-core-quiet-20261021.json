@@ -1,0 +1,1433 @@
+{
+  "schema": 1,
+  "metadata": {
+    "started_at": "2026-10-21T20:36:56Z",
+    "completed_at": "2026-10-21T21:28:55Z",
+    "carve_engine_commit": "760df44b19013a6b1ae07f7a2cb71da08da84d0c",
+    "djot_reference": "77e5b6c83978b28b72f314fe52c0a200856ad3f9",
+    "benchmark_snapshot_sha256": "d556c4b7c2212e1b6565e1ad846966d6a6f0661a25deda2b32c355a13d461f5f",
+    "worker_sha256": "a37d84ba03f755452f0d40f22870e56f32962f965a3411faf436d5b722d4e569",
+    "runner_sha256": "ab6d8c0fd5d0ad85d6bdce9a3517bc2e4437758b86812f5cfb3ef478b7574a1a",
+    "cpu_affinity": [
+      12
+    ],
+    "php": "PHP 8.5.11 (cli) (built: Sep 24 2026 13:49:29) (NTS)",
+    "load_start_1m_range": [
+      6.87890625,
+      8.10595703125
+    ],
+    "method": "Two sessions, 32 alternating rounds; each worker warms for 30 conversions and measures five batches of 60. Process user plus system CPU excludes startup. Both sessions had round-start load at most 8.20.",
+    "benchmark_checkout_commits": [
+      "f4f0a250b3fe3645c384792292095ffb39f5ce37",
+      "f1f0ad90dc03451b35536d0afaed8fe93b671e64"
+    ]
+  },
+  "sessions": [
+    {
+      "path": "reports/php-core-recheck-runs/20261021-a.json",
+      "sha256": "61f85911137372d64a11ad4c3bb0207454e7c914633c28122a87bf0728b6b052",
+      "rounds": 16
+    },
+    {
+      "path": "reports/php-core-quiet-runs/20261021-lower-a.json",
+      "sha256": "7052f0ec3c21e45809927007931f9c5806e732a9d19714c8e7f02cdb4b20f071",
+      "rounds": 16
+    }
+  ],
+  "rounds": [
+    {
+      "index": 0,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.773083333333333,
+            3.3901166666666667,
+            3.380333333333333,
+            3.32045,
+            4.4971000000000005
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            6.046583333333333,
+            4.590083333333333,
+            3.578683333333333,
+            3.4473333333333334,
+            3.51625
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 1,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.5122833333333334,
+            3.6484,
+            3.6704333333333334,
+            3.4945666666666666,
+            4.171633333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.4354333333333336,
+            3.7044333333333332,
+            4.167666666666666,
+            3.57195,
+            3.4694833333333337
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 2,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.7796333333333334,
+            3.3911666666666664,
+            3.775316666666667,
+            3.541,
+            3.5204833333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.2701,
+            3.535883333333333,
+            3.4612333333333334,
+            3.59015,
+            3.4732333333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 3,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.421966666666667,
+            3.7232166666666666,
+            3.4169166666666664,
+            3.5197333333333334,
+            3.3184166666666663
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.7253333333333334,
+            3.5209333333333332,
+            3.2294833333333335,
+            3.3678833333333333,
+            3.3482166666666666
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 4,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.5237166666666666,
+            3.6013499999999996,
+            3.6328833333333335,
+            3.4297666666666666,
+            4.075783333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.2785,
+            3.4387499999999998,
+            3.18985,
+            3.13835,
+            3.14745
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 5,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0602666666666667,
+            3.1199500000000002,
+            3.151416666666667,
+            3.28365,
+            3.1638666666666664
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.2363500000000003,
+            3.2319166666666663,
+            3.1996666666666664,
+            3.4518166666666668,
+            3.7959
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 6,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.1044166666666664,
+            3.13415,
+            3.2647,
+            3.118133333333333,
+            3.0394666666666668
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.4968333333333335,
+            3.866983333333333,
+            3.6108333333333333,
+            4.3296833333333336,
+            3.41175
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 7,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            4.6696333333333335,
+            6.2357,
+            5.5916500000000005,
+            5.526916666666667,
+            5.284783333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            5.437616666666667,
+            5.393166666666667,
+            5.428,
+            5.411883333333334,
+            5.509016666666667
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 8,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            5.315933333333334,
+            5.2654,
+            5.676416666666666,
+            5.5644833333333334,
+            3.49995
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.3597333333333332,
+            3.4442166666666667,
+            3.3641666666666667,
+            3.8319833333333335,
+            3.430266666666667
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 9,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.6165000000000003,
+            3.3816833333333336,
+            3.1132,
+            3.1631666666666667,
+            3.3332833333333336
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.1777333333333333,
+            3.1356666666666664,
+            3.129166666666667,
+            3.096616666666667,
+            3.2059333333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 10,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.4426,
+            3.1691833333333337,
+            3.0833333333333335,
+            3.196966666666667,
+            3.2100333333333335
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.09615,
+            3.0789,
+            3.3472500000000003,
+            3.1107333333333336,
+            3.1207333333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 11,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.4088833333333333,
+            3.6296166666666663,
+            3.67485,
+            4.451,
+            5.4117
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.4889,
+            3.62545,
+            5.757416666666667,
+            5.348933333333333,
+            4.317483333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 12,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.5524833333333334,
+            3.7600333333333333,
+            3.371683333333333,
+            3.8245333333333336,
+            3.7162333333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.521066666666667,
+            3.5048166666666662,
+            3.7073666666666667,
+            3.584616666666667,
+            3.8981
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 13,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.767033333333333,
+            3.7441666666666666,
+            3.7445999999999997,
+            3.8939333333333335,
+            4.1689
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            4.509116666666667,
+            6.523583333333334,
+            4.999350000000001,
+            3.596883333333333,
+            3.8795166666666665
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 14,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            5.2637,
+            5.530966666666667,
+            5.7026,
+            4.0292,
+            4.802566666666666
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.5083333333333333,
+            3.5212,
+            3.5613,
+            3.6434166666666665,
+            3.6464333333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 15,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.6844166666666665,
+            3.6753,
+            3.4673000000000003,
+            3.4108333333333336,
+            3.4978833333333332
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.822016666666667,
+            4.01165,
+            4.336366666666667,
+            3.8476833333333333,
+            3.6604666666666663
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-core-merged760 @ 760df44b1)"
+        }
+      },
+      "session": "20261021-a.json"
+    },
+    {
+      "index": 16,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.3757499999999996,
+            3.34145,
+            4.534833333333333,
+            4.427499999999999,
+            3.3286000000000002
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.307,
+            3.3769333333333336,
+            3.4367666666666663,
+            4.714416666666667,
+            5.296566666666666
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 17,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            4.74075,
+            4.748966666666666,
+            4.63535,
+            3.5408666666666666,
+            3.418433333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.095066666666667,
+            3.1209166666666666,
+            3.3188999999999997,
+            3.9848,
+            4.712683333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 18,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.1490333333333336,
+            3.2895499999999998,
+            3.2277,
+            3.3160666666666665,
+            3.253616666666667
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0829833333333334,
+            3.101783333333333,
+            3.109183333333333,
+            3.1180666666666665,
+            3.0904000000000003
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 19,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.4141333333333335,
+            4.632716666666667,
+            3.4473166666666666,
+            3.21775,
+            3.2206833333333336
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.3213,
+            3.0614833333333333,
+            3.2647166666666667,
+            3.1513333333333335,
+            3.1679833333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 20,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.1146000000000003,
+            3.2226,
+            3.0999,
+            3.7209333333333334,
+            4.521966666666667
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            4.207016666666666,
+            4.167800000000001,
+            3.9654499999999997,
+            4.07305,
+            3.7544166666666663
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 21,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.033916666666667,
+            3.0581666666666667,
+            3.2342166666666667,
+            3.172366666666667,
+            3.0846999999999998
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            4.832766666666667,
+            3.614516666666667,
+            3.459983333333333,
+            3.7380333333333335,
+            3.445866666666667
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 22,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            4.05775,
+            3.4979999999999998,
+            3.6123833333333333,
+            4.159216666666667,
+            4.6461500000000004
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0009666666666663,
+            3.1067166666666663,
+            3.040916666666667,
+            3.04485,
+            3.0123
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 23,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0794166666666665,
+            3.0119,
+            3.0900666666666665,
+            3.0233,
+            2.9934333333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.0926666666666667,
+            4.249533333333334,
+            4.037516666666667,
+            3.2578666666666667,
+            3.2138166666666668
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 24,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.040216666666667,
+            3.0540666666666665,
+            3.1174000000000004,
+            3.22565,
+            3.1699833333333336
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.3143000000000002,
+            3.28335,
+            3.2223166666666665,
+            3.17975,
+            4.08455
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 25,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            5.060133333333334,
+            3.2652833333333335,
+            3.1281666666666665,
+            3.2182166666666663,
+            3.2377333333333334
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.0447833333333336,
+            2.9772166666666666,
+            3.0077833333333337,
+            3.0173666666666668,
+            2.98535
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 26,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.3135499999999998,
+            3.2954333333333334,
+            3.1591,
+            3.0244,
+            3.05815
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0769499999999996,
+            3.075416666666667,
+            3.065433333333333,
+            3.220666666666667,
+            3.1621666666666663
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 27,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0808666666666666,
+            3.16935,
+            3.1941166666666665,
+            3.0165333333333333,
+            3.0633333333333335
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.1595,
+            3.2610666666666663,
+            3.2491166666666667,
+            3.211183333333333,
+            3.0512333333333337
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 28,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            4.848133333333333,
+            3.6636,
+            3.4545000000000003,
+            3.504183333333333,
+            3.4986166666666665
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.3011333333333335,
+            3.5019,
+            3.2878,
+            3.935083333333333,
+            3.8326333333333333
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 29,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.16335,
+            3.7306000000000004,
+            3.0197,
+            3.0700166666666666,
+            2.9564999999999997
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            2.9524833333333333,
+            3.0316833333333335,
+            2.96865,
+            2.936783333333333,
+            2.9052000000000002
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 30,
+      "order": [
+        "carve-php",
+        "djot-php"
+      ],
+      "rows": {
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            2.96955,
+            2.946683333333333,
+            2.9453833333333335,
+            2.8892666666666664,
+            2.9700833333333336
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        },
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            2.99525,
+            3.1582166666666667,
+            3.0946166666666666,
+            3.0526,
+            3.24085
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        }
+      },
+      "session": "20261021-lower-a.json"
+    },
+    {
+      "index": 31,
+      "order": [
+        "djot-php",
+        "carve-php"
+      ],
+      "rows": {
+        "djot-php": {
+          "engine": "djot-php",
+          "bytes": 62782,
+          "source_sha256": "251e50a0d959b6a2d9f51673384446a919e9a18c99ec615f93bb8cfe9864a985",
+          "output_sha256": "098000ada19d8e5ea0d3de8980a46e194a62201ecc949b6288099e4c37394e4d",
+          "cpu_samples_ms": [
+            3.0330999999999997,
+            3.23805,
+            3.0919833333333333,
+            3.4016,
+            3.388716666666667
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true
+        },
+        "carve-php": {
+          "engine": "carve-php",
+          "bytes": 62632,
+          "source_sha256": "5543c1dd20172985beb0de136aadf0a5b719e3ffadc748681af0d04d225413ca",
+          "output_sha256": "9a60291010b1c9d365e2a7254ff89e4bbc1915eb0cd705984c5cc5af68dd25af",
+          "cpu_samples_ms": [
+            3.2371333333333334,
+            3.1933333333333334,
+            3.2308000000000003,
+            3.306566666666667,
+            3.8076999999999996
+          ],
+          "iterations": 60,
+          "trials": 5,
+          "jit": true,
+          "carve_source": "markup-carve/carve-php (local checkout /var/tmp/carve-php-quiet @ 760df44b1)"
+        }
+      },
+      "session": "20261021-lower-a.json"
+    }
+  ],
+  "summary": {
+    "engines": {
+      "carve-php": {
+        "pooled_median_cpu_ms": 3.3906416666666663,
+        "bytes": 62632
+      },
+      "djot-php": {
+        "pooled_median_cpu_ms": 3.405241666666667,
+        "bytes": 62782
+      }
+    },
+    "median_paired_carve_over_djot_cpu": 1.010081572678601,
+    "carve_faster_rounds": 15,
+    "paired_ratio_range": [
+      0.7159977132255385,
+      1.5497143079255258
+    ]
+  }
+}

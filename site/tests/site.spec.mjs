@@ -96,7 +96,7 @@ test('current corpus provenance and historical diagnostics are published', async
   for (const engine of ['js', 'rs']) {
     expect(full.metadata.source_commits[engine].commit).toBe(evidence.coreSources[engine].commit)
   }
-  const phpRecheck = await (await request.get('reports/php-core-recheck-20261021.json')).json()
+  const phpRecheck = await (await request.get('reports/php-core-quiet-20261021.json')).json()
   expect(evidence.coreSources.php.commit).toBe(phpRecheck.metadata.carve_engine_commit)
   await expect(page.locator('#full a[href="reports/dev-main-full.json"]')).toBeVisible()
   for (const file of ['performance-refresh.md', 'performance-refresh.json', 'small-corpus-check.json', 'full-corpus-initial.json']) {

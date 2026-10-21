@@ -65,7 +65,7 @@ same reports with language filters and downloadable charts. See the
 [site build instructions](site/README.md) to reproduce it locally.
 
 The throughput charts use pinned merged commits for JS, PHP and Rust. The core snapshot was measured 2026-10-15 UTC on CPU 13; the PHP and Rust leading pairs have later rechecks. See [the source commits and samples](reports/dev-main-core.md).
-The direct HTML tables and pipe-table charts use median process CPU time. The two leading Rust rows use a [24-round paired recheck](reports/rust-core-recheck-20261021-rerun.md) of the same binary. The PHP Carve and Djot rows use a [32-round merged-head recheck](reports/php-core-recheck-20261021.md). Other rows use fourteen samples in two rounds with reversed engine order. The original wall-time snapshot remains in [the dev-main report](reports/dev-main-core.md).
+The direct HTML tables and pipe-table charts use median process CPU time. The two leading Rust rows use a [24-round paired recheck](reports/rust-core-recheck-20261021-rerun.md) of the same binary. The PHP Carve and Djot rows use a [32-round lower-load recheck](reports/php-core-quiet-20261021.md) of merged carve-php. Other rows use fourteen samples in two rounds with reversed engine order. The original wall-time snapshot remains in [the dev-main report](reports/dev-main-core.md).
 The shared host's one-minute load changed from 7.83 to 9.78 during the core run.
 These sessions do not isolate code effects across snapshots.
 The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
@@ -87,7 +87,7 @@ opt-in extensions registered**, against the fastest same-language peer.
 |---|---|---:|---|---:|---:|
 | Rust | carve-rs | 110.77 | pulldown-cmark | 99.65 | 1.11x |
 | JavaScript | carve-js | 8.06 | markdown-it | 4.27 | 1.89x |
-| PHP | carve-php | 14.38 | djot-php | 15.90 | 0.90x |
+| PHP | carve-php | 17.62 | djot-php | 17.58 | 1.00x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -98,10 +98,10 @@ Carve development-main engines on the identical document:
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
 | carve-js | JavaScript | 7.4145 | 8.06 | 13.75x |
-| carve-php | PHP | 4.1548 | 14.38 | 7.71x |
+| carve-php | PHP | 3.3906 | 17.62 | 6.29x |
 | carve-rs | Rust | 0.5392 | 110.77 | 1.00x |
 
-The [core snapshot](reports/dev-main-core.json), [Rust paired recheck](reports/rust-core-recheck-20261021-rerun.json), and [PHP paired recheck](reports/php-core-recheck-20261021.json) contain the displayed samples and source identities. The PHP recheck's second session ran under substantially higher host load; see its [session report](reports/php-core-recheck-20261021.md) before comparing absolute throughput.
+The [core snapshot](reports/dev-main-core.json), [Rust paired recheck](reports/rust-core-recheck-20261021-rerun.json), and [PHP lower-load recheck](reports/php-core-quiet-20261021.json) contain the displayed samples and source identities. The [earlier PHP recheck](reports/php-core-recheck-20261021.md) remains available with its higher-load second session.
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
 
 The published numbers are split into four tracks:

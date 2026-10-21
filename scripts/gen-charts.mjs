@@ -90,7 +90,9 @@ const languageSections = (path, valueColumn) =>
   sections(path, valueColumn).filter((group) => LANGUAGES.has(group.name))
 const mainRecord = existsSync(resolve(root, 'reports/dev-main-core.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/dev-main-core.json'), 'utf8')) : null
 const rustRerun = existsSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/rust-core-recheck-20261021-rerun.json'), 'utf8')) : null
-const phpRerun = existsSync(resolve(root, 'reports/php-core-recheck-20261021.json')) ? JSON.parse(readFileSync(resolve(root, 'reports/php-core-recheck-20261021.json'), 'utf8')) : null
+const phpRerunPath = existsSync(resolve(root, 'reports/php-core-quiet-20261021.json'))
+  ? 'reports/php-core-quiet-20261021.json' : 'reports/php-core-recheck-20261021.json'
+const phpRerun = existsSync(resolve(root, phpRerunPath)) ? JSON.parse(readFileSync(resolve(root, phpRerunPath), 'utf8')) : null
 const directRows = mainRecord ? directHtmlResults(mainRecord, rustRerun, phpRerun) : null
 const comparisonGroups = mainRecord ? ['Rust', 'JavaScript', 'PHP'].map(name => ({ name, rows: directRows.filter(row => mainRecord.final.find(item => item.engine === row.engine).language === name).map(row => ({ name: row.engine, value: row.mb_per_s })) })) : languageSections(resolve(root, 'COMPARISON.md'), 3)
 // Rows from every language share one scale here, so each label carries its

@@ -62,7 +62,7 @@ test('throughput graph names the merged commits used by each row', () => {
   const coreChart = readFileSync('charts/core-throughput.svg', 'utf8')
   assert.match(coreChart, /ASCII core examples, direct HTML route/)
   for (const engine of ['js', 'rs']) assert.ok(coreChart.includes(record.metadata.carve_main[engine].commit.slice(0, 7)))
-  const phpRerun = JSON.parse(readFileSync('reports/php-core-recheck-20261021.json'))
+  const phpRerun = JSON.parse(readFileSync('reports/php-core-quiet-20261021.json'))
   assert.ok(coreChart.includes(phpRerun.metadata.carve_engine_commit.slice(0, 7)))
   assert.ok(coreChart.includes(`PHP pair uses ${phpRerun.rounds.length} paired rounds`))
   assert.ok(coreChart.includes(`no-table panel: JS ${shared.metadata.carve_main.commit.slice(0, 7)}`))
