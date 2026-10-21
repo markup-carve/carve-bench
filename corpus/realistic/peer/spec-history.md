@@ -1,0 +1,345 @@
+
+# Specification decision history
+
+The normative grammar states the current language. This page keeps the history
+needed to understand source-compatibility changes without making readers walk
+through retired rules before finding the active one.
+
+## Colon fences
+
+The original prose said a wider bare fence could close a shorter opener and
+that equal-width typed fences could not nest. The formal guard and all engines
+instead used exact-width closing, while a typed equal-width line opened a nested
+container. The exact-width rule became normative in carve#770.
+
+The same prose treated a bare opener without a later closer as literal text.
+That conflicted with the general container rule and with all engines. Bare and
+typed unclosed containers now both close with their host, with end of input as
+the top-level case. The bare form is pinned by carve#1717.
+
+One copy of the retired literal reading survived in the nested-list guidance.
+It claimed an unclosed fence inside an item degraded and exposed its marker
+lines as an ordinary nested list. The host-closing rule has no such exception:
+the nested list remains the container body, with or without an explicit closer.
+That correction is pinned by carve#1722.
+
+The A CLOSER IS REQUIRED clause said an unclosed code fence opens no span and
+the container's own closer stays structural, but not what the colon lines
+between the two are. carve-php and carve-rs read a colon line of another width
+there as a nested container opener, so the fence ran to the end of a host that
+never closed. carve-js read it as fence content in a single container. The
+maintainer ruled that reading on 2026-10-15: inside an unclosed fence only the
+innermost container's own closer is structural, and every other colon line, of
+any width, is code. Corpus category 597 pins it.
+
+## Container columns
+
+Carve originally described list items, definition bodies and footnote bodies
+with separate indentation rules. The current model uses one minimum content
+column, one authored local block base, and the innermost eligible container as
+owner. The compatibility measurements remain in the experiment reports; the
+active rule is PART 1 S4 and PART 9 §24.
+
+## Specification and executable checkers
+
+Executable checkers once became accidental authorities instead of tests of the
+grammar. In carve#645 the layout checker leaked internal lazy state into code
+text; carve#646 produced a fourth answer while the three engines already
+disagreed. A related satellite compared itself with a stale pinned engine and
+reported nine false grammar defects (tree-sitter-carve#160).
+
+The current rule is deliberately short: the grammar decides, reviewed corpus
+pairs pin its consequences, and executable artifacts check those decisions.
+
+## Input normalization
+
+The layout description formerly enumerated `\n` and `\r\n` while the newline
+production and all engines also accepted a lone `\r` (carve#872). It now cites
+the production instead of duplicating it. The same audit exposed two previously
+unstated transforms: one leading byte-order mark is stripped, and every U+0000
+is replaced by U+FFFD (carve#872, carve#1523).
+
+## Name lookup and case
+
+Name lookup once compared case-insensitively for heading cross-references,
+numbered caption and equation references, collapsed references falling back to
+heading text, and include fragment selectors. With only `{#tip}` defined,
+`</#Tip>` and `</#tip>` both reached that section. The include rule inherited
+that reading from the cross-reference rule although the engines compared a
+`#section` selector exactly.
+
+Link-definition labels and footnote labels compared exactly throughout. This
+also held for collapsed and explicit link references. The changelog wording
+that grouped them with the change overstated it.
+
+Lookup is now exact everywhere, so case-distinct ids identify separate targets
+(carve#2732). Glossary ids preserve case under the same reading, while index
+slugs stay lowercased (carve#2739). Default heading slug derivation, whitespace
+normalization and NFC are unchanged.
+
+## Container ownership
+
+Before carve#1730, case notes often inferred whether a container survived from
+whether a paragraph remained open. Implementations consequently disagreed on
+empty quotes and other non-paragraph first blocks inside list items, including
+character-specific behavior in carve-php (carve#561, carve#572,
+carve-php#683).
+
+The current automaton selects the owner first. Paragraph state controls only
+whether the selected line continues or starts a leaf; it never keeps a
+container alive by itself.
+
+## Floating attributes and invisible constructs
+
+The phrase “next block” once left it unclear whether a floating attribute
+stopped at a reference definition, footnote definition, abbreviation
+definition or comment. The three engines answered differently, and individual
+engines were inconsistent between kinds (carve#529). They later converged on
+floating past every invisible construct (carve#857), with one claim per kind
+retained so that convergence cannot regress unnoticed.
+
+Class merging had a separate stale rule: the prose required duplicate class
+names although no engine preserved duplicates. The executable checker briefly
+became the only implementation following that prose. The rule now de-duplicates
+classes in first-seen order (carve#615).
+
+## Invisible lines inside line blocks
+
+Implementations formerly registered, exposed or duplicated definitions and
+comments inside line blocks in different combinations (carve#510, carve#573,
+carve-php#691). A later edge involved a comment-only verse line swallowed by an
+unclosed verbatim run and then reconstructed as a misplaced comment node
+(carve#1282, carve#1472).
+
+The current rule classifies comment-only lines at the block layer before inline
+runs exist. Other block-looking lines remain literal verse. Empty verse lines
+are represented by their boundary and canonicalized according to PART 11 §7c.
+
+## Canonical colon-fence width
+
+Canonical formatting writes nested colon fences from three colons outward,
+adding one colon per level. This makes fence choice local and deterministic but
+uses d² + 5d marker bytes at depth d. At the nesting cap of 200, the adversarial
+fixture expanded from 2,032 to 42,435 bytes, or 20.9x. Its widest fence was 202
+colons and 41,012 bytes, 96.6% of the result, were colon markers. An ordinary
+three-level nest spends 24 marker bytes. The trade was measured and retained
+because alternative minimal-width strategies require subtree inspection and
+would churn existing canonical output (carve#1546, carve#1553).
+
+## Canonical writer corrections
+
+Several writer rules were tightened after renderer equality hid source and AST
+changes:
+
+- Wrapper-dissolution mutations showed why the permitted wrapper set needs an
+  independent bound rather than only a whole-corpus round-trip check.
+- Writers applied conservative escaping to whole units. Per-occurrence testing
+  reduced the shared residue from 25 documents and 59 escapes to 5 documents
+  and 12 escapes (carve-js#1327, carve-php#1578, carve-rs#1254).
+- A historical document-scoped conclusion conflated the scope needed to resolve
+  references with the smaller unit that actually needs conservative output.
+  The current rule compares complete documents but escalates only the
+  smallest failing unit. Its optional procedure now lives in the
+  [writer escaping strategy](./writer-escaping-strategy).
+- Differential fuzzing found writers substituting comment and continuation
+  constructs that rendered alike but produced different ASTs (carve#544).
+- Markdown escaping changes must land together across engines because partial
+  adoption immediately creates byte-level target divergence (carve#961,
+  carve#970).
+
+These measurements explain the current invariants but are not themselves part
+of the writer algorithm.
+
+The historical escape sweep is particularly sensitive to its corpus pin. An
+early comparison mixed two corpus revisions and understated the improvement.
+At one shared pin, narrowing fallback scope retired 17 of 76 idle escapes;
+later per-opener testing reduced the residue to five documents and twelve
+escapes. The remaining counts described test methodology and implementation
+status, so they were removed from the normative writer procedure (carve#1507,
+carve#1532, carve#1533, carve#1549).
+
+## Renderer and AST convergence
+
+Several rules were originally accompanied by snapshots of which engine had
+implemented them. Those snapshots covered generated heading-attribute order,
+definition-list fields, strict AST ingest, block-image promotion, table-cell
+escaping, invisible comments in loose lists and unused definitions. They aged
+independently of the rules and sometimes contradicted current implementations.
+The specification now retains the required output or wire behavior only;
+implementation coverage belongs in generated conformance reports (carve#625,
+carve#637, carve#917, carve#994, carve#1551, carve#1601, carve#1624).
+
+## Inline spacing roles
+
+The grammar once widened padding slots to general whitespace because padding
+does not help recognize the surrounding construct (carve#878). That confused
+the slot's role with its position: inline padding remains ASCII space-only even
+when it is semantically optional (carve#901, carve#905).
+
+Four padding slots were also implemented as space runs while their productions
+required one exact space. The productions were retained and the implementations
+narrowed (carve#912). Inline attributes and table cells were reconciled to the
+same space-only model in carve#904 and carve#906. Marker separators remain a
+different role and take the cardinality their own productions declare
+(carve#892).
+
+The `lang` shorthand briefly carried a caveat because the executable checker
+merged a repeated boolean key differently from every engine. Before carve#1125,
+`{a=1 a}` became `a="1" a=""` in the checker instead of the last-value result
+`a=""`. The checker was corrected; boolean, key/value and `:lang` spellings now
+share one merge slot.
+
+## Clarifications moved out of active clauses
+
+Several current rules accumulated sentences describing what an older clause
+said rather than what the language does now. Those sentences were removed from
+the active algorithm together and are retained here for traceability:
+
+- Trailing ASCII space is discarded on every content line. An older paragraph
+  said the opposite for a run before a soft break, while PART 12 repeated the
+  rule at greater length (carve#926).
+- An unclosed comment fence degrades to a line comment instead of mirroring an
+  unclosed div. The older comment clause quoted a stale description of the div
+  behavior and would have hidden the rest of the document (carve#1717).
+- A below-column definition or attribute line that folds as text folds into
+  the open paragraph belonging to its container. The older text left that host
+  implicit, allowing a document-level reading (carve#1800).
+- HTML security requirements first lived only in `docs/security.md`; moving
+  them into PART 9 made them conformance requirements rather than guidance.
+- Non-HTML output of link-reference definitions became an explicit consequence
+  of PART 11 §10a when those definitions gained AST nodes.
+- Canonical table padding replaced writer guards for `<`, `>`, `~` and `{` in
+  the three glued table-prefix positions (carve#1601). The current writer rule
+  states the required strategy without narrating that transition.
+- `|{#x}< content |` is an older spelling for a cell attribute followed by an
+  alignment marker. It now parses as unaligned literal content; canonical form
+  puts the alignment run before the attributes.
+- PART 11 originally introduced its invariants because writer behavior had
+  been inferred from three implementations agreeing. That origin does not
+  qualify the current invariants.
+- A failed extension-definition probe originally collected the candidate line,
+  on the mistaken reasoning that declining it would delete the author's text.
+  Collecting is what removes a definition from visible output. Before the
+  correction, a 4,000-line stress case lost 3,858 lines; R1a now fails toward
+  keeping the authored text (carve#1881).
+- Canonical task markers once fell back to rendered checkbox state, turning
+  `[-]`, `[_]`, `[>]` and `[?]` into `[ ]`. The AST now retains the authored
+  state and the writer reproduces it (carve#1866).
+- Raw blocks formerly also accepted a `` ```raw FORMAT `` keyword spelling.
+  Block and inline raw now share the `=FORMAT` spelling.
+
+## AST position implementation history
+
+Position coverage used to be reported inside PART 12 with per-engine counts and
+an implementation backlog. Those figures became stale as engines shipped fixes.
+The lasting rule is structural: a contiguous authored node has an exact span; a
+node reassembled from discontiguous source may omit it; invented spans are never
+conformant.
+
+The original measurements found legitimate reassembly in line blocks and
+multi-line table cells, plus separate implementation gaps in capped containers,
+autolinks and reference-image captions (carve#490, carve#672). Carve-rb exposes
+carve-rs positions through its serializer, so a stale Rust pin can also appear
+as a Ruby conformance failure (carve-rb#41). Current status belongs in generated
+conformance reports, not the normative grammar.
+
+## NUL values at AST ingest
+
+All engines once accepted escaped or in-memory U+0000 values through AST ingest
+and then disagreed across render and canonical-write targets. This also exposed
+internal-sentinel collisions in footnote placement and abbreviation keys
+(carve-rs#1217, carve-js#1294). The current rule normalizes U+0000 to U+FFFD at
+every ingest boundary, matching source parsing. Raw U+0000 in JSON remains an
+RFC 8259 syntax error before Carve sees the value.
+
+## Resource-bound convergence
+
+Early implementations counted parser depth, JSON nesting, AST node depth and
+renderer recursion in different units. Reusing one numeric ceiling caused
+accepted trees to be truncated by later rendering passes. The lasting rule is
+to derive each bound from the parser limit using that representation's
+worst-case expansion. Per-engine measurements and the rollout status were
+removed from PART 9 and PART 12 (carve#494, carve#533).
+
+## Security target convergence
+
+URL filtering and C0-control handling first landed in individual renderers.
+That produced temporary differences between HTML, Markdown, terminal and plain
+text output, including dangerous schemes passed through one target and content
+deleted from another. The normative rule now states the sink-based behavior
+per target. Historical engine snapshots remain in carve#352, carve#765 and
+carve#979 rather than in the active security algorithm.
+
+## AST shape convergence
+
+The published AST once reflected implementation-specific grouping and
+resolution phases for definition lists, cross-references and reference
+definitions. Strict ingest also landed field by field, leaving combinations
+that silently defaulted invalid values or failed inside renderers. PART 12 now
+defines one schema-governed payload contract. The implementation surveys that
+motivated it are retained in carve#610, carve#642, carve#708 and carve#881.
+
+## Block-attribute line breaks
+
+PART 4 once named two neighboring questions it declined to decide. The first,
+a newline inside a quoted value, is now settled by A QUOTED VALUE STOPS AT THE
+NEWLINE. The second is still open and was measured rather than ruled:
+carve-php caps a block-attribute block at one line break where the other two
+engines and the executable checker accept any number. The clause states the
+grammar; the divergence is recorded here and pinned by carve#888 rather than
+inside the active algorithm.
+
+## Unquoted attribute values
+
+`unquoted_value` once admitted letters, digits, `-`, `_`, `.` and `:`, and the
+comment beside it said any other character had to be quoted. Every engine read
+much further, and `carve fmt` stripped the quotes off values the production
+rejected, which PART 11 does not permit a writer to emit. The production now
+names the characters that would end or restructure the block; what the three
+engines accepted at the time is recorded in carve#2440.
+
+## Blank table rows
+
+carve#1950 ruled that a standard row whose every cell was blank was not a
+table, so `||`, `|||`, `| | |` and `|= |` were paragraphs while `| a | |` and
+`|{.x} |` were tables. That made a single blank Djot cell (`| |`) impossible to
+import natively. carve#2879 replaced the rejection: T2 counts cell slots
+between explicit delimiters and never weighs their content (CARVE-P9-082).
+Source that was paragraph text may now open a table or interrupt a paragraph;
+an escaped delimiter keeps it literal. Corpus sections 113 and 453 keep their
+names because corpus numbering is append-only, and carry the new expectations.
+
+## Editorial markup and atomic inlines
+
+PART 8 ranks cross-references and autolinks above emphasis and editorial
+markup, and PART 9 E2b resolves a bracket run first, but the executable spec
+closed an insertion at a `+}` inside a cross-reference or a link label while
+all three engines kept the closer as content. The maintainer ruled on
+2026-10-15 that the spec text stands: `{+a </#x+}> b+}` is one insertion
+around the cross-reference, and a link inside an insertion keeps its own text.
+A substitution whose arrow ends a cross-reference, `{~a </#x~>y> b~}`, still
+splits there, the reading carve-js and the executable spec already shared.
+Corpus category 598 pins it.
+
+The same day the maintainer ruled that CARVE-P3-001's bracket scan skips an
+autolink: a `]` inside `<https://x]>` cannot close a label opened before it, so
+`[a <https://x]> b](u)` is one link, as a destination slot already was. An
+autolink body resolves no escapes, so the `]` had no other spelling. Corpus
+category 599 pins it.
+
+Later on 2026-10-15 the maintainer ruled three more splits under one
+principle: an autolink, a cross-reference and a comment are atomic, so no
+delimiter, closer, substitution arrow or bracket outside one reads inside it
+(PART 9 E2a). In `{~a <https://x~>y> b~}` the autolink stays whole and the
+`~>` that ends it is no arrow, so the pair is a strikethrough, where carve-js
+and the executable spec had split there. That supersedes the cross-reference
+reading recorded above: `{~a </#x~>y> b~}` is a strikethrough too, and corpus
+row 598-5 carries the new expectation. In `{+a {#x+}#} b+}` the comment hides
+the `+}`, so the insertion runs to the final closer, where carve-rs and the
+executable spec had closed inside the comment. In `[a </#x]> b](u)` the
+bracket scan skips the cross-reference (CARVE-P3-001), so the label holds it
+and the line is one link, where carve-php and the executable spec had closed
+inside it. A delimited comment `{% %}` is the same kind of opaque span: it
+hides an insertion closer, and the bracket scan skips it everywhere except an
+image alt, which is a literal slot where `{%` opens nothing. Corpus category
+605 pins the three inputs and their siblings.

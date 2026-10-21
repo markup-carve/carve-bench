@@ -105,17 +105,21 @@ Carve development-main engines on the identical document:
 The [core snapshot](reports/dev-main-core.json) and [Rust paired recheck](reports/rust-core-recheck-20261021-rerun.json) contain the displayed samples and source identities.
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).
 
-The published numbers are deliberately split into two tracks:
+The published numbers are split into four tracks:
 
 | Track | Question | Route | Peers |
 |---|---|---|---|
 | A: [direct HTML conversion](reports/dev-main-core.md) | How fast are the measured core examples through the default API? | Direct HTML route for these inputs | Same-language Djot/CommonMark libraries |
 | B: [full corpus and configured tiers](./RESULTS.md) | How does the whole language scale, and what do opt-in extensions cost? | Mixed 2,134-document corpus plus PHP Tier 1/2/3 | Carve implementations and internal tiers |
 | C: [structured document conversion](reports/realistic-engine.md) | How do pinned merged-main engines convert complete documentation files? | Full parse (AST) on three fixed public documents | Carve JavaScript, PHP, and Rust |
+| D: [authored documents against peers](reports/realistic-peer.crv) | How do the AST routes compare with same-language libraries on complete documents? | Carve AST route; peer libraries' normal HTML APIs | Djot and Markdown libraries in JavaScript, PHP, and Rust |
 
 The tracks use different inputs and routes. A Track-A library may avoid an
 owned public AST; Track B measures a concatenated stress input, and Track C
 measures complete authored documents that require full parsing in each engine.
+Track D uses three authored documents in native Carve, Djot, and Markdown
+formats. Its output projection checks matching rendered content; the peer APIs
+may use different internal representations and support different grammars.
 Competitors are absent from the full Carve corpus because they do not implement
 equivalent syntax there, so such rows would measure literal/error recovery
 rather than equal work.
@@ -143,6 +147,16 @@ To verify fixture conversion, use a built carve-js checkout at the
 `migrator_commit` in [provenance](corpus/realistic/provenance.json), then run
 `node scripts/realistic/fixtures.mjs <carve-repo> <migrator-checkout> --check`.
 The migrator commit is separate from the JavaScript engine pin used for timing.
+
+Track D has its own [engine pins](scripts/realistic/peer-pins.json) and
+[fixture provenance](corpus/realistic/peer/provenance.json). The
+[report](reports/realistic-peer.crv) links the raw process CPU samples and AST
+route checks. `peer-fixtures.mjs` verifies the three input formats;
+`peer-route-check.mjs` checks the Carve routes; `peer-run.mjs` checks projected
+HTML and records four rotating timing rounds. `peer-report.py` and
+`peer-chart.mjs` rebuild the report and chart from the raw record. The runners
+take pinned checkout paths through `CARVE_JS_TREE`, `CARVE_PHP_TREE`, and
+`CARVE_RS_TREE`; the comparison runner also takes `CARVE_RS_COMPARE_BIN`.
 
 The [historical final-audit paired comparison](reports/final-audit-pairs.md) retains
 the preceding published snapshot and the merged-main commits it measured. Its
