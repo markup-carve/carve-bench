@@ -153,8 +153,10 @@ Track D has its own [engine pins](scripts/realistic/peer-pins.json) and
 [report](reports/realistic-peer.crv) links the raw process CPU samples and AST
 route checks. `peer-fixtures.mjs` verifies the three input formats;
 `peer-route-check.mjs` checks the Carve routes; `peer-run.mjs` checks projected
-HTML and records four rotating timing rounds. `peer-report.py` and
-`peer-chart.mjs` rebuild the report and chart from the raw record. The runners
+HTML and records rotating timing rounds. The published comparison combines
+three recorded sessions (4, 4, and 8 rounds) with `peer-aggregate.mjs`;
+`peer-report.py` and `peer-chart.mjs` rebuild the report and chart from the
+combined record. The runners
 take pinned checkout paths through `CARVE_JS_TREE`, `CARVE_PHP_TREE`, and
 `CARVE_RS_TREE`; the comparison runner also takes `CARVE_RS_COMPARE_BIN`.
 

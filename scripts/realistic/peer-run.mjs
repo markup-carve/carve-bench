@@ -44,7 +44,7 @@ assert.equal(djotPhpCommit, '4ccf5ccf8f105e08bb32ceff7821c510d181457d')
 assert.equal(phpInstalled.find(row => row.name === 'php-collective/djot')?.source?.reference, djotPhpCommit)
 const iterations = { js: 30, php: 20, rs: 100 }
 const trials = 5
-const rounds = 4
+const rounds = 8
 const cpu = 12
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b)
