@@ -76,6 +76,13 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
     assert.equal((peerChart.match(/<circle /g) ?? []).length, 33)
     assert.equal(readFileSync(join(destination, 'reports/realistic-peer.json'), 'utf8'),
       readFileSync(new URL('reports/realistic-peer.json', root), 'utf8'))
+    const peerSessions = JSON.parse(readFileSync(new URL('reports/realistic-peer.json', root), 'utf8')).sessions
+    assert.equal(peerSessions.length, 3)
+    for (const session of peerSessions) {
+      assert.match(session.path, /^reports\/realistic-peer-runs\/[^/]+\.json$/)
+      assert.equal(readFileSync(join(destination, session.path), 'utf8'),
+        readFileSync(new URL(session.path, root), 'utf8'))
+    }
     assert.ok(html.includes('href="reports/final-audit-pairs.json"'))
     assert.ok(html.includes('reports/php-tier-balanced.json'))
     for (const tier of currentTierRecord.rows) assert.ok(html.includes(`<td>${tier.ms_per_op.toFixed(2)}</td>`))
