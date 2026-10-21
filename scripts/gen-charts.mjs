@@ -129,7 +129,7 @@ const commonmarkGroups = sharedRecord ? [{
 }] : []
 writeFileSync(resolve(root, 'charts/core-throughput.svg'), chart(
   'Core fixture throughput, Carve direct HTML route',
-  mainRecord ? `ASCII core examples, direct HTML route. Pipe tables: median process CPU; Rust leading pair uses 24 paired rounds, other rows two rounds. No-table JS: wall-time median.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
+  mainRecord ? `ASCII core examples, direct HTML route. Pipe tables: median process CPU; Rust leading pair uses 24 paired rounds, other rows two rounds. No-table JS: wall-time median${sharedRecord ? `; no-table panel: JS ${sharedRecord.metadata.carve_main?.commit.slice(0, 7) ?? 'release'}` : ''}. Carve commits: JS ${mainRecord.metadata.carve_main.js.commit.slice(0, 7)}, PHP ${mainRecord.metadata.carve_main.php.commit.slice(0, 7)}, Rust ${mainRecord.metadata.carve_main.rs.commit.slice(0, 7)}.` : 'ASCII core examples, direct HTML route. Fastest trial; compare within each panel.',
   [
     { name: `With pipe tables · 18 points (${comparisonDate}${mainRecord ? ', Carve dev-main' : ''})`, rows: [...allEngines].sort((a, b) => b.value - a.value) },
     ...commonmarkGroups.filter(group => group.rows.length).map(group => ({
