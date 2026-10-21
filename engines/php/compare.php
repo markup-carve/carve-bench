@@ -32,10 +32,15 @@ $render = match ($engine) {
 };
 for ($i = 0; $i < 20; $i++) { $render(); }
 $samples = [];
+$cpuSamples = [];
+$cpuSeconds = static fn (array $usage): float => ($usage['ru_utime.tv_sec'] + $usage['ru_stime.tv_sec'])
+    + ($usage['ru_utime.tv_usec'] + $usage['ru_stime.tv_usec']) / 1e6;
 for ($trial = 0; $trial < $trials; $trial++) {
     $start = hrtime(true);
+    $cpuStart = $cpuSeconds(getrusage());
     for ($i = 0; $i < $iterations; $i++) { $render(); }
     $samples[] = (hrtime(true) - $start) / 1e6 / $iterations;
+    $cpuSamples[] = ($cpuSeconds(getrusage()) - $cpuStart) * 1000 / $iterations;
 }
 $min = min($samples);
 $bytes = strlen($source);
@@ -47,6 +52,7 @@ $result = [
     'iterations' => $iterations,
     'trials' => $trials,
     'samples' => $samples,
+    'cpu_samples_ms' => $cpuSamples,
     'ms_per_op' => $min,
     'mb_per_s' => $bytes / 1048576 / ($min / 1000),
     'jit_on' => (@opcache_get_status(false)['jit']['on'] ?? false) === true,

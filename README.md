@@ -86,9 +86,9 @@ opt-in extensions registered**, against the fastest same-language peer.
 
 | Language | Carve | MB/s | Fastest peer | MB/s | Carve vs peer |
 |---|---|---:|---|---:|---:|
-| Rust | carve-rs | 131.02 | pulldown-cmark | 124.79 | 1.05x |
-| JavaScript | carve-js | 11.87 | markdown-it | 4.67 | 2.54x |
-| PHP | carve-php | 14.06 | djot-php | 17.39 | 0.81x |
+| Rust | carve-rs | 66.45 | pulldown-cmark | 84.63 | 0.79x |
+| JavaScript | carve-js | 7.49 | markdown-it | 4.26 | 1.76x |
+| PHP | carve-php | 12.47 | djot-php | 15.85 | 0.79x |
 
 ![Bar chart of core route throughput across every measured engine](./charts/core-throughput.svg)
 
@@ -98,9 +98,9 @@ Carve development-main engines on the identical document:
 
 | Engine | Language | ms/op | MB/s | rel |
 |---|---|---:|---:|---:|
-| carve-js | JavaScript | 5.0312 | 11.87 | 11.04x |
-| carve-php | PHP | 4.2476 | 14.06 | 9.32x |
-| carve-rs | Rust | 0.4559 | 131.02 | 1.00x |
+| carve-js | JavaScript | 7.9741 | 7.49 | 8.87x |
+| carve-php | PHP | 4.7916 | 12.47 | 5.33x |
+| carve-rs | Rust | 0.8989 | 66.45 | 1.00x |
 
 Current peer rows and measurement details are in [the dev-main report](reports/dev-main-core.md).
 Historical release rows and capability scoring remain in [COMPARISON.md](./COMPARISON.md).

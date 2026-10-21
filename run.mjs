@@ -106,10 +106,14 @@ for (const doc of docs) {
       const line = engine.run(resolve(corpusDir, doc), iters).trim().split('\n').pop()
       results[key][engine.name] = JSON.parse(line)
       const r = results[key][engine.name]
+      if (process.env.CARVE_FULL_REPORT && engine.name === 'carve-php' && r.jit !== true) {
+        throw new Error('PHP JIT is inactive; rerun with a clean PHP ini')
+      }
       const extra = r.jit !== undefined ? ` jit=${r.jit}` : ''
       console.error(`${key.padEnd(8)} ${engine.name.padEnd(10)} ${r.ms_per_op} ms/op${extra}`)
     } catch (e) {
       console.error(`${key} ${engine.name}: FAILED - ${e.message.split('\n')[0]}`)
+      if (process.env.CARVE_FULL_REPORT) throw e
       results[key][engine.name] = null
     }
   }
@@ -138,10 +142,14 @@ if (existsSync(TIER_DOC)) {
         { encoding: 'utf8', env: process.env },
       ).trim().split('\n').pop()
       const tier = JSON.parse(line)
+      if (process.env.CARVE_FULL_REPORT && tier.jit !== true) {
+        throw new Error(`PHP JIT is inactive for ${profile}`)
+      }
       tiers.push(tier)
       console.error(`${profile.padEnd(8)} carve-php  ${tier.ms_per_op.toFixed(2)} ms/op jit=${tier.jit}`)
     } catch (e) {
       console.error(`${profile} carve-php: FAILED - ${e.message.split('\n')[0]}`)
+      if (process.env.CARVE_FULL_REPORT) throw e
     }
   }
 }
@@ -179,6 +187,7 @@ else if (fullRecord) lines.push(`**Run:** ${fullRecord.metadata.completed_at}; s
 lines.push(affinityDescription(cpuAffinity()), '')
 if (fullRecord) lines.push(`One-minute host load was ${fullRecord.metadata.load_start[0].toFixed(2)} at start and ${fullRecord.metadata.load_end[0].toFixed(2)} at end. CPU affinity does not reserve a core; these shared-host samples do not isolate code speedups.`, '')
 if (fullRecord) lines.push('The `rel` column compares elapsed time. Check the', '[output byte counts and hashes](reports/dev-main-full-output-controls.json)', 'before treating cross-engine results as equal work.', '')
+if (fullRecord) lines.push('PHP output controls use a clean configuration without JIT, while these timings use tracing JIT.', '')
 lines.push(`**Engines measured:** ${describeEngines()}`, '')
 if (process.env.CARVE_CORPUS_SNAPSHOT) lines.push(`**Corpus snapshot:** ${process.env.CARVE_CORPUS_SNAPSHOT}`, '')
 else if (fullRecord) lines.push('**Corpus snapshot:** Fixed committed corpus; input hashes are recorded in the full-run JSON.', '')

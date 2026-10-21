@@ -161,9 +161,14 @@ writeFileSync(resolve(root, 'charts/php-tiers.svg'), chart(
   'carve-php extension profile throughput',
   (() => {
     const fullPath = resolve(root, 'reports/dev-main-full.json')
+    const balancedPath = resolve(root, 'reports/php-tier-balanced.json')
     const paired = JSON.parse(readFileSync(resolve(root, 'reports/php-tier-pairs.json')))
     if (!existsSync(fullPath)) return `Balanced paired recheck; median of eight round medians. PHP ${paired.metadata.sources.published.commit.slice(0, 9)}.`
     const commit = JSON.parse(readFileSync(fullPath)).metadata.source_commits.php.commit
+    const balanced = existsSync(balancedPath) ? JSON.parse(readFileSync(balancedPath)) : null
+    if (balanced?.metadata.source_commit === commit) {
+      return `Same-process alternating run; median of ${balanced.rows[0].rounds} rounds. PHP ${commit.slice(0, 9)}.`
+    }
     return paired.metadata.sources.published.commit === commit
       ? `Balanced paired recheck; median of eight round medians. PHP ${commit.slice(0, 9)}.`
       : `Current unpaired full-corpus run. PHP ${commit.slice(0, 9)}.`

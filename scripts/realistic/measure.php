@@ -3,6 +3,10 @@
 declare(strict_types=1);
 
 require $argv[1] . '/vendor/autoload.php';
+$jit = (@opcache_get_status(false)['jit']['on'] ?? false) === true;
+if (!$jit) {
+    throw new RuntimeException('PHP tracing JIT is inactive');
+}
 $source = file_get_contents($argv[2]);
 $run = static fn () => (new MarkupCarve\Carve\CarveConverter())->convert($source);
 for ($i = 0; $i < (int) $argv[4]; $i++) {
@@ -21,5 +25,5 @@ for ($i = 0; $i < (int) $argv[3]; $i++) {
         + ($after['ru_stime.tv_sec'] - $before['ru_stime.tv_sec']) * 1000000
         + $after['ru_stime.tv_usec'] - $before['ru_stime.tv_usec']) / 1000;
 }
-echo json_encode(['samples_ms' => $samples, 'cpu_samples_ms' => $cpuSamples,
+echo json_encode(['samples_ms' => $samples, 'cpu_samples_ms' => $cpuSamples, 'jit' => $jit,
     'hash' => hash('sha256', serialize($output))], JSON_THROW_ON_ERROR), "\n";
