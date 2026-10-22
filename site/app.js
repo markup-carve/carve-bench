@@ -47,5 +47,8 @@ fetch('evidence.json').then(response => {
   select.addEventListener('change', render)
   render()
 }).catch(() => {
-  chart.textContent = 'Interactive chart unavailable. The measured tables and SVG chart below remain available.'
+  document.getElementById('filter-controls').hidden = true
+  const message = document.createElement('p')
+  message.textContent = 'Interactive chart unavailable. The measured chart, tables, and SVG below remain available.'
+  chart.prepend(message)
 })

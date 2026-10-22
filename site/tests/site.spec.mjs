@@ -1,5 +1,19 @@
 import { test, expect } from '@playwright/test'
 
+test('deep link stays at the peer section while charts load', async ({ page }) => {
+  await page.route('**/evidence.json', async route => {
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    await route.continue()
+  })
+  await page.goto('./#realistic-peers', { waitUntil: 'domcontentloaded' })
+  const top = () => page.locator('#realistic-peers').evaluate(section => section.getBoundingClientRect().top)
+  await expect.poll(top).toBeGreaterThan(0)
+  await expect.poll(top).toBeLessThan(100)
+  await expect(page.locator('.bars li')).toHaveCount(14)
+  await page.waitForTimeout(250)
+  expect(await top()).toBeLessThan(100)
+})
+
 test('language filter uses measured rows and downloads match the report', async ({ page, request }) => {
   const data = await (await request.get('evidence.json')).json()
   const errors = []
