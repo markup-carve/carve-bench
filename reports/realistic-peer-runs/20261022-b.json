@@ -1,0 +1,6024 @@
+{
+  "schema": 1,
+  "generated_at": "2026-10-22T14:40:33.419Z",
+  "source_commits": {
+    "js": "2ce388c2897f2a93e13de8832b3d1c3a5788735c",
+    "php": "3cb9553ffa8f9c98838fa029089c5b7d3abc42bc",
+    "rs": "47fdd7e487fc793133cf6af8396f653975454dd9"
+  },
+  "benchmark_commit": "7c7463669d344db4756124c35d735074699ebd58",
+  "fixture_provenance_sha256": "5135474dc99bd8321baa53d635b903383129d5010f4edc3b0225c1a2c9cd06b1",
+  "binary_sha256": "1279ea0cabe1ea59b137c3f6c71cee610d0e04df78f4ddbf56d5087dbf1d992b",
+  "harness_sha256": {
+    "scripts/realistic/peer-run.mjs": "5ae49011a689565194f68355616f1a9f04aa16a1c657023bafb06ba0e70ff12a",
+    "engines/js/compare.mjs": "5aabf92d2cb5f35042559581d996903e47984315f756260ffb9b3bdd3d49a5af",
+    "engines/php/compare.php": "84bdf1097383a18bc8391a2f166e2e1919efedc5c9de0413e95052f117d4c82f",
+    "engines/rs/src/compare.rs": "a6c25d43215849dddae73ec40bfd71158a6a7cea1e3a99d5b531e28d4afd08d8"
+  },
+  "dependency_lock_sha256": {
+    "engines/js/package-lock.json": "d8c120bedeffa8ca27f5736e66859a5c16bd007c54a7c7aa7f9c5910573ae699",
+    "scripts/realistic/peer-composer.lock": "6aad3f4bbc9a12f641ba8e06706047f7d9c495c04c60ed0bbfbd24693bb3768d",
+    "reports/dev-main-rust.Cargo.lock": "04d34bec6e30a54bb24f42f2f32baedef68e7cdbe93fc57724ea3b1dbdd493d0"
+  },
+  "host": "linux 7.0.0-38-generic",
+  "logical_cpus": 16,
+  "cpu_affinity": [
+    12
+  ],
+  "load_start": [
+    5.34,
+    6.3,
+    7.58
+  ],
+  "load_end": [
+    5.79,
+    6.24,
+    7.45
+  ],
+  "rounds": 8,
+  "trials_per_round": 5,
+  "iterations": {
+    "js": 30,
+    "php": 20,
+    "rs": 100
+  },
+  "order": [
+    {
+      "round": 1,
+      "document": "terms",
+      "load": [
+        5.34,
+        6.3,
+        7.58
+      ],
+      "engines": [
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark"
+      ]
+    },
+    {
+      "round": 1,
+      "document": "case-study-parsing-ast",
+      "load": [
+        5.34,
+        6.3,
+        7.58
+      ],
+      "engines": [
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js"
+      ]
+    },
+    {
+      "round": 1,
+      "document": "spec-history",
+      "load": [
+        5.15,
+        6.24,
+        7.56
+      ],
+      "engines": [
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js"
+      ]
+    },
+    {
+      "round": 2,
+      "document": "case-study-parsing-ast",
+      "load": [
+        5.06,
+        6.21,
+        7.54
+      ],
+      "engines": [
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it"
+      ]
+    },
+    {
+      "round": 2,
+      "document": "spec-history",
+      "load": [
+        5.06,
+        6.21,
+        7.54
+      ],
+      "engines": [
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js"
+      ]
+    },
+    {
+      "round": 2,
+      "document": "terms",
+      "load": [
+        5.29,
+        6.24,
+        7.54
+      ],
+      "engines": [
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php"
+      ]
+    },
+    {
+      "round": 3,
+      "document": "spec-history",
+      "load": [
+        5.27,
+        6.21,
+        7.53
+      ],
+      "engines": [
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php"
+      ]
+    },
+    {
+      "round": 3,
+      "document": "terms",
+      "load": [
+        5.09,
+        6.16,
+        7.5
+      ],
+      "engines": [
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm"
+      ]
+    },
+    {
+      "round": 3,
+      "document": "case-study-parsing-ast",
+      "load": [
+        5.09,
+        6.16,
+        7.5
+      ],
+      "engines": [
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs"
+      ]
+    },
+    {
+      "round": 4,
+      "document": "terms",
+      "load": [
+        5.08,
+        6.14,
+        7.49
+      ],
+      "engines": [
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown"
+      ]
+    },
+    {
+      "round": 4,
+      "document": "case-study-parsing-ast",
+      "load": [
+        5.08,
+        6.14,
+        7.49
+      ],
+      "engines": [
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak"
+      ]
+    },
+    {
+      "round": 4,
+      "document": "spec-history",
+      "load": [
+        5.47,
+        6.21,
+        7.5
+      ],
+      "engines": [
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark"
+      ]
+    },
+    {
+      "round": 5,
+      "document": "case-study-parsing-ast",
+      "load": [
+        6,
+        6.3,
+        7.53
+      ],
+      "engines": [
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js"
+      ]
+    },
+    {
+      "round": 5,
+      "document": "spec-history",
+      "load": [
+        6.24,
+        6.35,
+        7.53
+      ],
+      "engines": [
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js"
+      ]
+    },
+    {
+      "round": 5,
+      "document": "terms",
+      "load": [
+        6.3,
+        6.36,
+        7.53
+      ],
+      "engines": [
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it"
+      ]
+    },
+    {
+      "round": 6,
+      "document": "spec-history",
+      "load": [
+        6.3,
+        6.36,
+        7.53
+      ],
+      "engines": [
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js"
+      ]
+    },
+    {
+      "round": 6,
+      "document": "terms",
+      "load": [
+        6.44,
+        6.39,
+        7.53
+      ],
+      "engines": [
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php"
+      ]
+    },
+    {
+      "round": 6,
+      "document": "case-study-parsing-ast",
+      "load": [
+        6.16,
+        6.33,
+        7.51
+      ],
+      "engines": [
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php"
+      ]
+    },
+    {
+      "round": 7,
+      "document": "terms",
+      "load": [
+        6.23,
+        6.34,
+        7.51
+      ],
+      "engines": [
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm"
+      ]
+    },
+    {
+      "round": 7,
+      "document": "case-study-parsing-ast",
+      "load": [
+        6.23,
+        6.34,
+        7.51
+      ],
+      "engines": [
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs"
+      ]
+    },
+    {
+      "round": 7,
+      "document": "spec-history",
+      "load": [
+        6.13,
+        6.32,
+        7.49
+      ],
+      "engines": [
+        "comrak",
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown"
+      ]
+    },
+    {
+      "round": 8,
+      "document": "case-study-parsing-ast",
+      "load": [
+        6.12,
+        6.31,
+        7.49
+      ],
+      "engines": [
+        "pulldown-cmark",
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak"
+      ]
+    },
+    {
+      "round": 8,
+      "document": "spec-history",
+      "load": [
+        6.12,
+        6.31,
+        7.49
+      ],
+      "engines": [
+        "carve-js",
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark"
+      ]
+    },
+    {
+      "round": 8,
+      "document": "terms",
+      "load": [
+        6.03,
+        6.29,
+        7.47
+      ],
+      "engines": [
+        "djot.js",
+        "markdown-it",
+        "commonmark.js",
+        "carve-php",
+        "djot-php",
+        "league/commonmark-gfm",
+        "carve-rs",
+        "jotdown",
+        "comrak",
+        "pulldown-cmark",
+        "carve-js"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "document": "terms",
+      "engine": "carve-js",
+      "source_sha256": "ffaefa8835272c20d50d402d0931eb0155280bb252b49ec7bd21de526c4c5cca",
+      "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "djot.js",
+      "source_sha256": "90b710d634e79af697010dc1f8b8de13b56019511bf1057bf768bf02e29cbfbc",
+      "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "markdown-it",
+      "source_sha256": "13a1aa3db36e47a6084bbd4dee6554f201a961e74415779207f5e18faa25390d",
+      "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "commonmark.js",
+      "source_sha256": "13a1aa3db36e47a6084bbd4dee6554f201a961e74415779207f5e18faa25390d",
+      "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "carve-php",
+      "source_sha256": "ffaefa8835272c20d50d402d0931eb0155280bb252b49ec7bd21de526c4c5cca",
+      "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "djot-php",
+      "source_sha256": "90b710d634e79af697010dc1f8b8de13b56019511bf1057bf768bf02e29cbfbc",
+      "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "league/commonmark-gfm",
+      "source_sha256": "13a1aa3db36e47a6084bbd4dee6554f201a961e74415779207f5e18faa25390d",
+      "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "carve-rs",
+      "source_sha256": "ffaefa8835272c20d50d402d0931eb0155280bb252b49ec7bd21de526c4c5cca",
+      "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "jotdown",
+      "source_sha256": "90b710d634e79af697010dc1f8b8de13b56019511bf1057bf768bf02e29cbfbc",
+      "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "comrak",
+      "source_sha256": "13a1aa3db36e47a6084bbd4dee6554f201a961e74415779207f5e18faa25390d",
+      "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "terms",
+      "engine": "pulldown-cmark",
+      "source_sha256": "13a1aa3db36e47a6084bbd4dee6554f201a961e74415779207f5e18faa25390d",
+      "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653",
+      "projection_sha256": "38a472569964da9a9e65bc61badb226dfe35f0af5fc640107160db8117ebf92e",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "carve-js",
+      "source_sha256": "fa8f36b1002cd25ff270400464ff77a95166a135faf30a3e39731f0944c669fe",
+      "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "djot.js",
+      "source_sha256": "bad921d1e00193e34b3a411d1d4ae8b9f77d92c296ef8c995aa56df0a086dede",
+      "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "markdown-it",
+      "source_sha256": "fcbe6272455505ebfd8c38f0f43f0a4cbefd09eddbe86461d1e30016a5f85321",
+      "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "commonmark.js",
+      "source_sha256": "fcbe6272455505ebfd8c38f0f43f0a4cbefd09eddbe86461d1e30016a5f85321",
+      "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "carve-php",
+      "source_sha256": "fa8f36b1002cd25ff270400464ff77a95166a135faf30a3e39731f0944c669fe",
+      "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "djot-php",
+      "source_sha256": "bad921d1e00193e34b3a411d1d4ae8b9f77d92c296ef8c995aa56df0a086dede",
+      "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "league/commonmark-gfm",
+      "source_sha256": "fcbe6272455505ebfd8c38f0f43f0a4cbefd09eddbe86461d1e30016a5f85321",
+      "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "carve-rs",
+      "source_sha256": "fa8f36b1002cd25ff270400464ff77a95166a135faf30a3e39731f0944c669fe",
+      "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "jotdown",
+      "source_sha256": "bad921d1e00193e34b3a411d1d4ae8b9f77d92c296ef8c995aa56df0a086dede",
+      "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "comrak",
+      "source_sha256": "fcbe6272455505ebfd8c38f0f43f0a4cbefd09eddbe86461d1e30016a5f85321",
+      "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "pulldown-cmark",
+      "source_sha256": "fcbe6272455505ebfd8c38f0f43f0a4cbefd09eddbe86461d1e30016a5f85321",
+      "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9",
+      "projection_sha256": "2a3eb039e7ad37c7a125dfb0be2ffca618b01530cc42398e921181e0973b191d",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "carve-js",
+      "source_sha256": "ed52bd80728b39b6ab7f851da031ee4439cec28d054064413341779d7daaf5ff",
+      "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "djot.js",
+      "source_sha256": "4fb2d6b7ab14935da849ed071b0c07fa20fdcba8dbd706e8463cacb1af297a9e",
+      "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "markdown-it",
+      "source_sha256": "9b81c2ba0a5daf6686decf2bf6ca0823a84cd1d172af1404ffc0466464c13063",
+      "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "commonmark.js",
+      "source_sha256": "9b81c2ba0a5daf6686decf2bf6ca0823a84cd1d172af1404ffc0466464c13063",
+      "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "carve-php",
+      "source_sha256": "ed52bd80728b39b6ab7f851da031ee4439cec28d054064413341779d7daaf5ff",
+      "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "djot-php",
+      "source_sha256": "4fb2d6b7ab14935da849ed071b0c07fa20fdcba8dbd706e8463cacb1af297a9e",
+      "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "league/commonmark-gfm",
+      "source_sha256": "9b81c2ba0a5daf6686decf2bf6ca0823a84cd1d172af1404ffc0466464c13063",
+      "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "carve-rs",
+      "source_sha256": "ed52bd80728b39b6ab7f851da031ee4439cec28d054064413341779d7daaf5ff",
+      "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "jotdown",
+      "source_sha256": "4fb2d6b7ab14935da849ed071b0c07fa20fdcba8dbd706e8463cacb1af297a9e",
+      "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "comrak",
+      "source_sha256": "9b81c2ba0a5daf6686decf2bf6ca0823a84cd1d172af1404ffc0466464c13063",
+      "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    },
+    {
+      "document": "spec-history",
+      "engine": "pulldown-cmark",
+      "source_sha256": "9b81c2ba0a5daf6686decf2bf6ca0823a84cd1d172af1404ffc0466464c13063",
+      "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df",
+      "projection_sha256": "fd19644767543073c5cdfb0db7eea1866fe79dff097cca99ddabf3c6502e5543",
+      "code_span_space_exceptions": []
+    }
+  ],
+  "rows": [
+    {
+      "document": "terms",
+      "engine": "carve-js",
+      "language": "js",
+      "extension": "crv",
+      "input_bytes": 3182,
+      "rounds": [
+        {
+          "samples_ms": [
+            2.1305381,
+            1.7381637666666667,
+            1.3422944333333333,
+            1.5340488333333333,
+            0.9487398
+          ],
+          "cpu_samples_ms": [
+            2.1303,
+            1.7384,
+            1.3425333333333334,
+            1.5333333333333334,
+            0.9491666666666667
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            1.9195236333333334,
+            1.6411814666666666,
+            1.3647756000000002,
+            1.2782501666666666,
+            0.9141930666666667
+          ],
+          "cpu_samples_ms": [
+            1.9192333333333333,
+            1.6414666666666666,
+            1.3645333333333334,
+            1.2779666666666667,
+            0.9145666666666667
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            1.9905926,
+            1.6235548666666666,
+            1.3982173,
+            1.4370972666666666,
+            0.9724454
+          ],
+          "cpu_samples_ms": [
+            1.9904666666666666,
+            1.6233666666666666,
+            1.3980333333333335,
+            1.4369333333333332,
+            0.9725
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            2.3802312333333333,
+            2.1159493333333335,
+            1.5927299,
+            1.4807846666666669,
+            0.7810504666666667
+          ],
+          "cpu_samples_ms": [
+            2.3793333333333333,
+            2.1158333333333332,
+            1.5929666666666666,
+            1.4810666666666668,
+            0.7814666666666666
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            2.0919158,
+            1.9493359000000001,
+            1.7210777666666668,
+            1.4550835666666666,
+            0.9453162333333334
+          ],
+          "cpu_samples_ms": [
+            2.091833333333333,
+            1.9496,
+            1.7201333333333333,
+            1.4548999999999999,
+            0.9449333333333333
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            2.1105912666666664,
+            1.8867084333333333,
+            1.1776795,
+            1.4347177666666666,
+            0.9764281666666667
+          ],
+          "cpu_samples_ms": [
+            2.1108333333333333,
+            1.8864666666666667,
+            1.1779333333333333,
+            1.4345333333333334,
+            0.9767666666666667
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            2.0484563666666666,
+            1.9163372333333333,
+            1.4344015666666665,
+            1.4302439999999998,
+            0.7922715666666666
+          ],
+          "cpu_samples_ms": [
+            2.0486333333333335,
+            1.9162666666666666,
+            1.4344999999999999,
+            1.4301333333333335,
+            0.7927
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            2.307332166666667,
+            2.0568091666666666,
+            1.6048441333333334,
+            1.6021043000000001,
+            0.8156923333333334
+          ],
+          "cpu_samples_ms": [
+            2.307533333333333,
+            2.0570333333333335,
+            1.6048333333333333,
+            1.6022,
+            0.8152
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        }
+      ],
+      "median_cpu_ms": 1.56315,
+      "median_wall_ms": 1.5633893666666667,
+      "round_median_cpu_ms": [
+        1.5333333333333334,
+        1.3645333333333334,
+        1.4369333333333332,
+        1.5929666666666666,
+        1.7201333333333333,
+        1.4345333333333334,
+        1.4344999999999999,
+        1.6048333333333333
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "djot.js",
+      "language": "js",
+      "extension": "dj",
+      "input_bytes": 3220,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.5371324,
+            0.6637334666666667,
+            0.6994185,
+            0.7212582666666666,
+            0.6269139333333332
+          ],
+          "cpu_samples_ms": [
+            1.5373666666666668,
+            0.6636000000000001,
+            0.6997333333333333,
+            0.7215333333333334,
+            0.6269666666666667
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.1429146666666665,
+            0.5338852333333333,
+            0.6188387,
+            0.7308727333333334,
+            0.4186477333333333
+          ],
+          "cpu_samples_ms": [
+            1.1431333333333333,
+            0.5341666666666666,
+            0.6188666666666667,
+            0.7311,
+            0.4191333333333333
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.3576458666666666,
+            0.5791359,
+            0.8139997666666667,
+            0.8286074333333333,
+            0.6678775333333333
+          ],
+          "cpu_samples_ms": [
+            1.3578333333333332,
+            0.5794333333333334,
+            0.8142666666666667,
+            0.8284666666666667,
+            0.6676333333333333
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.2117854666666665,
+            0.6597672333333333,
+            0.6017420666666666,
+            0.5903665,
+            0.5004807
+          ],
+          "cpu_samples_ms": [
+            1.2120333333333333,
+            0.6600666666666667,
+            0.6016999999999999,
+            0.5905666666666666,
+            0.5007333333333334
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.4109570333333332,
+            0.6542749333333333,
+            0.8871040333333333,
+            1.1832566666666666,
+            0.7693427666666667
+          ],
+          "cpu_samples_ms": [
+            1.4112666666666667,
+            0.6546000000000001,
+            0.8873666666666666,
+            1.1833333333333333,
+            0.7696000000000001
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.9044215333333334,
+            0.7389369,
+            0.3694714666666667,
+            0.961032,
+            0.9708429
+          ],
+          "cpu_samples_ms": [
+            0.9042,
+            0.7392,
+            0.3697666666666667,
+            0.9611,
+            0.9711666666666667
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.3363299,
+            0.5384974666666668,
+            0.9282844,
+            0.9875068666666666,
+            0.45471653333333334
+          ],
+          "cpu_samples_ms": [
+            1.3365333333333331,
+            0.5385000000000001,
+            0.9286666666666666,
+            0.9878,
+            0.4552333333333333
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.3464465333333335,
+            0.7986223333333334,
+            0.5296781666666667,
+            0.7156255666666667,
+            0.6182221333333333
+          ],
+          "cpu_samples_ms": [
+            1.3467,
+            0.7989333333333334,
+            0.5299666666666666,
+            0.7159666666666666,
+            0.6181666666666668
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        }
+      ],
+      "median_cpu_ms": 0.7263166666666667,
+      "median_wall_ms": 0.7260655,
+      "round_median_cpu_ms": [
+        0.6997333333333333,
+        0.6188666666666667,
+        0.8142666666666667,
+        0.6016999999999999,
+        0.8873666666666666,
+        0.9042,
+        0.9286666666666666,
+        0.7159666666666666
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "markdown-it",
+      "language": "js",
+      "extension": "md",
+      "input_bytes": 3105,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.4068769333333333,
+            0.8527420666666666,
+            0.24413113333333333,
+            0.33590356666666665,
+            0.5171744333333333
+          ],
+          "cpu_samples_ms": [
+            1.4066666666666667,
+            0.8533000000000001,
+            0.2445,
+            0.3362,
+            0.5195666666666666
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.2678825333333335,
+            1.2016996,
+            0.36461816666666663,
+            0.5891251000000001,
+            0.4482564666666667
+          ],
+          "cpu_samples_ms": [
+            1.2681333333333333,
+            1.2019,
+            0.3650333333333334,
+            0.5889333333333333,
+            0.45203333333333334
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.7190325666666666,
+            0.8658977,
+            0.24928286666666669,
+            0.4002252333333333,
+            0.4269809
+          ],
+          "cpu_samples_ms": [
+            1.7189333333333332,
+            0.8662333333333333,
+            0.24969999999999998,
+            0.4005666666666666,
+            0.4295666666666667
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.1463172333333334,
+            0.866917,
+            0.2329062,
+            0.33406036666666666,
+            0.4374610666666667
+          ],
+          "cpu_samples_ms": [
+            1.1465333333333334,
+            0.8671333333333333,
+            0.23316666666666666,
+            0.3344,
+            0.4398666666666667
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.6076647666666666,
+            0.8034830666666667,
+            0.24448783333333332,
+            0.43666363333333336,
+            0.21006366666666668
+          ],
+          "cpu_samples_ms": [
+            1.6078666666666666,
+            0.8034333333333333,
+            0.24486666666666668,
+            0.4371333333333334,
+            0.2124
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.8742504999999998,
+            1.1923526,
+            0.29759236666666666,
+            0.7197612666666667,
+            0.4481794333333333
+          ],
+          "cpu_samples_ms": [
+            1.8745333333333332,
+            1.1926666666666668,
+            0.2980333333333334,
+            0.7196333333333332,
+            0.45139999999999997
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.5438233666666668,
+            0.8599173,
+            0.27053953333333336,
+            0.3693455666666667,
+            0.48528103333333333
+          ],
+          "cpu_samples_ms": [
+            1.5441333333333334,
+            0.8596,
+            0.27090000000000003,
+            0.36963333333333337,
+            0.48793333333333333
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.1650354333333333,
+            1.2629932333333334,
+            0.24335040000000002,
+            0.5395341666666666,
+            0.3061897
+          ],
+          "cpu_samples_ms": [
+            1.1652,
+            1.2633,
+            0.24366666666666664,
+            0.5392666666666667,
+            0.3084
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        }
+      ],
+      "median_cpu_ms": 0.5037499999999999,
+      "median_wall_ms": 0.5012277333333334,
+      "round_median_cpu_ms": [
+        0.5195666666666666,
+        0.5889333333333333,
+        0.4295666666666667,
+        0.4398666666666667,
+        0.4371333333333334,
+        0.7196333333333332,
+        0.48793333333333333,
+        0.5392666666666667
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "commonmark.js",
+      "language": "js",
+      "extension": "md",
+      "input_bytes": 3105,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.8936149,
+            0.45752126666666665,
+            0.37279619999999997,
+            0.31675656666666663,
+            0.21367370000000002
+          ],
+          "cpu_samples_ms": [
+            0.8939666666666667,
+            0.4577,
+            0.3730333333333334,
+            0.3171,
+            0.2142
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.8909534,
+            0.5341874666666667,
+            0.4990052,
+            0.2693084333333333,
+            0.1573732
+          ],
+          "cpu_samples_ms": [
+            0.8907666666666666,
+            0.5344666666666666,
+            0.4993666666666667,
+            0.26993333333333336,
+            0.1578
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.0153556,
+            0.4284022333333333,
+            0.4866728666666667,
+            0.29349190000000003,
+            0.0709837
+          ],
+          "cpu_samples_ms": [
+            1.0155666666666667,
+            0.4287,
+            0.48706666666666665,
+            0.29383333333333334,
+            0.07116666666666666
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.0406638666666668,
+            0.43869743333333333,
+            0.2824116,
+            0.16687353333333332,
+            0.2519442333333333
+          ],
+          "cpu_samples_ms": [
+            1.041,
+            0.43906666666666666,
+            0.28273333333333334,
+            0.16740000000000002,
+            0.2518333333333333
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.3550548666666666,
+            0.5033184666666667,
+            0.6212213333333333,
+            0.07787843333333333,
+            0.29572516666666665
+          ],
+          "cpu_samples_ms": [
+            1.3552666666666666,
+            0.5036333333333334,
+            0.6215333333333334,
+            0.0781,
+            0.29616666666666663
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.0184644333333333,
+            0.4815890333333333,
+            0.5267976333333333,
+            0.1801564,
+            0.15578656666666665
+          ],
+          "cpu_samples_ms": [
+            1.0186666666666666,
+            0.48219999999999996,
+            0.5271333333333333,
+            0.18043333333333333,
+            0.1561
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.7873309000000001,
+            0.6762762999999999,
+            0.17577576666666667,
+            0.6453958333333334,
+            0.10550306666666667
+          ],
+          "cpu_samples_ms": [
+            0.7875333333333334,
+            0.6766,
+            0.17613333333333334,
+            0.6458333333333334,
+            0.10573333333333333
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.1944815,
+            0.49367703333333335,
+            0.4543522,
+            0.46589406666666666,
+            0.1580686
+          ],
+          "cpu_samples_ms": [
+            1.1948333333333332,
+            0.49356666666666665,
+            0.45466666666666666,
+            0.46623333333333333,
+            0.15863333333333335
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        }
+      ],
+      "median_cpu_ms": 0.45618333333333333,
+      "median_wall_ms": 0.4559367333333333,
+      "round_median_cpu_ms": [
+        0.3730333333333334,
+        0.4993666666666667,
+        0.4287,
+        0.28273333333333334,
+        0.5036333333333334,
+        0.48219999999999996,
+        0.6458333333333334,
+        0.46623333333333333
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "carve-php",
+      "language": "php",
+      "extension": "crv",
+      "input_bytes": 3182,
+      "rounds": [
+        {
+          "samples_ms": [
+            3.4915621999999997,
+            1.2675862,
+            1.14015045,
+            1.10946875,
+            1.1938483
+          ],
+          "cpu_samples_ms": [
+            3.4914500000000017,
+            1.2675999999999994,
+            1.1401999999999997,
+            1.1094999999999993,
+            1.1933500000000012
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.3543823,
+            1.24562025,
+            1.1130764,
+            1.0909520000000001,
+            1.2023068000000001
+          ],
+          "cpu_samples_ms": [
+            3.3532,
+            1.2457000000000025,
+            1.1131000000000002,
+            1.091049999999999,
+            1.2024000000000006
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.5812243500000003,
+            1.2481987,
+            1.2767487499999999,
+            1.20790295,
+            1.36187685
+          ],
+          "cpu_samples_ms": [
+            3.5806499999999994,
+            1.248249999999998,
+            1.2768500000000016,
+            1.2079499999999992,
+            1.3619500000000007
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.2974547999999997,
+            1.0885365,
+            1.095659,
+            1.078493,
+            1.1895307000000002
+          ],
+          "cpu_samples_ms": [
+            3.2969,
+            1.0886000000000007,
+            1.0957000000000021,
+            1.0785999999999991,
+            1.1896000000000018
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.4164941499999997,
+            1.16064015,
+            1.1781252500000001,
+            1.1915111,
+            1.2529002999999999
+          ],
+          "cpu_samples_ms": [
+            3.4164000000000003,
+            1.1607499999999993,
+            1.17815,
+            1.1909500000000017,
+            1.2529999999999986
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.3675812499999997,
+            1.2417422999999999,
+            1.23422005,
+            1.11331465,
+            1.5536948499999998
+          ],
+          "cpu_samples_ms": [
+            3.3671499999999996,
+            1.2411000000000005,
+            1.2332499999999995,
+            1.1134500000000018,
+            1.5537999999999996
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.4783581,
+            1.238386,
+            1.15744625,
+            1.1208224,
+            1.435952
+          ],
+          "cpu_samples_ms": [
+            3.477249999999999,
+            1.237149999999998,
+            1.1574500000000014,
+            1.1208499999999983,
+            1.436000000000004
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        },
+        {
+          "samples_ms": [
+            3.6181357,
+            1.2428015000000001,
+            1.1503925000000002,
+            1.09756505,
+            1.23254655
+          ],
+          "cpu_samples_ms": [
+            3.618099999999999,
+            1.2428999999999994,
+            1.149799999999998,
+            1.09765,
+            1.2326500000000018
+          ],
+          "output_sha256": "b753df2fa0542e47a00bae4d7aeb95f9489809d09a7a275787093f2e7225ceca"
+        }
+      ],
+      "median_cpu_ms": 1.2329500000000007,
+      "median_wall_ms": 1.2333832999999998,
+      "round_median_cpu_ms": [
+        1.1933500000000012,
+        1.2024000000000006,
+        1.2768500000000016,
+        1.0957000000000021,
+        1.1909500000000017,
+        1.2411000000000005,
+        1.237149999999998,
+        1.2326500000000018
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "djot-php",
+      "language": "php",
+      "extension": "dj",
+      "input_bytes": 3220,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.6454776,
+            0.42631125000000003,
+            0.3268696,
+            0.49543290000000006,
+            0.33124034999999996
+          ],
+          "cpu_samples_ms": [
+            1.645,
+            0.4264000000000004,
+            0.3269999999999995,
+            0.49555000000000016,
+            0.33069999999999905
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.6619663500000001,
+            0.5355065999999999,
+            0.3627446,
+            0.538894,
+            0.3517037
+          ],
+          "cpu_samples_ms": [
+            1.6606499999999997,
+            0.5356,
+            0.3628499999999993,
+            0.5390000000000006,
+            0.3518499999999994
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.65286315,
+            0.44832715,
+            0.33952170000000004,
+            0.6308461000000001,
+            0.36957205000000004
+          ],
+          "cpu_samples_ms": [
+            1.6522000000000001,
+            0.4484499999999988,
+            0.3395999999999996,
+            0.6310499999999997,
+            0.3696000000000005
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.63638605,
+            0.44107145000000003,
+            0.35229035,
+            0.8109339999999999,
+            0.4650899
+          ],
+          "cpu_samples_ms": [
+            1.6363500000000002,
+            0.4411999999999999,
+            0.35239999999999994,
+            0.8103,
+            0.46525000000000033
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.6022345999999998,
+            0.44915125,
+            0.38678724999999997,
+            0.5258665,
+            0.37397800000000003
+          ],
+          "cpu_samples_ms": [
+            1.6016499999999998,
+            0.4492999999999997,
+            0.38689999999999974,
+            0.5258999999999999,
+            0.37365000000000037
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.74846505,
+            0.49213114999999996,
+            0.40964600000000007,
+            0.59857015,
+            0.43285539999999995
+          ],
+          "cpu_samples_ms": [
+            1.7474500000000002,
+            0.4922499999999996,
+            0.40984999999999905,
+            0.5986500000000006,
+            0.4313500000000012
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.9024516999999999,
+            0.51979305,
+            0.3610836,
+            0.5506119,
+            0.42442244999999995
+          ],
+          "cpu_samples_ms": [
+            1.90245,
+            0.5192500000000002,
+            0.3612000000000004,
+            0.5506999999999997,
+            0.4247000000000001
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            1.6612442,
+            0.41310364999999993,
+            0.35665125,
+            0.5163556,
+            0.34940205
+          ],
+          "cpu_samples_ms": [
+            1.6603999999999992,
+            0.41315000000000096,
+            0.3568000000000002,
+            0.5164500000000002,
+            0.34954999999999986
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        }
+      ],
+      "median_cpu_ms": 0.457275,
+      "median_wall_ms": 0.45712057500000003,
+      "round_median_cpu_ms": [
+        0.4264000000000004,
+        0.5356,
+        0.4484499999999988,
+        0.46525000000000033,
+        0.4492999999999997,
+        0.4922499999999996,
+        0.5192500000000002,
+        0.41315000000000096
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "league/commonmark-gfm",
+      "language": "php",
+      "extension": "md",
+      "input_bytes": 3105,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.18183655,
+            0.8455245,
+            0.9078147,
+            0.8942819999999999,
+            0.77026325
+          ],
+          "cpu_samples_ms": [
+            1.1818499999999994,
+            0.8456000000000005,
+            0.9079500000000005,
+            0.8939000000000001,
+            0.7703999999999989
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.2870797,
+            0.85609195,
+            0.8565212000000001,
+            0.96361945,
+            0.8315189000000001
+          ],
+          "cpu_samples_ms": [
+            1.2861999999999998,
+            0.8562,
+            0.856599999999999,
+            0.9632500000000002,
+            0.8316999999999991
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.28499585,
+            0.9024202000000001,
+            0.8711774999999999,
+            1.0376697,
+            0.81105275
+          ],
+          "cpu_samples_ms": [
+            1.2849499999999998,
+            0.9025499999999992,
+            0.8713,
+            1.0370000000000004,
+            0.8112499999999996
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.1893714,
+            0.8686042,
+            0.80227165,
+            0.8763208499999999,
+            0.7878644
+          ],
+          "cpu_samples_ms": [
+            1.1894000000000002,
+            0.8687499999999988,
+            0.8024000000000002,
+            0.8764499999999995,
+            0.7879999999999998
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.28942845,
+            1.1411878500000001,
+            0.97684225,
+            0.97942315,
+            0.90770335
+          ],
+          "cpu_samples_ms": [
+            1.2885000000000006,
+            1.1413499999999994,
+            0.9770000000000001,
+            0.9788499999999992,
+            0.9079500000000005
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.1422815,
+            0.978271,
+            0.8753056000000001,
+            0.9855683000000001,
+            0.7934736499999999
+          ],
+          "cpu_samples_ms": [
+            1.1410500000000003,
+            0.9783999999999986,
+            0.8754499999999998,
+            0.9837499999999999,
+            0.7912000000000002
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.6895706499999998,
+            1.26029945,
+            1.1816616,
+            1.33963265,
+            0.94295015
+          ],
+          "cpu_samples_ms": [
+            1.6889500000000002,
+            1.2603500000000003,
+            1.1817500000000007,
+            1.3398499999999993,
+            0.9431000000000008
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            1.33799075,
+            0.88143785,
+            0.8242606,
+            0.9487658,
+            0.8904960000000001
+          ],
+          "cpu_samples_ms": [
+            1.3379500000000002,
+            0.8816000000000004,
+            0.8238499999999996,
+            0.9489499999999997,
+            0.8901499999999993
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        }
+      ],
+      "median_cpu_ms": 0.9255250000000006,
+      "median_wall_ms": 0.925382425,
+      "round_median_cpu_ms": [
+        0.8939000000000001,
+        0.856599999999999,
+        0.9025499999999992,
+        0.8687499999999988,
+        0.9788499999999992,
+        0.9783999999999986,
+        1.2603500000000003,
+        0.8901499999999993
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "carve-rs",
+      "language": "rs",
+      "extension": "crv",
+      "input_bytes": 3182,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.077772,
+            0.072049,
+            0.079845,
+            0.06421,
+            0.063341
+          ],
+          "cpu_samples_ms": [
+            0.077769,
+            0.071953,
+            0.079852,
+            0.064214,
+            0.063345
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.069455,
+            0.070263,
+            0.067117,
+            0.065944,
+            0.065683
+          ],
+          "cpu_samples_ms": [
+            0.069457,
+            0.070163,
+            0.067127,
+            0.065952,
+            0.065687
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.065534,
+            0.064996,
+            0.070402,
+            0.064096,
+            0.067665
+          ],
+          "cpu_samples_ms": [
+            0.065531,
+            0.065004,
+            0.070416,
+            0.064104,
+            0.067592
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.066457,
+            0.069555,
+            0.065299,
+            0.067286,
+            0.065666
+          ],
+          "cpu_samples_ms": [
+            0.066455,
+            0.069566,
+            0.065304,
+            0.0673,
+            0.065673
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.063834,
+            0.084822,
+            0.079622,
+            0.066733,
+            0.066396
+          ],
+          "cpu_samples_ms": [
+            0.063827,
+            0.084703,
+            0.079631,
+            0.066591,
+            0.066405
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.066779,
+            0.066569,
+            0.06691,
+            0.067014,
+            0.067393
+          ],
+          "cpu_samples_ms": [
+            0.066202,
+            0.066569,
+            0.066913,
+            0.067017,
+            0.067395
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.076025,
+            0.07494,
+            0.077398,
+            0.069627,
+            0.068885
+          ],
+          "cpu_samples_ms": [
+            0.075903,
+            0.074958,
+            0.077411,
+            0.069637,
+            0.068896
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        },
+        {
+          "samples_ms": [
+            0.068608,
+            0.069644,
+            0.075906,
+            0.069266,
+            0.076458
+          ],
+          "cpu_samples_ms": [
+            0.068612,
+            0.069655,
+            0.075731,
+            0.069275,
+            0.076467
+          ],
+          "output_sha256": "2b053588e8996c54cedde074b40e7ffad1fbb21167f994fb5f496eeb1a5afe68"
+        }
+      ],
+      "median_cpu_ms": 0.0674935,
+      "median_wall_ms": 0.067529,
+      "round_median_cpu_ms": [
+        0.071953,
+        0.067127,
+        0.065531,
+        0.066455,
+        0.066591,
+        0.066913,
+        0.074958,
+        0.069655
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "jotdown",
+      "language": "rs",
+      "extension": "dj",
+      "input_bytes": 3220,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.032415,
+            0.032039,
+            0.033165,
+            0.032068,
+            0.032343
+          ],
+          "cpu_samples_ms": [
+            0.032416,
+            0.03204,
+            0.033056,
+            0.032072,
+            0.032225
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.033245,
+            0.032674,
+            0.032562,
+            0.033302,
+            0.032621
+          ],
+          "cpu_samples_ms": [
+            0.03324,
+            0.032678,
+            0.032565,
+            0.03331,
+            0.032625
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.030884,
+            0.030918,
+            0.032368,
+            0.031084,
+            0.03206
+          ],
+          "cpu_samples_ms": [
+            0.030875,
+            0.03092,
+            0.032382,
+            0.031091,
+            0.032068
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.031622,
+            0.032048,
+            0.031939,
+            0.032105,
+            0.032183
+          ],
+          "cpu_samples_ms": [
+            0.031611,
+            0.032053,
+            0.031948,
+            0.031996,
+            0.032188
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.031545,
+            0.031612,
+            0.032253,
+            0.031927,
+            0.032506
+          ],
+          "cpu_samples_ms": [
+            0.031547,
+            0.031619,
+            0.032134,
+            0.031931,
+            0.032511
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.060963,
+            0.060946,
+            0.061329,
+            0.044895,
+            0.030089
+          ],
+          "cpu_samples_ms": [
+            0.030949,
+            0.031295,
+            0.031333,
+            0.044899,
+            0.030054
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.033879,
+            0.03343,
+            0.033376,
+            0.038112,
+            0.035842
+          ],
+          "cpu_samples_ms": [
+            0.033874,
+            0.033436,
+            0.033378,
+            0.038124,
+            0.035856
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        },
+        {
+          "samples_ms": [
+            0.034222,
+            0.032532,
+            0.037227,
+            0.032148,
+            0.031974
+          ],
+          "cpu_samples_ms": [
+            0.034217,
+            0.032539,
+            0.037231,
+            0.03215,
+            0.031981
+          ],
+          "output_sha256": "eb9ce1113947e2f459543336b81dfa331354b8bc8e89b8dba5402342ed7ca171"
+        }
+      ],
+      "median_cpu_ms": 0.032169,
+      "median_wall_ms": 0.032391500000000004,
+      "round_median_cpu_ms": [
+        0.032225,
+        0.032678,
+        0.031091,
+        0.031996,
+        0.031931,
+        0.031295,
+        0.033874,
+        0.032539
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "comrak",
+      "language": "rs",
+      "extension": "md",
+      "input_bytes": 3105,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.027113,
+            0.025839,
+            0.02594,
+            0.025697,
+            0.025382
+          ],
+          "cpu_samples_ms": [
+            0.027113,
+            0.025846,
+            0.025946,
+            0.0257,
+            0.025385
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.027609,
+            0.026788,
+            0.027947,
+            0.026827,
+            0.03251
+          ],
+          "cpu_samples_ms": [
+            0.027603,
+            0.026795,
+            0.027959,
+            0.026834,
+            0.032365
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.026046,
+            0.041175,
+            0.024874,
+            0.025735,
+            0.02512
+          ],
+          "cpu_samples_ms": [
+            0.026047,
+            0.041189,
+            0.02458,
+            0.025742,
+            0.025125
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.027783,
+            0.026625,
+            0.026428,
+            0.026905,
+            0.026873
+          ],
+          "cpu_samples_ms": [
+            0.027778,
+            0.026628,
+            0.026434,
+            0.02691,
+            0.026877
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.027003,
+            0.026211,
+            0.026114,
+            0.030757,
+            0.027284
+          ],
+          "cpu_samples_ms": [
+            0.026994,
+            0.02622,
+            0.026121,
+            0.030782,
+            0.027293
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.026487,
+            0.025974,
+            0.026681,
+            0.025505,
+            0.0262
+          ],
+          "cpu_samples_ms": [
+            0.026372,
+            0.025921,
+            0.026521,
+            0.025506,
+            0.026203
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.026256,
+            0.026753,
+            0.025698,
+            0.027468,
+            0.026587
+          ],
+          "cpu_samples_ms": [
+            0.026247,
+            0.026759,
+            0.025702,
+            0.027476,
+            0.026598
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.032468,
+            0.029128,
+            0.025904,
+            0.02787,
+            0.026826
+          ],
+          "cpu_samples_ms": [
+            0.032465,
+            0.029133,
+            0.025906,
+            0.027882,
+            0.026832
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        }
+      ],
+      "median_cpu_ms": 0.026612999999999998,
+      "median_wall_ms": 0.026653,
+      "round_median_cpu_ms": [
+        0.025846,
+        0.027603,
+        0.025742,
+        0.026877,
+        0.026994,
+        0.026203,
+        0.026598,
+        0.027882
+      ]
+    },
+    {
+      "document": "terms",
+      "engine": "pulldown-cmark",
+      "language": "rs",
+      "extension": "md",
+      "input_bytes": 3105,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.011637,
+            0.010764,
+            0.011006,
+            0.010729,
+            0.01079
+          ],
+          "cpu_samples_ms": [
+            0.011626,
+            0.010767,
+            0.011012,
+            0.010732,
+            0.010792
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.011192,
+            0.011229,
+            0.011237,
+            0.011186,
+            0.011194
+          ],
+          "cpu_samples_ms": [
+            0.011184,
+            0.01123,
+            0.011239,
+            0.01119,
+            0.011195
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.010472,
+            0.010533,
+            0.011735,
+            0.010444,
+            0.010686
+          ],
+          "cpu_samples_ms": [
+            0.010467,
+            0.010537,
+            0.011743,
+            0.010446,
+            0.010694
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.010634,
+            0.010603,
+            0.01076,
+            0.011088,
+            0.011316
+          ],
+          "cpu_samples_ms": [
+            0.010628,
+            0.010603,
+            0.010764,
+            0.01109,
+            0.011221
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.011074,
+            0.010818,
+            0.010873,
+            0.010968,
+            0.011065
+          ],
+          "cpu_samples_ms": [
+            0.011066,
+            0.010819,
+            0.010877,
+            0.010971,
+            0.01107
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.010652,
+            0.01024,
+            0.010037,
+            0.010683,
+            0.010227
+          ],
+          "cpu_samples_ms": [
+            0.010549,
+            0.010222,
+            0.010038,
+            0.010687,
+            0.010235
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.010946,
+            0.010477,
+            0.01235,
+            0.010473,
+            0.010483
+          ],
+          "cpu_samples_ms": [
+            0.010936,
+            0.010479,
+            0.012355,
+            0.010475,
+            0.010484
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        },
+        {
+          "samples_ms": [
+            0.01614,
+            0.011358,
+            0.010929,
+            0.011372,
+            0.01078
+          ],
+          "cpu_samples_ms": [
+            0.016139,
+            0.011364,
+            0.010933,
+            0.011375,
+            0.010782
+          ],
+          "output_sha256": "ce2477cb8d1e1f6b5b3888d201ed7a574454aea78e824cc53d197e09afab0653"
+        }
+      ],
+      "median_cpu_ms": 0.010848,
+      "median_wall_ms": 0.010845500000000001,
+      "round_median_cpu_ms": [
+        0.010792,
+        0.011195,
+        0.010537,
+        0.010764,
+        0.010971,
+        0.010235,
+        0.010484,
+        0.011364
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "carve-js",
+      "language": "js",
+      "extension": "crv",
+      "input_bytes": 3680,
+      "rounds": [
+        {
+          "samples_ms": [
+            3.684819333333333,
+            2.4279089,
+            1.6256402666666667,
+            2.1434592666666665,
+            1.7889387333333333
+          ],
+          "cpu_samples_ms": [
+            3.6845,
+            2.427833333333333,
+            1.6259000000000001,
+            2.1433000000000004,
+            1.7894
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            3.8697635333333333,
+            2.5191662,
+            1.6688891333333333,
+            2.1670366999999997,
+            1.7628222666666666
+          ],
+          "cpu_samples_ms": [
+            3.8699,
+            2.518533333333333,
+            1.6690333333333334,
+            2.166933333333333,
+            1.7628666666666668
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            3.484431,
+            2.4628693,
+            1.6153046000000002,
+            2.178313666666667,
+            1.8923720333333334
+          ],
+          "cpu_samples_ms": [
+            3.484266666666667,
+            2.4628333333333337,
+            1.6156000000000001,
+            2.177833333333333,
+            1.8927666666666667
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            4.342346133333334,
+            2.936956133333333,
+            1.8715216666666667,
+            2.413540333333333,
+            2.5281940333333335
+          ],
+          "cpu_samples_ms": [
+            4.341566666666667,
+            2.9365333333333337,
+            1.8718000000000001,
+            2.4135,
+            2.5284
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            5.420904533333333,
+            4.152231566666667,
+            2.2743664333333333,
+            2.8030385333333334,
+            2.5958710333333332
+          ],
+          "cpu_samples_ms": [
+            5.419866666666667,
+            4.151633333333334,
+            2.2747,
+            2.802133333333333,
+            2.5957999999999997
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            3.8269238666666667,
+            2.628059266666667,
+            1.5011752666666667,
+            1.9110201666666666,
+            1.9137209333333334
+          ],
+          "cpu_samples_ms": [
+            3.8268,
+            2.6276,
+            1.5014333333333334,
+            1.9107999999999998,
+            1.9140333333333333
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            3.849263966666667,
+            3.1338382333333334,
+            1.7279747,
+            2.400373666666667,
+            2.12078
+          ],
+          "cpu_samples_ms": [
+            3.8487333333333336,
+            3.132833333333333,
+            1.7282333333333333,
+            2.3998,
+            2.1207000000000003
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            3.6179837000000004,
+            2.618618966666667,
+            1.7117634333333334,
+            2.6490055,
+            2.028194833333333
+          ],
+          "cpu_samples_ms": [
+            3.6173,
+            2.618333333333333,
+            1.7115,
+            2.6488333333333336,
+            2.0280333333333336
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        }
+      ],
+      "median_cpu_ms": 2.4206666666666665,
+      "median_wall_ms": 2.4207246166666665,
+      "round_median_cpu_ms": [
+        2.1433000000000004,
+        2.166933333333333,
+        2.177833333333333,
+        2.5284,
+        2.802133333333333,
+        1.9140333333333333,
+        2.3998,
+        2.618333333333333
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "djot.js",
+      "language": "js",
+      "extension": "dj",
+      "input_bytes": 3811,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.9796294,
+            1.4623652,
+            1.0650939,
+            1.6259862666666665,
+            0.9587558333333334
+          ],
+          "cpu_samples_ms": [
+            0.9797333333333333,
+            1.4618666666666666,
+            1.0653666666666666,
+            1.6263333333333334,
+            0.9591999999999999
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            1.2172295666666666,
+            2.1057984666666667,
+            1.4557861333333333,
+            1.8403446666666667,
+            0.5334493666666666
+          ],
+          "cpu_samples_ms": [
+            1.2174,
+            2.1052,
+            1.4558,
+            1.8401,
+            0.5338999999999999
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.9261962,
+            1.1728283666666668,
+            1.3194762666666666,
+            1.1058339,
+            0.5144725
+          ],
+          "cpu_samples_ms": [
+            0.9265666666666666,
+            1.1731666666666667,
+            1.3198,
+            1.1061666666666667,
+            0.5143333333333333
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            1.1909954999999999,
+            1.3384259,
+            1.3617626999999999,
+            1.2356042333333332,
+            0.5509526
+          ],
+          "cpu_samples_ms": [
+            1.1912666666666667,
+            1.3379,
+            1.3620666666666668,
+            1.2354999999999998,
+            0.5513666666666667
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            1.0095891666666668,
+            1.2840590333333333,
+            1.3457688666666667,
+            1.2040926666666667,
+            0.5324055
+          ],
+          "cpu_samples_ms": [
+            1.0102333333333333,
+            1.2843666666666667,
+            1.3451333333333333,
+            1.2044,
+            0.5324
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.9981626666666668,
+            1.3298726333333333,
+            1.1895095666666669,
+            1.5569004333333334,
+            0.6250927333333334
+          ],
+          "cpu_samples_ms": [
+            0.9983666666666667,
+            1.3298666666666668,
+            1.1898666666666666,
+            1.5572666666666668,
+            0.6253
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            1.1910622333333334,
+            1.2354212,
+            1.1275563333333334,
+            1.3280699333333332,
+            0.5154274666666666
+          ],
+          "cpu_samples_ms": [
+            1.1914,
+            1.2356666666666667,
+            1.1276666666666666,
+            1.3283666666666667,
+            0.5158333333333334
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            1.3651565333333333,
+            1.4178019,
+            1.2200174666666668,
+            1.1815886999999998,
+            0.5125811
+          ],
+          "cpu_samples_ms": [
+            1.3655333333333333,
+            1.4180666666666668,
+            1.2202666666666666,
+            1.1814666666666667,
+            0.513
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        }
+      ],
+      "median_cpu_ms": 1.1979,
+      "median_wall_ms": 1.19757745,
+      "round_median_cpu_ms": [
+        1.0653666666666666,
+        1.4558,
+        1.1061666666666667,
+        1.2354999999999998,
+        1.2044,
+        1.1898666666666666,
+        1.1914,
+        1.2202666666666666
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "markdown-it",
+      "language": "js",
+      "extension": "md",
+      "input_bytes": 3570,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.0127713,
+            1.0127238666666667,
+            0.7039023666666666,
+            0.5221635666666666,
+            0.3538506
+          ],
+          "cpu_samples_ms": [
+            1.0129666666666666,
+            1.0126666666666666,
+            0.7042,
+            0.5224666666666666,
+            0.3542666666666667
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.4453780999999999,
+            1.1213861999999999,
+            1.0852411,
+            0.659177,
+            0.4177106333333333
+          ],
+          "cpu_samples_ms": [
+            1.4452,
+            1.1211,
+            1.0852666666666666,
+            0.6595,
+            0.41813333333333336
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.4074742333333332,
+            0.9508492000000001,
+            0.7365151666666667,
+            0.5567362,
+            0.3792529
+          ],
+          "cpu_samples_ms": [
+            1.4076,
+            0.9511333333333333,
+            0.7368666666666667,
+            0.5570333333333333,
+            0.3793666666666667
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.3110921333333332,
+            1.0860201333333335,
+            0.7631792999999999,
+            0.7288603333333333,
+            0.35763633333333333
+          ],
+          "cpu_samples_ms": [
+            1.3113666666666668,
+            1.0863666666666667,
+            0.7628666666666667,
+            0.7292000000000001,
+            0.35810000000000003
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.7092322333333334,
+            0.9100306666666668,
+            1.0052659666666668,
+            0.6758377,
+            0.46211846666666667
+          ],
+          "cpu_samples_ms": [
+            1.7095333333333333,
+            0.9101666666666667,
+            1.0051999999999999,
+            0.6765000000000001,
+            0.4623333333333333
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.0619888333333334,
+            0.8806325,
+            0.6211425666666667,
+            0.7793835,
+            0.3789537333333334
+          ],
+          "cpu_samples_ms": [
+            1.0621,
+            0.8804666666666667,
+            0.6214,
+            0.7796333333333333,
+            0.3793666666666667
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.3199178333333335,
+            0.9461615666666667,
+            0.8548968333333333,
+            0.6903883666666667,
+            0.3692437333333333
+          ],
+          "cpu_samples_ms": [
+            1.3201666666666665,
+            0.9460999999999999,
+            0.8552,
+            0.6890666666666667,
+            0.36966666666666664
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        },
+        {
+          "samples_ms": [
+            1.2362715666666666,
+            1.0054288666666666,
+            0.5900304,
+            0.5394776666666666,
+            0.4601161
+          ],
+          "cpu_samples_ms": [
+            1.2366,
+            1.0057666666666667,
+            0.5904666666666666,
+            0.5396333333333333,
+            0.46026666666666666
+          ],
+          "output_sha256": "43aae8816a9c316dc5674b5f7ec4b54943a38a2ad93e1375e2fb7f84275a50a0"
+        }
+      ],
+      "median_cpu_ms": 0.77125,
+      "median_wall_ms": 0.7712813999999999,
+      "round_median_cpu_ms": [
+        0.7042,
+        1.0852666666666666,
+        0.7368666666666667,
+        0.7628666666666667,
+        0.9101666666666667,
+        0.7796333333333333,
+        0.8552,
+        0.5904666666666666
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "commonmark.js",
+      "language": "js",
+      "extension": "md",
+      "input_bytes": 3570,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.1729591666666666,
+            0.5016069,
+            0.4673459333333333,
+            0.32599846666666665,
+            0.15734146666666668
+          ],
+          "cpu_samples_ms": [
+            1.1729666666666667,
+            0.5019,
+            0.46763333333333335,
+            0.32626666666666665,
+            0.15733333333333333
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.3301941333333334,
+            0.7608854666666667,
+            0.7092461333333334,
+            0.34612496666666664,
+            0.18076593333333332
+          ],
+          "cpu_samples_ms": [
+            1.3301666666666667,
+            0.7611666666666667,
+            0.7095666666666667,
+            0.34613333333333335,
+            0.18113333333333334
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.9536391666666667,
+            0.5153241333333333,
+            0.6431571,
+            0.26821703333333335,
+            0.1877741
+          ],
+          "cpu_samples_ms": [
+            0.9539000000000001,
+            0.5152666666666667,
+            0.6434666666666666,
+            0.2685333333333333,
+            0.18813333333333335
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.2198795,
+            0.6674214,
+            0.5704438,
+            0.42027756666666666,
+            0.2666444333333333
+          ],
+          "cpu_samples_ms": [
+            1.2202,
+            0.6671999999999999,
+            0.5707666666666668,
+            0.4205,
+            0.2670666666666667
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.2600760000000002,
+            0.6431014,
+            0.6468999333333334,
+            0.32378290000000004,
+            0.17322893333333333
+          ],
+          "cpu_samples_ms": [
+            1.2603666666666666,
+            0.6431333333333333,
+            0.6473,
+            0.3241,
+            0.1736
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.7269256666666666,
+            0.7489215,
+            0.8689614,
+            0.41405220000000004,
+            0.16820276666666667
+          ],
+          "cpu_samples_ms": [
+            1.7271333333333334,
+            0.7493333333333333,
+            0.8692666666666666,
+            0.4139333333333333,
+            0.16856666666666667
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.3236004666666665,
+            0.7096531666666667,
+            0.5688733333333332,
+            0.3042988,
+            0.20092573333333333
+          ],
+          "cpu_samples_ms": [
+            1.3239666666666667,
+            0.7098666666666666,
+            0.5691666666666666,
+            0.3046,
+            0.20133333333333334
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.8926225999999999,
+            0.5410616666666667,
+            0.5090875,
+            0.30071600000000004,
+            0.16666386666666666
+          ],
+          "cpu_samples_ms": [
+            0.8928999999999999,
+            0.5413666666666667,
+            0.5088666666666667,
+            0.30096666666666666,
+            0.16703333333333334
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        }
+      ],
+      "median_cpu_ms": 0.5283166666666667,
+      "median_wall_ms": 0.5281929,
+      "round_median_cpu_ms": [
+        0.46763333333333335,
+        0.7095666666666667,
+        0.5152666666666667,
+        0.5707666666666668,
+        0.6431333333333333,
+        0.7493333333333333,
+        0.5691666666666666,
+        0.5088666666666667
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "carve-php",
+      "language": "php",
+      "extension": "crv",
+      "input_bytes": 3680,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.72828165,
+            1.242454,
+            0.86139765,
+            1.0781909,
+            0.9316243500000001
+          ],
+          "cpu_samples_ms": [
+            1.7274999999999985,
+            1.2424999999999993,
+            0.8603500000000015,
+            1.0782500000000002,
+            0.9316999999999991
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            1.9460149999999998,
+            1.30626695,
+            0.9935755500000001,
+            1.13248705,
+            1.04832775
+          ],
+          "cpu_samples_ms": [
+            1.9459000000000004,
+            1.3056499999999998,
+            0.9937000000000001,
+            1.1326000000000003,
+            1.0479500000000004
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            1.7300057500000001,
+            1.2049163,
+            0.9073800500000001,
+            1.1191795,
+            0.919748
+          ],
+          "cpu_samples_ms": [
+            1.7299499999999994,
+            1.2044,
+            0.9073999999999998,
+            1.1192499999999994,
+            0.9192499999999992
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            2.1980633000000003,
+            1.57085,
+            1.124706,
+            1.5339958,
+            1.2825703499999999
+          ],
+          "cpu_samples_ms": [
+            2.197149999999998,
+            1.5709000000000002,
+            1.124800000000001,
+            1.5340500000000008,
+            1.2827000000000006
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            2.0681645499999997,
+            1.3077375500000001,
+            0.92647485,
+            1.13061075,
+            0.9481714
+          ],
+          "cpu_samples_ms": [
+            2.0675999999999997,
+            1.3070499999999985,
+            0.9265999999999996,
+            1.1307000000000011,
+            0.9475999999999984
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            2.05729275,
+            1.7789477999999999,
+            0.9978781,
+            1.2863698,
+            1.035064
+          ],
+          "cpu_samples_ms": [
+            2.0565,
+            1.7790499999999987,
+            0.997999999999999,
+            1.28645,
+            1.0352499999999987
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            1.90072595,
+            1.4832174999999999,
+            1.42080585,
+            1.23926115,
+            1.04599325
+          ],
+          "cpu_samples_ms": [
+            1.9006999999999998,
+            1.4825000000000004,
+            1.4209,
+            1.2393999999999987,
+            1.0454500000000004
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        },
+        {
+          "samples_ms": [
+            1.97161075,
+            1.26506505,
+            0.91480145,
+            1.20270655,
+            1.0329376
+          ],
+          "cpu_samples_ms": [
+            1.97155,
+            1.2645500000000003,
+            0.914899999999999,
+            1.2028999999999983,
+            1.032649999999999
+          ],
+          "output_sha256": "d35358bb9412eecdf99799fb70b08783ffd3f635364beeaf84c1390f5ce47212"
+        }
+      ],
+      "median_cpu_ms": 1.2218999999999993,
+      "median_wall_ms": 1.2220887249999999,
+      "round_median_cpu_ms": [
+        1.0782500000000002,
+        1.1326000000000003,
+        1.1192499999999994,
+        1.5340500000000008,
+        1.1307000000000011,
+        1.28645,
+        1.4209,
+        1.2028999999999983
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "djot-php",
+      "language": "php",
+      "extension": "dj",
+      "input_bytes": 3811,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.58608035,
+            0.5336874,
+            0.45072205,
+            0.59178915,
+            0.3933818
+          ],
+          "cpu_samples_ms": [
+            0.5860999999999991,
+            0.533750000000001,
+            0.45084999999999986,
+            0.5919000000000008,
+            0.3934999999999994
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.6017850499999999,
+            0.5595546,
+            0.4202414,
+            0.5091722,
+            0.39965795000000004
+          ],
+          "cpu_samples_ms": [
+            0.6017999999999996,
+            0.5588499999999996,
+            0.4204,
+            0.50925,
+            0.3998499999999988
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.7298716,
+            0.5799237500000001,
+            0.40180005,
+            0.48311849999999995,
+            0.37701565000000004
+          ],
+          "cpu_samples_ms": [
+            0.7299,
+            0.58,
+            0.40140000000000037,
+            0.4832500000000003,
+            0.37719999999999976
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.9841725,
+            0.9285437,
+            0.7347904,
+            0.78768105,
+            0.5413638
+          ],
+          "cpu_samples_ms": [
+            0.9840999999999989,
+            0.9286500000000004,
+            0.7349999999999995,
+            0.7872999999999991,
+            0.5415500000000018
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.6322167999999999,
+            0.5891693,
+            0.4784783,
+            0.52975985,
+            0.48252895
+          ],
+          "cpu_samples_ms": [
+            0.6322500000000009,
+            0.5892999999999995,
+            0.4785499999999998,
+            0.5298999999999998,
+            0.4826999999999998
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.7286279,
+            0.70898275,
+            0.4401132,
+            0.5498269,
+            0.4768768
+          ],
+          "cpu_samples_ms": [
+            0.7286,
+            0.70905,
+            0.44025000000000036,
+            0.5499999999999992,
+            0.4769999999999996
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.63995505,
+            0.5865585,
+            0.44303974999999995,
+            0.52391935,
+            0.3940635
+          ],
+          "cpu_samples_ms": [
+            0.6392999999999996,
+            0.5866499999999997,
+            0.44310000000000044,
+            0.5240000000000008,
+            0.3942000000000001
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.6947859000000001,
+            0.69584545,
+            0.45614160000000004,
+            0.5229686,
+            0.40025775
+          ],
+          "cpu_samples_ms": [
+            0.6940500000000002,
+            0.6959500000000007,
+            0.45619999999999966,
+            0.5231,
+            0.4003499999999994
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        }
+      ],
+      "median_cpu_ms": 0.5376500000000013,
+      "median_wall_ms": 0.5375255999999999,
+      "round_median_cpu_ms": [
+        0.533750000000001,
+        0.50925,
+        0.4832500000000003,
+        0.7872999999999991,
+        0.5298999999999998,
+        0.5499999999999992,
+        0.5240000000000008,
+        0.5231
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "league/commonmark-gfm",
+      "language": "php",
+      "extension": "md",
+      "input_bytes": 3570,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.1524107000000001,
+            1.12239025,
+            1.1843142,
+            1.03583505,
+            0.9808232
+          ],
+          "cpu_samples_ms": [
+            1.1523999999999992,
+            1.1218000000000006,
+            1.1844000000000006,
+            1.0359000000000007,
+            0.9809499999999998
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.2332312,
+            1.0662276,
+            1.20549675,
+            0.956539,
+            0.96724975
+          ],
+          "cpu_samples_ms": [
+            1.233200000000001,
+            1.0662500000000006,
+            1.204949999999999,
+            0.9565999999999992,
+            0.9674500000000001
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.25920205,
+            1.1323429,
+            1.23855345,
+            1.0647940999999999,
+            0.9513403
+          ],
+          "cpu_samples_ms": [
+            1.2582999999999998,
+            1.13245,
+            1.2381500000000005,
+            1.0649499999999992,
+            0.9514500000000009
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            2.110181,
+            1.8606912000000002,
+            2.43431205,
+            1.7888507,
+            1.72838125
+          ],
+          "cpu_samples_ms": [
+            2.1094000000000017,
+            1.860300000000001,
+            2.4344000000000006,
+            1.7888999999999988,
+            1.728549999999998
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.2933849,
+            1.2857885,
+            1.3971388,
+            1.25753355,
+            1.21792155
+          ],
+          "cpu_samples_ms": [
+            1.2934,
+            1.2857999999999996,
+            1.3972500000000012,
+            1.257649999999999,
+            1.2180999999999997
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.41079785,
+            1.1884689,
+            1.28528775,
+            1.07764915,
+            0.91577115
+          ],
+          "cpu_samples_ms": [
+            1.4102500000000004,
+            1.1885499999999993,
+            1.2854000000000005,
+            1.0770499999999987,
+            0.9158500000000014
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.2233931500000002,
+            1.22556825,
+            1.25321205,
+            1.21764125,
+            0.9889432499999999
+          ],
+          "cpu_samples_ms": [
+            1.2232499999999993,
+            1.2257000000000002,
+            1.2532499999999989,
+            1.2161500000000005,
+            0.9890999999999984
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            1.21848585,
+            1.09586725,
+            1.2086232000000001,
+            1.0953332,
+            0.9728694000000001
+          ],
+          "cpu_samples_ms": [
+            1.2185000000000001,
+            1.0959499999999998,
+            1.20875,
+            1.0954000000000006,
+            0.972400000000001
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        }
+      ],
+      "median_cpu_ms": 1.2124500000000002,
+      "median_wall_ms": 1.213132225,
+      "round_median_cpu_ms": [
+        1.1218000000000006,
+        1.0662500000000006,
+        1.13245,
+        1.860300000000001,
+        1.2857999999999996,
+        1.1885499999999993,
+        1.2232499999999993,
+        1.0959499999999998
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "carve-rs",
+      "language": "rs",
+      "extension": "crv",
+      "input_bytes": 3680,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.0799,
+            0.08048,
+            0.079002,
+            0.084153,
+            0.081105
+          ],
+          "cpu_samples_ms": [
+            0.079893,
+            0.080374,
+            0.079011,
+            0.08417,
+            0.081034
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.078562,
+            0.080189,
+            0.085818,
+            0.079183,
+            0.076936
+          ],
+          "cpu_samples_ms": [
+            0.078426,
+            0.080198,
+            0.085832,
+            0.079186,
+            0.076942
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.083945,
+            0.083268,
+            0.087763,
+            0.09847,
+            0.083036
+          ],
+          "cpu_samples_ms": [
+            0.083835,
+            0.08327,
+            0.08778,
+            0.098399,
+            0.083076
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.143805,
+            0.127824,
+            0.13429,
+            0.117913,
+            0.135195
+          ],
+          "cpu_samples_ms": [
+            0.143097,
+            0.12784,
+            0.134311,
+            0.117805,
+            0.135231
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.107145,
+            0.09982,
+            0.09926,
+            0.100741,
+            0.107566
+          ],
+          "cpu_samples_ms": [
+            0.107147,
+            0.099835,
+            0.099281,
+            0.100751,
+            0.107583
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.101436,
+            0.097459,
+            0.095626,
+            0.093459,
+            0.095676
+          ],
+          "cpu_samples_ms": [
+            0.101432,
+            0.095352,
+            0.095635,
+            0.093468,
+            0.095691
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.090888,
+            0.093173,
+            0.090532,
+            0.097119,
+            0.095165
+          ],
+          "cpu_samples_ms": [
+            0.090893,
+            0.093189,
+            0.090536,
+            0.097136,
+            0.095175
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        },
+        {
+          "samples_ms": [
+            0.091696,
+            0.089158,
+            0.094619,
+            0.134292,
+            0.1091
+          ],
+          "cpu_samples_ms": [
+            0.091619,
+            0.089035,
+            0.094634,
+            0.134306,
+            0.109113
+          ],
+          "output_sha256": "5dcc806504974017f4ded0e51d3ff38ff771d82bdc21fff7a992b43b929e6991"
+        }
+      ],
+      "median_cpu_ms": 0.094051,
+      "median_wall_ms": 0.094039,
+      "round_median_cpu_ms": [
+        0.080374,
+        0.079186,
+        0.083835,
+        0.134311,
+        0.100751,
+        0.095635,
+        0.093189,
+        0.094634
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "jotdown",
+      "language": "rs",
+      "extension": "dj",
+      "input_bytes": 3811,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.046231,
+            0.047424,
+            0.061289,
+            0.044264,
+            0.045241
+          ],
+          "cpu_samples_ms": [
+            0.04622,
+            0.047322,
+            0.061289,
+            0.04427,
+            0.045244
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.074886,
+            0.078931,
+            0.048737,
+            0.051236,
+            0.054398
+          ],
+          "cpu_samples_ms": [
+            0.044889,
+            0.048837,
+            0.048752,
+            0.051254,
+            0.054422
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.046,
+            0.045893,
+            0.049969,
+            0.047144,
+            0.051356
+          ],
+          "cpu_samples_ms": [
+            0.045993,
+            0.045897,
+            0.049984,
+            0.04715,
+            0.051372
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.055574,
+            0.057937,
+            0.052838,
+            0.05816,
+            0.047443
+          ],
+          "cpu_samples_ms": [
+            0.055464,
+            0.057954,
+            0.052859,
+            0.058183,
+            0.047456
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.052054,
+            0.051538,
+            0.052848,
+            0.052332,
+            0.055467
+          ],
+          "cpu_samples_ms": [
+            0.05205,
+            0.051549,
+            0.052866,
+            0.052338,
+            0.055217
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.049779,
+            0.04992,
+            0.049617,
+            0.049876,
+            0.049595
+          ],
+          "cpu_samples_ms": [
+            0.049771,
+            0.049924,
+            0.049627,
+            0.049882,
+            0.049609
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.048452,
+            0.050457,
+            0.06322,
+            0.050476,
+            0.05037
+          ],
+          "cpu_samples_ms": [
+            0.048441,
+            0.050115,
+            0.06323,
+            0.050481,
+            0.050379
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        },
+        {
+          "samples_ms": [
+            0.07192,
+            0.071729,
+            0.067759,
+            0.069056,
+            0.067799
+          ],
+          "cpu_samples_ms": [
+            0.071921,
+            0.071605,
+            0.067781,
+            0.069071,
+            0.067816
+          ],
+          "output_sha256": "c2ffd2fc4e60cfaa544f33738710df546f679ab5281f8f31188c7b8b02d8dcb8"
+        }
+      ],
+      "median_cpu_ms": 0.05043,
+      "median_wall_ms": 0.051295999999999994,
+      "round_median_cpu_ms": [
+        0.04622,
+        0.048837,
+        0.04715,
+        0.055464,
+        0.052338,
+        0.049771,
+        0.050379,
+        0.069071
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "comrak",
+      "language": "rs",
+      "extension": "md",
+      "input_bytes": 3570,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.039186,
+            0.04156,
+            0.037427,
+            0.034654,
+            0.028478
+          ],
+          "cpu_samples_ms": [
+            0.039192,
+            0.041574,
+            0.03745,
+            0.034543,
+            0.028483
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.035817,
+            0.030154,
+            0.032803,
+            0.02978,
+            0.0502
+          ],
+          "cpu_samples_ms": [
+            0.035822,
+            0.030167,
+            0.032684,
+            0.029789,
+            0.050218
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.029526,
+            0.028228,
+            0.028849,
+            0.030377,
+            0.032202
+          ],
+          "cpu_samples_ms": [
+            0.029519,
+            0.028236,
+            0.028851,
+            0.030391,
+            0.032217
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.0357,
+            0.029772,
+            0.028415,
+            0.033482,
+            0.041054
+          ],
+          "cpu_samples_ms": [
+            0.035703,
+            0.029604,
+            0.028424,
+            0.033505,
+            0.04107
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.031478,
+            0.032156,
+            0.029128,
+            0.029528,
+            0.03031
+          ],
+          "cpu_samples_ms": [
+            0.031467,
+            0.032168,
+            0.029136,
+            0.029399,
+            0.030323
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.032186,
+            0.02989,
+            0.030039,
+            0.030592,
+            0.030542
+          ],
+          "cpu_samples_ms": [
+            0.032185,
+            0.029895,
+            0.030045,
+            0.030601,
+            0.030549
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.032379,
+            0.031705,
+            0.032145,
+            0.031523,
+            0.031678
+          ],
+          "cpu_samples_ms": [
+            0.032372,
+            0.03171,
+            0.032148,
+            0.031527,
+            0.031683
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        },
+        {
+          "samples_ms": [
+            0.043528,
+            0.043389,
+            0.044039,
+            0.04534,
+            0.044407
+          ],
+          "cpu_samples_ms": [
+            0.043527,
+            0.043269,
+            0.043944,
+            0.045347,
+            0.044414
+          ],
+          "output_sha256": "45f02469ddea4b1f15b6e850167798fe149fe373c7e557d2618b15e67d770ea4"
+        }
+      ],
+      "median_cpu_ms": 0.031929,
+      "median_wall_ms": 0.031924999999999995,
+      "round_median_cpu_ms": [
+        0.03745,
+        0.032684,
+        0.029519,
+        0.033505,
+        0.030323,
+        0.030549,
+        0.03171,
+        0.043944
+      ]
+    },
+    {
+      "document": "case-study-parsing-ast",
+      "engine": "pulldown-cmark",
+      "language": "rs",
+      "extension": "md",
+      "input_bytes": 3570,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.012832,
+            0.01282,
+            0.013009,
+            0.012698,
+            0.012766
+          ],
+          "cpu_samples_ms": [
+            0.012823,
+            0.01282,
+            0.012922,
+            0.012701,
+            0.01277
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.012195,
+            0.012454,
+            0.015785,
+            0.018672,
+            0.016557
+          ],
+          "cpu_samples_ms": [
+            0.012189,
+            0.012467,
+            0.015798,
+            0.018686,
+            0.016569
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.012648,
+            0.012649,
+            0.012949,
+            0.013188,
+            0.012744
+          ],
+          "cpu_samples_ms": [
+            0.012642,
+            0.012656,
+            0.012961,
+            0.013194,
+            0.01275
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.012119,
+            0.012169,
+            0.012242,
+            0.012871,
+            0.01274
+          ],
+          "cpu_samples_ms": [
+            0.012114,
+            0.012169,
+            0.012246,
+            0.012877,
+            0.012747
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.01225,
+            0.01237,
+            0.012385,
+            0.01229,
+            0.012578
+          ],
+          "cpu_samples_ms": [
+            0.012236,
+            0.012373,
+            0.012387,
+            0.012292,
+            0.012581
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.012873,
+            0.013261,
+            0.013028,
+            0.012828,
+            0.012929
+          ],
+          "cpu_samples_ms": [
+            0.012866,
+            0.013268,
+            0.013032,
+            0.012833,
+            0.012931
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.013623,
+            0.043585,
+            0.034132,
+            0.013429,
+            0.013303
+          ],
+          "cpu_samples_ms": [
+            0.013618,
+            0.013599,
+            0.014105,
+            0.01343,
+            0.013306
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        },
+        {
+          "samples_ms": [
+            0.012094,
+            0.012139,
+            0.014272,
+            0.013681,
+            0.012298
+          ],
+          "cpu_samples_ms": [
+            0.012083,
+            0.012141,
+            0.014275,
+            0.013685,
+            0.012301
+          ],
+          "output_sha256": "0a168a232f9a2c4ab7687a56c55ce0603eceafc601b08a628fde376efe3f46f9"
+        }
+      ],
+      "median_cpu_ms": 0.0128215,
+      "median_wall_ms": 0.012824,
+      "round_median_cpu_ms": [
+        0.01282,
+        0.015798,
+        0.01275,
+        0.012246,
+        0.012373,
+        0.012931,
+        0.013599,
+        0.012301
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "carve-js",
+      "language": "js",
+      "extension": "crv",
+      "input_bytes": 19200,
+      "rounds": [
+        {
+          "samples_ms": [
+            5.898844833333333,
+            3.2300055333333333,
+            3.0851363333333333,
+            3.2284679666666665,
+            2.467699033333333
+          ],
+          "cpu_samples_ms": [
+            5.897866666666667,
+            3.230233333333333,
+            3.0847333333333333,
+            3.2283,
+            2.4680666666666666
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            6.087537166666666,
+            3.2287246666666665,
+            3.8301977666666667,
+            3.2401937333333333,
+            2.4456798666666666
+          ],
+          "cpu_samples_ms": [
+            6.085400000000001,
+            3.2283666666666666,
+            3.829466666666667,
+            3.2401666666666666,
+            2.4455999999999998
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            6.501322,
+            3.6761867666666665,
+            3.5705632,
+            3.3273365,
+            2.5868629
+          ],
+          "cpu_samples_ms": [
+            6.4992,
+            3.6764333333333337,
+            3.5700333333333334,
+            3.3276,
+            2.5863666666666663
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            6.599618833333333,
+            3.8126715666666664,
+            3.840511966666667,
+            3.864684066666667,
+            3.3319021666666666
+          ],
+          "cpu_samples_ms": [
+            6.5964,
+            3.8112,
+            3.8398666666666665,
+            3.8645,
+            3.3316
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            5.924225866666666,
+            3.2351933666666666,
+            3.0741992666666667,
+            3.0150416333333334,
+            2.4742906000000002
+          ],
+          "cpu_samples_ms": [
+            5.923,
+            3.2351666666666667,
+            3.0739666666666663,
+            3.0143333333333335,
+            2.4740666666666664
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            6.0112492,
+            4.021358833333333,
+            3.949781633333333,
+            4.0024761,
+            2.3919197999999997
+          ],
+          "cpu_samples_ms": [
+            6.010266666666666,
+            4.0202333333333335,
+            3.9495999999999998,
+            4.002633333333333,
+            2.3919
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            6.2486018,
+            4.164799133333333,
+            3.7562991,
+            3.3933082,
+            2.6773043666666667
+          ],
+          "cpu_samples_ms": [
+            6.2481,
+            4.1639333333333335,
+            3.7551,
+            3.3929,
+            2.6771666666666665
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            7.859554766666666,
+            4.768721066666667,
+            5.001494466666667,
+            4.617761233333334,
+            3.7759765666666665
+          ],
+          "cpu_samples_ms": [
+            7.858633333333333,
+            4.767799999999999,
+            5.000766666666666,
+            4.617233333333333,
+            3.7751666666666663
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        }
+      ],
+      "median_cpu_ms": 3.765133333333333,
+      "median_wall_ms": 3.7661378333333335,
+      "round_median_cpu_ms": [
+        3.2283,
+        3.2401666666666666,
+        3.5700333333333334,
+        3.8398666666666665,
+        3.0739666666666663,
+        4.002633333333333,
+        3.7551,
+        4.767799999999999
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "djot.js",
+      "language": "js",
+      "extension": "dj",
+      "input_bytes": 19766,
+      "rounds": [
+        {
+          "samples_ms": [
+            2.008899,
+            1.5797064666666667,
+            1.1777826666666666,
+            1.4016219666666667,
+            0.7984918000000001
+          ],
+          "cpu_samples_ms": [
+            2.0091666666666668,
+            1.5797333333333334,
+            1.1781666666666666,
+            1.4013333333333333,
+            0.7989333333333334
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            2.228467033333333,
+            1.5532232666666668,
+            1.3225920666666666,
+            1.3020749,
+            0.7421093
+          ],
+          "cpu_samples_ms": [
+            2.2278333333333333,
+            1.5527666666666666,
+            1.3229666666666666,
+            1.3024333333333333,
+            0.7422666666666667
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            2.0442975333333333,
+            1.6196260333333332,
+            1.3475907999999999,
+            1.5123987666666667,
+            0.6990438666666667
+          ],
+          "cpu_samples_ms": [
+            2.044233333333333,
+            1.6197666666666668,
+            1.3475333333333335,
+            1.5127333333333333,
+            0.6994666666666667
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            2.8083598,
+            2.052764133333333,
+            1.6089303333333334,
+            1.6452561,
+            0.9176714333333333
+          ],
+          "cpu_samples_ms": [
+            2.8087,
+            2.0530333333333335,
+            1.6089333333333333,
+            1.6455333333333333,
+            0.9182333333333333
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            2.248544266666667,
+            1.5930503999999999,
+            1.2857877333333334,
+            1.8057063333333334,
+            0.6408191333333334
+          ],
+          "cpu_samples_ms": [
+            2.2489,
+            1.5928666666666667,
+            1.2854333333333334,
+            1.8061333333333331,
+            0.6407666666666666
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            2.0730435,
+            1.7105682999999998,
+            1.1102545,
+            1.5474968999999998,
+            0.6932367
+          ],
+          "cpu_samples_ms": [
+            2.0732666666666666,
+            1.7108666666666668,
+            1.1106333333333334,
+            1.5472,
+            0.6937
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            2.3117342333333335,
+            1.6263590333333333,
+            1.1854516333333334,
+            1.6107210666666667,
+            0.7080818666666667
+          ],
+          "cpu_samples_ms": [
+            2.3117,
+            1.6266,
+            1.1854,
+            1.611,
+            0.7081333333333333
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            3.1657125333333336,
+            2.2933435666666666,
+            1.9001257666666667,
+            2.2426158666666667,
+            1.0949907666666665
+          ],
+          "cpu_samples_ms": [
+            3.165433333333333,
+            2.2937333333333334,
+            1.9004666666666667,
+            2.2426000000000004,
+            1.0954333333333333
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        }
+      ],
+      "median_cpu_ms": 1.5863,
+      "median_wall_ms": 1.5863784333333333,
+      "round_median_cpu_ms": [
+        1.4013333333333333,
+        1.3229666666666666,
+        1.5127333333333333,
+        1.6455333333333333,
+        1.5928666666666667,
+        1.5472,
+        1.611,
+        2.2426000000000004
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "markdown-it",
+      "language": "js",
+      "extension": "md",
+      "input_bytes": 19041,
+      "rounds": [
+        {
+          "samples_ms": [
+            2.1945876333333336,
+            1.1410022333333332,
+            0.9948032,
+            0.9054490333333334,
+            0.7746879999999999
+          ],
+          "cpu_samples_ms": [
+            2.1944666666666666,
+            1.1413,
+            0.9952000000000001,
+            0.9057,
+            0.7727
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.3452628,
+            1.0340145333333333,
+            0.9278275333333333,
+            0.7109710333333333,
+            0.7597063
+          ],
+          "cpu_samples_ms": [
+            2.3453999999999997,
+            1.0340666666666667,
+            0.9274333333333333,
+            0.7112333333333333,
+            0.7582
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.2049904,
+            1.0983133,
+            0.9105675666666666,
+            0.7813436333333333,
+            0.8108478333333333
+          ],
+          "cpu_samples_ms": [
+            2.2053000000000003,
+            1.0985666666666667,
+            0.9105666666666666,
+            0.7817333333333334,
+            0.8090333333333334
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.8723456333333333,
+            1.2032824333333332,
+            1.1665592666666666,
+            0.9846268666666667,
+            1.0145659
+          ],
+          "cpu_samples_ms": [
+            1.8726666666666667,
+            1.2031999999999998,
+            1.1664333333333334,
+            0.9849,
+            1.0125333333333333
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            3.0084433666666666,
+            1.5966545,
+            1.4118232999999998,
+            1.2965781333333333,
+            1.2502427333333332
+          ],
+          "cpu_samples_ms": [
+            3.0084,
+            1.5966333333333333,
+            1.4121666666666668,
+            1.2961666666666667,
+            1.2479666666666667
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.5227892333333335,
+            1.1197644666666666,
+            0.9546138666666667,
+            0.7954759,
+            0.7927881666666666
+          ],
+          "cpu_samples_ms": [
+            2.522266666666667,
+            1.1195333333333333,
+            0.9547333333333333,
+            0.7960333333333334,
+            0.7904
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.5648942,
+            1.0757763333333334,
+            1.0118469666666667,
+            0.9767708666666667,
+            0.7647201
+          ],
+          "cpu_samples_ms": [
+            2.5644,
+            1.0755333333333332,
+            1.0122,
+            0.9765999999999999,
+            0.7630333333333332
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.9212323333333337,
+            1.0722426666666667,
+            0.9727844333333333,
+            1.0224751666666667,
+            0.7050552
+          ],
+          "cpu_samples_ms": [
+            2.8823,
+            1.0726,
+            0.9731000000000001,
+            1.0192333333333334,
+            0.7037666666666667
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        }
+      ],
+      "median_cpu_ms": 1.02665,
+      "median_wall_ms": 1.02824485,
+      "round_median_cpu_ms": [
+        0.9952000000000001,
+        0.9274333333333333,
+        0.9105666666666666,
+        1.1664333333333334,
+        1.4121666666666668,
+        0.9547333333333333,
+        1.0122,
+        1.0192333333333334
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "commonmark.js",
+      "language": "js",
+      "extension": "md",
+      "input_bytes": 19041,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.7765715666666666,
+            0.9832843666666666,
+            0.6362186,
+            0.34630663333333334,
+            0.4120840666666667
+          ],
+          "cpu_samples_ms": [
+            0.7768333333333334,
+            0.9832666666666667,
+            0.6365,
+            0.3465666666666667,
+            0.4125
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.3406135333333333,
+            1.0126173333333335,
+            0.8560817333333334,
+            0.3320785666666667,
+            0.4361549
+          ],
+          "cpu_samples_ms": [
+            1.3409666666666666,
+            1.0126333333333333,
+            0.8563666666666666,
+            0.33243333333333336,
+            0.43626666666666664
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.4307786,
+            0.9671136333333333,
+            0.8259297,
+            0.3452458333333333,
+            0.4427490666666667
+          ],
+          "cpu_samples_ms": [
+            1.4307,
+            0.9668666666666667,
+            0.8262,
+            0.3455666666666667,
+            0.44326666666666664
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.5454545000000002,
+            1.0779228,
+            0.8425753,
+            0.3660359,
+            0.4795795
+          ],
+          "cpu_samples_ms": [
+            1.5453333333333332,
+            1.0781999999999998,
+            0.8429,
+            0.3666,
+            0.48006666666666664
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.2067721,
+            1.2088427000000002,
+            0.9690511333333334,
+            0.6433078,
+            0.6839507333333333
+          ],
+          "cpu_samples_ms": [
+            1.2072,
+            1.2091666666666667,
+            0.9694,
+            0.6437333333333334,
+            0.6844666666666667
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.2537688333333332,
+            0.9937105333333334,
+            0.9019384666666667,
+            0.34356006666666666,
+            0.4189387666666667
+          ],
+          "cpu_samples_ms": [
+            1.254,
+            0.994,
+            0.9025666666666667,
+            0.3430666666666667,
+            0.41773333333333335
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.4343732333333332,
+            1.0129891333333334,
+            0.9701527,
+            0.3373991,
+            0.45682853333333334
+          ],
+          "cpu_samples_ms": [
+            1.4347999999999999,
+            1.0133,
+            0.9704333333333334,
+            0.33776666666666666,
+            0.45736666666666664
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            1.3042657,
+            0.9571541333333333,
+            0.7866690333333334,
+            0.32391556666666665,
+            0.4695266
+          ],
+          "cpu_samples_ms": [
+            1.3036999999999999,
+            0.9574,
+            0.7869666666666667,
+            0.32376666666666665,
+            0.4699666666666667
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        }
+      ],
+      "median_cpu_ms": 0.83455,
+      "median_wall_ms": 0.8342525000000001,
+      "round_median_cpu_ms": [
+        0.6365,
+        0.8563666666666666,
+        0.8262,
+        0.8429,
+        0.9694,
+        0.9025666666666667,
+        0.9704333333333334,
+        0.7869666666666667
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "carve-php",
+      "language": "php",
+      "extension": "crv",
+      "input_bytes": 19200,
+      "rounds": [
+        {
+          "samples_ms": [
+            3.62848045,
+            3.83255465,
+            4.45384425,
+            3.806149,
+            4.8887979
+          ],
+          "cpu_samples_ms": [
+            3.6277499999999963,
+            3.832150000000001,
+            4.451549999999999,
+            3.8052499999999987,
+            4.887850000000005
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            4.29778125,
+            4.90047355,
+            4.32747295,
+            3.8110695,
+            3.8523256000000003
+          ],
+          "cpu_samples_ms": [
+            4.297650000000003,
+            4.900000000000004,
+            4.325600000000001,
+            3.8104999999999998,
+            3.851899999999997
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            3.8363757,
+            3.3070137,
+            3.6250853,
+            3.5168364500000004,
+            3.4980568499999998
+          ],
+          "cpu_samples_ms": [
+            3.8357000000000028,
+            3.306049999999999,
+            3.6239000000000017,
+            3.5163500000000014,
+            3.4981000000000035
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            4.19900765,
+            4.0386997000000004,
+            3.75024765,
+            4.0338009,
+            4.07632945
+          ],
+          "cpu_samples_ms": [
+            4.198499999999999,
+            4.0387,
+            3.7503000000000006,
+            4.0333000000000006,
+            4.076299999999999
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            4.0037342,
+            3.7462022,
+            3.91153465,
+            3.9680105500000002,
+            3.9124404
+          ],
+          "cpu_samples_ms": [
+            4.003700000000004,
+            3.74525,
+            3.9110499999999995,
+            3.967500000000002,
+            3.91125
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            4.4137811,
+            4.073703849999999,
+            4.27153585,
+            4.1684016,
+            4.17612675
+          ],
+          "cpu_samples_ms": [
+            4.412700000000003,
+            4.073199999999999,
+            4.271049999999998,
+            4.1684,
+            4.175599999999996
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            4.4022143499999995,
+            4.31111935,
+            3.65519405,
+            3.7453657999999996,
+            3.50374035
+          ],
+          "cpu_samples_ms": [
+            4.401250000000001,
+            4.3103,
+            3.654000000000002,
+            3.7453999999999987,
+            3.50375
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        },
+        {
+          "samples_ms": [
+            4.09886575,
+            4.1167637,
+            4.2085825,
+            4.4748015500000005,
+            3.94816545
+          ],
+          "cpu_samples_ms": [
+            4.098099999999999,
+            4.116749999999997,
+            4.208649999999997,
+            4.469450000000003,
+            3.947200000000001
+          ],
+          "output_sha256": "4bf9bbf0c1e499251677c386b25d23c58ed15870f2213904cb4da5180444c6db"
+        }
+      ],
+      "median_cpu_ms": 4.018500000000002,
+      "median_wall_ms": 4.01876755,
+      "round_median_cpu_ms": [
+        3.832150000000001,
+        4.297650000000003,
+        3.5163500000000014,
+        4.0387,
+        3.91125,
+        4.175599999999996,
+        3.7453999999999987,
+        4.116749999999997
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "djot-php",
+      "language": "php",
+      "extension": "dj",
+      "input_bytes": 19766,
+      "rounds": [
+        {
+          "samples_ms": [
+            1.50308445,
+            1.4163964999999998,
+            1.5803946500000001,
+            1.3091861,
+            1.3216287
+          ],
+          "cpu_samples_ms": [
+            1.5030500000000002,
+            1.4161499999999994,
+            1.5804499999999986,
+            1.3088500000000003,
+            1.3217499999999993
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.7171577,
+            1.7639803,
+            1.5129527,
+            1.2461572,
+            1.3325272
+          ],
+          "cpu_samples_ms": [
+            1.7172000000000007,
+            1.7622499999999999,
+            1.5130000000000003,
+            1.246,
+            1.332649999999999
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.3729448,
+            1.3209103,
+            1.5483438,
+            1.37487595,
+            1.4178468
+          ],
+          "cpu_samples_ms": [
+            1.3729000000000005,
+            1.3209499999999998,
+            1.5484499999999999,
+            1.3745499999999995,
+            1.4176999999999995
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.4265018,
+            1.3821334,
+            1.5035937499999998,
+            1.346266,
+            1.4631181500000001
+          ],
+          "cpu_samples_ms": [
+            1.42645,
+            1.3802000000000008,
+            1.5037000000000007,
+            1.346449999999999,
+            1.4632499999999993
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.3828548,
+            1.36048095,
+            1.51258585,
+            1.4199896,
+            1.4580180500000002
+          ],
+          "cpu_samples_ms": [
+            1.3820999999999999,
+            1.3606000000000007,
+            1.5120999999999996,
+            1.4200999999999993,
+            1.4581499999999996
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.5138102999999998,
+            1.6360767500000002,
+            1.6548802999999999,
+            1.4157511,
+            1.6311128
+          ],
+          "cpu_samples_ms": [
+            1.51385,
+            1.6362499999999986,
+            1.6545999999999992,
+            1.4158500000000018,
+            1.6306999999999987
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.30841465,
+            1.26702825,
+            1.5502660000000001,
+            1.3843569,
+            1.9367196
+          ],
+          "cpu_samples_ms": [
+            1.3083499999999997,
+            1.2671499999999987,
+            1.5497999999999998,
+            1.384550000000001,
+            1.936850000000001
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            1.8041913,
+            1.33528155,
+            1.4277937,
+            1.28474185,
+            1.31994205
+          ],
+          "cpu_samples_ms": [
+            1.8041500000000004,
+            1.3348,
+            1.42795,
+            1.2849,
+            1.31955
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        }
+      ],
+      "median_cpu_ms": 1.4188999999999994,
+      "median_wall_ms": 1.4189182,
+      "round_median_cpu_ms": [
+        1.4161499999999994,
+        1.5130000000000003,
+        1.3745499999999995,
+        1.42645,
+        1.4200999999999993,
+        1.6306999999999987,
+        1.384550000000001,
+        1.3348
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "league/commonmark-gfm",
+      "language": "php",
+      "extension": "md",
+      "input_bytes": 19041,
+      "rounds": [
+        {
+          "samples_ms": [
+            2.55585715,
+            2.4807266500000003,
+            2.3615525,
+            2.3991133000000002,
+            2.21256135
+          ],
+          "cpu_samples_ms": [
+            2.5553500000000007,
+            2.4809499999999987,
+            2.3616500000000014,
+            2.3987499999999993,
+            2.2119
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            3.38122495,
+            3.4583705,
+            3.16810805,
+            2.60881745,
+            2.5196026
+          ],
+          "cpu_samples_ms": [
+            3.3802999999999996,
+            3.457399999999999,
+            3.167600000000001,
+            2.6089,
+            2.51875
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.42861495,
+            2.39109245,
+            2.35279495,
+            3.8940533000000004,
+            4.0281416
+          ],
+          "cpu_samples_ms": [
+            2.4278499999999994,
+            2.390450000000001,
+            2.352899999999999,
+            3.8942000000000005,
+            4.026850000000001
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.6998633,
+            2.6215810999999998,
+            2.5941407,
+            2.46660125,
+            2.8816805
+          ],
+          "cpu_samples_ms": [
+            2.69925,
+            2.620950000000001,
+            2.5941999999999994,
+            2.4661000000000017,
+            2.8811999999999975
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.67106695,
+            2.5815019,
+            2.6336410999999997,
+            2.35259455,
+            2.36853625
+          ],
+          "cpu_samples_ms": [
+            2.6701500000000005,
+            2.5817000000000005,
+            2.6337,
+            2.352750000000001,
+            2.3685999999999985
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            3.3271636,
+            3.03153195,
+            3.88585525,
+            2.9104282,
+            2.93785715
+          ],
+          "cpu_samples_ms": [
+            3.326800000000001,
+            3.0307500000000016,
+            3.883400000000001,
+            2.9105500000000006,
+            2.9379000000000017
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.71449065,
+            2.1996018,
+            2.3450447,
+            2.2739731,
+            2.5594626000000003
+          ],
+          "cpu_samples_ms": [
+            2.713449999999999,
+            2.19915,
+            2.3447499999999986,
+            2.2734999999999976,
+            2.559599999999998
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            2.7499409,
+            3.0463104999999997,
+            3.04947305,
+            2.87286265,
+            2.8457032
+          ],
+          "cpu_samples_ms": [
+            2.749900000000001,
+            3.0453999999999994,
+            3.0489999999999986,
+            2.8724500000000015,
+            2.84575
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        }
+      ],
+      "median_cpu_ms": 2.627325000000001,
+      "median_wall_ms": 2.6276110999999998,
+      "round_median_cpu_ms": [
+        2.3987499999999993,
+        3.167600000000001,
+        2.4278499999999994,
+        2.620950000000001,
+        2.5817000000000005,
+        3.0307500000000016,
+        2.3447499999999986,
+        2.8724500000000015
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "carve-rs",
+      "language": "rs",
+      "extension": "crv",
+      "input_bytes": 19200,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.426053,
+            0.405809,
+            0.425633,
+            0.412553,
+            0.407049
+          ],
+          "cpu_samples_ms": [
+            0.425924,
+            0.405811,
+            0.423227,
+            0.412445,
+            0.407058
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.425878,
+            0.456671,
+            0.430582,
+            0.444877,
+            0.437248
+          ],
+          "cpu_samples_ms": [
+            0.424296,
+            0.456681,
+            0.430527,
+            0.444771,
+            0.436999
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.420506,
+            0.416844,
+            0.408359,
+            0.421778,
+            0.412409
+          ],
+          "cpu_samples_ms": [
+            0.420487,
+            0.416852,
+            0.408368,
+            0.421487,
+            0.41229
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.428217,
+            0.423937,
+            0.424709,
+            0.429477,
+            0.432019
+          ],
+          "cpu_samples_ms": [
+            0.428208,
+            0.423749,
+            0.424529,
+            0.42948,
+            0.431903
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.409773,
+            0.408823,
+            0.407381,
+            0.41203,
+            0.399441
+          ],
+          "cpu_samples_ms": [
+            0.409466,
+            0.406744,
+            0.407394,
+            0.411939,
+            0.399461
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.603559,
+            0.476806,
+            0.431569,
+            0.446153,
+            0.435136
+          ],
+          "cpu_samples_ms": [
+            0.603394,
+            0.476809,
+            0.431399,
+            0.446055,
+            0.435001
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.493391,
+            0.480367,
+            0.409297,
+            0.399031,
+            0.411648
+          ],
+          "cpu_samples_ms": [
+            0.493254,
+            0.480287,
+            0.409305,
+            0.399037,
+            0.411404
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        },
+        {
+          "samples_ms": [
+            0.405914,
+            0.390966,
+            0.426317,
+            0.409622,
+            0.409155
+          ],
+          "cpu_samples_ms": [
+            0.40579,
+            0.39083,
+            0.426327,
+            0.407739,
+            0.409165
+          ],
+          "output_sha256": "2116125e9457fc1e173d83593c16337f97dd10af3a4d5f5ffaab3125d4566089"
+        }
+      ],
+      "median_cpu_ms": 0.422357,
+      "median_wall_ms": 0.4228575,
+      "round_median_cpu_ms": [
+        0.412445,
+        0.436999,
+        0.416852,
+        0.428208,
+        0.407394,
+        0.446055,
+        0.411404,
+        0.407739
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "jotdown",
+      "language": "rs",
+      "extension": "dj",
+      "input_bytes": 19766,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.139888,
+            0.140678,
+            0.143763,
+            0.147546,
+            0.144823
+          ],
+          "cpu_samples_ms": [
+            0.139659,
+            0.140686,
+            0.143771,
+            0.147558,
+            0.144829
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.175966,
+            0.173328,
+            0.178242,
+            0.155512,
+            0.153658
+          ],
+          "cpu_samples_ms": [
+            0.175844,
+            0.173244,
+            0.17815,
+            0.155526,
+            0.153672
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.150718,
+            0.149661,
+            0.148346,
+            0.150212,
+            0.151276
+          ],
+          "cpu_samples_ms": [
+            0.150718,
+            0.149663,
+            0.148348,
+            0.150028,
+            0.151293
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.15727,
+            0.151185,
+            0.16398,
+            0.158822,
+            0.166766
+          ],
+          "cpu_samples_ms": [
+            0.157255,
+            0.151194,
+            0.163993,
+            0.158876,
+            0.166782
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.152565,
+            0.167797,
+            0.175909,
+            0.158753,
+            0.165763
+          ],
+          "cpu_samples_ms": [
+            0.15258,
+            0.16781,
+            0.175925,
+            0.15877,
+            0.165771
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.160242,
+            0.156731,
+            0.161726,
+            0.152549,
+            0.15143
+          ],
+          "cpu_samples_ms": [
+            0.160089,
+            0.156741,
+            0.161625,
+            0.152288,
+            0.151443
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.153019,
+            0.173346,
+            0.159104,
+            0.152126,
+            0.15339
+          ],
+          "cpu_samples_ms": [
+            0.153025,
+            0.173361,
+            0.159117,
+            0.15214,
+            0.153396
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        },
+        {
+          "samples_ms": [
+            0.158978,
+            0.150751,
+            0.142643,
+            0.146592,
+            0.147973
+          ],
+          "cpu_samples_ms": [
+            0.158971,
+            0.150766,
+            0.142648,
+            0.146446,
+            0.147982
+          ],
+          "output_sha256": "26e62ef6a3c3ab980b946fb70db4b2da7146142e349fa5d780d4ac26fb9c7043"
+        }
+      ],
+      "median_cpu_ms": 0.1532105,
+      "median_wall_ms": 0.1532045,
+      "round_median_cpu_ms": [
+        0.143771,
+        0.173244,
+        0.150028,
+        0.158876,
+        0.165771,
+        0.156741,
+        0.153396,
+        0.147982
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "comrak",
+      "language": "rs",
+      "extension": "md",
+      "input_bytes": 19041,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.093471,
+            0.08849,
+            0.085419,
+            0.089442,
+            0.08186
+          ],
+          "cpu_samples_ms": [
+            0.093339,
+            0.088499,
+            0.085426,
+            0.08945,
+            0.081871
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.096989,
+            0.093061,
+            0.093796,
+            0.097884,
+            0.095817
+          ],
+          "cpu_samples_ms": [
+            0.096983,
+            0.093071,
+            0.093812,
+            0.097902,
+            0.095833
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.092591,
+            0.095776,
+            0.094137,
+            0.090601,
+            0.08972
+          ],
+          "cpu_samples_ms": [
+            0.092591,
+            0.095791,
+            0.094046,
+            0.090615,
+            0.089732
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.094383,
+            0.093207,
+            0.098237,
+            0.087691,
+            0.086951
+          ],
+          "cpu_samples_ms": [
+            0.094211,
+            0.093221,
+            0.098161,
+            0.087702,
+            0.086968
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.101857,
+            0.096374,
+            0.092588,
+            0.085833,
+            0.084048
+          ],
+          "cpu_samples_ms": [
+            0.101859,
+            0.096238,
+            0.092598,
+            0.085852,
+            0.084057
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.110979,
+            0.095497,
+            0.093113,
+            0.093568,
+            0.099847
+          ],
+          "cpu_samples_ms": [
+            0.110971,
+            0.095507,
+            0.093118,
+            0.093479,
+            0.099863
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.100986,
+            0.104764,
+            0.106137,
+            0.099636,
+            0.106194
+          ],
+          "cpu_samples_ms": [
+            0.100977,
+            0.104777,
+            0.106149,
+            0.099656,
+            0.106211
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        },
+        {
+          "samples_ms": [
+            0.114399,
+            0.099626,
+            0.10658,
+            0.083934,
+            0.086314
+          ],
+          "cpu_samples_ms": [
+            0.114243,
+            0.099636,
+            0.106589,
+            0.083856,
+            0.086324
+          ],
+          "output_sha256": "0dc15ee707cc6492ed5cc6989fc92755833b638a44ef79cdbcbf28acf2f8a750"
+        }
+      ],
+      "median_cpu_ms": 0.09392900000000001,
+      "median_wall_ms": 0.09396650000000001,
+      "round_median_cpu_ms": [
+        0.088499,
+        0.095833,
+        0.092591,
+        0.093221,
+        0.092598,
+        0.095507,
+        0.104777,
+        0.099636
+      ]
+    },
+    {
+      "document": "spec-history",
+      "engine": "pulldown-cmark",
+      "language": "rs",
+      "extension": "md",
+      "input_bytes": 19041,
+      "rounds": [
+        {
+          "samples_ms": [
+            0.039166,
+            0.043598,
+            0.039867,
+            0.039736,
+            0.04501
+          ],
+          "cpu_samples_ms": [
+            0.039155,
+            0.043611,
+            0.039774,
+            0.039749,
+            0.045021
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.084129,
+            0.095601,
+            0.26258,
+            0.045489,
+            0.044533
+          ],
+          "cpu_samples_ms": [
+            0.043738,
+            0.05562,
+            0.052683,
+            0.045502,
+            0.044541
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.04342,
+            0.042567,
+            0.042136,
+            0.042056,
+            0.042685
+          ],
+          "cpu_samples_ms": [
+            0.043416,
+            0.042578,
+            0.042142,
+            0.042061,
+            0.042687
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.047021,
+            0.042627,
+            0.044889,
+            0.047739,
+            0.042829
+          ],
+          "cpu_samples_ms": [
+            0.046899,
+            0.042638,
+            0.044898,
+            0.047747,
+            0.04274
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.043479,
+            0.046446,
+            0.043644,
+            0.042961,
+            0.042709
+          ],
+          "cpu_samples_ms": [
+            0.043472,
+            0.046459,
+            0.043656,
+            0.042974,
+            0.042713
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.046831,
+            0.052883,
+            0.051172,
+            0.04651,
+            0.046021
+          ],
+          "cpu_samples_ms": [
+            0.046839,
+            0.0529,
+            0.051181,
+            0.046522,
+            0.046028
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.049458,
+            0.045271,
+            0.044825,
+            0.048796,
+            0.047555
+          ],
+          "cpu_samples_ms": [
+            0.04946,
+            0.045274,
+            0.044827,
+            0.048818,
+            0.047565
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        },
+        {
+          "samples_ms": [
+            0.041496,
+            0.041331,
+            0.041991,
+            0.043337,
+            0.041218
+          ],
+          "cpu_samples_ms": [
+            0.041489,
+            0.041333,
+            0.041998,
+            0.043343,
+            0.041221
+          ],
+          "output_sha256": "c1a8bdac2e19e70bfab32cabf34624b91a8b91c5c3f1877a5514b761bc6338df"
+        }
+      ],
+      "median_cpu_ms": 0.043697,
+      "median_wall_ms": 0.0440885,
+      "round_median_cpu_ms": [
+        0.039774,
+        0.045502,
+        0.042578,
+        0.044898,
+        0.043472,
+        0.046839,
+        0.047565,
+        0.041489
+      ]
+    }
+  ]
+}
