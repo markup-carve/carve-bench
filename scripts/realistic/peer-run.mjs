@@ -46,6 +46,8 @@ const iterations = { js: 30, php: 20, rs: 100 }
 const trials = 5
 const rounds = 8
 const cpu = 12
+const loadGate = Number(process.env.CARVE_PEER_MAX_LOAD ?? 20)
+assert.ok(Number.isFinite(loadGate) && loadGate >= 0)
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b)
   return (sorted[(sorted.length - 1) >> 1] + sorted[sorted.length >> 1]) / 2
@@ -107,8 +109,8 @@ const rows = provenance.documents.flatMap(document => engines.map(([engine, lang
 const order = []
 const loadStart = loadavg()
 for (let round = 0; round < rounds; round++) {
-  while (loadavg()[0] > 20) {
-    console.log(`waiting for host load below 20 before round ${round + 1}: ${loadavg()[0].toFixed(2)}`)
+  while (loadavg()[0] > loadGate) {
+    console.log(`waiting for host load below ${loadGate} before round ${round + 1}: ${loadavg()[0].toFixed(2)}`)
     await new Promise(resolve => setTimeout(resolve, 15_000))
   }
   for (const [documentIndex, document] of rotate(provenance.documents, round).entries()) {
@@ -138,6 +140,6 @@ const record = { schema: 1, generated_at: new Date().toISOString(), source_commi
   dependency_lock_sha256: Object.fromEntries(['engines/js/package-lock.json', 'scripts/realistic/peer-composer.lock',
     'reports/dev-main-rust.Cargo.lock'].map(file => [file, sha(readFileSync(resolve(root, file)))])),
   host: `${platform()} ${release()}`, logical_cpus: cpus().length, cpu_affinity: [cpu], load_start: loadStart,
-  load_end: loadavg(), rounds, trials_per_round: trials, iterations, order, controls, rows }
+  load_end: loadavg(), load_gate: loadGate, rounds, trials_per_round: trials, iterations, order, controls, rows }
 writeFileSync(resolve(root, 'reports/realistic-peer.json'), JSON.stringify(record, null, 2) + '\n')
 console.log('Wrote reports/realistic-peer.json')

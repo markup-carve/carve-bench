@@ -50,6 +50,10 @@ for title, language, engines in panels:
 
 sessions = DATA.get('sessions', [])
 assert sessions and sum(session['rounds'] for session in sessions) == DATA['rounds']
+checkpoint_loads = [entry['load'][0] for entry in DATA['order']]
+assert checkpoint_loads
+earlier_gate_note = ('Every checkpoint was below 20, the earlier run\'s gate.'
+                     if max(checkpoint_loads) < 20 else 'Some checkpoints exceeded the earlier run\'s gate of 20.')
 session_links = ', '.join(
     f'[session {index}]({session["path"].removeprefix("reports/")}) '
     f'({session["rounds"]} rounds; load {session["load_start"][0]:.2f} to {session["load_end"][0]:.2f})'
@@ -61,7 +65,9 @@ lines += [
     '',
     'All eleven libraries produced identical projected HTML on each file. The projection ignores section wrappers, generated IDs, and presentational attributes while retaining tags, link targets, and text. The [raw record](realistic-peer.json) keeps original output hashes and the projection hashes. The fixed Composer lock includes [merged djot-php PR #325](https://github.com/php-collective/djot-php/pull/325), which corrected code-span padding in this corpus.',
     '',
-    f'{DATA["rounds"]} rounds rotated document and library order across {len(sessions)} sessions: {session_links}. Every worker warmed for 20 conversions, then measured {DATA["trials_per_round"]} batches per round, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. The load gate waited for one-minute host load below 20 before each round on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
+    f'{DATA["rounds"]} rounds rotated document and library order across {len(sessions)} sessions: {session_links}. Every worker warmed for 20 conversions, then measured {DATA["trials_per_round"]} batches per round, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. The load gate waited for one-minute host load below {DATA["load_gate"]} before each round on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
+    '',
+    f'Observed one-minute load at the document checkpoints ranged from {min(checkpoint_loads):.2f} to {max(checkpoint_loads):.2f}. {earlier_gate_note}',
     '',
     'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
 ]
