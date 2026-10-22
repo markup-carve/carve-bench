@@ -153,7 +153,7 @@ Track D has its own [engine pins](scripts/realistic/peer-pins.json) and
 route checks. `peer-fixtures.mjs` verifies the three input formats;
 `peer-route-check.mjs` checks the Carve routes; `peer-run.mjs` checks projected
 HTML and records rotating timing rounds. The published comparison combines
-three recorded sessions (4, 4, and 8 rounds) with `peer-aggregate.mjs`;
+two recorded sessions (8 rounds each) with `peer-aggregate.mjs`;
 `peer-report.py` and `peer-chart.mjs` rebuild the report and chart from the
 combined record. The runners
 take pinned checkout paths through `CARVE_JS_TREE`, `CARVE_PHP_TREE`, and

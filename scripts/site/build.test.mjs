@@ -101,7 +101,7 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
     assert.equal(readFileSync(join(destination, 'reports/realistic-peer.json'), 'utf8'),
       readFileSync(new URL('reports/realistic-peer.json', root), 'utf8'))
     const peerSessions = JSON.parse(readFileSync(new URL('reports/realistic-peer.json', root), 'utf8')).sessions
-    assert.equal(peerSessions.length, 3)
+    assert.equal(peerSessions.length, 2)
     for (const session of peerSessions) {
       assert.match(session.path, /^reports\/realistic-peer-runs\/[^/]+\.json$/)
       assert.equal(readFileSync(join(destination, session.path), 'utf8'),

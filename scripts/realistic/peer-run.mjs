@@ -71,7 +71,7 @@ function run(entry, document, observe) {
   if (html !== null) assert.equal(row.output_sha256, sha(html))
   assert.equal(row.bytes, document.fixtures[extension].bytes)
   if (language === 'php') assert.equal(row.jit_on, true, 'PHP tracing JIT must be active')
-  if (engine.startsWith('carve-')) assert.ok(row.carve_source?.includes(pins[language].slice(0, 9)))
+  if (engine.startsWith('carve-')) assert.ok(row.carve_source?.includes(pins[language].slice(0, 8)))
   assert.equal(row.cpu_samples_ms.length, observe ? 1 : trials)
   assert.ok(row.cpu_samples_ms.every(value => Number.isFinite(value) && value > 0))
   return { row, html }
