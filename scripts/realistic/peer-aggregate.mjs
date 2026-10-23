@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const paths = [
-  'reports/realistic-peer-runs/20261023-final-a.json',
-  'reports/realistic-peer-runs/20261023-final-b.json',
+  'reports/realistic-peer-runs/20261023-phase2-a.json',
+  'reports/realistic-peer-runs/20261023-phase2-b.json',
 ]
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const inputs = paths.map(path => {

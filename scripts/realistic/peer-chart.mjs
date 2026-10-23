@@ -4,7 +4,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
-const data = JSON.parse(readFileSync(resolve(root, 'reports/realistic-peer.json')))
+const data = JSON.parse(readFileSync(process.env.CARVE_PEER_DATA ?? resolve(root, 'reports/realistic-peer.json')))
 assert.equal(data.schema, 1)
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b)
@@ -41,7 +41,7 @@ function ratios(language, engine, document) {
 for (const [panelIndex, [language, title, engines]] of panels.entries()) {
   const top = 120 + panelIndex * 370
   const bottom = top + 260
-  const y = value => bottom - (Math.log2(value) + 1) / 5 * (bottom - top)
+  const y = value => bottom - (Math.log2(value) + 1) / 6 * (bottom - top)
   svg.push(`<text x="42" y="${top - 23}" class="panel">${title}</text>`)
   let legendX = 205
   for (const [index, engine] of engines.entries()) {
@@ -49,7 +49,7 @@ for (const [panelIndex, [language, title, engines]] of panels.entries()) {
     svg.push(`<text x="${legendX + 24}" y="${top - 26}" class="label">${escape(engine)}</text>`)
     legendX += engine.length * 8.4 + 50
   }
-  for (const value of [0.5, 1, 2, 4, 8, 16]) {
+  for (const value of [0.5, 1, 2, 4, 8, 16, 32]) {
     const yy = y(value)
     svg.push(`<line class="grid" x1="155" y1="${yy.toFixed(1)}" x2="1005" y2="${yy.toFixed(1)}"/>`)
     svg.push(`<text x="145" y="${(yy + 5).toFixed(1)}" text-anchor="end" class="note">${value}×</text>`)
@@ -61,7 +61,7 @@ for (const [panelIndex, [language, title, engines]] of panels.entries()) {
   for (const [index, engine] of engines.entries()) {
     const points = documents.map((document, docIndex) => {
       const values = ratios(language, engine, document)
-      assert.ok(values.every(value => value >= 0.5 && value <= 16), `${engine}: speed ratio outside chart scale`)
+      assert.ok(values.every(value => value >= 0.5 && value <= 32), `${engine}: speed ratio outside chart scale`)
       return [x[docIndex], y(median(values)), y(Math.min(...values)), y(Math.max(...values))]
     })
     svg.push(`<polyline class="line" stroke="${colors[index]}" points="${points.map(point => point.slice(0, 2).map(value => value.toFixed(1)).join(',')).join(' ')}"/>`)
@@ -72,5 +72,6 @@ for (const [panelIndex, [language, title, engines]] of panels.entries()) {
   }
 }
 svg.push('</svg>')
-writeFileSync(resolve(root, 'charts/realistic-peer-cpu.svg'), svg.join('\n') + '\n')
-console.log('Wrote charts/realistic-peer-cpu.svg')
+const output = process.env.CARVE_PEER_CHART ?? resolve(root, 'charts/realistic-peer-cpu.svg')
+writeFileSync(output, svg.join('\n') + '\n')
+console.log(`Wrote ${output}`)
