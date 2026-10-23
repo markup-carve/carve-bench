@@ -37,6 +37,7 @@ for (const document of provenance.documents) {
   }
 }
 const report = { schema: 1, generated_at: new Date().toISOString(), source_commits: pins,
+  benchmark_commit: execFileSync('git', ['-C', root, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
   fixture_provenance_sha256: sha(readFileSync(resolve(root, 'corpus/realistic/peer/provenance.json'))),
   route_probe_sha256: Object.fromEntries(['scripts/realistic/route.mjs', 'scripts/realistic/route.php',
     'scripts/realistic/peer-route.rs'].map(file => [file, sha(readFileSync(resolve(root, file)))])),
