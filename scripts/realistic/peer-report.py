@@ -34,7 +34,7 @@ lines = [
     '',
     '## Results',
     '',
-    'The inputs are 3.1 to 19.3 KiB, depending on syntax. The table gives pooled median process CPU milliseconds per conversion, then the median paired speed ratio and its round range. Compare rows within a runtime and document. JavaScript process CPU includes Node threads. PHP used tracing JIT. Rust used a release binary. Startup time was excluded.',
+    'The inputs are 3.1 to 19.3 KiB, depending on syntax. The table gives pooled median process CPU milliseconds per conversion, then the median of within-round peer/Carve speed ratios and its round range. Compare rows within a runtime and document. JavaScript process CPU includes Node threads. PHP used tracing JIT. Rust used a release binary. Startup time was excluded.',
 ]
 for title, language, engines in panels:
     lines += ['', f'### {title}', '', '|= Document |= Library |= CPU ms/op |= Speed vs Carve |= Round range |']
@@ -67,9 +67,11 @@ lines += [
     '',
     f'{DATA["rounds"]} rounds rotated document and library order across {len(sessions)} sessions: {session_links}. JavaScript workers warmed for {DATA["warmup"]["js"]} conversions so V8 finished optimizing the list parser before timing; PHP and Rust warmed for {DATA["warmup"]["php"]} and {DATA["warmup"]["rs"]}. Each round measured {DATA["trials_per_round"]} batches, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. The load gate waited for one-minute host load below {DATA["load_gate"]} before each round on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
     '',
-    f'Observed one-minute load at the document checkpoints ranged from {min(checkpoint_loads):.2f} to {max(checkpoint_loads):.2f}. {earlier_gate_note}',
+    f'Observed one-minute load at the document checkpoints ranged from {min(checkpoint_loads):.2f} to {max(checkpoint_loads):.2f}; these samples differ from the session start and end loads above. {earlier_gate_note}',
     '',
     'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
+    '',
+    f'This measurement was recorded at `{DATA["generated_at"]}` from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}` from [PR #3485](https://github.com/markup-carve/carve-js/pull/3485). The runner calls `carveToHtml` on native Carve files, so the PR\'s Markdown import change is outside the measured route. Absolute CPU times differ from the preceding snapshot, but that change cannot be attributed to PR #3485.',
 ]
 OUTPUT.write_text('\n'.join(lines) + '\n')
 print(OUTPUT)
