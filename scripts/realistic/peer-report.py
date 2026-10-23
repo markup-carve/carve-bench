@@ -54,7 +54,7 @@ checkpoint_loads = [entry['load'][0] for entry in DATA['order']]
 assert checkpoint_loads
 gate_note = (f'Every document checkpoint was below the pre-round load gate of {DATA["load_gate"]}.'
              if max(checkpoint_loads) < DATA['load_gate']
-             else f'Some document checkpoints exceeded the pre-round load gate of {DATA["load_gate"]}; the gate is checked before each round.')
+             else 'The load gate applies before each round; later document checkpoints can exceed it.')
 session_links = ', '.join(
     f'[session {index}]({session["path"].removeprefix("reports/")}) '
     f'({session["rounds"]} rounds; load {session["load_start"][0]:.2f} to {session["load_end"][0]:.2f})'
@@ -72,7 +72,7 @@ lines += [
     '',
     'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
     '',
-    f'This measurement was recorded at `{DATA["generated_at"]}` from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}`. It includes the inline scanner change in [PR #3493](https://github.com/markup-carve/carve-js/pull/3493) and the later typography and parser fixes in [PR #3491](https://github.com/markup-carve/carve-js/pull/3491) and [PR #3492](https://github.com/markup-carve/carve-js/pull/3492). Absolute CPU times moved even for unchanged PHP and Rust pins on this shared host, and the round ranges overlap across snapshots. The [paired CPU measurements in the engine PR](https://github.com/markup-carve/carve-js/pull/3493) isolate that change\'s effect.',
+    f'The second session completed at `{DATA["generated_at"]}`. The combined record came from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}` and includes the transient AST change in [PR #3508](https://github.com/markup-carve/carve-js/pull/3508). PHP and Rust also use newer main commits than the preceding peer chart. Different engine pins and host load mean chart differences across snapshots do not isolate one code change. The [paired CPU screen in PR #3508](https://github.com/markup-carve/carve-js/pull/3508) compares that change against its current main baseline.',
 ]
 OUTPUT.write_text('\n'.join(lines) + '\n')
 print(OUTPUT)
