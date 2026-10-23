@@ -52,8 +52,9 @@ sessions = DATA.get('sessions', [])
 assert sessions and sum(session['rounds'] for session in sessions) == DATA['rounds']
 checkpoint_loads = [entry['load'][0] for entry in DATA['order']]
 assert checkpoint_loads
-earlier_gate_note = ('Every checkpoint was below 20, the earlier run\'s gate.'
-                     if max(checkpoint_loads) < 20 else 'Some checkpoints exceeded the earlier run\'s gate of 20.')
+gate_note = (f'Every document checkpoint was below the pre-round load gate of {DATA["load_gate"]}.'
+             if max(checkpoint_loads) < DATA['load_gate']
+             else f'Some document checkpoints exceeded the pre-round load gate of {DATA["load_gate"]}; the gate is checked before each round.')
 session_links = ', '.join(
     f'[session {index}]({session["path"].removeprefix("reports/")}) '
     f'({session["rounds"]} rounds; load {session["load_start"][0]:.2f} to {session["load_end"][0]:.2f})'
@@ -67,11 +68,11 @@ lines += [
     '',
     f'{DATA["rounds"]} rounds rotated document and library order across {len(sessions)} sessions: {session_links}. JavaScript workers warmed for {DATA["warmup"]["js"]} conversions so V8 finished optimizing the list parser before timing; PHP and Rust warmed for {DATA["warmup"]["php"]} and {DATA["warmup"]["rs"]}. Each round measured {DATA["trials_per_round"]} batches, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. The load gate waited for one-minute host load below {DATA["load_gate"]} before each round on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
     '',
-    f'Observed one-minute load at the document checkpoints ranged from {min(checkpoint_loads):.2f} to {max(checkpoint_loads):.2f}; these samples differ from the session start and end loads above. {earlier_gate_note}',
+    f'Observed one-minute load at the document checkpoints ranged from {min(checkpoint_loads):.2f} to {max(checkpoint_loads):.2f}; these samples differ from the session start and end loads above. {gate_note}',
     '',
     'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
     '',
-    f'This measurement was recorded at `{DATA["generated_at"]}` from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}` from [PR #3487](https://github.com/markup-carve/carve-js/pull/3487), which parses isolated one-line list items without nested block dispatch. The earlier [Markdown import change](https://github.com/markup-carve/carve-js/pull/3485) remains outside this native Carve route. Absolute CPU times moved even for unchanged PHP and Rust pins on this shared host, and the round ranges overlap across snapshots. The [paired CPU measurements in the engine PR](https://github.com/markup-carve/carve-js/pull/3487) are the evidence for that change\'s effect.',
+    f'This measurement was recorded at `{DATA["generated_at"]}` from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}` from [PR #3488](https://github.com/markup-carve/carve-js/pull/3488), which speeds ordinary wrapped list items and caption numbering. Absolute CPU times moved even for unchanged PHP and Rust pins on this shared host, and the round ranges overlap across snapshots. The [paired CPU measurements in the engine PR](https://github.com/markup-carve/carve-js/pull/3488) isolate that change\'s effect.',
 ]
 OUTPUT.write_text('\n'.join(lines) + '\n')
 print(OUTPUT)
