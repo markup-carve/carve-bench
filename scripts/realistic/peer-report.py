@@ -71,7 +71,7 @@ lines += [
     '',
     'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
     '',
-    f'This measurement was recorded at `{DATA["generated_at"]}` from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}` from [PR #3485](https://github.com/markup-carve/carve-js/pull/3485). The runner calls `carveToHtml` on native Carve files, so the PR\'s Markdown import change is outside the measured route. Absolute CPU times differ from the preceding snapshot, but that change cannot be attributed to PR #3485.',
+    f'This measurement was recorded at `{DATA["generated_at"]}` from benchmark commit `{DATA["benchmark_commit"]}`. The JavaScript pin is merged main commit `{DATA["source_commits"]["js"]}` from [PR #3486](https://github.com/markup-carve/carve-js/pull/3486), which skips cross-reference passes when no reference exists. The earlier [Markdown import change](https://github.com/markup-carve/carve-js/pull/3485) remains outside this native Carve route. Absolute CPU times moved even for unchanged PHP and Rust pins on this shared host, and the round ranges overlap across snapshots. The [paired CPU measurements in the engine PR](https://github.com/markup-carve/carve-js/pull/3486) are the evidence for that change\'s effect.',
 ]
 OUTPUT.write_text('\n'.join(lines) + '\n')
 print(OUTPUT)
