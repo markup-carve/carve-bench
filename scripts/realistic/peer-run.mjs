@@ -43,6 +43,7 @@ const djotPhpCommit = phpLock.packages.find(row => row.name === 'php-collective/
 assert.equal(djotPhpCommit, '4ccf5ccf8f105e08bb32ceff7821c510d181457d')
 assert.equal(phpInstalled.find(row => row.name === 'php-collective/djot')?.source?.reference, djotPhpCommit)
 const iterations = { js: 30, php: 20, rs: 100 }
+const warmup = { js: 200, php: 20, rs: 20 }
 const trials = 5
 const rounds = 8
 const cpu = 12
@@ -62,7 +63,8 @@ function run(entry, document, observe) {
     : language === 'php' ? ['-n', '-d', 'extension=ctype', '-d', 'extension=mbstring', '-d', 'opcache.enable_cli=1',
       '-d', 'opcache.jit_buffer_size=128M', '-d', 'opcache.jit=tracing', resolve(root, 'engines/php/compare.php')] : []
   const env = { ...process.env, CARVE_JS: pathToFileURL(resolve(trees.js, 'dist/index.js')).href,
-    CARVE_PHP_SRC: resolve(trees.php, 'src'), CARVE_COMPARE_OBSERVE: observe ? '1' : '0', CARVE_COMPARE_WARMUP: '20' }
+    CARVE_PHP_SRC: resolve(trees.php, 'src'), CARVE_COMPARE_OBSERVE: observe ? '1' : '0',
+    CARVE_COMPARE_WARMUP: String(warmup[language]) }
   const output = execFileSync('taskset', ['-c', String(cpu), command, ...prefix, engine, path,
     String(observe ? 1 : iterations[language]), String(observe ? 1 : trials)],
   { encoding: 'utf8', env, maxBuffer: 20_000_000, timeout: 180_000 })
@@ -140,6 +142,6 @@ const record = { schema: 1, generated_at: new Date().toISOString(), source_commi
   dependency_lock_sha256: Object.fromEntries(['engines/js/package-lock.json', 'scripts/realistic/peer-composer.lock',
     'reports/dev-main-rust.Cargo.lock'].map(file => [file, sha(readFileSync(resolve(root, file)))])),
   host: `${platform()} ${release()}`, logical_cpus: cpus().length, cpu_affinity: [cpu], load_start: loadStart,
-  load_end: loadavg(), load_gate: loadGate, rounds, trials_per_round: trials, iterations, order, controls, rows }
+  load_end: loadavg(), load_gate: loadGate, rounds, trials_per_round: trials, iterations, warmup, order, controls, rows }
 writeFileSync(resolve(root, 'reports/realistic-peer.json'), JSON.stringify(record, null, 2) + '\n')
 console.log('Wrote reports/realistic-peer.json')

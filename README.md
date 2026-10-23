@@ -155,7 +155,8 @@ route checks. `peer-fixtures.mjs` verifies the three input formats;
 HTML and records rotating timing rounds. The published comparison combines
 two recorded sessions (8 rounds each) with `peer-aggregate.mjs`;
 `peer-report.py` and `peer-chart.mjs` rebuild the report and chart from the
-combined record. The runners
+combined record. JavaScript workers warm for 200 conversions so V8 finishes
+optimizing the list parser before timing; PHP and Rust warm for 20. The runners
 take pinned checkout paths through `CARVE_JS_TREE`, `CARVE_PHP_TREE`, and
 `CARVE_RS_TREE`; the comparison runner also takes `CARVE_RS_COMPARE_BIN`.
 
