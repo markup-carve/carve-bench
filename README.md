@@ -490,9 +490,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.11` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.12` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.9` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.13` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.14` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.11` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
