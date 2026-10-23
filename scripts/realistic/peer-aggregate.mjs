@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const paths = [
-  'reports/realistic-peer-runs/20261023-inline-scanner-a.json',
-  'reports/realistic-peer-runs/20261023-inline-scanner-b.json',
+  'reports/realistic-peer-runs/20261024-final-a.json',
+  'reports/realistic-peer-runs/20261024-final-b.json',
 ]
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const inputs = paths.map(path => {
@@ -67,7 +67,7 @@ const rows = reference.rows.map((referenceRow, index) => {
 const last = inputs.at(-1).data
 const combined = {
   ...last,
-  generated_at: new Date().toISOString(),
+  generated_at: last.generated_at,
   rounds: offset,
   order,
   rows,
