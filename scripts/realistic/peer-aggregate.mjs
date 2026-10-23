@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const paths = [
-  'reports/realistic-peer-runs/20261022-strong-a.json',
-  'reports/realistic-peer-runs/20261022-strong-b.json',
+  'reports/realistic-peer-runs/20261023-final-a.json',
+  'reports/realistic-peer-runs/20261023-final-b.json',
 ]
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const inputs = paths.map(path => {
@@ -18,7 +18,7 @@ const reference = inputs[0].data
 const sharedFields = [
   'schema', 'source_commits', 'benchmark_commit', 'fixture_provenance_sha256',
   'binary_sha256', 'dependency_lock_sha256', 'host', 'logical_cpus',
-  'cpu_affinity', 'load_gate', 'trials_per_round', 'iterations', 'controls',
+  'cpu_affinity', 'load_gate', 'trials_per_round', 'iterations', 'warmup', 'controls',
 ]
 for (const { data } of inputs) {
   for (const field of sharedFields) assert.deepEqual(data[field], reference[field], `session ${field} differs`)
