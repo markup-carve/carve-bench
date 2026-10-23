@@ -13,56 +13,56 @@ The inputs are 3.1 to 19.3 KiB, depending on syntax. The table gives pooled medi
 ### JavaScript
 
 |= Document |= Library |= CPU ms/op |= Speed vs Carve |= Round range |
-| terms | carve-js | 0.658 | 1.00× | 1.00–1.00× |
-| terms | djot.js | 0.307 | 2.39× | 1.21–3.54× |
-| terms | markdown-it | 0.283 | 2.30× | 1.65–3.44× |
-| terms | commonmark.js | 0.134 | 4.48× | 2.18–7.12× |
-| parsing-ast | carve-js | 1.694 | 1.00× | 1.00–1.00× |
-| parsing-ast | djot.js | 0.747 | 2.14× | 1.39–4.17× |
-| parsing-ast | markdown-it | 0.313 | 5.36× | 4.37–12.20× |
-| parsing-ast | commonmark.js | 0.209 | 7.81× | 5.90–15.62× |
-| spec-history | carve-js | 2.464 | 1.00× | 1.00–1.00× |
-| spec-history | djot.js | 0.633 | 3.99× | 2.93–4.96× |
-| spec-history | markdown-it | 0.768 | 3.15× | 2.59–4.39× |
-| spec-history | commonmark.js | 0.272 | 8.96× | 6.09–10.65× |
+| terms | carve-js | 0.737 | 1.00× | 1.00–1.00× |
+| terms | djot.js | 0.378 | 2.28× | 1.26–3.90× |
+| terms | markdown-it | 0.345 | 2.19× | 1.80–3.28× |
+| terms | commonmark.js | 0.176 | 4.15× | 2.99–6.00× |
+| parsing-ast | carve-js | 2.281 | 1.00× | 1.00–1.00× |
+| parsing-ast | djot.js | 0.877 | 2.48× | 1.56–4.44× |
+| parsing-ast | markdown-it | 0.393 | 7.27× | 3.79–9.39× |
+| parsing-ast | commonmark.js | 0.250 | 9.56× | 5.70–13.23× |
+| spec-history | carve-js | 3.043 | 1.00× | 1.00–1.00× |
+| spec-history | djot.js | 0.716 | 4.12× | 2.42–5.42× |
+| spec-history | markdown-it | 0.855 | 3.13× | 2.00–4.17× |
+| spec-history | commonmark.js | 0.367 | 8.73× | 5.22–11.21× |
 
 ### PHP
 
 |= Document |= Library |= CPU ms/op |= Speed vs Carve |= Round range |
-| terms | carve-php | 1.131 | 1.00× | 1.00–1.00× |
-| terms | djot-php | 0.508 | 2.30× | 1.23–3.62× |
-| terms | league/commonmark-gfm | 1.000 | 1.19× | 0.85–1.63× |
-| parsing-ast | carve-php | 1.336 | 1.00× | 1.00–1.00× |
-| parsing-ast | djot-php | 0.542 | 2.46× | 1.91–3.22× |
-| parsing-ast | league/commonmark-gfm | 1.254 | 1.07× | 0.78–1.27× |
-| spec-history | carve-php | 3.160 | 1.00× | 1.00–1.00× |
-| spec-history | djot-php | 1.489 | 1.99× | 1.65–2.44× |
-| spec-history | league/commonmark-gfm | 2.652 | 1.21× | 0.97–1.51× |
+| terms | carve-php | 1.411 | 1.00× | 1.00–1.00× |
+| terms | djot-php | 0.718 | 2.45× | 1.36–3.03× |
+| terms | league/commonmark-gfm | 1.245 | 1.16× | 0.81–1.40× |
+| parsing-ast | carve-php | 1.619 | 1.00× | 1.00–1.00× |
+| parsing-ast | djot-php | 0.676 | 2.30× | 1.87–3.04× |
+| parsing-ast | league/commonmark-gfm | 1.572 | 0.98× | 0.78–1.22× |
+| spec-history | carve-php | 4.043 | 1.00× | 1.00–1.00× |
+| spec-history | djot-php | 1.953 | 2.08× | 1.65–2.70× |
+| spec-history | league/commonmark-gfm | 3.270 | 1.18× | 1.01–1.78× |
 
 ### Rust
 
 |= Document |= Library |= CPU ms/op |= Speed vs Carve |= Round range |
-| terms | carve-rs | 0.065 | 1.00× | 1.00–1.00× |
-| terms | jotdown | 0.035 | 1.90× | 1.71–2.21× |
-| terms | comrak | 0.027 | 2.42× | 2.08–3.38× |
-| terms | pulldown-cmark | 0.011 | 6.12× | 5.53–10.27× |
-| parsing-ast | carve-rs | 0.093 | 1.00× | 1.00–1.00× |
-| parsing-ast | jotdown | 0.049 | 1.89× | 1.41–2.34× |
-| parsing-ast | comrak | 0.030 | 3.10× | 1.96–3.72× |
-| parsing-ast | pulldown-cmark | 0.013 | 7.22× | 3.90–9.04× |
-| spec-history | carve-rs | 0.444 | 1.00× | 1.00–1.00× |
-| spec-history | jotdown | 0.152 | 2.87× | 2.60–3.54× |
-| spec-history | comrak | 0.094 | 4.60× | 3.02–5.68× |
-| spec-history | pulldown-cmark | 0.041 | 10.39× | 8.82–12.90× |
+| terms | carve-rs | 0.078 | 1.00× | 1.00–1.00× |
+| terms | jotdown | 0.040 | 2.04× | 1.68–2.94× |
+| terms | comrak | 0.032 | 2.55× | 1.86–2.91× |
+| terms | pulldown-cmark | 0.013 | 6.34× | 4.62–7.51× |
+| parsing-ast | carve-rs | 0.112 | 1.00× | 1.00–1.00× |
+| parsing-ast | jotdown | 0.055 | 2.03× | 1.51–2.56× |
+| parsing-ast | comrak | 0.033 | 3.33× | 2.29–4.84× |
+| parsing-ast | pulldown-cmark | 0.014 | 7.81× | 5.64–12.65× |
+| spec-history | carve-rs | 0.506 | 1.00× | 1.00–1.00× |
+| spec-history | jotdown | 0.171 | 2.80× | 2.55–3.08× |
+| spec-history | comrak | 0.112 | 4.36× | 3.32–5.12× |
+| spec-history | pulldown-cmark | 0.047 | 10.05× | 7.64–11.94× |
 
 ## Output and method
 
 All eleven libraries produced identical projected HTML on each file. The projection ignores section wrappers, generated IDs, and presentational attributes while retaining tags, link targets, and text. The [raw record](realistic-peer.json) keeps original output hashes and the projection hashes. The fixed Composer lock includes [merged djot-php PR #325](https://github.com/php-collective/djot-php/pull/325), which corrected code-span padding in this corpus.
 
-16 rounds rotated document and library order across 2 sessions: [session 1](realistic-peer-runs/20261023-crossref-a.json) (8 rounds; load 6.89 to 7.96), [session 2](realistic-peer-runs/20261023-crossref-b.json) (8 rounds; load 7.19 to 5.58). JavaScript workers warmed for 200 conversions so V8 finished optimizing the list parser before timing; PHP and Rust warmed for 20 and 20. Each round measured 5 batches, with 30 JavaScript, 20 PHP, or 100 Rust conversions per batch. Workers ran serially on CPU 12. The load gate waited for one-minute host load below 20 before each round on 16 logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `96271e9b68f8cd860260be878d77a09c98d14946`, PHP `8f1822274f6ae89ba5728107ec6458a35ace5311`, and Rust `da5518c2b4d6c5a684e27d9560fd025a7ad3477c`.
+16 rounds rotated document and library order across 2 sessions: [session 1](realistic-peer-runs/20261023-list-final-a.json) (8 rounds; load 6.30 to 13.30), [session 2](realistic-peer-runs/20261023-list-final-b.json) (8 rounds; load 14.71 to 12.23). JavaScript workers warmed for 200 conversions so V8 finished optimizing the list parser before timing; PHP and Rust warmed for 20 and 20. Each round measured 5 batches, with 30 JavaScript, 20 PHP, or 100 Rust conversions per batch. Workers ran serially on CPU 12. The load gate waited for one-minute host load below 20 before each round on 16 logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `9d1b488e21d2cfa6bf624ea9c044355d720226b3`, PHP `8f1822274f6ae89ba5728107ec6458a35ace5311`, and Rust `da5518c2b4d6c5a684e27d9560fd025a7ad3477c`.
 
-Observed one-minute load at the document checkpoints ranged from 5.45 to 8.11; these samples differ from the session start and end loads above. Every checkpoint was below 20, the earlier run's gate.
+Observed one-minute load at the document checkpoints ranged from 5.46 to 20.56; these samples differ from the session start and end loads above. Some checkpoints exceeded the earlier run's gate of 20.
 
 This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.
 
-This measurement was recorded at `2026-10-23T15:08:00.641Z` from benchmark commit `4b982159a839b11be2f400e39c329f3c0c29a502`. The JavaScript pin is merged main commit `96271e9b68f8cd860260be878d77a09c98d14946` from [PR #3486](https://github.com/markup-carve/carve-js/pull/3486), which skips cross-reference passes when no reference exists. The earlier [Markdown import change](https://github.com/markup-carve/carve-js/pull/3485) remains outside this native Carve route. Absolute CPU times moved even for unchanged PHP and Rust pins on this shared host, and the round ranges overlap across snapshots. The [paired CPU measurements in the engine PR](https://github.com/markup-carve/carve-js/pull/3486) are the evidence for that change's effect.
+This measurement was recorded at `2026-10-23T16:03:38.416Z` from benchmark commit `13823349629a18684e90faf9cfd00360ffb79d84`. The JavaScript pin is merged main commit `9d1b488e21d2cfa6bf624ea9c044355d720226b3` from [PR #3487](https://github.com/markup-carve/carve-js/pull/3487), which parses isolated one-line list items without nested block dispatch. The earlier [Markdown import change](https://github.com/markup-carve/carve-js/pull/3485) remains outside this native Carve route. Absolute CPU times moved even for unchanged PHP and Rust pins on this shared host, and the round ranges overlap across snapshots. The [paired CPU measurements in the engine PR](https://github.com/markup-carve/carve-js/pull/3487) are the evidence for that change's effect.
