@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const paths = [
-  'reports/realistic-peer-runs/20261023-crossref-a.json',
-  'reports/realistic-peer-runs/20261023-crossref-b.json',
+  'reports/realistic-peer-runs/20261023-list-final-a.json',
+  'reports/realistic-peer-runs/20261023-list-final-b.json',
 ]
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const inputs = paths.map(path => {
@@ -15,6 +15,8 @@ const inputs = paths.map(path => {
   return { path, sha256: sha(bytes), data: JSON.parse(bytes) }
 })
 const reference = inputs[0].data
+const pins = JSON.parse(readFileSync(resolve(root, 'scripts/realistic/peer-pins.json')))
+assert.deepEqual(reference.source_commits, pins, 'recorded engine commits differ from peer pins')
 const sharedFields = [
   'schema', 'source_commits', 'benchmark_commit', 'fixture_provenance_sha256',
   'binary_sha256', 'dependency_lock_sha256', 'host', 'logical_cpus',
