@@ -43,9 +43,14 @@ One-minute host load was 3.63 at start and 5.16 at end. Timings are observations
 
 ## Reproduce
 
-Use Node v22.22.2 for this snapshot.
+This run used benchmark checkout `2c1c9d1e949af63f278dcd469e099d84d16d5105`
+and Node v22.22.2. Use a separate checkout to repeat its harness and fixture;
+the commands write reports and charts in that checkout.
 
 ```sh
+git clone https://github.com/markup-carve/carve-bench.git /tmp/carve-bench-20261015
+cd /tmp/carve-bench-20261015
+git checkout 2c1c9d1e949af63f278dcd469e099d84d16d5105
 cd engines/js
 npm ci
 cd ../..
