@@ -24,10 +24,10 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The 15 October comparison measured Carve JS merged main `f0acfa3` against released
-peers. The [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md)
-remains available. To reproduce merged main, use the pinned checkout command
-in the report; the runner verifies its ancestry, clean source and fast-path use.
+The current report measures Carve JS 0.1.13 against released peers. The
+[15 October merged-main comparison](reports/commonmark-js-pre-release-refresh-20261024.md)
+measured `f0acfa3`; its raw samples and chart remain available. The
+[0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md) is also preserved.
 
 Run `npm ci` in `engines/js`, then `node scripts/compare-commonmark.mjs`
 from the repository root. Generate its chart with `node scripts/gen-charts.mjs`.
@@ -490,9 +490,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.11` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.12` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.9` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.13` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.14` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.11` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,

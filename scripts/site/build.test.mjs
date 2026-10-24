@@ -59,6 +59,7 @@ test('site publishes current audit reports and preserved snapshot evidence', () 
       'dev-main-core-pre-postfix-20261015.json', 'dev-main-full-pre-postfix-20261015.json',
       'php-tier-pairs-pre-postfix-20261015.md', 'commonmark-js-pre-postfix-20261015.json',
       'dev-main-full-output-controls-pre-postfix-20261015.json',
+      'commonmark-js-pre-release-refresh-20261024.md', 'commonmark-js-pre-release-refresh-20261024.json',
       'realistic-engine.json', 'realistic-output-control.json', 'rust-core-recheck-20261021.md', 'rust-core-recheck-20261021.json', 'rust-core-recheck-20261021-rerun.md', 'rust-core-recheck-20261021-rerun.json', 'engine-history-audit-20261020.md',
       'engine-history-audit-js-20261020.json', 'engine-history-audit-js-merged-128-20261020.json', 'engine-history-audit-js-11d-128-20261020.json', 'engine-history-audit-php-20261020.json', 'engine-history-audit-php-merged-1024-20261020.json', 'engine-history-audit-php-ee152-1024-20261020.json',
       'engine-history-audit-rs-128-20261020.json', 'engine-history-audit-rs-1024-20261020.json'])
@@ -157,9 +158,15 @@ test('full-corpus records retain every workload and reject mixed worker sources'
 
 test('full-corpus inputs, harnesses and dependencies match their recorded hashes', async () => {
   const { createHash } = await import('node:crypto')
+  const recordedDependencies = {
+    'engines/js/package-lock.json': 'reports/dev-main-full-js.package-lock.json',
+    'engines/php/composer.lock': 'reports/dev-main-full-php.composer.lock',
+    'engines/rs/Cargo.lock': 'reports/dev-main-full-rs.Cargo.lock',
+  }
   for (const group of ['input_sha256', 'harness_sha256', 'dependency_sha256']) {
     for (const [file, hash] of Object.entries(fullRecord.metadata[group])) {
-      assert.equal(createHash('sha256').update(readFileSync(new URL(file, root))).digest('hex'), hash, file)
+      const recordedFile = group === 'dependency_sha256' ? recordedDependencies[file] ?? file : file
+      assert.equal(createHash('sha256').update(readFileSync(new URL(recordedFile, root))).digest('hex'), hash, file)
     }
   }
 })
