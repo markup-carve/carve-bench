@@ -157,9 +157,15 @@ test('full-corpus records retain every workload and reject mixed worker sources'
 
 test('full-corpus inputs, harnesses and dependencies match their recorded hashes', async () => {
   const { createHash } = await import('node:crypto')
+  const recordedDependencies = {
+    'engines/js/package-lock.json': 'reports/dev-main-full-js.package-lock.json',
+    'engines/php/composer.lock': 'reports/dev-main-full-php.composer.lock',
+    'engines/rs/Cargo.lock': 'reports/dev-main-full-rs.Cargo.lock',
+  }
   for (const group of ['input_sha256', 'harness_sha256', 'dependency_sha256']) {
     for (const [file, hash] of Object.entries(fullRecord.metadata[group])) {
-      assert.equal(createHash('sha256').update(readFileSync(new URL(file, root))).digest('hex'), hash, file)
+      const recordedFile = group === 'dependency_sha256' ? recordedDependencies[file] ?? file : file
+      assert.equal(createHash('sha256').update(readFileSync(new URL(recordedFile, root))).digest('hex'), hash, file)
     }
   }
 })

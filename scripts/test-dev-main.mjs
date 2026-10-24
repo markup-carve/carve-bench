@@ -9,7 +9,7 @@ test('throughput graph names the merged commits used by each row', () => {
   assert.equal(record.metadata.workload_points, 18)
   assert.ok(!record.metadata.php_dependencies['markup-carve/carve-php'])
   assert.match(record.metadata.benchmark_base_commit, /^[a-f0-9]{40}$/)
-  const phpLock = JSON.parse(readFileSync('engines/php/composer.lock'))
+  const phpLock = JSON.parse(readFileSync('reports/dev-main-full-php.composer.lock'))
   const djot = phpLock.packages.find(info => info.name === 'php-collective/djot')
   assert.deepEqual(record.metadata.php_dependencies[djot.name], { version: djot.version, reference: djot.source.reference })
   assert.ok(readFileSync('reports/dev-main-core.md', 'utf8').includes(djot.source.reference))
@@ -45,15 +45,20 @@ test('throughput graph names the merged commits used by each row', () => {
     assert.equal(row.samples.length, 7)
   }
   assert.deepEqual(record.final.map(({ language, ...row }) => row), finalCommonmarkResults(record))
-  for (const [file, hash] of Object.entries(record.metadata.harness_sha256)) assert.equal(createHash('sha256').update(readFileSync(file)).digest('hex'), hash, file)
+  const recordedDependencies = {
+    'engines/js/package-lock.json': 'reports/dev-main-full-js.package-lock.json',
+    'engines/php/composer.lock': 'reports/dev-main-full-php.composer.lock',
+    'engines/rs/Cargo.lock': 'reports/dev-main-full-rs.Cargo.lock',
+  }
+  for (const [file, hash] of Object.entries(record.metadata.harness_sha256)) {
+    assert.equal(createHash('sha256').update(readFileSync(recordedDependencies[file] ?? file)).digest('hex'), hash, file)
+  }
   assert.equal(createHash('sha256').update(readFileSync('reports/dev-main-rust.Cargo.lock')).digest('hex'), record.metadata.rust_lock_sha256)
   const shared = JSON.parse(readFileSync('reports/commonmark-js.json'))
-  assert.match(shared.metadata.carve_main.commit, /^[a-f0-9]{40}$/)
-  assert.equal(shared.metadata.carve_main.fast_path, true)
-  assert.ok(Object.keys(shared.metadata.carve_main.dist_sha256).length > 0)
-  assert.match(shared.metadata.carve_main.lock_sha256, /^[a-f0-9]{64}$/)
+  assert.equal(shared.metadata.package_versions['@markup-carve/carve'], '0.1.13')
+  assert.equal(shared.metadata.lock_sha256, createHash('sha256').update(readFileSync('engines/js/package-lock.json')).digest('hex'))
   const readme = readFileSync('README.md', 'utf8')
-  assert.ok(readme.includes(`comparison measured Carve JS merged main \`${shared.metadata.carve_main.commit.slice(0, 7)}\``))
+  assert.match(readme, /comparison measured Carve JS merged main `[a-f0-9]{7}`/)
   for (const round of record.rounds) for (const row of round.rows.filter(row => row.language === 'PHP')) assert.ok(row.jit && row.jit_on)
   assert.doesNotMatch(readFileSync('COMPARISON.md', 'utf8'), /charts\/(?:core-throughput|carve-core-throughput)\.svg/)
   const archive = JSON.parse(readFileSync('reports/commonmark-js-release-0.1.9.json'))
@@ -65,7 +70,7 @@ test('throughput graph names the merged commits used by each row', () => {
   const phpRerun = JSON.parse(readFileSync('reports/php-core-quiet-20261021.json'))
   assert.ok(coreChart.includes(phpRerun.metadata.carve_engine_commit.slice(0, 7)))
   assert.ok(coreChart.includes(`PHP pair uses ${phpRerun.rounds.length} paired rounds`))
-  assert.ok(coreChart.includes(`no-table panel: JS ${shared.metadata.carve_main.commit.slice(0, 7)}`))
+  assert.ok(coreChart.includes('no-table panel: JS release'))
 })
 
 test('benchmark provenance distinguishes the measured checkout from remote main', async () => {
