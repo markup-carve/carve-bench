@@ -8,8 +8,14 @@ from statistics import median
 ROOT = Path(__file__).resolve().parents[2]
 DATA = json.loads((ROOT / 'reports/realistic-peer.json').read_text())
 PROVENANCE = json.loads((ROOT / 'corpus/realistic/peer/provenance.json').read_text())
+PINS = json.loads((ROOT / 'scripts/realistic/peer-pins.json').read_text())
+ROUTES = json.loads((ROOT / 'reports/realistic-peer-routes.json').read_text())
 OUTPUT = ROOT / 'reports/realistic-peer.crv'
 assert DATA['schema'] == 1
+assert DATA['source_commits'] == PINS == ROUTES['source_commits']
+assert len(ROUTES['rows']) == 9 and all(row['route'] == 'ast' for row in ROUTES['rows'])
+assert DATA['order'] and all(len(entry['load']) == 3 for entry in DATA['order'])
+checkpoint_loads = [entry['load'][0] for entry in DATA['order']]
 assert len(DATA['rows']) == 33 and len(DATA['controls']) == 33
 assert DATA['dependency_lock_sha256']['scripts/realistic/peer-composer.lock'] == hashlib.sha256(
     (ROOT / 'scripts/realistic/peer-composer.lock').read_bytes()).hexdigest()
@@ -32,6 +38,8 @@ lines = [
     '',
     f'The chart shows each peer’s speed relative to Carve within {DATA["rounds"]} rotating rounds. Carve is 1×; a point above 1× means the peer used less process CPU time. Whiskers show the range of the round ratios. All three pinned Carve default APIs took the AST route on all three files. The peer libraries used their native HTML conversion APIs; this does not imply that each peer builds the same public AST.',
     '',
+    f'This run used a load ceiling of {DATA["load_gate"]}, versus 20 in the preceding published snapshot. One-minute load at document checkpoints was {min(checkpoint_loads):.2f}–{max(checkpoint_loads):.2f}. Read the peer ratios within this run; the engine pins and host load differ from the preceding chart.',
+    '',
     '## Results',
     '',
     'The inputs are 3.1 to 19.3 KiB, depending on syntax. The table gives pooled median process CPU milliseconds per conversion, then the median of within-round peer/Carve speed ratios and its round range. Compare rows within a runtime and document. JavaScript process CPU includes Node threads. PHP used tracing JIT. Rust used a release binary. Startup time was excluded.',
@@ -50,7 +58,6 @@ for title, language, engines in panels:
 
 sessions = DATA.get('sessions', [])
 assert sessions and sum(session['rounds'] for session in sessions) == DATA['rounds']
-checkpoint_loads = [entry['load'][0] for entry in DATA['order']]
 assert checkpoint_loads
 gate_note = (f'Every document checkpoint was below the pre-round load gate of {DATA["load_gate"]}.'
              if max(checkpoint_loads) < DATA['load_gate']
@@ -68,7 +75,7 @@ lines += [
     '',
     f'{DATA["rounds"]} rounds rotated document and library order across {len(sessions)} sessions: {session_links}. JavaScript workers warmed for {DATA["warmup"]["js"]} conversions so V8 finished optimizing the list parser before timing; PHP and Rust warmed for {DATA["warmup"]["php"]} and {DATA["warmup"]["rs"]}. Each round measured {DATA["trials_per_round"]} batches, with {DATA["iterations"]["js"]} JavaScript, {DATA["iterations"]["php"]} PHP, or {DATA["iterations"]["rs"]} Rust conversions per batch. Workers ran serially on CPU {DATA["cpu_affinity"][0]}. The load gate waited for one-minute host load below {DATA["load_gate"]} before each round on {DATA["logical_cpus"]} logical CPUs. The chart uses within-round ratios because absolute round times varied on this shared host. The [combined record](realistic-peer.json) retains wall and process CPU samples, run order, hashes, source commits, dependency locks, and worker versions. [Separate pinned route checks](realistic-peer-routes.json) recorded AST for all nine Carve engine and document combinations. Carve commits were JavaScript `{DATA["source_commits"]["js"]}`, PHP `{DATA["source_commits"]["php"]}`, and Rust `{DATA["source_commits"]["rs"]}`.',
     '',
-    f'Observed one-minute load at the document checkpoints ranged from {min(checkpoint_loads):.2f} to {max(checkpoint_loads):.2f}; these samples differ from the session start and end loads above. {gate_note} This run used a higher load ceiling than the preceding snapshot’s gate of 20. Round ranges show the variation within this run; absolute CPU times across the two snapshots are not directly comparable.',
+    f'{gate_note} The raw record keeps one-minute load at every document checkpoint.',
     '',
     'This structured document conversion comparison uses three selected public files. Their prose, lists, links, and code exercise common authoring patterns; this set has no pipe tables. Carve builds its public AST and supports a broader grammar. The peers use their native HTML APIs and may construct different internal representations. The chart measures conversion cost for matching projected output on these files.',
     '',
