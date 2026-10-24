@@ -100,6 +100,7 @@ jobs:
 
       - name: Build HTML import worker and check its protocol
         run: |
+          export CARGO_BUILD_JOBS=4
           cargo build --locked --manifest-path engines/html-import-rs/Cargo.toml
           python3 - <<'PY'
           import json, subprocess, tomllib
@@ -117,6 +118,7 @@ jobs:
               'build.rs': (root / 'build.rs').read_text(), 'Cargo.toml': (root / 'Cargo.toml').read_text()}
           assert converted['id'] == 2 and converted['ok'] and converted['markdown'].strip() == 'hello'
           PY
+          python3 scripts/test-html-import-worker-depth.py engines/html-import-rs/target/debug/carve-html-import-worker
 
       # After all three installs, so this reads the trees on disk rather than
       # the manifests that asked for them.
