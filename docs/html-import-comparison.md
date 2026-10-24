@@ -1,6 +1,6 @@
 # HTML import comparison
 
-This benchmark adds the Carve JS and Rust development engines to Botmonster's
+This benchmark adds Carve JS and Rust engines to Botmonster's
 [HTML to Markdown comparison](https://botmonster.com/coding/best-10-html-to-markdown-converters-in-2026/).
 It uses the upstream ten-page corpus and 273 probes without changing their scorer.
 These probes are a regression sample, not a general fidelity guarantee.
@@ -12,7 +12,8 @@ for CLI tools. Results describe these adapters, not isolated library throughput.
 Extractors retain their upstream extraction settings. Carve preserves relative URLs; its import API
 has no base-URL option. Upstream adapters that accept a base URL still receive it.
 
-Build the Rust worker with its committed lockfile:
+The committed Rust worker uses carve-rs 0.1.11 at commit
+`da5518c2b4d6c5a684e27d9560fd025a7ad3477c`. Build it with its lockfile:
 
 ```sh
 cargo build --release --locked --manifest-path engines/html-import-rs/Cargo.toml

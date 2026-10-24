@@ -27,15 +27,17 @@ dependencies = [
 
 [[package]]
 name = "carve-lang"
-version = "0.1.7"
-source = "git+https://github.com/markup-carve/carve-rs?rev=3a8403d5a92ce04097c753c478faf90c02c317ef#3a8403d5a92ce04097c753c478faf90c02c317ef"
+version = "0.1.11"
+source = "git+https://github.com/markup-carve/carve-rs?rev=da5518c2b4d6c5a684e27d9560fd025a7ad3477c#da5518c2b4d6c5a684e27d9560fd025a7ad3477c"
 dependencies = [
  "html5ever",
  "markup5ever_rcdom",
+ "memchr",
  "pulldown-cmark",
  "regex",
  "serde",
  "serde_json",
+ "smallvec",
  "unicode-normalization",
 ]
 
@@ -208,8 +210,15 @@ checksum = "e9f068eba8e7071c5f9511831b44f32c740d5adf574e990f946ddb53db2f314e"
 dependencies = [
  "bitflags",
  "memchr",
+ "pulldown-cmark-escape",
  "unicase",
 ]
+
+[[package]]
+name = "pulldown-cmark-escape"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "007d8adb5ddab6f8e3f491ac63566a7d5002cc7ed73901f72057943fa71ae1ae"
 
 [[package]]
 name = "quote"
