@@ -55,7 +55,7 @@ test('throughput graph names the merged commits used by each row', () => {
   }
   assert.equal(createHash('sha256').update(readFileSync('reports/dev-main-rust.Cargo.lock')).digest('hex'), record.metadata.rust_lock_sha256)
   const shared = JSON.parse(readFileSync('reports/commonmark-js.json'))
-  assert.equal(shared.metadata.package_versions['@markup-carve/carve'], '0.1.13')
+  assert.equal(shared.metadata.package_versions['@markup-carve/carve'], '0.1.14')
   assert.equal(shared.metadata.lock_sha256, createHash('sha256').update(readFileSync('engines/js/package-lock.json')).digest('hex'))
   const archivedShared = JSON.parse(readFileSync('reports/commonmark-js-pre-release-refresh-20261024.json'))
   assert.match(archivedShared.metadata.carve_main.commit, /^[a-f0-9]{40}$/)
