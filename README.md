@@ -70,7 +70,7 @@ The shared host's one-minute load changed from 7.83 to 9.78 during the core run.
 These sessions do not isolate code effects across snapshots.
 The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
-The current published release comparison is in [COMPARISON.md](COMPARISON.md). The full-corpus release table is in [the release full-corpus report](reports/release-full-20261025.md).
+The current published release comparison is in [COMPARISON.md](COMPARISON.md). The full-corpus release table is in [the release full-corpus report](reports/release-full-20261026.md).
 The [pre-refresh core report](reports/dev-main-core-pre-postfix-20261015.md),
 [full-corpus record](reports/dev-main-full-pre-postfix-20261015.json),
 and [PHP tier follow-up](reports/php-tier-pairs-pre-postfix-20261015.md)
@@ -490,9 +490,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.14` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.15` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.12` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.15` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.16` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.13` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,
