@@ -24,7 +24,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current report measures Carve JS 0.1.14 against released peers. The
+The current report measures Carve JS 0.1.15 against released peers. The
 [15 October merged-main comparison](reports/commonmark-js-pre-release-refresh-20261024.md)
 measured `f0acfa3`; its raw samples and chart remain available. The
 [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md) is also preserved.
