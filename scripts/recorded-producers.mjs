@@ -7,7 +7,8 @@ const sha = file => createHash('sha256').update(readFileSync(file)).digest('hex'
 
 export function requireRecordedProducer(file, expected) {
   if (sha(file) === expected) return
-  const retained = archive.sources[file]
+  // A file measured by more than one archived version lists each of them.
+  const retained = [archive.sources[file]].flat().find(entry => entry?.sha256 === expected) ?? [archive.sources[file]].flat()[0]
   assert.ok(retained, `Missing measured producer: ${file}`)
   assert.ok(retained.path.startsWith('reports/producers/'))
   assert.equal(retained.sha256, expected, file)
