@@ -12,6 +12,15 @@ Engines covered: [carve-js](https://github.com/markup-carve/carve-js) (TypeScrip
 carve-py / carve-rb bindings wrap the carve-rs engine, so their core render speed
 tracks carve-rs plus a thin FFI/IPC layer.
 
+## Release against main, 5 November
+
+The [5 November check](reports/main-performance-20261105.md) times each engine
+at its newest release (carve-js 0.1.15, carve-php 0.1.16, carve-rs 0.1.13)
+and at merged main in one session, with render, AST, fmt and lint measured
+separately. It adds a 2 KB to 128 KB scaling check and traces every slowdown
+above 10% to the merge that caused it, with links to the filed tickets.
+`COMPARISON.md` carries the same session's core comparison against main.
+
 ## JavaScript comparison including commonmark.js
 
 The [shared JavaScript core report](reports/commonmark-js.md) compares Carve,
