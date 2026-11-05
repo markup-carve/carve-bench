@@ -21,6 +21,10 @@ separately. It adds a 2 KB to 128 KB scaling check and traces every slowdown
 above 10% to the merge that caused it, with links to the filed tickets.
 `COMPARISON.md` carries the same session's core comparison against main.
 
+The [afternoon re-run](reports/main-performance-20261105-rerun.md) repeats
+the release-against-main table on main as of 12:40, after the fixes that
+morning's tickets led to, and gives the status of each earlier slowdown.
+
 ## JavaScript comparison including commonmark.js
 
 The [shared JavaScript core report](reports/commonmark-js.md) compares Carve,
