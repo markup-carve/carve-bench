@@ -7,6 +7,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { build, collect, sections } from './build.mjs'
 import { directHtmlResults } from '../direct-html-display.mjs'
+import { requireRecordedProducer } from '../recorded-producers.mjs'
 const root = new URL('../../', import.meta.url)
 const comparison = readFileSync(new URL('COMPARISON.md', root), 'utf8')
 const results = readFileSync(new URL('RESULTS.md', root), 'utf8')
@@ -165,6 +166,10 @@ test('full-corpus inputs, harnesses and dependencies match their recorded hashes
   }
   for (const group of ['input_sha256', 'harness_sha256', 'dependency_sha256']) {
     for (const [file, hash] of Object.entries(fullRecord.metadata[group])) {
+      if (group === 'harness_sha256') {
+        requireRecordedProducer(file, hash)
+        continue
+      }
       const recordedFile = group === 'dependency_sha256' ? recordedDependencies[file] ?? file : file
       assert.equal(createHash('sha256').update(readFileSync(new URL(recordedFile, root))).digest('hex'), hash, file)
     }
