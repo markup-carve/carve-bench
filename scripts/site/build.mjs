@@ -12,6 +12,7 @@ import { engineLabel } from '../engine-labels.mjs'
 import { finalCommonmarkResults } from '../commonmark-results.mjs'
 import { pairedSummary, pairedTableRows, requireMatchingOutputs } from '../paired-full-results.mjs'
 import { directHtmlResults } from '../direct-html-display.mjs'
+import { workerSourceCommit } from '../full-results.mjs'
 
 export function sections(markdown) {
   const groups = []
@@ -78,7 +79,7 @@ export function collect(comparison, results, revision, fullRecord = null, phpTie
       assert.ok(Number.isFinite(row.ms_per_op) && row.ms_per_op > 0 && Number.isFinite(row.mb_per_s) && row.mb_per_s > 0, 'Invalid full-corpus timing')
       const engine = row.engine?.slice(6) ?? 'php'
       assert.ok(['js', 'php', 'rs'].includes(engine), 'Invalid full-corpus engine')
-      const commit = row.carve_source.match(/ @ ([0-9a-f]{9,40})\)$/)?.[1]
+      const commit = workerSourceCommit(row.carve_source)
       assert.ok(commit && fullRecord.metadata.source_commits[engine].commit.startsWith(commit), 'Full worker and recorded commits differ')
       assert.ok(!measured[engine] || measured[engine] === row.carve_source, 'Mixed full-corpus sources')
       measured[engine] = row.carve_source

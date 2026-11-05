@@ -5,7 +5,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createHash } from 'node:crypto'
-import { validateFullReportSources } from './full-results.mjs'
+import { validateFullReportSources, workerSourceCommit } from './full-results.mjs'
 
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'carve-full-source-'))
@@ -97,4 +97,13 @@ test('source preflight permits a missing Rust build lock so the build can create
   rmSync(f.lock)
   assert.equal(validateFullReportSources(f.root, f.binary, f.env, false).rustLock, null)
   assert.throws(() => validateFullReportSources(f.root, f.binary, f.env), /ENOENT/)
+})
+
+test('worker source commit accepts every abbreviation length git produces', () => {
+  const source = commit => `@markup-carve/carve 0.1.13 (local checkout carve-js @ ${commit})`
+  for (const commit of ['0c2538a', '0c2538a5', '0c2538a5f', '0c2538a5f1e2d3c4b5a69788796a5b4c3d2e1f00']) {
+    assert.equal(workerSourceCommit(source(commit)), commit)
+  }
+  assert.equal(workerSourceCommit(source('0c2538')), undefined)
+  assert.equal(workerSourceCommit('@markup-carve/carve 0.1.13 (npm)'), undefined)
 })

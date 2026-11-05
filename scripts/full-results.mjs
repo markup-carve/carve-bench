@@ -44,6 +44,11 @@ export function validateFullReportSources(root, rustBinary, env = process.env, c
   return { sourceCommits, rustLock }
 }
 
+// git picks the --short length from the clone's object count: 7 characters or more.
+export function workerSourceCommit(source) {
+  return source.match(/ @ ([0-9a-f]{7,40})\)$/)?.[1]
+}
+
 export function publishedEngineSource(source, engine) {
   return source.replace(/local checkout [^)]*? @/, `local checkout ${engine}-main @`)
 }
@@ -59,7 +64,7 @@ export function fullResults(root, results, tiers, rustBinary, env = process.env,
   assert.deepEqual(tiers.map(row => row.profile), ['tier1', 'tier2', 'tier3'])
   for (const row of [...corpus, ...tiers]) {
     const engine = row.engine?.slice(6) ?? 'php'
-    const commit = row.carve_source.match(/ @ ([0-9a-f]{9,40})\)$/)?.[1]
+    const commit = workerSourceCommit(row.carve_source)
     assert.ok(commit && sourceCommits[engine].commit.startsWith(commit), 'Worker source differs from recorded commit')
   }
   const files = ['scripts/rust-binaries.mjs', 'run.mjs', 'scripts/full-results.mjs', 'scripts/benchmark-metadata.mjs', 'engines/js/bench.mjs', 'engines/js/carve-src.mjs', 'engines/php/bench.php', 'engines/php/tiers.php', 'engines/php/carve-src.php', 'engines/rs/src/main.rs', 'engines/rs/build.rs', 'scripts/measured-sources.mjs', 'scripts/build-rs-engine.mjs']
