@@ -13,8 +13,9 @@ three engines.
 - Same laptop and toolchain as the morning run: AMD Ryzen 9 PRO 7940HS,
   16 cores, Linux 7.0.0, desktop in use. Node.js 22.22.2, PHP 8.5.12 with
   tracing JIT, rustc 1.97.1.
-- One-minute load: core table 4.58 at start and 10.20 at end; large inputs
-  8.00 and 8.79.
+- Measured 2026-11-05: core table 12:43 to 13:01 CET, large inputs 13:05 to
+  13:20 CET. One-minute load: core table 4.58 at start and 10.20 at end;
+  large inputs 8.00 and 8.79.
 - Same harness, operations and iteration counts as the morning run. The
   release builds and the 03:40 main builds are the ones the morning run
   measured; only main now was built fresh.
@@ -96,8 +97,10 @@ a constant factor (+29% at 32 KB, +45% at 128 KB).
 
 ## Answer
 
-Main is better than at 03:40 everywhere it was measured, and better than the
-releases on most operations. fmt is faster than the releases in all three
+Main is faster than at 03:40 wherever a fix landed, and faster than the
+releases on most operations. Small-document render and AST in carve-php and
+carve-rs read 3% to 10% slower than at 03:40, within overlapping ranges, so
+they count as noise. fmt is faster than the releases in all three
 engines, and every medium-document operation is faster or within noise. What
 remains slower than the releases is a fixed per-call cost on small documents
 in all three engines, carve-js lint on one very long line, and carve-rs parse
