@@ -20,6 +20,12 @@ run, and a bisection of each slowdown to the merge that caused it.
 | carve-php | 0.1.16 | `20d920713` | `fc0333242` |
 | carve-rs | 0.1.13 | `5ec3c8ea7` | `5572046d6` |
 
+- Raw samples, bisection logs and the timing scripts (with the workspace
+  path written as `WORKSPACE`) are in
+  [main-performance-20261105.json](main-performance-20261105.json). The Rust
+  dependency lock the full-corpus run built with (sha256 `ec935355...`, named
+  `reports/dev-main-rust.Cargo.lock` in the run record) is
+  [main-full-20261105-rust.Cargo.lock](main-full-20261105-rust.Cargo.lock).
 - Method: every A/B pair runs release and main in separate processes,
   alternating which goes first, 7 repetitions; each process warms up before
   timing. A change counts only when the two ranges do not overlap and the
