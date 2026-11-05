@@ -13,8 +13,8 @@ three engines.
 - Same laptop and toolchain as the morning run: AMD Ryzen 9 PRO 7940HS,
   16 cores, Linux 7.0.0, desktop in use. Node.js 22.22.2, PHP 8.5.12 with
   tracing JIT, rustc 1.97.1.
-- Measured 2026-11-05: core table 12:43 to 13:01 CET, large inputs 13:05 to
-  13:20 CET. One-minute load: core table 4.58 at start and 10.20 at end;
+- Measured 2026-11-05: core table 12:43 to 13:01 CET, large inputs 13:01 to
+  13:10 CET. One-minute load: core table 4.58 at start and 10.20 at end;
   large inputs 8.00 and 8.79.
 - Same harness, operations and iteration counts as the morning run. The
   release builds and the 03:40 main builds are the ones the morning run
