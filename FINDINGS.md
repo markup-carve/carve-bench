@@ -7,9 +7,11 @@ benchmark plus the existing regression gates.
 This document retains the historical profiling and release measurements from
 August and September 2026. Its corpus sizes, test counts, and throughput values
 refer to those snapshots. The current corpus holds 2,134 documents, and the
-published tables measure the pinned releases; current timings are in
-[COMPARISON.md](./COMPARISON.md) and [RESULTS.md](./RESULTS.md). The [12 November release run](reports/release-full-20261112.md)
-measures the 0.1.14 wave: carve-js 0.1.16, carve-php 0.1.17 and carve-rs 0.1.14.
+current timings are in [COMPARISON.md](./COMPARISON.md) (merged main, 12 November)
+and [RESULTS.md](./RESULTS.md) (merged main, 21 October). The
+[12 November main run](reports/main-core-20261112.md) gives Carve-against-peer
+ratios for the newest mains. The [12 November release run](reports/release-full-20261112.md)
+measures the 0.1.14 wave on another host: carve-js 0.1.16, carve-php 0.1.17 and carve-rs 0.1.14.
 
 The [post-improvement investigation](reports/performance-refresh.md) records the
 development engines it measured, its fixed input hashes and the remaining AST

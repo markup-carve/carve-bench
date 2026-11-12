@@ -12,6 +12,29 @@ Engines covered: [carve-js](https://github.com/markup-carve/carve-js) (TypeScrip
 carve-py / carve-rb bindings wrap the carve-rs engine, so their core render speed
 tracks carve-rs plus a thin FFI/IPC layer.
 
+## Merged main, 12 November
+
+The [12 November run](reports/main-core-20261112.md) measures merged main of
+all three engines: carve-js `efef22a`, carve-php `32d48be` and carve-rs
+`615e884`. The next release of each engine ships these revisions or later
+ones. The host's one-minute load stayed between 10 and 17 on 16 CPUs, above
+half the cores, so its results are ratios against peers from the same run.
+The headline table and throughput charts under "Results" keep the 21 October
+snapshot for that reason, except the panel without pipe tables in the core
+chart, which shows the 12 November shared JavaScript run and is labeled so. `COMPARISON.md` and the shared JavaScript report are
+written by their runners and do carry this session's MB/s; those are lower
+than a quiet host would give and only compare within their own run.
+
+| Language | Carve against its fastest peer, median of three runs | Range |
+|---|---:|---:|
+| Rust (pulldown-cmark) | 1.13x | 0.99x to 1.18x |
+| JavaScript (djot.js or markdown-it) | 3.44x | 3.30x to 4.01x |
+| PHP (djot-php) | 0.97x | 0.82x to 0.97x |
+
+On the shared JavaScript workload, carve-js main is 1.85x faster than
+commonmark.js. `COMPARISON.md` carries the same session's core comparison
+against main.
+
 ## Release against main, 5 November
 
 The [5 November check](reports/main-performance-20261105.md) times each engine
@@ -19,7 +42,7 @@ at its newest release (carve-js 0.1.15, carve-php 0.1.16, carve-rs 0.1.13)
 and at merged main in one session, with render, AST, fmt and lint measured
 separately. It adds a 2 KB to 128 KB scaling check and traces every slowdown
 above 10% to the merge that caused it, with links to the filed tickets.
-`COMPARISON.md` carries the same session's core comparison against main.
+Its core comparison is in [the raw record](reports/main-comparison-20261105.json).
 
 The [afternoon re-run](reports/main-performance-20261105-rerun.md) repeats
 the release-against-main table on main as of 12:40, after the fixes that
@@ -37,9 +60,11 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current report measures Carve JS 0.1.16 against released peers. That release
-is 20x to 30x slower than 0.1.15 on this workload's nested lists after a blank line
-([markup-carve/carve#6026](https://github.com/markup-carve/carve/issues/6026)). The
+The current report measures Carve JS merged main `efef22a` against released
+peers; the fix for the nested-list slowdown in 0.1.16
+([markup-carve/carve#6026](https://github.com/markup-carve/carve/issues/6026))
+is part of it. The [0.1.16 release report](reports/commonmark-js-release-0.1.16.md)
+keeps that release's measurement. The
 [15 October merged-main comparison](reports/commonmark-js-pre-release-refresh-20261024.md)
 measured `f0acfa3`; its raw samples and chart remain available. The
 [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md) is also preserved.
@@ -85,7 +110,7 @@ The shared host's one-minute load changed from 7.83 to 9.78 during the core run.
 These sessions do not isolate code effects across snapshots.
 The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
-The current published release comparison is in [COMPARISON.md](COMPARISON.md). The full-corpus release table is in [the release full-corpus report](reports/release-full-20261112.md); the [26 October report](reports/release-full-20261026.md) keeps the 0.1.13 wave.
+[COMPARISON.md](COMPARISON.md) compares merged main of 12 November with released peers. The 0.1.14 wave releases were measured on another, loaded host: [raw core comparison](reports/release-comparison-20261112.json) and [full-corpus report](reports/release-full-20261112.md). The [26 October report](reports/release-full-20261026.md) keeps the 0.1.13 wave.
 The [pre-refresh core report](reports/dev-main-core-pre-postfix-20261015.md),
 [full-corpus record](reports/dev-main-full-pre-postfix-20261015.json),
 and [PHP tier follow-up](reports/php-tier-pairs-pre-postfix-20261015.md)
