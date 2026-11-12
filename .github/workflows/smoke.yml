@@ -113,7 +113,7 @@ jobs:
           lock = (root / 'Cargo.lock').read_text()
           package = next(row for row in tomllib.loads(lock)['package'] if row['name'] == 'carve-lang')
           assert version['id'] == 1 and version['ok'] and version['lockfile'] == lock
-          assert version['revision'] == package['source'].split('#')[-1]
+          assert version['revision'] == (package['source'].split('#')[1] if '#' in package['source'] else package['version'])
           assert version['sources'] == {'main.rs': (root / 'src/main.rs').read_text(),
               'build.rs': (root / 'build.rs').read_text(), 'Cargo.toml': (root / 'Cargo.toml').read_text()}
           assert converted['id'] == 2 and converted['ok'] and converted['markdown'].strip() == 'hello'
