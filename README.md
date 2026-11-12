@@ -63,8 +63,7 @@ report retains the individual rounds. Different content mixes change each librar
 The current report measures Carve JS merged main `efef22a` against released
 peers; the fix for the nested-list slowdown in 0.1.16
 ([markup-carve/carve#6026](https://github.com/markup-carve/carve/issues/6026))
-is part of it. The [0.1.16 release report](reports/commonmark-js-release-0.1.16.md)
-keeps that release's measurement. The
+is part of it. The
 [15 October merged-main comparison](reports/commonmark-js-pre-release-refresh-20261024.md)
 measured `f0acfa3`; its raw samples and chart remain available. The
 [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md) is also preserved.
