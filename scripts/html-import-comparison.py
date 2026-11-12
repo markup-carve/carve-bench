@@ -165,7 +165,7 @@ def main():
     chosen = [adapter for adapter in ALL if not adapter.name.startswith("carve")]
     for name, language, worker, revision in [
         ("carve-js (dev main)", "JavaScript", js, args.js_revision),
-        ("carve-rs (dev main)", "Rust", rs, args.rs_revision),
+        ("carve-rs (dev main)" if "#" in engine_package["source"] else f"carve-rs {engine_package['version']}", "Rust", rs, args.rs_revision),
     ]:
         chosen.append(Adapter(name=name, kind="converter", lang=language,
             repo=f"https://github.com/markup-carve/carve-{'js' if language == 'JavaScript' else 'rs'}",
