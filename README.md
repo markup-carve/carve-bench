@@ -37,9 +37,7 @@ interactive site view also includes commonmark.js under All languages and JavaSc
 Final values use median timing across all samples from both rounds. The raw
 report retains the individual rounds. Different content mixes change each library's conversion cost. Compare within each workload; engine versions and commits are recorded in the report.
 
-The current report measures Carve JS 0.1.16 against released peers. That release
-is 20x to 30x slower than 0.1.15 on this workload's nested lists after a blank line
-([markup-carve/carve#6026](https://github.com/markup-carve/carve/issues/6026)). The
+The current report measures Carve JS 0.1.15 against released peers. The
 [15 October merged-main comparison](reports/commonmark-js-pre-release-refresh-20261024.md)
 measured `f0acfa3`; its raw samples and chart remain available. The
 [0.1.9 snapshot](reports/commonmark-js-release-0.1.9.md) is also preserved.
@@ -85,7 +83,7 @@ The shared host's one-minute load changed from 7.83 to 9.78 during the core run.
 These sessions do not isolate code effects across snapshots.
 The report retains fixed merged-main snapshots containing the completed Djot importer fixes. Later main commits are recorded as observations and are outside this measurement.
 The PHP peer uses Djot master `77e5b6c`, after the merged performance fixes. Exact sources are recorded in the report.
-The current published release comparison is in [COMPARISON.md](COMPARISON.md). The full-corpus release table is in [the release full-corpus report](reports/release-full-20261112.md); the [26 October report](reports/release-full-20261026.md) keeps the 0.1.13 wave.
+The current published release comparison is in [COMPARISON.md](COMPARISON.md). The full-corpus release table is in [the release full-corpus report](reports/release-full-20261026.md).
 The [pre-refresh core report](reports/dev-main-core-pre-postfix-20261015.md),
 [full-corpus record](reports/dev-main-full-pre-postfix-20261015.json),
 and [PHP tier follow-up](reports/php-tier-pairs-pre-postfix-20261015.md)
@@ -505,9 +503,9 @@ manifest line changing:
 
 | Lane | Manifest | Requirement |
 |---|---|---|
-| carve-js | `engines/js/package.json` | `0.1.16` - npm is exact without a range operator |
-| carve-php | `engines/php/composer.json` | `0.1.17` - Composer is exact without a range operator |
-| carve-rs | `engines/rs/Cargo.toml` | `=0.1.14` - the `=` matters, a bare version is a caret range in Cargo |
+| carve-js | `engines/js/package.json` | `0.1.15` - npm is exact without a range operator |
+| carve-php | `engines/php/composer.json` | `0.1.16` - Composer is exact without a range operator |
+| carve-rs | `engines/rs/Cargo.toml` | `=0.1.13` - the `=` matters, a bare version is a caret range in Cargo |
 
 To move a lane onto a newer engine release, edit that requirement and refresh
 the lockfile beside it (`npm install`, `composer update markup-carve/carve-php`,

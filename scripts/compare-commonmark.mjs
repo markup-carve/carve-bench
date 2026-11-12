@@ -50,7 +50,7 @@ const engines = [['carve-js', 'carve'], ['djot.js', 'djot'], ['markdown-it', 'ma
 const harness = resolve(root, 'engines/js/compare.mjs')
 const run = (engine, flavor, iterations, trials, observe = false) => JSON.parse(execFileSync(process.execPath,
   [harness, engine, resolve(out, files[flavor]), String(iterations), String(trials)],
-  { encoding: 'utf8', timeout: 600000, env: { ...process.env, CARVE_COMPARE_OBSERVE: observe ? '1' : '0', CARVE_COMPARE_WARMUP: '200', ...(carveTree ? { CARVE_JS: pathToFileURL(resolve(carveTree, 'dist/index.js')).href } : {}) } }))
+  { encoding: 'utf8', timeout: 120000, env: { ...process.env, CARVE_COMPARE_OBSERVE: observe ? '1' : '0', CARVE_COMPARE_WARMUP: '200', ...(carveTree ? { CARVE_JS: pathToFileURL(resolve(carveTree, 'dist/index.js')).href } : {}) } }))
 if (carveMain) {
   const { tryFastHtml } = await import(pathToFileURL(resolve(carveTree, 'dist/fast-html.js')).href)
   const fastOutput = tryFastHtml(sources.carve, {})
