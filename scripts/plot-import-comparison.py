@@ -19,7 +19,8 @@ timings = json.loads((args.results / 'timings.json').read_text())
 rows = [(name, row) for name, row in data.items() if row['ranked']]
 if len(timings['pages']) != 10:
     raise ValueError('chart requires all ten corpus pages')
-if len(rows) != 12 or not {'carve-js (dev main)', 'carve-rs (dev main)'}.issubset(data):
+carve_rs = next((name for name in data if name.startswith('carve-rs')), None)
+if len(rows) != 12 or 'carve-js (dev main)' not in data or carve_rs is None:
     raise ValueError('comparison chart requires both Carve engines and all ten original ranked tools')
 if any(row['total'] != 273 for _, row in rows):
     raise ValueError('chart requires all 273 probes for every ranked tool')
@@ -28,7 +29,7 @@ for page in timings['pages'].values():
         if name not in page['tools'] or page['tools'][name]['error']:
             raise ValueError(f'incomplete conversion for {name}')
 
-labels = {'carve-js (dev main)': 'Carve JS · dev main', 'carve-rs (dev main)': 'Carve Rust · dev main',
+labels = {'carve-js (dev main)': 'Carve JS · dev main', carve_rs: 'Carve Rust · ' + carve_rs.removeprefix('carve-rs ').strip('()'),
     'html-to-markdown (py)': 'html-to-markdown · Python/Rust',
     'html-to-markdown (go)': 'html-to-markdown · Go'}
 def color(name):

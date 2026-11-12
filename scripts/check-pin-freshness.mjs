@@ -71,20 +71,20 @@ const lanes = [
         .sort(compare)[0]
     },
   },
-  {
-    name: 'carve-rs',
+  ...['engines/rs/Cargo.toml', 'engines/html-import-rs/Cargo.toml'].map((path) => ({
+    name: path === 'engines/rs/Cargo.toml' ? 'carve-rs' : 'html-import-rs',
     registry: 'crates.io carve-lang',
     pinned: () => {
-      const manifest = read('engines/rs/Cargo.toml')
+      const manifest = read(path)
       const match = manifest.match(/package\s*=\s*"carve-lang",\s*version\s*=\s*"([^"]+)"/)
-      if (!match) throw new Error('engines/rs/Cargo.toml no longer names a carve-lang version')
+      if (!match) throw new Error(`${path} no longer names a carve-lang version`)
       return match[1]
     },
     latest: async () => {
       const body = await fetchJson('https://crates.io/api/v1/crates/carve-lang')
       return body.crate.max_stable_version ?? body.crate.max_version
     },
-  },
+  })),
 ]
 
 const rows = []
@@ -100,7 +100,7 @@ if (asJson) {
   process.stdout.write('engine pins against the newest published release:\n')
   for (const row of rows) {
     const verdict = row.behind ? `BEHIND ${row.latest}` : 'current'
-    process.stdout.write(`  ${row.lane.padEnd(10)} ${row.pinned.padEnd(8)} ${verdict}\n`)
+    process.stdout.write(`  ${row.lane.padEnd(14)} ${row.pinned.padEnd(8)} ${verdict}\n`)
   }
 }
 

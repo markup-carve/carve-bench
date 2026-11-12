@@ -156,7 +156,7 @@ def main():
     rs_version = rs.request({"op": "version"})
     lock_text = (root / "engines/html-import-rs/Cargo.lock").read_text(encoding="utf-8")
     engine_package = next(package for package in tomllib.loads(lock_text)["package"] if package["name"] == "carve-lang")
-    if rs_version["lockfile"] != lock_text or rs_version["revision"] != engine_package["source"].split("#")[-1] or rs_version["revision"] != args.rs_revision:
+    if rs_version["lockfile"] != lock_text or rs_version["revision"] != (engine_package["source"].split("#")[1] if "#" in engine_package["source"] else engine_package["version"]) or rs_version["revision"] != args.rs_revision:
         raise RuntimeError("Rust worker revision or embedded lockfile does not match this benchmark")
     worker_sources = {"main.rs": root / "engines/html-import-rs/src/main.rs", "build.rs": root / "engines/html-import-rs/build.rs",
         "Cargo.toml": root / "engines/html-import-rs/Cargo.toml"}
@@ -165,7 +165,7 @@ def main():
     chosen = [adapter for adapter in ALL if not adapter.name.startswith("carve")]
     for name, language, worker, revision in [
         ("carve-js (dev main)", "JavaScript", js, args.js_revision),
-        ("carve-rs (dev main)", "Rust", rs, args.rs_revision),
+        ("carve-rs (dev main)" if "#" in engine_package["source"] else f"carve-rs {engine_package['version']}", "Rust", rs, args.rs_revision),
     ]:
         chosen.append(Adapter(name=name, kind="converter", lang=language,
             repo=f"https://github.com/markup-carve/carve-{'js' if language == 'JavaScript' else 'rs'}",
