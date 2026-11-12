@@ -58,4 +58,4 @@ node scripts/gen-charts.mjs
 
 
 
-The [raw record](commonmark-js.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.
+The [raw record](commonmark-js-release-0.1.16.json) retains all trial samples, both rounds, source/output hashes, workload controls, exact package versions and harness hashes.

@@ -20,7 +20,8 @@ all three engines: carve-js `efef22a`, carve-php `32d48be` and carve-rs
 ones. The host's one-minute load stayed between 10 and 17 on 16 CPUs, above
 half the cores, so its results are ratios against peers from the same run.
 The headline table and throughput charts under "Results" keep the 21 October
-snapshot for that reason. `COMPARISON.md` and the shared JavaScript report are
+snapshot for that reason, except the panel without pipe tables in the core
+chart, which shows the 12 November shared JavaScript run and is labeled so. `COMPARISON.md` and the shared JavaScript report are
 written by their runners and do carry this session's MB/s; those are lower
 than a quiet host would give and only compare within their own run.
 
