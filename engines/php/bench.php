@@ -37,7 +37,7 @@ function engines(): array
             'html' => static fn (string $s): string => Carve2::toHtml($s)],
         // 0.1 normal path: parse, then render the tree. convert() would try the borrowed HTML layout first and pass
         // the source to the renderer; render() of a tree alone has no source to borrow from.
-        ['id' => 'carve01', 'label' => 'Carve 0.1', 'version' => 'carve-php 0.1 (src/)', 'lang' => 'crv',
+        ['id' => 'carve01', 'label' => 'Carve 0.1', 'version' => 'carve-php 0.1.17+ (src/)', 'lang' => 'crv',
             'parse' => static fn (string $s): mixed => $carve01->parse($s),
             'html' => static fn (string $s): string => $carve01->render($carve01->parse($s))],
         ['id' => 'league-gfm', 'label' => 'league/commonmark GFM', 'version' => $installed('league/commonmark'), 'lang' => 'md',
