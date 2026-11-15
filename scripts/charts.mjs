@@ -89,7 +89,6 @@ const CLASSES = ['s1', 's2', 's3', 's4', 's5']
 const cellOf = (lane, engine, doc, phase) => lane.data.cells.find((c) => c.engine === engine && c.document === doc && c.phase === phase)
 const docsOf = (lane) => lane.data.documents.map((d) => d.name)
 const MEASURE = { parse: 'parse to tree', html: 'parse plus HTML, normal path' }
-const LOAD_NOTE = 'measured under load, to be repeated'
 
 function laneChart(lane, phase) {
   const series = lane.data.engines.map((e, at) => ({ id: e.id, label: e.label, cls: CLASSES[at] }))
@@ -100,7 +99,7 @@ function laneChart(lane, phase) {
       return { name: s.label, value: c.bytes / c.medianUs, cls: s.cls }
     }),
   }))
-  return barChart({ title: `${lane.title}: ${MEASURE[phase]}`, subtitle: `MB/s of each engine's own input (median of ${lane.data.method.rounds} rounds), higher is faster; ${LOAD_NOTE}`, groups, series })
+  return barChart({ title: `${lane.title}: ${MEASURE[phase]}`, subtitle: `MB/s of each engine's own input (median of ${lane.data.method.rounds} rounds), higher is faster`, groups, series })
 }
 
 function ratioChart(lanes) {
@@ -112,7 +111,7 @@ function ratioChart(lanes) {
       cls: 's1',
     })),
   }))
-  return barChart({ title: 'Carve 0.2 against Carve 0.1: parse plus HTML', subtitle: `Speed ratio of the medians; right of the dashed line at 1x, 0.2 is faster; ${LOAD_NOTE}`,
+  return barChart({ title: 'Carve 0.2 against Carve 0.1: parse plus HTML', subtitle: `Speed ratio of the medians; right of the dashed line at 1x, 0.2 is faster`,
     groups, series: [], unit: 'x', digits: 2, reference: 1 })
 }
 
@@ -124,7 +123,7 @@ function enginesChart(lanes) {
       return { name: lane.title, value: c.bytes / c.medianUs, cls: 's1' }
     }),
   }))
-  return barChart({ title: 'The Carve 0.2 engines against each other: parse plus HTML', subtitle: `MB/s of the .crv input (median of ${lanes[0].data.method.rounds} rounds), higher is faster; ${LOAD_NOTE}`, groups, series: [] })
+  return barChart({ title: 'The Carve 0.2 engines against each other: parse plus HTML', subtitle: `MB/s of the .crv input (median of ${lanes[0].data.method.rounds} rounds), higher is faster`, groups, series: [] })
 }
 
 export function writeCharts(lanes, dir) {

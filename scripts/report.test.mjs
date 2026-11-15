@@ -33,10 +33,10 @@ test('the ratio is 0.1 time over 0.2 time', () => {
   assert.equal(ratio(lane('rust', 'Rust', 50), 'doc', 'parse'), 0.5)
 })
 
-test('the summary says when 0.1 and 0.2 do not agree, and that the run was loaded', () => {
+test('the summary says when 0.1 and 0.2 do not agree, and gives the load', () => {
   const text = summary([lane('js', 'JavaScript', 250)], env)
   assert.match(text, /\*\*does not agree\*\* \(largest difference 20\.0%\)/)
-  assert.match(text, /Measured under load, to be repeated/)
+  assert.match(text, /Load average at start/)
   assert.match(text, /\| Peer \| 24\.0 \|/)
 })
 

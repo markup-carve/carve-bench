@@ -86,7 +86,7 @@ function environmentText(env) {
 
 export function summary(lanes, env) {
   const parts = [
-    '**Measured under load, to be repeated.** ' + environmentText(env),
+    environmentText(env),
     '### Parse plus HTML, normal path', ...lanes.map((lane) => throughputTable(lane, 'html')),
     '### Parse to tree', ...lanes.map((lane) => throughputTable(lane, 'parse')),
     '### Carve 0.2 against Carve 0.1 (speed ratio of the medians, above 1x means 0.2 is faster)', ratioTable(lanes),
