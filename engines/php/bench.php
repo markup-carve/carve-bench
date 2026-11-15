@@ -45,7 +45,8 @@ function engines(): array
             'html' => static fn (string $s): string => $gfm->convert($s)->getContent()],
         ['id' => 'php-djot', 'label' => 'php-collective/djot', 'version' => $installed('php-collective/djot'), 'lang' => 'dj',
             'parse' => static fn (string $s): mixed => $djot->parse($s),
-            'html' => static fn (string $s): string => $djot->convert($s)],
+            // convert() tries a borrowed HTML layout first, like Carve 0.1; the tree route is parse, then render.
+            'html' => static fn (string $s): string => $djot->render($djot->parse($s))],
     ];
 }
 

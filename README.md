@@ -48,84 +48,84 @@ HTML equals the engine's one-call output. The records are the `route` fields of 
 
 <!-- results:start -->
 
-**Measured under load, to be repeated.** Measured 2026-11-15T18:09:20.452Z to 2026-11-15T18:25:55.545Z on AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics (16 threads), Linux 7.0.0-38-generic. v22.22.2, PHP 8.5.12, rustc 1.97.1 (8bab26f4f 2026-07-14). Harness commit `f771a04f0686cd1c375f6c8fb52f235b2c2b5d8c`. Engine commits: carve-js `c27a9dd40c1c0a359ebb2f3c3c44edbd0d429ae8`, carve-rs `8c70808759761875a7beba9289eb9c236ceda6e2`, carve-php `a9679962657af56f1b743ba7a1910e279fb935a5`. Load average at start 6.73, 5.76, 5.92, at end 13.08, 10.05, 8.01.
+**Measured under load, to be repeated.** Measured 2026-11-15T18:26:37.969Z to 2026-11-15T18:44:18.630Z on AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics (16 threads), Linux 7.0.0-38-generic. v22.22.2, PHP 8.5.12, rustc 1.97.1 (8bab26f4f 2026-07-14). Harness commit `58fdc25a8014ed2701ea4bc008de6e2bd48dcb75`. Engine commits: carve-js `c27a9dd40c1c0a359ebb2f3c3c44edbd0d429ae8`, carve-rs `8c70808759761875a7beba9289eb9c236ceda6e2`, carve-php `a9679962657af56f1b743ba7a1910e279fb935a5`. Load average at start 8.6, 9.27, 7.84, at end 15.95, 11.11, 9.63.
 
 ### Parse plus HTML, normal path
 
 | JavaScript: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 11.0 | 26.8 | 18.8 | 21.2 | 13.4 |
-| Carve 0.1 | 0.8 | 6.5 | 2.4 | 2.5 | 1.2 |
-| markdown-it | 5.4 | 12.9 | 10.1 | 11.8 | 7.3 |
-| commonmark.js | 11.2 | 36.2 | 29.1 | 30.2 | 9.6 |
-| djot.js | 4.9 | 19.6 | 10.9 | 16.5 | 7.2 |
+| Carve 0.2 | 10.2 | 23.8 | 15.9 | 20.2 | 9.9 |
+| Carve 0.1 | 0.5 | 4.6 | 1.2 | 1.5 | 0.8 |
+| markdown-it | 4.4 | 12.5 | 8.3 | 10.3 | 5.0 |
+| commonmark.js | 9.0 | 35.7 | 27.2 | 28.6 | 8.8 |
+| djot.js | 3.5 | 14.6 | 8.3 | 12.8 | 4.9 |
 
 | Rust: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 8.5 | 20.5 | 15.7 | 18.8 | 6.5 |
-| Carve 0.1 | 5.6 | 25.1 | 22.8 | 6.9 | 1.9 |
-| pulldown-cmark | 102.9 | 217.6 | 191.4 | 179.8 | 126.2 |
-| comrak | 39.3 | 78.8 | 71.7 | 70.5 | 28.5 |
-| jotdown | 41.1 | 87.2 | 68.5 | 77.4 | 50.4 |
+| Carve 0.2 | 7.0 | 21.0 | 14.7 | 17.8 | 5.9 |
+| Carve 0.1 | 5.5 | 26.7 | 21.7 | 5.9 | 1.9 |
+| pulldown-cmark | 102.3 | 216.4 | 186.4 | 163.6 | 122.1 |
+| comrak | 38.7 | 84.3 | 68.8 | 66.1 | 26.0 |
+| jotdown | 41.1 | 87.9 | 64.8 | 73.5 | 47.4 |
 
 | PHP, JIT off: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 1.5 | 5.7 | 3.9 | 4.4 | 1.8 |
-| Carve 0.1 | 0.2 | 1.6 | 0.7 | 0.9 | 0.2 |
-| league/commonmark GFM | 0.1 | 2.3 | 1.5 | 2.0 | 1.1 |
-| php-collective/djot | 10.7 | 4.4 | 2.5 | 4.0 | 2.1 |
+| Carve 0.2 | 1.3 | 4.2 | 2.8 | 4.3 | 1.9 |
+| Carve 0.1 | 0.2 | 2.1 | 0.7 | 1.1 | 0.2 |
+| league/commonmark GFM | 0.9 | 2.6 | 1.6 | 2.3 | 1.2 |
+| php-collective/djot | 9.9 | 4.3 | 2.6 | 3.7 | 2.8 |
 
 | PHP, opcache.jit=tracing: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 1.2 | 3.9 | 2.6 | 3.6 | 1.9 |
-| Carve 0.1 | 0.2 | 2.1 | 0.8 | 1.1 | 0.2 |
-| league/commonmark GFM | 0.1 | 2.4 | 1.6 | 2.1 | 1.0 |
-| php-collective/djot | 9.3 | 4.2 | 2.4 | 3.4 | 1.9 |
+| Carve 0.2 | 1.2 | 4.6 | 2.5 | 4.2 | 1.9 |
+| Carve 0.1 | 0.2 | 2.3 | 0.8 | 1.3 | 0.2 |
+| league/commonmark GFM | 0.8 | 2.4 | 1.6 | 2.2 | 1.1 |
+| php-collective/djot | 9.0 | 4.4 | 2.9 | 4.1 | 2.5 |
 
 ### Parse to tree
 
 | JavaScript: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 11.1 | 25.9 | 18.6 | 23.5 | 13.7 |
-| Carve 0.1 | 0.7 | 7.2 | 1.9 | 2.6 | 1.2 |
-| markdown-it | 6.0 | 14.3 | 11.0 | 12.6 | 7.9 |
-| commonmark.js | 17.2 | 47.3 | 38.3 | 39.8 | 13.9 |
-| djot.js | 5.6 | 20.4 | 11.6 | 19.0 | 8.0 |
+| Carve 0.2 | 9.9 | 23.6 | 15.4 | 19.4 | 10.2 |
+| Carve 0.1 | 0.4 | 5.2 | 1.0 | 1.6 | 0.9 |
+| markdown-it | 5.3 | 13.3 | 10.1 | 11.1 | 6.1 |
+| commonmark.js | 15.6 | 48.8 | 38.1 | 39.9 | 13.4 |
+| djot.js | 4.6 | 17.2 | 8.8 | 16.1 | 6.5 |
 
 | Rust: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 11.8 | 27.2 | 21.6 | 27.5 | 9.4 |
-| Carve 0.1 | 6.1 | 32.8 | 31.2 | 8.8 | 2.5 |
-| pulldown-cmark | 100.5 | 238.7 | 212.8 | 195.7 | 131.1 |
-| comrak | 49.5 | 107.9 | 90.5 | 86.1 | 39.1 |
-| jotdown | 44.4 | 102.0 | 78.0 | 98.1 | 55.9 |
+| Carve 0.2 | 10.1 | 27.9 | 20.7 | 25.0 | 8.7 |
+| Carve 0.1 | 6.0 | 32.5 | 29.1 | 7.9 | 2.4 |
+| pulldown-cmark | 97.6 | 229.6 | 204.5 | 183.6 | 124.5 |
+| comrak | 47.6 | 108.0 | 79.8 | 80.6 | 36.5 |
+| jotdown | 42.2 | 99.8 | 70.2 | 90.9 | 54.7 |
 
 | PHP, JIT off: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 1.9 | 6.0 | 4.1 | 4.4 | 2.8 |
-| Carve 0.1 | 0.2 | 4.2 | 1.0 | 1.4 | 0.4 |
-| league/commonmark GFM | 1.1 | 0.8 | 0.6 | 2.3 | 1.4 |
-| php-collective/djot | 2.3 | 4.5 | 3.8 | 5.2 | 3.7 |
+| Carve 0.2 | 1.7 | 4.8 | 3.2 | 4.7 | 2.9 |
+| Carve 0.1 | 0.2 | 4.1 | 1.0 | 1.3 | 0.4 |
+| league/commonmark GFM | 1.1 | 3.3 | 2.0 | 2.7 | 1.7 |
+| php-collective/djot | 3.4 | 7.1 | 4.1 | 5.4 | 4.3 |
 
 | PHP, opcache.jit=tracing: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 1.6 | 4.6 | 2.9 | 4.1 | 2.7 |
-| Carve 0.1 | 0.2 | 4.6 | 1.0 | 1.6 | 0.4 |
-| league/commonmark GFM | 1.0 | 0.1 | 0.5 | 1.9 | 1.3 |
-| php-collective/djot | 3.1 | 3.2 | 3.2 | 4.9 | 3.4 |
+| Carve 0.2 | 1.6 | 4.6 | 3.1 | 4.5 | 2.8 |
+| Carve 0.1 | 0.2 | 4.6 | 1.0 | 1.7 | 0.5 |
+| league/commonmark GFM | 1.0 | 3.0 | 2.0 | 2.8 | 1.5 |
+| php-collective/djot | 3.1 | 6.8 | 3.9 | 5.0 | 4.1 |
 
 ### Carve 0.2 against Carve 0.1 (speed ratio of the medians, above 1x means 0.2 is faster)
 
 | Lane | Measure | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|---|--:|--:|--:|--:|--:|
-| JavaScript | parse to tree | 15.62x | 3.61x | 9.79x | 8.89x | 11.00x |
-| JavaScript | parse plus HTML | 13.89x | 4.12x | 7.71x | 8.57x | 11.14x |
-| Rust | parse to tree | 1.92x | 0.83x | 0.69x | 3.12x | 3.77x |
-| Rust | parse plus HTML | 1.53x | 0.82x | 0.69x | 2.72x | 3.51x |
-| PHP, JIT off | parse to tree | 10.59x | 1.42x | 4.09x | 3.14x | 7.14x |
-| PHP, JIT off | parse plus HTML | 7.49x | 3.54x | 5.25x | 4.64x | 7.46x |
-| PHP, opcache.jit=tracing | parse to tree | 9.71x | 1.01x | 2.81x | 2.61x | 6.24x |
-| PHP, opcache.jit=tracing | parse plus HTML | 6.51x | 1.88x | 3.28x | 3.21x | 8.12x |
+| JavaScript | parse to tree | 25.85x | 4.57x | 15.33x | 12.16x | 11.14x |
+| JavaScript | parse plus HTML | 22.37x | 5.18x | 12.81x | 13.31x | 12.43x |
+| Rust | parse to tree | 1.70x | 0.86x | 0.71x | 3.18x | 3.59x |
+| Rust | parse plus HTML | 1.27x | 0.79x | 0.68x | 3.00x | 3.14x |
+| PHP, JIT off | parse to tree | 8.29x | 1.18x | 3.37x | 3.53x | 6.82x |
+| PHP, JIT off | parse plus HTML | 7.24x | 1.97x | 3.98x | 4.08x | 8.03x |
+| PHP, opcache.jit=tracing | parse to tree | 6.77x | 1.00x | 3.08x | 2.61x | 5.86x |
+| PHP, opcache.jit=tracing | parse plus HTML | 6.23x | 1.98x | 3.26x | 3.37x | 8.63x |
 
 ### Element counts of the 0.1 and the 0.2 HTML of the `.crv` documents
 
@@ -179,6 +179,10 @@ The same in all three languages:
   measured for 15 rounds. In a round every cell runs a timed loop of at least 200 ms; the order of
   the cells rotates from round to round so that drift hits every engine alike. The median and the
   minimum of the 15 rounds are reported.
+- Before every timed loop the garbage collector runs once, untimed (PHP `gc_collect_cycles()`, Node
+  `gc()` through `--expose-gc`), so that garbage one cell leaves behind is not collected inside the
+  loop of another. A first run without it gave league/commonmark cells a median up to seven times
+  their minimum.
 - Every output is kept or read (string lengths and node counts go into a sink that is written to
   the result file), so no engine can skip work.
 - Rust: release build with the release profile of carve-rs (`lto = "thin"`, `codegen-units = 1`).
