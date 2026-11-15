@@ -7,8 +7,9 @@ function keep(value) {
   sink += typeof value === 'string' ? value.length : value === null || value === undefined ? 0 : 1
 }
 
-/** Nanoseconds per call of `fn(src)` over a loop of at least `minNanos`. */
+/** Nanoseconds per call of `fn(src)` over a loop of at least `minNanos`, after an untimed collection (`--expose-gc`). */
 function sample(fn, src, minNanos) {
+  globalThis.gc?.()
   let iterations = 0
   const start = process.hrtime.bigint()
   let elapsed = 0n

@@ -66,7 +66,7 @@ mkdirSync(OUT, { recursive: true })
 build()
 const docs = writeDocuments()
 const env = { ...environment(), quick, startedAt: new Date().toISOString(), loadAtStart: load() }
-lane('js', 'node', (file) => ['engines/js/bench.mjs', '--docs', docs, '--out', file, '--rounds', ROUNDS, '--sample-ms', SAMPLE_MS])
+lane('js', 'node', (file) => ['--expose-gc', 'engines/js/bench.mjs', '--docs', docs, '--out', file, '--rounds', ROUNDS, '--sample-ms', SAMPLE_MS])
 lane('rust', join(TARGET, 'release/carve-bench-rs'), (file) => [docs, file, ROUNDS, SAMPLE_MS])
 for (const [mode, flags] of Object.entries(JIT)) {
   lane(`php-jit-${mode}`, 'php', (file) => [...PHP_EXT, ...flags, 'engines/php/bench.php', docs, file, ROUNDS, SAMPLE_MS])

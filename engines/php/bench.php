@@ -97,9 +97,13 @@ function routeProof(): array
     ];
 }
 
-/** Microseconds per call over a loop of at least $minNs. */
+/**
+ * Microseconds per call over a loop of at least $minNs. The untimed collection first keeps one cell's cyclic
+ * garbage (league/commonmark trees hold parent links) from being collected inside the next cell's loop.
+ */
 function sample(Closure $fn, string $src, int $minNs, int &$sink): float
 {
+    gc_collect_cycles();
     $iterations = 0;
     $start = hrtime(true);
     do {
