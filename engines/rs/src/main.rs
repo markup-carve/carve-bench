@@ -15,8 +15,16 @@ struct Engine {
     html: Run,
 }
 
+// The tree the renderer works on: parsed and resolved in an arena.
 fn carve02_parse(src: &str) -> usize {
-    black_box(carve2::parse_resolved(src, &carve2::Options::default())).children.len()
+    let arena = carve2::Arena::new();
+    black_box(carve2::parse_resolved_in(src, &carve2::Options::default(), &arena)).children.len()
+}
+
+// The same tree before the resolve step (references, heading ids, numbers, sections).
+fn carve02_parse_only(src: &str) -> usize {
+    let arena = carve2::Arena::new();
+    black_box(carve2::parse_in(src, &arena)).children.len()
 }
 
 fn carve02_html(src: &str) -> usize {
@@ -57,6 +65,32 @@ fn comrak_html(src: &str) -> usize {
     out.len()
 }
 
+// comrak with the extensions that bring it closer to what Carve reads by default.
+fn comrak_ext_options() -> comrak::Options<'static> {
+    let mut options = comrak::Options::default();
+    options.extension.table = true;
+    options.extension.footnotes = true;
+    options.extension.tasklist = true;
+    options.extension.strikethrough = true;
+    options.extension.header_id_prefix = Some(String::new());
+    options
+}
+
+fn comrak_ext_parse(src: &str) -> usize {
+    let arena = comrak::Arena::new();
+    let root = comrak::parse_document(&arena, src, &comrak_ext_options());
+    root.children().count()
+}
+
+fn comrak_ext_html(src: &str) -> usize {
+    let arena = comrak::Arena::new();
+    let options = comrak_ext_options();
+    let root = comrak::parse_document(&arena, src, &options);
+    let mut out = String::new();
+    comrak::format_html(root, &options, &mut out).expect("comrak html");
+    out.len()
+}
+
 fn jotdown_parse(src: &str) -> usize {
     jotdown::Parser::new(src).collect::<Vec<_>>().len()
 }
@@ -68,9 +102,11 @@ fn jotdown_html(src: &str) -> usize {
 fn engines() -> Vec<Engine> {
     vec![
         Engine { id: "carve02", label: "Carve 0.2", version: "0.2 (carve2, v2/)", lang: "crv", parse: carve02_parse, html: carve02_html },
+        Engine { id: "carve02-parse-only", label: "Carve 0.2, no resolve", version: "0.2 (carve2, v2/)", lang: "crv", parse: carve02_parse_only, html: carve02_html },
         Engine { id: "carve01", label: "Carve 0.1", version: "carve-lang 0.1.14", lang: "crv", parse: carve01_parse, html: carve01_html },
         Engine { id: "pulldown-cmark", label: "pulldown-cmark (no tree)", version: "0.13.4", lang: "md", parse: pulldown_parse, html: pulldown_html },
         Engine { id: "comrak", label: "comrak", version: "0.54.0", lang: "md", parse: comrak_parse, html: comrak_html },
+        Engine { id: "comrak-ext", label: "comrak + extensions", version: "0.54.0", lang: "md", parse: comrak_ext_parse, html: comrak_ext_html },
         Engine { id: "jotdown", label: "jotdown (no tree)", version: "0.10.0", lang: "dj", parse: jotdown_parse, html: jotdown_html },
     ]
 }

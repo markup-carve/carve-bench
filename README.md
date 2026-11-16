@@ -13,7 +13,7 @@ average 2 to 4 on 16 threads, given with the results).
 | Language | Carve 0.2 | Carve 0.1, tree route | Peers (default configuration) |
 |---|---|---|---|
 | JavaScript | `parse(src)` and `render(src)` of carve-js `v2/src` | `resolve(parse(src))`, and `renderHtml(resolve(parse(src, { positions })))` | markdown-it, commonmark.js, djot.js |
-| Rust | `carve2::parse_resolved` and `carve2::render` | `carve::parse`, and `carve::render_html(&carve::parse(src))` | pulldown-cmark, comrak, jotdown |
+| Rust | `carve2::parse_resolved_in` (the arena tree the renderer works on) and `carve2::render` | `carve::parse`, and `carve::render_html(&carve::parse(src))` | pulldown-cmark, comrak, jotdown |
 | PHP | `Carve2::parse` and `Carve2::toHtml` | `CarveConverter::parse`, and `render(parse(src))` | league/commonmark (GFM converter), php-collective/djot (`parse`, then `render`) |
 
 Two measures per engine and document: **parse to tree** (source to the tree the engine renders
@@ -48,8 +48,8 @@ What follows from it:
 - **pulldown-cmark and jotdown are a different kind of program.** They never hold the document.
   Their HTML is written while the source is read, which is what the fast paths of Carve 0.1 did and
   what this branch leaves out for Carve. Their "parse to tree" number here is the event stream
-  collected into a list, so that there is a number at all. Part of their lead over Carve 0.2 (2.4x
-  to 13x) is the tree they do not build; this benchmark cannot say how large that part is. No tree
+  collected into a list, so that there is a number at all. Part of their lead over Carve 0.2 in Rust
+  (pulldown-cmark 3.7x to 5.8x, jotdown 1.5x to 2.3x) is the tree they do not build; this benchmark cannot say how large that part is. No tree
   also means no formatter, no linter with positions, no round trip and nothing for other tools to
   work on. They are in the tables as a ceiling, marked "(no tree)".
 - **The like-for-like peers are the ones with a tree:** commonmark.js and djot.js in JavaScript,
@@ -82,84 +82,87 @@ HTML equals the engine's one-call output. The records are the `route` fields of 
 
 <!-- results:start -->
 
-Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics (16 threads), Linux 7.0.0-38-generic. v22.22.2, PHP 8.5.12, rustc 1.97.1 (8bab26f4f 2026-07-14). Harness commit `39fb1470262b11b2053404000a3513ec83edca02`. Engine commits: carve-js `0b4e3be9cb0ea1db6c04d9ba04ba09a8436ded7b`, carve-rs `bfd28e6ca6b9ad3d756cee0b35ba6bf458a161a5`, carve-php `a9679962657af56f1b743ba7a1910e279fb935a5`. Load average at start 2.82, 2.49, 2.92, at end 2.14, 2.7, 3.06.
+Measured 2026-11-16T05:19:16.102Z to 2026-11-16T05:34:19.382Z on AMD Ryzen 9 PRO 7940HS w/ Radeon 780M Graphics (16 threads), Linux 7.0.0-38-generic. v22.22.2, PHP 8.5.12, rustc 1.97.1 (8bab26f4f 2026-07-14). Harness commit `24a1ece42a5d1df4d06c5b888cfce546f4b74111`. Engine commits: carve-js `6f5a23b8e7094d3eb88d0b535868edd94650455b`, carve-rs `267507b146eae4a70751f2d9d256976acb8ea8b1`, carve-php `ba3e789b1d02e89da1233e8ba9fbf2cb75d183c8`. Load average at start 1.16, 1.01, 1.05, at end 1.51, 1.55, 1.47.
 
 ### Parse plus HTML, normal path
 
 | JavaScript: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 14.9 | 33.3 | 21.4 | 26.6 | 14.8 |
-| Carve 0.1 | 0.6 | 8.1 | 2.2 | 2.3 | 1.2 |
-| markdown-it (token list) | 7.2 | 17.9 | 12.1 | 14.8 | 8.1 |
-| commonmark.js | 16.2 | 46.5 | 36.7 | 36.8 | 11.7 |
-| djot.js | 6.1 | 22.6 | 13.3 | 19.2 | 8.3 |
+| Carve 0.2 | 15.8 | 36.2 | 24.5 | 29.6 | 16.7 |
+| Carve 0.1 | 0.7 | 8.5 | 2.4 | 2.7 | 1.2 |
+| markdown-it (token list) | 7.7 | 18.9 | 13.6 | 16.9 | 8.8 |
+| commonmark.js | 17.7 | 51.7 | 40.8 | 41.3 | 12.3 |
+| djot.js | 7.2 | 26.3 | 15.2 | 21.9 | 8.8 |
 
 | Rust: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 19.2 | 45.5 | 29.3 | 38.6 | 12.8 |
-| Carve 0.1 | 7.9 | 33.6 | 29.0 | 8.9 | 2.4 |
-| pulldown-cmark (no tree) | 130.2 | 263.4 | 231.4 | 218.0 | 161.5 |
-| comrak | 50.4 | 107.5 | 89.7 | 90.3 | 32.6 |
-| jotdown (no tree) | 52.8 | 110.3 | 83.9 | 99.1 | 65.9 |
+| Carve 0.2 | 33.3 | 78.6 | 52.6 | 63.5 | 31.1 |
+| Carve 0.1 | 9.5 | 37.9 | 32.8 | 9.6 | 2.9 |
+| pulldown-cmark (no tree) | 140.1 | 294.3 | 258.4 | 234.7 | 180.4 |
+| comrak | 55.0 | 118.2 | 98.7 | 96.8 | 43.5 |
+| comrak + extensions | 49.6 | 103.8 | 79.2 | 85.6 | 31.0 |
+| jotdown (no tree) | 55.8 | 118.3 | 89.0 | 105.9 | 70.6 |
 
 | PHP, JIT off: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 2.2 | 7.9 | 5.4 | 7.4 | 2.6 |
-| Carve 0.1 | 0.3 | 2.9 | 1.0 | 1.6 | 0.4 |
-| league/commonmark GFM | 1.2 | 3.4 | 2.5 | 3.4 | 1.6 |
-| php-collective/djot | 2.9 | 6.3 | 4.7 | 6.0 | 3.9 |
+| Carve 0.2 | 2.8 | 8.6 | 5.9 | 7.8 | 2.7 |
+| Carve 0.1 | 0.3 | 3.2 | 1.1 | 1.7 | 0.4 |
+| league/commonmark GFM | 1.3 | 3.7 | 2.6 | 3.5 | 1.7 |
+| php-collective/djot | 3.0 | 6.8 | 4.7 | 6.7 | 4.1 |
 
 | PHP, opcache.jit=tracing: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 2.2 | 7.9 | 5.3 | 7.2 | 2.5 |
-| Carve 0.1 | 0.4 | 3.5 | 1.2 | 1.8 | 0.4 |
-| league/commonmark GFM | 1.2 | 3.6 | 2.4 | 3.3 | 1.6 |
-| php-collective/djot | 2.9 | 6.0 | 4.3 | 5.7 | 3.9 |
+| Carve 0.2 | 2.7 | 8.5 | 5.9 | 7.8 | 2.7 |
+| Carve 0.1 | 0.4 | 3.8 | 1.3 | 2.0 | 0.4 |
+| league/commonmark GFM | 1.3 | 3.7 | 2.5 | 3.5 | 1.7 |
+| php-collective/djot | 3.1 | 6.5 | 4.7 | 6.4 | 4.1 |
 
 ### Parse to tree
 
 | JavaScript: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 14.2 | 31.2 | 21.2 | 26.9 | 14.9 |
-| Carve 0.1 | 0.7 | 8.6 | 1.7 | 2.5 | 1.3 |
-| markdown-it (token list) | 8.1 | 18.8 | 13.3 | 16.0 | 8.7 |
-| commonmark.js | 25.5 | 67.4 | 51.3 | 51.7 | 18.6 |
-| djot.js | 7.6 | 25.4 | 14.5 | 21.6 | 9.8 |
+| Carve 0.2 | 15.3 | 33.5 | 24.2 | 30.2 | 16.9 |
+| Carve 0.1 | 0.7 | 9.5 | 2.1 | 3.0 | 1.4 |
+| markdown-it (token list) | 8.8 | 20.5 | 15.3 | 17.7 | 9.4 |
+| commonmark.js | 27.1 | 72.2 | 56.3 | 56.3 | 19.8 |
+| djot.js | 8.4 | 29.0 | 16.7 | 25.3 | 10.6 |
 
 | Rust: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 25.7 | 57.8 | 39.7 | 53.3 | 17.4 |
-| Carve 0.1 | 8.9 | 41.6 | 38.2 | 11.2 | 3.0 |
-| pulldown-cmark (no tree) | 128.7 | 297.1 | 258.4 | 241.3 | 156.1 |
-| comrak | 63.4 | 140.1 | 113.1 | 108.0 | 46.6 |
-| jotdown (no tree) | 57.4 | 127.9 | 96.1 | 124.4 | 73.3 |
+| Carve 0.2 | 42.4 | 93.6 | 66.6 | 91.1 | 39.8 |
+| Carve 0.2, no resolve | 54.3 | 126.4 | 87.9 | 124.4 | 68.4 |
+| Carve 0.1 | 10.3 | 47.9 | 42.8 | 12.1 | 3.6 |
+| pulldown-cmark (no tree) | 139.4 | 328.1 | 281.8 | 261.6 | 174.0 |
+| comrak | 67.3 | 149.5 | 122.9 | 115.7 | 60.3 |
+| comrak + extensions | 62.6 | 134.7 | 103.5 | 108.6 | 43.1 |
+| jotdown (no tree) | 60.0 | 137.5 | 101.4 | 129.5 | 79.1 |
 
 | PHP, JIT off: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 2.6 | 9.2 | 6.4 | 9.0 | 3.9 |
-| Carve 0.1 | 0.3 | 5.3 | 1.5 | 2.0 | 0.6 |
-| league/commonmark GFM | 1.5 | 4.1 | 2.9 | 3.8 | 2.2 |
-| php-collective/djot | 2.8 | 7.7 | 5.3 | 7.5 | 5.1 |
+| Carve 0.2 | 2.9 | 9.6 | 7.0 | 9.4 | 4.1 |
+| Carve 0.1 | 0.3 | 5.8 | 1.6 | 2.1 | 0.6 |
+| league/commonmark GFM | 1.4 | 4.2 | 3.0 | 3.8 | 2.2 |
+| php-collective/djot | 3.0 | 8.2 | 6.1 | 8.1 | 5.4 |
 
 | PHP, opcache.jit=tracing: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
-| Carve 0.2 | 2.5 | 9.0 | 6.3 | 8.8 | 3.8 |
-| Carve 0.1 | 0.4 | 5.9 | 1.7 | 2.5 | 0.7 |
-| league/commonmark GFM | 1.5 | 4.4 | 3.0 | 3.8 | 2.2 |
-| php-collective/djot | 4.3 | 8.0 | 5.9 | 7.7 | 5.1 |
+| Carve 0.2 | 2.9 | 10.0 | 7.0 | 9.6 | 4.0 |
+| Carve 0.1 | 0.4 | 6.9 | 1.8 | 2.8 | 0.7 |
+| league/commonmark GFM | 1.5 | 4.3 | 2.9 | 3.9 | 2.2 |
+| php-collective/djot | 3.0 | 8.6 | 6.4 | 8.5 | 5.4 |
 
 ### Carve 0.2 against Carve 0.1 (speed ratio of the medians, above 1x means 0.2 is faster)
 
 | Lane | Measure | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|---|--:|--:|--:|--:|--:|
-| JavaScript | parse to tree | 21.36x | 3.63x | 12.72x | 10.64x | 11.31x |
-| JavaScript | parse plus HTML | 23.50x | 4.10x | 9.71x | 11.37x | 12.48x |
-| Rust | parse to tree | 2.88x | 1.39x | 1.04x | 4.76x | 5.84x |
-| Rust | parse plus HTML | 2.42x | 1.36x | 1.01x | 4.34x | 5.35x |
-| PHP, JIT off | parse to tree | 8.04x | 1.74x | 4.38x | 4.42x | 6.71x |
-| PHP, JIT off | parse plus HTML | 7.15x | 2.75x | 5.18x | 4.66x | 7.30x |
-| PHP, opcache.jit=tracing | parse to tree | 6.33x | 1.52x | 3.65x | 3.56x | 5.54x |
-| PHP, opcache.jit=tracing | parse plus HTML | 6.03x | 2.24x | 4.27x | 4.11x | 6.72x |
+| JavaScript | parse to tree | 20.56x | 3.53x | 11.66x | 9.90x | 11.87x |
+| JavaScript | parse plus HTML | 22.32x | 4.24x | 10.32x | 11.14x | 13.37x |
+| Rust | parse to tree | 4.10x | 1.95x | 1.56x | 7.50x | 11.20x |
+| Rust | parse plus HTML | 3.50x | 2.08x | 1.60x | 6.65x | 10.89x |
+| PHP, JIT off | parse to tree | 8.39x | 1.65x | 4.46x | 4.53x | 6.61x |
+| PHP, JIT off | parse plus HTML | 8.42x | 2.68x | 5.22x | 4.49x | 6.81x |
+| PHP, opcache.jit=tracing | parse to tree | 7.07x | 1.46x | 3.89x | 3.48x | 5.52x |
+| PHP, opcache.jit=tracing | parse plus HTML | 7.15x | 2.26x | 4.54x | 3.94x | 6.16x |
 
 ### Element counts of the 0.1 and the 0.2 HTML of the `.crv` documents
 
@@ -189,24 +192,30 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 
 <!-- results:end -->
 
-### Reading the results (run of 2026-11-15)
+### Reading the results (run of 2026-11-16)
 
-- **JavaScript.** Carve 0.2 is faster than Carve 0.1 on every document, 3.6x to 24x. It is faster
+- **JavaScript.** Carve 0.2 is faster than Carve 0.1 on every document, 3.5x to 22x. It is faster
   than markdown-it (which builds no tree) and djot.js everywhere. commonmark.js parses faster than Carve 0.2 on every
-  document, and is faster to HTML on four of five (Carve 0.2 leads on `1mb`); commonmark.js reads
+  document, and is 1.1x to 1.7x faster to HTML on four of five (Carve 0.2 leads on `1mb`); commonmark.js reads
   no tables or footnotes.
-- **Rust.** Carve 0.2 is faster than Carve 0.1 on `commonmark-core` (2.4x), `reference-heavy`
-  (4.3x) and `1mb` (5.4x) for parse plus HTML, a little faster on `prose` (1.4x), and **level on
-  `lists-tables` (1.01x)**. The goal "clearly faster than 0.1 on the normal path" is not met in
-  Rust on `lists-tables`. Of the peers, only comrak builds a tree: it is about 2.5x faster than
-  Carve 0.2. pulldown-cmark (6x to 13x) and jotdown (2.4x to 5x) build none.
-- **PHP.** Carve 0.2 is faster than Carve 0.1 everywhere, least on `prose` (1.5x to 2.8x). The
+- **Rust.** Carve 0.2 is faster than Carve 0.1 on every document for parse plus HTML:
+  `commonmark-core` 3.5x, `prose` 2.1x, `lists-tables` 1.6x, `reference-heavy` 6.7x, `1mb` 10.9x.
+  `lists-tables` is the one document under 2x. Of the peers, only comrak builds a tree. In its
+  default configuration it is 1.4x to 1.9x faster than Carve 0.2. With tables, footnotes, task
+  lists, strikethrough and heading ids switched on ("comrak + extensions"), which is closer to what
+  Carve reads, it is 1.3x to 1.5x faster on four documents and level on `1mb`. pulldown-cmark (3.7x
+  to 5.8x) and jotdown (1.5x to 2.3x) build no tree.
+- **What the resolve step costs (Rust).** "Carve 0.2, no resolve" is the parse without the resolve
+  step (references, heading ids, footnote and caption numbers, sections); it is in the parse tables
+  only. Resolve takes 22% to 27% of the parse time on the four small documents and 42% on `1mb`.
+  Without it, Carve 0.2 parses within 7% to 18% of comrak with extensions on three documents and
+  faster than it on `reference-heavy` and `1mb`.
+- **PHP.** Carve 0.2 is faster than Carve 0.1 everywhere, least on `prose` (1.5x to 2.7x). The
   tracing JIT makes no difference for Carve 0.2. Carve 0.2 is faster than league/commonmark
   everywhere. Against php-collective/djot it is faster on `prose`, `lists-tables` and
   `reference-heavy` and slower on `commonmark-core` and `1mb`, for both measures.
-- **The 0.2 engines against each other.** Rust is 1.3x to 1.5x faster than JavaScript on four
-  documents, and JavaScript is faster on `1mb` (14.8 MB/s against 12.8 MB/s). PHP is 4x to 9x
-  slower than both.
+- **The 0.2 engines against each other.** Rust is about 2x faster than JavaScript on every
+  document. PHP is 4x to 6x slower than JavaScript and 8x to 12x slower than Rust.
 - **Context for the large JavaScript ratios.** Carve 0.1's public tree route is much slower than
   its fast path: a spot check on `commonmark-core` gave about 4 ms for `carveToHtml` and 50 to 75
   ms for `parse` plus `renderHtml`. Carve 0.2's normal path (about 5 ms) is therefore faster than

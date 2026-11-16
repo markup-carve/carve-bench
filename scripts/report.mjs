@@ -34,7 +34,7 @@ export function ratio(lane, document, phase) {
 
 function throughputTable(lane, phase) {
   const docs = names(lane)
-  const rows = lane.data.engines.map((engine) =>
+  const rows = lane.data.engines.filter((engine) => phase !== 'html' || !engine.id.endsWith('-parse-only')).map((engine) =>
     `| ${engine.label} | ${docs.map((d) => fmt(mbps(cell(lane, engine.id, d, phase)))).join(' | ')} |`)
   return [`| ${lane.title}: ${PHASE_TITLE[phase]}, MB/s | ${docs.join(' | ')} |`, `|---|${docs.map(() => '--:').join('|')}|`, ...rows].join('\n')
 }

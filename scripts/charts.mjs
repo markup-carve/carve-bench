@@ -15,9 +15,9 @@ const FONT = 'font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial,
 // Slot 1 is the Carve 0.2 accent in every chart; the other slots follow the fixed categorical order.
 const STYLE = `<style>
 .surface{fill:#fcfcfb}.ink{fill:#0b0b0b}.ink2{fill:#52514e}.grid{stroke:#e4e3df}.ref{stroke:#52514e}
-.s1{fill:#2a78d6}.s2{fill:#eb6834}.s3{fill:#1baf7a}.s4{fill:#eda100}.s5{fill:#e87ba4}
+.s1{fill:#2a78d6}.s2{fill:#eb6834}.s3{fill:#1baf7a}.s4{fill:#eda100}.s5{fill:#e87ba4}.s6{fill:#8fbdf0}.s7{fill:#b07a00}
 @media (prefers-color-scheme: dark){.surface{fill:#1a1a19}.ink{fill:#f0efec}.ink2{fill:#c3c2b7}.grid{stroke:#3a3a37}.ref{stroke:#c3c2b7}
-.s1{fill:#3987e5}.s2{fill:#d95926}.s3{fill:#199e70}.s4{fill:#c98500}.s5{fill:#d55181}}
+.s1{fill:#3987e5}.s2{fill:#d95926}.s3{fill:#199e70}.s4{fill:#c98500}.s5{fill:#d55181}.s6{fill:#7fb0ea}.s7{fill:#e0a52e}}
 </style>`
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -38,11 +38,11 @@ function axis(max, plotW, height, unit) {
 }
 
 function legend(series) {
-  let x = LABEL_W
+  let x = series.length > 5 ? 12 : LABEL_W
   return series.map((s) => {
     const item = `<rect class="${s.cls}" x="${x}" y="50" width="12" height="12" rx="2"/>` +
       `<text class="ink" x="${x + 17}" y="60" font-size="12">${esc(s.label)}</text>`
-    x += 30 + s.label.length * 7
+    x += 30 + s.label.length * (series.length > 5 ? 6.3 : 7)
     return item
   }).join('')
 }
@@ -86,12 +86,16 @@ ${legend(series)}${axis(max, plotW, height, unit)}${ref}${body.svg}
 }
 
 const CLASSES = ['s1', 's2', 's3', 's4', 's5']
+const SPECIAL = { 'carve02-parse-only': 's6', 'comrak-ext': 's7' }
+const PARSE_ONLY = (id) => id.endsWith('-parse-only')
 const cellOf = (lane, engine, doc, phase) => lane.data.cells.find((c) => c.engine === engine && c.document === doc && c.phase === phase)
 const docsOf = (lane) => lane.data.documents.map((d) => d.name)
 const MEASURE = { parse: 'parse to tree', html: 'parse plus HTML, normal path' }
 
 function laneChart(lane, phase) {
-  const series = lane.data.engines.map((e, at) => ({ id: e.id, label: e.label, cls: CLASSES[at] }))
+  let next = 0
+  const series = lane.data.engines.filter((e) => phase !== 'html' || !PARSE_ONLY(e.id))
+    .map((e) => ({ id: e.id, label: e.label, cls: SPECIAL[e.id] ?? CLASSES[next++] }))
   const groups = docsOf(lane).map((doc) => ({
     label: doc,
     bars: series.map((s) => {
