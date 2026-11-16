@@ -8,7 +8,7 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 14.9 | 33.3 | 21.4 | 26.6 | 14.8 |
 | Carve 0.1 | 0.6 | 8.1 | 2.2 | 2.3 | 1.2 |
-| markdown-it | 7.2 | 17.9 | 12.1 | 14.8 | 8.1 |
+| markdown-it (token list) | 7.2 | 17.9 | 12.1 | 14.8 | 8.1 |
 | commonmark.js | 16.2 | 46.5 | 36.7 | 36.8 | 11.7 |
 | djot.js | 6.1 | 22.6 | 13.3 | 19.2 | 8.3 |
 
@@ -16,9 +16,9 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 19.2 | 45.5 | 29.3 | 38.6 | 12.8 |
 | Carve 0.1 | 7.9 | 33.6 | 29.0 | 8.9 | 2.4 |
-| pulldown-cmark | 130.2 | 263.4 | 231.4 | 218.0 | 161.5 |
+| pulldown-cmark (no tree) | 130.2 | 263.4 | 231.4 | 218.0 | 161.5 |
 | comrak | 50.4 | 107.5 | 89.7 | 90.3 | 32.6 |
-| jotdown | 52.8 | 110.3 | 83.9 | 99.1 | 65.9 |
+| jotdown (no tree) | 52.8 | 110.3 | 83.9 | 99.1 | 65.9 |
 
 | PHP, JIT off: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
@@ -40,7 +40,7 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 14.2 | 31.2 | 21.2 | 26.9 | 14.9 |
 | Carve 0.1 | 0.7 | 8.6 | 1.7 | 2.5 | 1.3 |
-| markdown-it | 8.1 | 18.8 | 13.3 | 16.0 | 8.7 |
+| markdown-it (token list) | 8.1 | 18.8 | 13.3 | 16.0 | 8.7 |
 | commonmark.js | 25.5 | 67.4 | 51.3 | 51.7 | 18.6 |
 | djot.js | 7.6 | 25.4 | 14.5 | 21.6 | 9.8 |
 
@@ -48,9 +48,9 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 25.7 | 57.8 | 39.7 | 53.3 | 17.4 |
 | Carve 0.1 | 8.9 | 41.6 | 38.2 | 11.2 | 3.0 |
-| pulldown-cmark | 128.7 | 297.1 | 258.4 | 241.3 | 156.1 |
+| pulldown-cmark (no tree) | 128.7 | 297.1 | 258.4 | 241.3 | 156.1 |
 | comrak | 63.4 | 140.1 | 113.1 | 108.0 | 46.6 |
-| jotdown | 57.4 | 127.9 | 96.1 | 124.4 | 73.3 |
+| jotdown (no tree) | 57.4 | 127.9 | 96.1 | 124.4 | 73.3 |
 
 | PHP, JIT off: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
@@ -115,27 +115,27 @@ Runtime: Node v22.22.2. Load average (1, 5, 15 min) at start 2.82, 2.49, 2.92, a
 |---|---|--:|--:|--:|--:|--:|--:|--:|
 | Carve 0.2 | commonmark-core | 49,732 | 3,510.6 | 3,335.9 | 14.2 | 3,335.9 | 3,223.9 | 14.9 |
 | Carve 0.1 | commonmark-core | 49,732 | 74,982.9 | 70,611.2 | 0.7 | 78,380.5 | 67,690.5 | 0.6 |
-| markdown-it | commonmark-core | 50,332 | 6,251.8 | 5,959.6 | 8.1 | 6,959.3 | 6,670.4 | 7.2 |
+| markdown-it (token list) | commonmark-core | 50,332 | 6,251.8 | 5,959.6 | 8.1 | 6,959.3 | 6,670.4 | 7.2 |
 | commonmark.js | commonmark-core | 50,332 | 1,970.2 | 1,909.7 | 25.5 | 3,104.4 | 2,845.5 | 16.2 |
 | djot.js | commonmark-core | 49,732 | 6,571.8 | 6,182.3 | 7.6 | 8,107.3 | 7,207.0 | 6.1 |
 | Carve 0.2 | prose | 31,069 | 995.2 | 949.9 | 31.2 | 931.8 | 879.2 | 33.3 |
 | Carve 0.1 | prose | 31,069 | 3,612.2 | 3,297.6 | 8.6 | 3,824.4 | 3,649.5 | 8.1 |
-| markdown-it | prose | 31,257 | 1,666.8 | 1,541.3 | 18.8 | 1,745.0 | 1,656.6 | 17.9 |
+| markdown-it (token list) | prose | 31,257 | 1,666.8 | 1,541.3 | 18.8 | 1,745.0 | 1,656.6 | 17.9 |
 | commonmark.js | prose | 31,257 | 463.5 | 442.1 | 67.4 | 671.5 | 634.4 | 46.5 |
 | djot.js | prose | 31,069 | 1,222.0 | 1,105.4 | 25.4 | 1,376.7 | 1,282.9 | 22.6 |
 | Carve 0.2 | lists-tables | 20,332 | 959.3 | 879.4 | 21.2 | 950.3 | 875.6 | 21.4 |
 | Carve 0.1 | lists-tables | 20,332 | 12,201.6 | 10,044.2 | 1.7 | 9,228.1 | 7,726.5 | 2.2 |
-| markdown-it | lists-tables | 20,513 | 1,542.7 | 1,436.4 | 13.3 | 1,696.6 | 1,536.1 | 12.1 |
+| markdown-it (token list) | lists-tables | 20,513 | 1,542.7 | 1,436.4 | 13.3 | 1,696.6 | 1,536.1 | 12.1 |
 | commonmark.js | lists-tables | 20,513 | 399.9 | 374.4 | 51.3 | 558.3 | 522.4 | 36.7 |
 | djot.js | lists-tables | 20,420 | 1,411.1 | 1,293.0 | 14.5 | 1,535.0 | 1,385.8 | 13.3 |
 | Carve 0.2 | reference-heavy | 20,617 | 766.5 | 704.3 | 26.9 | 775.2 | 713.3 | 26.6 |
 | Carve 0.1 | reference-heavy | 20,617 | 8,156.6 | 6,958.7 | 2.5 | 8,816.6 | 8,206.6 | 2.3 |
-| markdown-it | reference-heavy | 20,737 | 1,299.2 | 1,214.0 | 16.0 | 1,398.7 | 1,311.0 | 14.8 |
+| markdown-it (token list) | reference-heavy | 20,737 | 1,299.2 | 1,214.0 | 16.0 | 1,398.7 | 1,311.0 | 14.8 |
 | commonmark.js | reference-heavy | 20,737 | 401.4 | 379.3 | 51.7 | 562.9 | 514.0 | 36.8 |
 | djot.js | reference-heavy | 20,617 | 953.9 | 859.9 | 21.6 | 1,074.0 | 968.8 | 19.2 |
 | Carve 0.2 | 1mb | 1,095,785 | 73,587.1 | 64,348.1 | 14.9 | 74,249.8 | 67,406.9 | 14.8 |
 | Carve 0.1 | 1mb | 1,095,785 | 832,537.8 | 789,387.8 | 1.3 | 926,451.9 | 869,505.9 | 1.2 |
-| markdown-it | 1mb | 1,105,586 | 127,510.6 | 120,238.6 | 8.7 | 136,735.7 | 129,371.0 | 8.1 |
+| markdown-it (token list) | 1mb | 1,105,586 | 127,510.6 | 120,238.6 | 8.7 | 136,735.7 | 129,371.0 | 8.1 |
 | commonmark.js | 1mb | 1,105,586 | 59,414.5 | 57,381.5 | 18.6 | 94,896.9 | 90,553.6 | 11.7 |
 | djot.js | 1mb | 1,096,577 | 111,928.0 | 107,901.8 | 9.8 | 131,712.2 | 119,911.7 | 8.3 |
 ### Rust
@@ -146,29 +146,29 @@ Runtime: rustc 1.97.1 (8bab26f4f 2026-07-14). Load average (1, 5, 15 min) at sta
 |---|---|--:|--:|--:|--:|--:|--:|--:|
 | Carve 0.2 | commonmark-core | 49,732 | 1,936.4 | 1,803.1 | 25.7 | 2,583.5 | 2,382.4 | 19.2 |
 | Carve 0.1 | commonmark-core | 49,732 | 5,579.4 | 4,963.1 | 8.9 | 6,258.1 | 5,482.8 | 7.9 |
-| pulldown-cmark | commonmark-core | 50,332 | 391.1 | 379.4 | 128.7 | 386.6 | 377.5 | 130.2 |
+| pulldown-cmark (no tree) | commonmark-core | 50,332 | 391.1 | 379.4 | 128.7 | 386.6 | 377.5 | 130.2 |
 | comrak | commonmark-core | 50,332 | 793.9 | 759.2 | 63.4 | 999.5 | 937.7 | 50.4 |
-| jotdown | commonmark-core | 49,732 | 865.8 | 835.2 | 57.4 | 942.1 | 923.7 | 52.8 |
+| jotdown (no tree) | commonmark-core | 49,732 | 865.8 | 835.2 | 57.4 | 942.1 | 923.7 | 52.8 |
 | Carve 0.2 | prose | 31,069 | 537.8 | 517.3 | 57.8 | 682.2 | 653.8 | 45.5 |
 | Carve 0.1 | prose | 31,069 | 746.6 | 714.9 | 41.6 | 924.5 | 865.4 | 33.6 |
-| pulldown-cmark | prose | 31,257 | 105.2 | 102.8 | 297.1 | 118.7 | 114.7 | 263.4 |
+| pulldown-cmark (no tree) | prose | 31,257 | 105.2 | 102.8 | 297.1 | 118.7 | 114.7 | 263.4 |
 | comrak | prose | 31,257 | 223.2 | 209.6 | 140.1 | 290.9 | 278.1 | 107.5 |
-| jotdown | prose | 31,069 | 242.9 | 234.1 | 127.9 | 281.7 | 271.4 | 110.3 |
+| jotdown (no tree) | prose | 31,069 | 242.9 | 234.1 | 127.9 | 281.7 | 271.4 | 110.3 |
 | Carve 0.2 | lists-tables | 20,332 | 511.8 | 479.3 | 39.7 | 693.3 | 638.1 | 29.3 |
 | Carve 0.1 | lists-tables | 20,332 | 532.0 | 504.3 | 38.2 | 702.2 | 659.2 | 29.0 |
-| pulldown-cmark | lists-tables | 20,513 | 79.4 | 76.7 | 258.4 | 88.7 | 85.7 | 231.4 |
+| pulldown-cmark (no tree) | lists-tables | 20,513 | 79.4 | 76.7 | 258.4 | 88.7 | 85.7 | 231.4 |
 | comrak | lists-tables | 20,513 | 181.4 | 174.5 | 113.1 | 228.7 | 222.3 | 89.7 |
-| jotdown | lists-tables | 20,420 | 212.4 | 208.1 | 96.1 | 243.3 | 237.9 | 83.9 |
+| jotdown (no tree) | lists-tables | 20,420 | 212.4 | 208.1 | 96.1 | 243.3 | 237.9 | 83.9 |
 | Carve 0.2 | reference-heavy | 20,617 | 386.4 | 372.8 | 53.3 | 534.6 | 513.6 | 38.6 |
 | Carve 0.1 | reference-heavy | 20,617 | 1,838.2 | 1,781.0 | 11.2 | 2,321.3 | 2,224.2 | 8.9 |
-| pulldown-cmark | reference-heavy | 20,737 | 85.9 | 84.2 | 241.3 | 95.1 | 92.8 | 218.0 |
+| pulldown-cmark (no tree) | reference-heavy | 20,737 | 85.9 | 84.2 | 241.3 | 95.1 | 92.8 | 218.0 |
 | comrak | reference-heavy | 20,737 | 192.0 | 185.2 | 108.0 | 229.6 | 221.9 | 90.3 |
-| jotdown | reference-heavy | 20,617 | 165.7 | 163.9 | 124.4 | 208.1 | 201.4 | 99.1 |
+| jotdown (no tree) | reference-heavy | 20,617 | 165.7 | 163.9 | 124.4 | 208.1 | 201.4 | 99.1 |
 | Carve 0.2 | 1mb | 1,095,785 | 62,846.5 | 52,629.9 | 17.4 | 85,379.3 | 69,966.4 | 12.8 |
 | Carve 0.1 | 1mb | 1,095,785 | 367,168.1 | 325,897.4 | 3.0 | 457,016.1 | 411,527.2 | 2.4 |
-| pulldown-cmark | 1mb | 1,105,586 | 7,081.7 | 6,536.0 | 156.1 | 6,847.5 | 6,562.8 | 161.5 |
+| pulldown-cmark (no tree) | 1mb | 1,105,586 | 7,081.7 | 6,536.0 | 156.1 | 6,847.5 | 6,562.8 | 161.5 |
 | comrak | 1mb | 1,105,586 | 23,706.3 | 19,356.9 | 46.6 | 33,871.3 | 26,716.3 | 32.6 |
-| jotdown | 1mb | 1,096,577 | 14,963.9 | 14,161.4 | 73.3 | 16,632.3 | 15,820.1 | 65.9 |
+| jotdown (no tree) | 1mb | 1,096,577 | 14,963.9 | 14,161.4 | 73.3 | 16,632.3 | 15,820.1 | 65.9 |
 ### PHP, JIT off
 
 Runtime: PHP 8.5.12, JIT off. Load average (1, 5, 15 min) at start 3.91, 3.8, 3.44, at end 2.12, 3.06, 3.24.
@@ -224,7 +224,7 @@ Runtime: PHP 8.5.12, JIT tracing. Load average (1, 5, 15 min) at start 2.12, 3.0
 
 ## Engines
 
-- JavaScript: Carve 0.2 0.2 (v2/src, 0.1.17 repo), Carve 0.1 0.1.17, markdown-it 15.0.0, commonmark.js 0.31.2, djot.js 0.3.2
-- Rust: Carve 0.2 0.2 (carve2, v2/), Carve 0.1 carve-lang 0.1.14, pulldown-cmark 0.13.4, comrak 0.54.0, jotdown 0.10.0
+- JavaScript: Carve 0.2 0.2 (v2/src, 0.1.17 repo), Carve 0.1 0.1.17, markdown-it (token list) 15.0.0, commonmark.js 0.31.2, djot.js 0.3.2
+- Rust: Carve 0.2 0.2 (carve2, v2/), Carve 0.1 carve-lang 0.1.14, pulldown-cmark (no tree) 0.13.4, comrak 0.54.0, jotdown (no tree) 0.10.0
 - PHP, JIT off: Carve 0.2 0.2 (Carve2, v2/), Carve 0.1 carve-php 0.1.17+ (src/), league/commonmark GFM 2.10.7, php-collective/djot dev-master
 - PHP, opcache.jit=tracing: Carve 0.2 0.2 (Carve2, v2/), Carve 0.1 carve-php 0.1.17+ (src/), league/commonmark GFM 2.10.7, php-collective/djot dev-master

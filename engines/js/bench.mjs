@@ -39,7 +39,7 @@ function engines() {
     { id: 'carve02', label: 'Carve 0.2', version: `0.2 (v2/src, ${carveVersion} repo)`, commit, lang: 'crv',
       parse: (src) => v2.parse(src), html: (src) => v2.render(src) },
     { id: 'carve01', label: 'Carve 0.1', version: carveVersion, commit, lang: 'crv', parse: v1Tree, html: v1Html },
-    { id: 'markdown-it', label: 'markdown-it', version: nm('markdown-it'), lang: 'md',
+    { id: 'markdown-it', label: 'markdown-it (token list)', version: nm('markdown-it'), lang: 'md',
       parse: (src) => md.parse(src, {}), html: (src) => md.render(src) },
     { id: 'commonmark.js', label: 'commonmark.js', version: nm('commonmark'), lang: 'md',
       parse: (src) => cmParser.parse(src), html: (src) => cmRenderer.render(cmParser.parse(src)) },

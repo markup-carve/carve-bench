@@ -69,9 +69,9 @@ fn engines() -> Vec<Engine> {
     vec![
         Engine { id: "carve02", label: "Carve 0.2", version: "0.2 (carve2, v2/)", lang: "crv", parse: carve02_parse, html: carve02_html },
         Engine { id: "carve01", label: "Carve 0.1", version: "carve-lang 0.1.14", lang: "crv", parse: carve01_parse, html: carve01_html },
-        Engine { id: "pulldown-cmark", label: "pulldown-cmark", version: "0.13.4", lang: "md", parse: pulldown_parse, html: pulldown_html },
+        Engine { id: "pulldown-cmark", label: "pulldown-cmark (no tree)", version: "0.13.4", lang: "md", parse: pulldown_parse, html: pulldown_html },
         Engine { id: "comrak", label: "comrak", version: "0.54.0", lang: "md", parse: comrak_parse, html: comrak_html },
-        Engine { id: "jotdown", label: "jotdown", version: "0.10.0", lang: "dj", parse: jotdown_parse, html: jotdown_html },
+        Engine { id: "jotdown", label: "jotdown (no tree)", version: "0.10.0", lang: "dj", parse: jotdown_parse, html: jotdown_html },
     ]
 }
 

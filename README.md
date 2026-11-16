@@ -26,6 +26,40 @@ Documents (see [`documents/SOURCE.md`](documents/SOURCE.md)): the four document 
 `next2`, each in Carve (`.crv`), Markdown (`.md`) and Djot (`.dj`) with the same content, and a
 `1mb` document built from their concatenation. Each engine reads its own language.
 
+## Not like for like: what each engine builds
+
+The peers do not all do the same job, and the fastest ones do the least. Read every comparison with
+this table next to it.
+
+| Engine | What "parse" gives | Tree? |
+|---|---|---|
+| Carve 0.2, Carve 0.1 | a typed document tree with a source span on every block and inline node, then a resolve step (references, heading ids, footnote and caption numbers, sections) | yes |
+| commonmark.js | a node tree | yes |
+| djot.js | a node tree | yes |
+| comrak | a node tree in an arena | yes |
+| league/commonmark | a node tree | yes |
+| php-collective/djot | a node tree | yes |
+| markdown-it | a flat list of tokens; inline content hangs below block tokens | **no tree** |
+| pulldown-cmark | a stream of events, pulled by the renderer | **no tree** |
+| jotdown | a stream of events, pulled by the renderer | **no tree** |
+
+What follows from it:
+
+- **pulldown-cmark and jotdown are a different kind of program.** They never hold the document.
+  Their HTML is written while the source is read, which is what the fast paths of Carve 0.1 did and
+  what this branch leaves out for Carve. Their "parse to tree" number here is the event stream
+  collected into a list, so that there is a number at all. Part of their lead over Carve 0.2 (2.4x
+  to 13x) is the tree they do not build; this benchmark cannot say how large that part is. No tree
+  also means no formatter, no linter with positions, no round trip and nothing for other tools to
+  work on. They are in the tables as a ceiling, marked "(no tree)".
+- **The like-for-like peers are the ones with a tree:** commonmark.js and djot.js in JavaScript,
+  comrak in Rust, league/commonmark and php-collective/djot in PHP.
+- **Even those do less per node.** Carve 0.2 keeps a source span on every node, inline nodes
+  included, keeps the facts a writer needs to give the source back, and runs a resolve step before
+  it renders. The CommonMark engines also read a smaller language in their default configuration
+  (no attributes, no footnotes, no captions or cross-references; tables only where the engine has
+  them on). This benchmark does not try to equalize that; it says so here instead.
+
 ## How the 0.1 fast paths are avoided
 
 - **JavaScript.** `carveToHtml` first tries `tryFastHtml`, then `tryFastAstDocument` and an internal
@@ -56,7 +90,7 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 14.9 | 33.3 | 21.4 | 26.6 | 14.8 |
 | Carve 0.1 | 0.6 | 8.1 | 2.2 | 2.3 | 1.2 |
-| markdown-it | 7.2 | 17.9 | 12.1 | 14.8 | 8.1 |
+| markdown-it (token list) | 7.2 | 17.9 | 12.1 | 14.8 | 8.1 |
 | commonmark.js | 16.2 | 46.5 | 36.7 | 36.8 | 11.7 |
 | djot.js | 6.1 | 22.6 | 13.3 | 19.2 | 8.3 |
 
@@ -64,9 +98,9 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 19.2 | 45.5 | 29.3 | 38.6 | 12.8 |
 | Carve 0.1 | 7.9 | 33.6 | 29.0 | 8.9 | 2.4 |
-| pulldown-cmark | 130.2 | 263.4 | 231.4 | 218.0 | 161.5 |
+| pulldown-cmark (no tree) | 130.2 | 263.4 | 231.4 | 218.0 | 161.5 |
 | comrak | 50.4 | 107.5 | 89.7 | 90.3 | 32.6 |
-| jotdown | 52.8 | 110.3 | 83.9 | 99.1 | 65.9 |
+| jotdown (no tree) | 52.8 | 110.3 | 83.9 | 99.1 | 65.9 |
 
 | PHP, JIT off: parse plus HTML, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
@@ -88,7 +122,7 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 14.2 | 31.2 | 21.2 | 26.9 | 14.9 |
 | Carve 0.1 | 0.7 | 8.6 | 1.7 | 2.5 | 1.3 |
-| markdown-it | 8.1 | 18.8 | 13.3 | 16.0 | 8.7 |
+| markdown-it (token list) | 8.1 | 18.8 | 13.3 | 16.0 | 8.7 |
 | commonmark.js | 25.5 | 67.4 | 51.3 | 51.7 | 18.6 |
 | djot.js | 7.6 | 25.4 | 14.5 | 21.6 | 9.8 |
 
@@ -96,9 +130,9 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 |---|--:|--:|--:|--:|--:|
 | Carve 0.2 | 25.7 | 57.8 | 39.7 | 53.3 | 17.4 |
 | Carve 0.1 | 8.9 | 41.6 | 38.2 | 11.2 | 3.0 |
-| pulldown-cmark | 128.7 | 297.1 | 258.4 | 241.3 | 156.1 |
+| pulldown-cmark (no tree) | 128.7 | 297.1 | 258.4 | 241.3 | 156.1 |
 | comrak | 63.4 | 140.1 | 113.1 | 108.0 | 46.6 |
-| jotdown | 57.4 | 127.9 | 96.1 | 124.4 | 73.3 |
+| jotdown (no tree) | 57.4 | 127.9 | 96.1 | 124.4 | 73.3 |
 
 | PHP, JIT off: parse to tree, MB/s | commonmark-core | prose | lists-tables | reference-heavy | 1mb |
 |---|--:|--:|--:|--:|--:|
@@ -158,14 +192,14 @@ Measured 2026-11-15T22:51:04.961Z to 2026-11-15T23:05:50.391Z on AMD Ryzen 9 PRO
 ### Reading the results (run of 2026-11-15)
 
 - **JavaScript.** Carve 0.2 is faster than Carve 0.1 on every document, 3.6x to 24x. It is faster
-  than markdown-it and djot.js everywhere. commonmark.js parses faster than Carve 0.2 on every
+  than markdown-it (which builds no tree) and djot.js everywhere. commonmark.js parses faster than Carve 0.2 on every
   document, and is faster to HTML on four of five (Carve 0.2 leads on `1mb`); commonmark.js reads
   no tables or footnotes.
 - **Rust.** Carve 0.2 is faster than Carve 0.1 on `commonmark-core` (2.4x), `reference-heavy`
   (4.3x) and `1mb` (5.4x) for parse plus HTML, a little faster on `prose` (1.4x), and **level on
   `lists-tables` (1.01x)**. The goal "clearly faster than 0.1 on the normal path" is not met in
-  Rust on `lists-tables`. pulldown-cmark is 6x to 13x faster than Carve 0.2, comrak about 2.5x,
-  jotdown 2.4x to 5x.
+  Rust on `lists-tables`. Of the peers, only comrak builds a tree: it is about 2.5x faster than
+  Carve 0.2. pulldown-cmark (6x to 13x) and jotdown (2.4x to 5x) build none.
 - **PHP.** Carve 0.2 is faster than Carve 0.1 everywhere, least on `prose` (1.5x to 2.8x). The
   tracing JIT makes no difference for Carve 0.2. Carve 0.2 is faster than league/commonmark
   everywhere. Against php-collective/djot it is faster on `prose`, `lists-tables` and
@@ -244,9 +278,7 @@ A full run takes about 20 minutes. Set `CARGO_TARGET_DIR` to reuse a Rust build 
   tight items and a paragraph. 600 against 450 paragraphs, 25%. The other element counts agree
   exactly. The speed numbers of these two documents compare engines that do not produce the same
   HTML.
-- **pulldown-cmark and jotdown build no tree.** They are pull parsers; their "parse to tree" here is
-  collecting the event stream into a `Vec`, and their HTML is rendered from a fresh event stream.
-  markdown-it's "tree" is its token list.
+- **Three peers build no tree** (pulldown-cmark, jotdown, markdown-it): see "Not like for like" above.
 - **Peers run in their default configuration.** comrak and pulldown-cmark then read the GFM tables
   and footnotes of the `.md` documents as paragraphs, commonmark.js too, so on `lists-tables` and
   `reference-heavy` they do less work than the engines that support those. markdown-it's default
