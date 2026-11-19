@@ -9,6 +9,7 @@ import * as djot from '@djot/djot'
 
 const ROOT = join(import.meta.dirname, '../..')
 const CARVE_JS = join(ROOT, '.engines/carve-js')
+const CARVE_JS_01 = join(ROOT, '.engines/carve-js-0.1')
 
 function option(name, fallback) {
   const at = process.argv.indexOf(`--${name}`)
@@ -19,9 +20,9 @@ function packageVersion(dir) {
   return JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8')).version
 }
 
-const v2 = await import(pathToFileURL(join(CARVE_JS, 'v2/src/index.ts')).href)
-const v1 = await import(pathToFileURL(join(CARVE_JS, 'dist/index.js')).href)
-const v1Fast = await import(pathToFileURL(join(CARVE_JS, 'dist/fast-html.js')).href)
+const v2 = await import(pathToFileURL(join(CARVE_JS, 'dist/index.js')).href)
+const v1 = await import(pathToFileURL(join(CARVE_JS_01, 'dist/index.js')).href)
+const v1Fast = await import(pathToFileURL(join(CARVE_JS_01, 'dist/fast-html.js')).href)
 const pins = JSON.parse(readFileSync(join(ROOT, 'pins.json'), 'utf8'))
 
 function engines() {
@@ -29,16 +30,15 @@ function engines() {
   const cmParser = new commonmark.Parser()
   const cmRenderer = new commonmark.HtmlRenderer()
   const nm = (name) => packageVersion(join(import.meta.dirname, 'node_modules', name))
-  const carveVersion = packageVersion(CARVE_JS)
   const commit = pins['carve-js'].commit
   // 0.1 normal path: parse, resolve, renderHtml. carveToHtml would try tryFastHtml and tryFastAstDocument first.
   // Positions for the HTML follow carveToHtml's own rule (on only when the source holds an image).
   const v1Tree = (src) => v1.resolve(v1.parse(src))
   const v1Html = (src) => v1.renderHtml(v1.resolve(v1.parse(src, { positions: src.includes('![') })))
   return [
-    { id: 'carve02', label: 'Carve 0.2', version: `0.2 (v2/src, ${carveVersion} repo)`, commit, lang: 'crv',
+    { id: 'carve02', label: 'Carve 0.2', version: '0.2 (next2, dist/index.js)', commit, lang: 'crv',
       parse: (src) => v2.parse(src), html: (src) => v2.render(src) },
-    { id: 'carve01', label: 'Carve 0.1', version: carveVersion, commit, lang: 'crv', parse: v1Tree, html: v1Html },
+    { id: 'carve01', label: 'Carve 0.1', version: packageVersion(CARVE_JS_01), commit: pins['carve-js-0.1'].commit, lang: 'crv', parse: v1Tree, html: v1Html },
     { id: 'markdown-it', label: 'markdown-it (token list)', version: nm('markdown-it'), lang: 'md',
       parse: (src) => md.parse(src, {}), html: (src) => md.render(src) },
     { id: 'commonmark.js', label: 'commonmark.js', version: nm('commonmark'), lang: 'md',

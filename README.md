@@ -12,9 +12,9 @@ average 2 to 4 on 16 threads, given with the results).
 
 | Language | Carve 0.2 | Carve 0.1, tree route | Peers (default configuration) |
 |---|---|---|---|
-| JavaScript | `parse(src)` and `render(src)` of carve-js `v2/src` | `resolve(parse(src))`, and `renderHtml(resolve(parse(src, { positions })))` | markdown-it, commonmark.js, djot.js |
-| Rust | `carve2::parse_resolved_in` (the arena tree the renderer works on) and `carve2::render` | `carve::parse`, and `carve::render_html(&carve::parse(src))` | pulldown-cmark, comrak, jotdown |
-| PHP | `Carve2::parse` and `Carve2::toHtml` | `CarveConverter::parse`, and `render(parse(src))` | league/commonmark (GFM converter), php-collective/djot (`parse`, then `render`) |
+| JavaScript | `parse(src)` and `render(src)` of the carve-js package build (`dist/index.js`) | `resolve(parse(src))`, and `renderHtml(resolve(parse(src, { positions })))` | markdown-it, commonmark.js, djot.js |
+| Rust | `carve::parse_resolved_in` (the arena tree the renderer works on) and `carve::render` | `carve::parse`, and `carve::render_html(&carve::parse(src))` of the 0.1 crate | pulldown-cmark, comrak, jotdown |
+| PHP | `Carve::parse` and `Carve::toHtml` | `CarveConverter::parse`, and `render(parse(src))` | league/commonmark (GFM converter), php-collective/djot (`parse`, then `render`) |
 
 Two measures per engine and document: **parse to tree** (source to the tree the engine renders
 from) and **parse plus HTML**. Each is given in microseconds per document and in MB/s of the
@@ -261,9 +261,13 @@ The same in all three languages:
   load average at the start and end of the run and of every lane (`results/environment.json` and
   the `load` field of each lane file).
 
-Engines are pinned by commit in [`pins.json`](pins.json); `scripts/fetch.mjs` checks them out into
-`.engines/` (not committed) and builds the 0.1 JavaScript engine. The 0.1 engines are the code
-outside `v2/` at the same commit. The peers are pinned by the lock files in `engines/`.
+Engines are pinned by commit in [`pins.json`](pins.json): Carve 0.2 at the `next2` heads of carve-js,
+carve-rs and carve-php, Carve 0.1 at their latest 0.1 release tags. `scripts/fetch.mjs` checks them
+out into `.engines/` (not committed) and builds both JavaScript engines. The Rust lane takes Carve
+0.1 from crates.io (`carve-lang =0.1.14`, the release the pin names): two path dependencies with one
+package name and version collide in the lockfile. Carve 0.1 and 0.2 share the `MarkupCarve\Carve`
+namespace in PHP, so the PHP lane measures Carve 0.1 in a second process (`engines/php01`) and
+`scripts/run.mjs` merges it into the lane file. The peers are pinned by the lock files in `engines/`.
 
 ## Rerun
 
@@ -298,8 +302,10 @@ A full run takes about 20 minutes. Set `CARGO_TARGET_DIR` to reuse a Rust build 
   because of two security advisories.
 - **Carve 0.1 in Rust** is built with its default features, which include the experimental event
   parser that `carve::parse` tries first. It returns the same full tree.
-- **The Carve 0.1 versions are the code outside `v2/` at the pinned `next2` commits** (carve-js
-  0.1.17, carve-rs 0.1.14, carve-php after 0.1.17), not the published 0.1 releases.
+- **The committed results are the run of 16 November**, taken before the engines renamed their 0.2
+  code to the package root. Its Carve 0.1 was the code outside `v2/` at the `next2` commits named in
+  `results/environment.json`. The pins now name the renamed `next2` heads and the 0.1 releases
+  (carve-js 0.1.17, carve-rs 0.1.14, carve-php 0.1.17); the next `npm run bench` measures those.
 
 ## What this branch removed
 

@@ -27,8 +27,8 @@ checksum = "87a0cf66fd1eb2fb7b822cb78370d82303750809bc6ba855f3f58e517d3238db"
 name = "carve-bench-rs"
 version = "0.0.0"
 dependencies = [
- "carve-lang",
- "carve2",
+ "carve-lang 0.1.14",
+ "carve-lang 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)",
  "comrak",
  "jotdown",
  "pulldown-cmark",
@@ -39,6 +39,23 @@ dependencies = [
 name = "carve-lang"
 version = "0.1.14"
 dependencies = [
+ "bumpalo",
+ "carve-lang 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "html5ever",
+ "markup5ever_rcdom",
+ "regex",
+ "serde",
+ "serde_json",
+ "typed-arena",
+ "unicode-normalization",
+]
+
+[[package]]
+name = "carve-lang"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88eea74f39e1bd6187a0150d6d61d955cfc777b8871696966dbe3cafc29635f9"
+dependencies = [
  "html5ever",
  "markup5ever_rcdom",
  "memchr",
@@ -47,18 +64,6 @@ dependencies = [
  "serde",
  "serde_json",
  "smallvec",
- "unicode-normalization",
-]
-
-[[package]]
-name = "carve2"
-version = "0.0.0"
-dependencies = [
- "bumpalo",
- "serde",
- "serde_json",
- "typed-arena",
- "unicode-general-category",
  "unicode-normalization",
 ]
 
@@ -467,12 +472,6 @@ name = "unicase"
 version = "2.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "357cc3acc6a036009fd6c973ed009037c732d60d0b4f6c673e9041497482a28f"
-
-[[package]]
-name = "unicode-general-category"
-version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b993bddc193ae5bd0d623b49ec06ac3e9312875fdae725a975c51db1cc1677f"
 
 [[package]]
 name = "unicode-ident"

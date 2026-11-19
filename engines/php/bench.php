@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 // PHP lane: Carve 0.2, Carve 0.1 on its tree route, and the Markdown and Djot peers, parse and parse plus HTML.
 //   php -n ... engines/php/bench.php DOCS_DIR OUT_FILE [ROUNDS] [SAMPLE_MS]
+// Carve 0.1 and 0.2 share the MarkupCarve\Carve namespace, so they cannot load in one process: with
+// CARVE_BENCH_PHP_PART=01 this measures Carve 0.1 alone (engines/php01), and scripts/run.mjs merges the two parts.
 
-require __DIR__ . '/vendor/autoload.php';
+const PART_01 = 'CARVE_BENCH_PHP_PART';
+$part01 = getenv(PART_01) === '01';
+require $part01 ? __DIR__ . '/../php01/vendor/autoload.php' : __DIR__ . '/vendor/autoload.php';
 
 use Djot\DjotConverter;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\CommonMark\Parser\MarkdownParser;
+use MarkupCarve\Carve\Carve;
 use MarkupCarve\Carve\CarveConverter;
 use MarkupCarve\Carve\Node\Inline\Text;
 use MarkupCarve\Carve\Node\Node;
-use MarkupCarve\Carve2\Carve2;
 
 const ELEMENTS = [
     'p' => '/<p[\s>]/', 'li' => '/<li[\s>]/', 'h1-h6' => '/<h[1-6][\s>]/', 'a' => '/<a\s/',
@@ -23,23 +27,28 @@ const ELEMENTS = [
 /**
  * @return array<int, array{id: string, label: string, version: string, lang: string, parse: \Closure, html: \Closure}>
  */
-function engines(): array
+function engines(bool $part01): array
 {
-    $carve01 = new CarveConverter();
+    if ($part01) {
+        $carve01 = new CarveConverter();
+
+        return [
+            // 0.1 normal path: parse, then render the tree. convert() would try the borrowed HTML layout first and pass
+            // the source to the renderer; render() of a tree alone has no source to borrow from.
+            ['id' => 'carve01', 'label' => 'Carve 0.1', 'version' => 'carve-php ' . json_decode((string)file_get_contents(__DIR__ . '/../../pins.json'), true)['carve-php-0.1']['ref'], 'lang' => 'crv',
+                'parse' => static fn (string $s): mixed => $carve01->parse($s),
+                'html' => static fn (string $s): string => $carve01->render($carve01->parse($s))],
+        ];
+    }
     $gfm = new GithubFlavoredMarkdownConverter();
     $gfmParser = new MarkdownParser($gfm->getEnvironment());
     $djot = new DjotConverter();
     $installed = static fn (string $name): string => (string)\Composer\InstalledVersions::getPrettyVersion($name);
 
     return [
-        ['id' => 'carve02', 'label' => 'Carve 0.2', 'version' => '0.2 (Carve2, v2/)', 'lang' => 'crv',
-            'parse' => static fn (string $s): mixed => Carve2::parse($s),
-            'html' => static fn (string $s): string => Carve2::toHtml($s)],
-        // 0.1 normal path: parse, then render the tree. convert() would try the borrowed HTML layout first and pass
-        // the source to the renderer; render() of a tree alone has no source to borrow from.
-        ['id' => 'carve01', 'label' => 'Carve 0.1', 'version' => 'carve-php 0.1.17+ (src/)', 'lang' => 'crv',
-            'parse' => static fn (string $s): mixed => $carve01->parse($s),
-            'html' => static fn (string $s): string => $carve01->render($carve01->parse($s))],
+        ['id' => 'carve02', 'label' => 'Carve 0.2', 'version' => '0.2 (next2, MarkupCarve\\Carve\\Carve)', 'lang' => 'crv',
+            'parse' => static fn (string $s): mixed => Carve::parse($s),
+            'html' => static fn (string $s): string => Carve::toHtml($s)],
         ['id' => 'league-gfm', 'label' => 'league/commonmark GFM', 'version' => $installed('league/commonmark'), 'lang' => 'md',
             'parse' => static fn (string $s): mixed => $gfmParser->parse($s),
             'html' => static fn (string $s): string => $gfm->convert($s)->getContent()],
@@ -179,11 +188,11 @@ if (extension_loaded('pcov') || extension_loaded('xdebug')) {
     throw new RuntimeException('pcov or xdebug is loaded: run with php -n');
 }
 $names = array_values(array_filter(explode("\n", (string)file_get_contents("$dir/list.txt"))));
-$engines = engines();
+$engines = engines($part01);
 $verify = array_map(static function (string $name) use ($dir, $engines): array {
     $src = (string)file_get_contents("$dir/$name.crv");
 
-    return ['document' => $name, 'carve01' => counts(($engines[1]['html'])($src)), 'carve02' => counts(($engines[0]['html'])($src))];
+    return ['document' => $name, $engines[0]['id'] => counts(($engines[0]['html'])($src))];
 }, $names);
 $sink = 0;
 $cells = measureCells($engines, $names, $dir, $rounds, $sampleMs * 1_000_000, $sink);
@@ -200,7 +209,7 @@ $result = [
     'documents' => $documents,
     'cells' => $cells,
     'verify' => $verify,
-    'route' => routeProof(),
+    'route' => $part01 ? routeProof() : null,
     'sink' => $sink,
 ];
 file_put_contents($outFile, json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) . "\n");

@@ -7,9 +7,10 @@ publish = false
 [workspace]
 
 [dependencies]
-# Both Carve engines come from the carve-rs checkout that scripts/fetch.mjs pins.
+# Carve 0.2 is the carve-rs next2 checkout that scripts/fetch.mjs pins; Carve 0.1 is the crates.io release (a
+# second path dependency of the same name and version would collide in the lockfile).
+carve01 = { package = "carve-lang", version = "=0.1.14" }
 carve = { package = "carve-lang", path = "../../.engines/carve-rs" }
-carve2 = { path = "../../.engines/carve-rs/v2" }
 comrak = { version = "=0.54.0", default-features = false }
 jotdown = "=0.10.0"
 pulldown-cmark = { version = "=0.13.4", default-features = false, features = ["html"] }
