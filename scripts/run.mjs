@@ -17,8 +17,8 @@ const PHP_EXT = ['-n', '-d', 'extension=ctype', '-d', 'extension=mbstring', '-d'
   '-d', 'extension=tokenizer', '-d', 'memory_limit=4G', '-d', 'opcache.enable_cli=1']
 const JIT = { off: ['-d', 'opcache.jit=disable'], tracing: ['-d', 'opcache.jit=tracing', '-d', 'opcache.jit_buffer_size=64M'] }
 
-function run(cmd, args, cwd = ROOT) {
-  execFileSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, CARGO_TARGET_DIR: TARGET } })
+function run(cmd, args, cwd = ROOT, env = {}) {
+  execFileSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, CARGO_TARGET_DIR: TARGET, ...env } })
 }
 
 function read(cmd, args, cwd = ROOT) {
@@ -29,19 +29,32 @@ function build() {
   run('node', ['scripts/fetch.mjs'])
   run('npm', ['ci', '--no-audit', '--no-fund', '--silent'], join(ROOT, 'engines/js'))
   run('composer', ['install', '--no-interaction', '--prefer-dist', '--quiet'], join(ROOT, 'engines/php'))
+  run('composer', ['install', '--no-interaction', '--prefer-dist', '--quiet'], join(ROOT, 'engines/php01'))
   run('cargo', ['build', '--release', '--locked', '--quiet', '--manifest-path', 'engines/rs/Cargo.toml'])
 }
 
 const load = () => loadavg().map((value) => Number(value.toFixed(2)))
 
-function lane(id, cmd, args) {
+// Carve 0.1 and 0.2 cannot share a PHP process (one namespace); the 0.1 part runs first and joins the lane file.
+function mergeCarve01(result, part) {
+  result.engines.splice(1, 0, ...part.engines)
+  result.cells.push(...part.cells)
+  result.verify = result.verify.map((row) => ({ document: row.document, carve01: part.verify.find((p) => p.document === row.document).carve01, carve02: row.carve02 }))
+  result.route = part.route
+  result.sink += part.sink
+}
+
+function lane(id, cmd, args, part01 = false) {
   const file = join(OUT, `${id}.json`)
   const start = { at: new Date().toISOString(), loadavg: load() }
   console.log(`lane ${id}: start, load ${start.loadavg.join(' ')}`)
+  const partFile = join(OUT, `${id}.carve01.json`)
+  if (part01) run(cmd, [...args(partFile)], ROOT, { CARVE_BENCH_PHP_PART: '01' })
   run(cmd, [...args(file)])
   const end = { at: new Date().toISOString(), loadavg: load() }
   console.log(`lane ${id}: end, load ${end.loadavg.join(' ')}`)
   const result = JSON.parse(readFileSync(file, 'utf8'))
+  if (part01) mergeCarve01(result, JSON.parse(readFileSync(partFile, 'utf8')))
   result.lane = id
   result.load = { start, end }
   writeFileSync(file, JSON.stringify(result, null, 2) + '\n')
@@ -69,7 +82,7 @@ const env = { ...environment(), quick, startedAt: new Date().toISOString(), load
 lane('js', 'node', (file) => ['--expose-gc', 'engines/js/bench.mjs', '--docs', docs, '--out', file, '--rounds', ROUNDS, '--sample-ms', SAMPLE_MS])
 lane('rust', join(TARGET, 'release/carve-bench-rs'), (file) => [docs, file, ROUNDS, SAMPLE_MS])
 for (const [mode, flags] of Object.entries(JIT)) {
-  lane(`php-jit-${mode}`, 'php', (file) => [...PHP_EXT, ...flags, 'engines/php/bench.php', docs, file, ROUNDS, SAMPLE_MS])
+  lane(`php-jit-${mode}`, 'php', (file) => [...PHP_EXT, ...flags, 'engines/php/bench.php', docs, file, ROUNDS, SAMPLE_MS], true)
 }
 env.finishedAt = new Date().toISOString()
 env.loadAtEnd = load()

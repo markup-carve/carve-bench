@@ -17,27 +17,27 @@ struct Engine {
 
 // The tree the renderer works on: parsed and resolved in an arena.
 fn carve02_parse(src: &str) -> usize {
-    let arena = carve2::Arena::new();
-    black_box(carve2::parse_resolved_in(src, &carve2::Options::default(), &arena)).children.len()
+    let arena = carve::Arena::new();
+    black_box(carve::parse_resolved_in(src, &carve::Options::default(), &arena).expect("parsed tree")).children.len()
 }
 
 // The same tree before the resolve step (references, heading ids, numbers, sections).
 fn carve02_parse_only(src: &str) -> usize {
-    let arena = carve2::Arena::new();
-    black_box(carve2::parse_in(src, &arena)).children.len()
+    let arena = carve::Arena::new();
+    black_box(carve::parse_in(src, &arena).expect("parsed tree")).children.len()
 }
 
 fn carve02_html(src: &str) -> usize {
-    carve2::render(src, &carve2::Options::default()).len()
+    carve::render(src, &carve::Options::default()).len()
 }
 
 fn carve01_parse(src: &str) -> usize {
-    black_box(carve::parse(src)).children.len()
+    black_box(carve01::parse(src)).children.len()
 }
 
-// The 0.1 normal path. `carve::to_html` would try `try_layout_html` first.
+// The 0.1 normal path. `carve01::to_html` would try `try_layout_html` first.
 fn carve01_html(src: &str) -> usize {
-    carve::render_html(&carve::parse(src)).expect("parsed tree").len()
+    carve01::render_html(&carve01::parse(src)).expect("parsed tree").len()
 }
 
 fn pulldown_parse(src: &str) -> usize {
@@ -101,8 +101,8 @@ fn jotdown_html(src: &str) -> usize {
 
 fn engines() -> Vec<Engine> {
     vec![
-        Engine { id: "carve02", label: "Carve 0.2", version: "0.2 (carve2, v2/)", lang: "crv", parse: carve02_parse, html: carve02_html },
-        Engine { id: "carve02-parse-only", label: "Carve 0.2, no resolve", version: "0.2 (carve2, v2/)", lang: "crv", parse: carve02_parse_only, html: carve02_html },
+        Engine { id: "carve02", label: "Carve 0.2", version: "0.2 (carve-lang next2)", lang: "crv", parse: carve02_parse, html: carve02_html },
+        Engine { id: "carve02-parse-only", label: "Carve 0.2, no resolve", version: "0.2 (carve-lang next2)", lang: "crv", parse: carve02_parse_only, html: carve02_html },
         Engine { id: "carve01", label: "Carve 0.1", version: "carve-lang 0.1.14", lang: "crv", parse: carve01_parse, html: carve01_html },
         Engine { id: "pulldown-cmark", label: "pulldown-cmark (no tree)", version: "0.13.4", lang: "md", parse: pulldown_parse, html: pulldown_html },
         Engine { id: "comrak", label: "comrak", version: "0.54.0", lang: "md", parse: comrak_parse, html: comrak_html },
@@ -157,10 +157,10 @@ fn counts(html: &str) -> Value {
     Value::Object(map)
 }
 
-fn first_heading_text(doc: &mut carve::Document) -> Option<&mut String> {
+fn first_heading_text(doc: &mut carve01::Document) -> Option<&mut String> {
     doc.children.iter_mut().find_map(|block| match block {
-        carve::BlockNode::Heading(h) => h.children.iter_mut().find_map(|inline| match inline {
-            carve::InlineNode::Text(t) => Some(&mut t.value),
+        carve01::BlockNode::Heading(h) => h.children.iter_mut().find_map(|inline| match inline {
+            carve01::InlineNode::Text(t) => Some(&mut t.value),
             _ => None,
         }),
         _ => None,
@@ -170,17 +170,17 @@ fn first_heading_text(doc: &mut carve::Document) -> Option<&mut String> {
 /// `render_html` takes only the tree; an edit to the tree shows in the HTML.
 fn route_proof() -> Value {
     let src = "# Title\n\nHello *world*.\n";
-    let mut doc = carve::parse(src);
-    let before = carve::render_html(&doc).expect("tree");
+    let mut doc = carve01::parse(src);
+    let before = carve01::render_html(&doc).expect("tree");
     let edited = first_heading_text(&mut doc).map(|text| *text = "TREE-ROUTE".to_string()).is_some();
-    let after = carve::render_html(&doc).expect("tree");
+    let after = carve01::render_html(&doc).expect("tree");
     json!({
         "engine": "Carve 0.1 (Rust)",
         "input": src,
-        "toHtml": carve::to_html(src),
+        "toHtml": carve01::to_html(src),
         "treeRouteHtml": before,
         "treeRouteHtmlAfterTreeEdit": after,
-        "builtFromTree": edited && after.contains("TREE-ROUTE") && before == carve::to_html(src),
+        "builtFromTree": edited && after.contains("TREE-ROUTE") && before == carve01::to_html(src),
     })
 }
 
@@ -203,8 +203,8 @@ fn main() {
         let src = &sources[d][0];
         json!({
             "document": name,
-            "carve01": counts(&carve::render_html(&carve::parse(src)).expect("tree")),
-            "carve02": counts(&carve2::render(src, &carve2::Options::default())),
+            "carve01": counts(&carve01::render_html(&carve01::parse(src)).expect("tree")),
+            "carve02": counts(&carve::render(src, &carve::Options::default())),
         })
     }).collect();
 

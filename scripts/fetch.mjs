@@ -21,7 +21,7 @@ for (const [name, pin] of Object.entries(pins)) {
   const dir = join(ENGINES, name)
   if (!existsSync(join(dir, '.git'))) run('git', ['clone', '--quiet', '--no-checkout', pin.url, dir], ROOT)
   if (existsSync(join(dir, '.git')) && head(dir) !== pin.commit) {
-    run('git', ['fetch', '--quiet', 'origin', pin.branch], dir)
+    run('git', ['fetch', '--quiet', 'origin', pin.ref], dir)
     run('git', ['checkout', '--quiet', '--detach', pin.commit], dir)
   }
   const status = execFileSync('git', ['status', '--porcelain', '--untracked-files=no'], { cwd: dir, encoding: 'utf8' })
@@ -29,7 +29,8 @@ for (const [name, pin] of Object.entries(pins)) {
   console.log(`${name} ${head(dir)}`)
 }
 
-// The 0.1 JavaScript engine is published as compiled dist/; 0.2 (v2/src) runs as TypeScript source.
-const js = join(ENGINES, 'carve-js')
-run('npm', ['ci', '--ignore-scripts', '--no-audit', '--no-fund', '--silent'], js)
-run('npx', ['tsc', '-p', 'tsconfig.json'], js)
+// Carve 0.2 runs from the package build (dist/index.js, its public entry); the 0.1 release compiles to dist/ with tsc.
+run('npm', ['ci', '--no-audit', '--no-fund', '--silent'], join(ENGINES, 'carve-js'))
+const js01 = join(ENGINES, 'carve-js-0.1')
+run('npm', ['ci', '--ignore-scripts', '--no-audit', '--no-fund', '--silent'], js01)
+run('npx', ['tsc', '-p', 'tsconfig.json'], js01)
