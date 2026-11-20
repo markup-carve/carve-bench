@@ -24,8 +24,12 @@ jobs:
         run: |
           for f in scripts/*.mjs engines/js/*.mjs; do node --check "$f"; done
           php -l engines/php/bench.php
+          for f in perf/*.mjs perf/drivers/*.mjs; do node --check "$f"; done
+          php -l perf/drivers/drv-php.php
       - name: Tests
         run: npm test
+      - name: Perf gate verdict tests
+        run: node --test perf/test-gate.mjs
       - name: Tables and charts match the committed results
         run: |
           node scripts/report.mjs results
