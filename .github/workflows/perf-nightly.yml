@@ -1,0 +1,123 @@
+name: perf-nightly
+
+# Perf gate: the engines at `ref` against the pinned release baselines in perf/config.json.
+# Nightly on the default branch, and by hand as the release gate (Actions > perf-nightly > Run workflow).
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Engine ref checked out in carve-js, carve-php and carve-rs
+        default: next2
+      rounds:
+        description: Interleaved measurement rounds
+        default: '3'
+      issue_dry_run:
+        description: On FAIL, print the tracking issue instead of skipping the issue step
+        type: boolean
+        default: false
+  # A pull request that changes the gate runs it too; there the verdict is reported, not enforced.
+  pull_request:
+    paths:
+      - 'perf/**'
+      - '.github/workflows/perf-nightly.yml'
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || inputs.ref || 'next2' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      REF: ${{ inputs.ref || 'next2' }}
+      ROUNDS: ${{ inputs.rounds || '3' }}
+      WORK: perf/.work
+      CARGO_BUILD_JOBS: 4
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+        with:
+          repository: markup-carve/carve-js
+          ref: ${{ env.REF }}
+          path: perf/.work/engines/carve-js
+      - uses: actions/checkout@v6
+        with:
+          repository: markup-carve/carve-php
+          ref: ${{ env.REF }}
+          path: perf/.work/engines/carve-php
+      - uses: actions/checkout@v6
+        with:
+          repository: markup-carve/carve-rs
+          ref: ${{ env.REF }}
+          path: perf/.work/engines/carve-rs
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, mbstring, intl, opcache
+          ini-values: opcache.enable_cli=1, opcache.jit=disable, memory_limit=4G
+          coverage: none
+          tools: composer
+      - uses: dtolnay/rust-toolchain@stable
+
+      # The driver manifest has to exist before the cache step can key on it.
+      - name: Write the Rust driver manifest
+        run: node perf/setup.mjs --js $WORK/engines/carve-js --php $WORK/engines/carve-php --rs $WORK/engines/carve-rs --rs-manifest-only
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: perf/.work/rs -> target
+          cache-on-failure: true
+
+      - name: Build engines, install baselines, generate corpus
+        run: node perf/setup.mjs --js $WORK/engines/carve-js --php $WORK/engines/carve-php --rs $WORK/engines/carve-rs
+
+      - name: Measure
+        run: node perf/orch.mjs $WORK/run.json --rounds "$ROUNDS"
+
+      - name: Compare
+        id: compare
+        run: |
+          set +e
+          node perf/compare.mjs $WORK/run.json --ref "$REF" --md $WORK/report.md --json $WORK/verdict.json
+          code=$?
+          set -e
+          [ "$code" -le 1 ] || exit "$code"
+          echo "pass=$([ "$code" = 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          cat $WORK/report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: perf-report
+          path: |
+            perf/.work/run.json
+            perf/.work/report.md
+            perf/.work/verdict.json
+            perf/.work/setup.json
+          if-no-files-found: ignore
+
+      - name: Tracking issue
+        if: steps.compare.outputs.pass == 'false' && (github.event_name != 'workflow_dispatch' || inputs.issue_dry_run)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY: ${{ github.event_name == 'schedule' && ' ' || '--dry-run' }}
+        run: |
+          node perf/issue.mjs --verdict $WORK/verdict.json --report $WORK/report.md --repo "$GITHUB_REPOSITORY" \
+            --find-previous --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" $DRY
+
+      - name: Verdict
+        if: steps.compare.outputs.pass == 'false' && github.event_name != 'pull_request'
+        run: |
+          echo "perf gate failed on $REF, see the job summary"
+          exit 1

@@ -590,6 +590,51 @@ broader core capability points enabled in each exact configuration. The latter
 make parser scope visible but are not a speed-normalization divisor; see
 `FEATURES.md`.
 
+## Perf gate
+
+`.github/workflows/perf-nightly.yml` measures carve-js, carve-php and carve-rs
+at an engine ref (default `next2`) against the release baselines pinned in
+`perf/config.json` (carve-js 0.1.17 from npm, carve-php 0.1.17 from Packagist,
+carve-lang 0.1.14 from crates.io). It runs nightly at 02:30 UTC and by hand
+from Actions > perf-nightly > Run workflow, which is how a release cut uses it.
+
+Each engine and side runs as one long-lived driver process. Calls are
+interleaved round-robin per cell, so head and baseline see the same machine
+state. Ops: `parse`, `render`, `ext` (every standard extension), `lint`, `fmt`,
+`fix`, `import` (HTML rendered by the baseline) and `include`. Documents: seven
+generated shapes at 2, 8, 32 and 128 KB (`perf/gen.mjs`, deterministic) plus
+the committed real documents in `perf/corpus/real/`.
+
+The run fails when any of these holds:
+
+- a head cell's median is more than 1.1x its baseline cell;
+- a head cell grows from 32 to 128 KB with an exponent above 1.2;
+- a head cell errors where the baseline cell does not.
+
+2 KB cells under 0.5 ms are reported but do not gate. A baseline cell already
+twice as slow as its head stops being sampled after one round, since it cannot
+decide the ratio. The job summary carries the verdict and every cell; the JSON
+run, the Markdown report and `verdict.json` are uploaded as the `perf-report`
+artifact. A failed nightly run creates or updates the issue
+"Perf gate: regression on <ref>" with the failures and the engine commit range
+since the last green run. A dispatched run with `issue_dry_run` prints that
+issue instead. A pull request that changes `perf/` or the workflow runs the
+gate too, reports the verdict without failing on it, and prints the issue as a
+dry run.
+
+Local run, with the three engines checked out side by side:
+
+```bash
+node perf/setup.mjs --js ../carve-js --php ../carve-php --rs ../carve-rs
+node perf/orch.mjs perf/.work/run.json --rounds 3
+node perf/compare.mjs perf/.work/run.json --ref next2 --md perf/.work/report.md --json perf/.work/verdict.json
+node --test perf/test-gate.mjs
+```
+
+After a release, move the baselines in `perf/config.json` to it (and set
+`api` to `0.2` once the baseline speaks the 0.2 API); limits and run sizes
+live there too.
+
 ## Method notes
 
 - Timing is **in-process** (no per-render process startup), so it measures

@@ -50,6 +50,9 @@ jobs:
           node --check scripts/gen-charts.mjs
           node --check scripts/build-rs-engine.mjs
           node --check scripts/measured-sources.mjs
+          for f in perf/*.mjs perf/drivers/*.mjs; do node --check "$f"; done
+          php -l perf/drivers/drv-php.php
+          node --test perf/test-gate.mjs
           node scripts/gen-comparison-corpus.mjs
           node scripts/gen-charts.mjs
           git diff --exit-code -- corpus/comparison
