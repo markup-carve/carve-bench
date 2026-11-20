@@ -16,7 +16,7 @@ const setup = JSON.parse(fs.readFileSync(path.join(work, 'setup.json'), 'utf8'))
 const rounds = +opt('rounds', config.run.rounds), per = +opt('reps', config.run.reps), filter = opt('filter', '')
 const { slowSeconds, settleFactor } = config.run
 const C = setup.corpus, D = setup.drivers, api = setup.baseline.api
-const php = ['-d', 'memory_limit=4G', '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit=disable']
+const php = ['-d', 'memory_limit=4G', '-d', 'opcache.enable_cli=1', '-d', 'opcache.jit=disable', '-d', 'default_socket_timeout=-1']
 const ENGINES = {
   'js-head': ['node', [path.join(H, 'drivers/drv-js.mjs'), '0.2', D.js.head, C]],
   'js-base': ['node', [path.join(H, 'drivers/drv-js.mjs'), api, D.js.base, C]],

@@ -49,7 +49,11 @@ if ($api === '0.2') {
     exit(2);
 }
 
-while (($line = fgets(STDIN)) !== false) {
+// fgets gives up after default_socket_timeout while another driver holds the round; only EOF ends the loop.
+while (($line = fgets(STDIN)) !== false || !feof(STDIN)) {
+    if ($line === false) {
+        continue;
+    }
     $req = json_decode($line, true);
     $f = $ops[$req['op']] ?? null;
     if ($f === null) {

@@ -607,9 +607,14 @@ the committed real documents in `perf/corpus/real/`.
 
 The run fails when any of these holds:
 
-- a head cell's median is more than 1.1x its baseline cell;
-- a head cell grows from 32 to 128 KB with an exponent above 1.2;
-- a head cell errors where the baseline cell does not.
+- a head cell's median is more than 1.1x its baseline cell's;
+- a head cell grows from 32 to 128 KB with an exponent above 1.2 and above
+  the baseline's own exponent, both taken from the fastest samples;
+- a head cell crashes, panics or times out.
+
+A head error that is a deliberate refusal (an exception or `Err` from the
+engine, such as a nesting limit) is listed under the verdict but does not
+gate.
 
 2 KB cells under 0.5 ms are reported but do not gate. A baseline cell already
 twice as slow as its head stops being sampled after one round, since it cannot

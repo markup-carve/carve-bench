@@ -6,7 +6,7 @@ use std::io::{BufRead, Write};
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
-type Op = Box<dyn Fn(&str)>;
+type Op = Box<dyn Fn(&str) -> Result<(), String>>;
 type Reader = Arc<dyn Fn(&str) -> Result<String, ()> + Send + Sync>;
 
 const STANDARD: [&str; 11] = ["carve.cite", "carve.codeGroup", "carve.details", "carve.fencedRender.mermaid",
@@ -18,9 +18,9 @@ macro_rules! ops_02 {
         use $c::api;
         let mut ops: HashMap<&'static str, Op> = HashMap::new();
         let o = api::Options::default();
-        ops.insert("parse", Box::new(move |s| { let _ = api::parse(s, &o); }));
+        ops.insert("parse", Box::new(move |s| api::parse(s, &o).map(drop).map_err(|e| format!("{e:?}"))));
         let o = api::Options::default();
-        ops.insert("render", Box::new(move |s| { let _ = api::render(s, &o); }));
+        ops.insert("render", Box::new(move |s| api::render(s, &o).map(drop).map_err(|e| format!("{e:?}"))));
         let mut host = api::Carve::new();
         for n in STANDARD {
             if let Err(e) = host.enable_standard(n, n != "carve.cite") {
@@ -28,22 +28,23 @@ macro_rules! ops_02 {
             }
         }
         let o = api::Options::default();
-        ops.insert("ext", Box::new(move |s| { host.render(s, &o).unwrap(); }));
+        ops.insert("ext", Box::new(move |s| host.render(s, &o).map(drop).map_err(|e| format!("{e:?}"))));
         let lo = api::LintOptions::default();
-        ops.insert("lint", Box::new(move |s| { let _ = api::lint(s, &lo); }));
+        ops.insert("lint", Box::new(move |s| api::lint(s, &lo).map(drop).map_err(|e| format!("{e:?}"))));
         let w = api::WriteOptions::default();
         let fhost = api::Carve::new();
-        ops.insert("fmt", Box::new(move |s| { fhost.format(s, &w).unwrap(); }));
-        // fix: one lint pass with every fixable rule on (the CLI's fix loop on a clean document).
+        ops.insert("fmt", Box::new(move |s| fhost.format(s, &w).map(drop).map_err(|e| format!("{e:?}"))));
+        // fix: carve-rs has no library fix API; the CLI's apply_fixes is one lint pass with every
+        // fixable rule on when nothing needs fixing, which is the case on the generated shapes.
         let mut fo = api::LintOptions::default();
         for r in $rules["rules"].as_array().into_iter().flatten() {
             if r.get("fix").is_some() {
                 fo.rules.insert(r["id"].as_str().unwrap().into(), "on".into());
             }
         }
-        ops.insert("fix", Box::new(move |s| { let _ = api::lint(s, &fo); }));
+        ops.insert("fix", Box::new(move |s| api::lint(s, &fo).map(drop).map_err(|e| format!("{e:?}"))));
         let io = api::ImportOptions::default();
-        ops.insert("import", Box::new(move |s| { api::import_document(s, &io).unwrap(); }));
+        ops.insert("import", Box::new(move |s| api::import_document(s, &io).map(drop).map_err(|e| format!("{e:?}"))));
         let r2: Reader = $read;
         let resolver: api::Resolver = Arc::new(move |req: &api::Request<'_>| {
             r2(req.path).map(|t| (t.into_bytes(), req.path.to_string())).map_err(|_| api::Cause::NotFound)
@@ -52,7 +53,7 @@ macro_rules! ops_02 {
         inc.file = Some("entry.crv".into());
         let mut io2 = api::Options::default();
         io2.includes = Some(inc);
-        ops.insert("include", Box::new(move |s| { api::render(s, &io2).unwrap(); }));
+        ops.insert("include", Box::new(move |s| api::render(s, &io2).map(drop).map_err(|e| format!("{e:?}"))));
         ops
     }};
 }
@@ -60,12 +61,12 @@ macro_rules! ops_02 {
 #[cfg(feature = "base-api-01")]
 fn base_ops(_read: Reader, _rules: &serde_json::Value) -> HashMap<&'static str, Op> {
     let mut ops: HashMap<&'static str, Op> = HashMap::new();
-    ops.insert("parse", Box::new(|s| { let _ = base::parse(s); }));
-    ops.insert("render", Box::new(|s| { let _ = base::to_html(s); }));
-    ops.insert("lint", Box::new(|s| { let _ = base::lint_carve(s); }));
-    ops.insert("fmt", Box::new(|s| { let _ = base::to_carve(s); }));
+    ops.insert("parse", Box::new(|s| { let _ = base::parse(s); Ok(()) }));
+    ops.insert("render", Box::new(|s| { let _ = base::to_html(s); Ok(()) }));
+    ops.insert("lint", Box::new(|s| { let _ = base::lint_carve(s); Ok(()) }));
+    ops.insert("fmt", Box::new(|s| { let _ = base::to_carve(s); Ok(()) }));
     let ho = base::HtmlImportOptions::default();
-    ops.insert("import", Box::new(move |s| { let _ = base::html_to_carve(s, &ho); }));
+    ops.insert("import", Box::new(move |s| { let _ = base::html_to_carve(s, &ho); Ok(()) }));
     ops
 }
 
@@ -104,13 +105,14 @@ fn main() {
         let reply = match (ops.get(op), read(req["file"].as_str().unwrap())) {
             (None, _) => serde_json::json!({ "err": "unsupported" }),
             (_, Err(())) => serde_json::json!({ "err": "unreadable" }),
-            (Some(f), Ok(s)) => match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            (Some(f), Ok(s)) => match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| -> Result<Vec<u64>, String> {
                 for _ in 0..warm {
-                    f(&s);
+                    f(&s)?;
                 }
-                (0..reps).map(|_| { let t = Instant::now(); f(&s); t.elapsed().as_nanos() as u64 }).collect::<Vec<_>>()
+                (0..reps).map(|_| { let t = Instant::now(); f(&s)?; Ok(t.elapsed().as_nanos() as u64) }).collect()
             })) {
-                Ok(ns) => serde_json::json!({ "ns": ns }),
+                Ok(Ok(ns)) => serde_json::json!({ "ns": ns }),
+                Ok(Err(e)) => serde_json::json!({ "err": e.chars().take(200).collect::<String>() }),
                 Err(_) => serde_json::json!({ "err": "panic" }),
             },
         };

@@ -63,11 +63,16 @@ test('superlinear growth from 32 to 128 KB fails', () => {
   assert.equal(r.verdict.failures[0].value.toFixed(2), '1.50')
 })
 
-test('a head error fails unless the baseline errors too', () => {
-  const r = compare('err', { ...ok, 'fmt|real-conformance.crv|php-head': 'boom', 'fmt|real-conformance.crv|php-base': 'boom too', 'import|prose-32k.crv|js-head': 'timeout', 'import|prose-32k.crv|js-base': 3 })
+test('a head crash, panic or timeout fails; a refusal is only reported', () => {
+  const r = compare('err', { ...ok, 'fmt|real-conformance.crv|php-head': 'ImportInputError: nesting', 'fmt|real-conformance.crv|php-base': 2, 'import|prose-32k.crv|js-head': 'timeout', 'import|prose-32k.crv|js-base': 3, 'render|prose-32k.crv|rs-head': 'panic' })
   assert.equal(r.status, 1)
-  assert.deepEqual(r.verdict.failures.map(f => [f.check, f.engine, f.op]), [['error', 'js', 'import']])
-  assert.equal(r.verdict.notes.length, 1)
+  assert.deepEqual(r.verdict.failures.map(f => [f.check, f.engine, f.op]), [['error', 'rs', 'render'], ['error', 'js', 'import']])
+  assert.deepEqual(r.verdict.notes, ['php fmt conformance: head errors, baseline does not (ImportInputError: nesting)'])
+})
+
+test('growth the baseline shares does not gate', () => {
+  const r = compare('shared-growth', { ...ok, 'fix|lists-32k.crv|php-head': 10, 'fix|lists-128k.crv|php-head': 80, 'fix|lists-32k.crv|php-base': 20, 'fix|lists-128k.crv|php-base': 200 })
+  assert.equal(r.status, 0)
 })
 
 test('the issue dry run names the title and the engine commit range', () => {
