@@ -594,7 +594,7 @@ make parser scope visible but are not a speed-normalization divisor; see
 
 `.github/workflows/perf-nightly.yml` measures carve-js, carve-php and carve-rs
 at an engine ref (default `next2`) against the release baselines pinned in
-`perf/config.json` (carve-js 0.1.17 from npm, carve-php 0.1.17 from Packagist,
+`perf/config.json` (carve-js 0.1.17 from npm, carve-php 0.1.18 from Packagist,
 carve-lang 0.1.14 from crates.io). It runs nightly at 02:30 UTC and by hand
 from Actions > perf-nightly > Run workflow, which is how a release cut uses it.
 
