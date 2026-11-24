@@ -19,7 +19,7 @@ if (!['js', 'php', 'rs'].includes(engine) || !checkout) throw new Error(usage)
 const ops = opt('command')
 for (const op of ops ? ops.split(',') : []) if (!OPS.includes(op)) throw new Error(`unknown command ${op}; one of ${OPS.join(', ')}`)
 const work = path.resolve(opt('work') || path.join(H, '.work', `cells-${engine}`))
-const node = (script, args) => execFileSync(process.execPath, [path.join(H, script), ...args], { stdio: ['ignore', 'inherit', 'inherit'] })
+const node = (script, args) => execFileSync(process.execPath, [path.join(H, script), ...args], { stdio: ['ignore', 2, 2] })
 
 node('setup.mjs', [`--${engine}`, checkout, '--work', work, '--keep-deps', ...(flag('no-build') ? ['--no-engine-build'] : [])])
 const out = path.join(work, 'run.json')
