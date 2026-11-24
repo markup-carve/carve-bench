@@ -1,69 +1,18 @@
 // Verdict for a perf run: node perf/compare.mjs <run.json> [--ref name] [--md out.md] [--json verdict.json]
-// FAIL when a head cell's median is more than limits.ratio x its baseline cell's, when a head cell
-// grows from 32 to 128 KB with an exponent above limits.exponent and above the baseline's own
-// exponent (fastest samples, so one slow call cannot fake growth), or when a head cell crashes,
-// panics or times out. A head error the baseline does not raise is reported, not gated: engines
-// refuse some input on purpose. 2 KB cells under limits.minMs are reported but do not gate.
-// Exit code 1 on FAIL.
+// The checks are in gate.mjs. Exit code 1 on FAIL.
 import fs from 'node:fs'
+import { ENG, verdict } from './gate.mjs'
 const argv = process.argv.slice(2)
 const opt = name => { const i = argv.indexOf(`--${name}`); return i >= 0 ? argv[i + 1] : undefined }
 const file = argv[0]
 if (!file || file.startsWith('--')) throw new Error('usage: compare.mjs <run.json> [--md out.md] [--json verdict.json]')
 const run = JSON.parse(fs.readFileSync(file, 'utf8'))
 const { ratio: RATIO, exponent: EXP, minMs: MIN } = run.config.limits
-const ENG = ['js', 'php', 'rs']
-const med = a => { const s = [...a].sort((x, y) => x - y); return s[s.length >> 1] / 1e6 }
-const cell = (op, f, e) => run.cells[`${op}|${f}|${e}`]
-const ms = c => c && !c.err && c.ns.length ? med(c.ns) : undefined
-const minMs = c => c && !c.err && c.ns.length ? Math.min(...c.ns) / 1e6 : undefined
-const realErr = c => c && c.err && c.err !== 'unsupported' ? c.err : undefined
-const crash = e => /^(panic|timeout|driver died)$/.test(e)
 const doc = f => f.replace(/\.crv$/, '').replace(/^real-/, '')
 const fmt = v => v === undefined ? '-' : v >= 100 ? v.toFixed(0) : v >= 10 ? v.toFixed(1) : v.toFixed(2)
-const keys = [...new Set(Object.values(run.cells).map(c => `${c.op}|${c.file}`))]
-const OPS = ['parse', 'render', 'ext', 'lint', 'fmt', 'fix', 'import', 'include']
-keys.sort((a, b) => { const [oa, fa] = a.split('|'), [ob, fb] = b.split('|'); return OPS.indexOf(oa) - OPS.indexOf(ob) || fa.localeCompare(fb, 'en', { numeric: true }) })
-const failures = [], notes = [], rows = []
-let compared = 0
-for (const k of keys) {
-  const [op, f] = k.split('|')
-  const row = { op, file: f }
-  for (const e of ENG) {
-    const h = cell(op, f, `${e}-head`), b = cell(op, f, `${e}-base`)
-    const hm = ms(h), bm = ms(b)
-    row[e] = { head: hm, base: bm, ratio: hm !== undefined && bm !== undefined ? hm / bm : undefined }
-    const he = realErr(h)
-    if (he) {
-      if (crash(he)) failures.push({ check: 'error', engine: e, op, doc: doc(f), detail: he })
-      else notes.push(`${e} ${op} ${doc(f)}: head errors${realErr(b) ? ', baseline too' : ', baseline does not'} (${he})`)
-      continue
-    }
-    if (row[e].ratio === undefined) continue
-    compared++
-    if (/-2k\.crv$/.test(f) && hm < MIN) { row[e].quiet = true; continue }
-    if (row[e].ratio > RATIO) failures.push({ check: 'ratio', engine: e, op, doc: doc(f), head: hm, base: bm, value: row[e].ratio })
-  }
-  rows.push(row)
-}
-const growth = []
-for (const k of keys) {
-  const [op, f] = k.split('|')
-  if (!/-32k\.crv$/.test(f)) continue
-  const big = f.replace('-32k.crv', '-128k.crv')
-  for (const e of ENG) {
-    const s = minMs(cell(op, f, `${e}-head`)), l = minMs(cell(op, big, `${e}-head`))
-    if (s === undefined || l === undefined) continue
-    const x = Math.log(l / s) / Math.log(4)
-    const bs = minMs(cell(op, f, `${e}-base`)), bl = minMs(cell(op, big, `${e}-base`))
-    const bx = bs !== undefined && bl !== undefined ? Math.log(bl / bs) / Math.log(4) : undefined
-    growth.push({ engine: e, op, shape: f.replace('-32k.crv', ''), head32: s, head128: l, exp: x, baseExp: bx })
-    if (x > EXP && !(bx >= x)) failures.push({ check: 'growth', engine: e, op, doc: f.replace('-32k.crv', '-{32,128}k'), head: l, base: s, value: x, baseExp: bx })
-  }
-}
-const pass = failures.length === 0
+const { pass, failures, notes, rows, growth, compared } = verdict(run)
 const S = run.setup, short = c => c.slice(0, 8), ref = opt('ref') || 'local'
-const heads = ENG.map(e => `carve-${e} \`${short(S.head[e].commit)}\``).join(', ')
+const heads = ENG.filter(e => S.head[e]).map(e => `carve-${e} \`${short(S.head[e].commit)}\``).join(', ')
 const L = []
 L.push(`# Perf gate: ${pass ? 'PASS' : 'FAIL'} on ${ref}`, '')
 L.push(`Head: ${heads}. Baseline ${S.baseline.label}: carve-js ${S.baseline.js}, carve-php ${S.baseline.php}, carve-rs ${S.baseline.rs}.`, '')
