@@ -653,7 +653,9 @@ node perf/cells.mjs --engine carve-rs --path ../carve-rs --command import,fmt --
 `--command` takes ops from the list above, `--doc` takes a shape (`table`,
 `lists`, ...) or a real document (`conformance`); a shape runs at every size,
 so the 32 to 128 KB growth check is included. It prints one line per cell
-(ratio or growth, value, limit, PASS or FAIL) and exits 1 on any FAIL. An
+(ratio or growth, value, limit, PASS or FAIL) and exits 1 on any FAIL, or 2
+when no selected cell can be gated (the 0.1 baseline has no `fix`, `ext` or
+`include`, so those gate only on growth). An
 existing `node_modules` or `vendor` in the checkout is kept; carve-js is
 rebuilt unless `--no-build` is given. Wall-clock cells on a loaded machine
 are noisy: a ratio near the limit needs a rerun before it counts either way.
