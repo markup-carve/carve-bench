@@ -636,8 +636,8 @@ node perf/compare.mjs perf/.work/run.json --ref next2 --md perf/.work/report.md 
 node --test perf/test-gate.mjs
 ```
 
-Cells whose first call takes over 100 ms collect 7 samples over the rounds
-(`run.slowMinSamples`); faster cells take 3 per round.
+Cells whose first call takes over 100 ms take one sample in the first round
+and reach 7 by the last (`run.slowMinSamples`); faster cells take 3 per round.
 
 ### bench-cells: gate cells against a local checkout
 

@@ -70,8 +70,10 @@ for (let r = 0; r < rounds; r++) {
       if (a.err) { skip.add(key); res.cells[key] = { op: c.op, file: c.src, engine: e, err: a.err, ns: res.cells[key]?.ns || [] }; continue }
       const cell = res.cells[key] ??= { op: c.op, file: c.src, engine: e, ns: [] }
       cell.ns.push(...a.ns)
-      // Slow cells take one call per round, topped up so the last round ends at slowMinSamples.
-      const extra = a.ns[0] > slowSeconds * 1e9 ? Math.ceil(slowMinSamples * (r + 1) / rounds) - cell.ns.length : per - 1
+      // Slow cells take one call in round 0 (so the settle rule below can drop a slow base cheaply),
+      // then are topped up so the last round ends at slowMinSamples.
+      const target = rounds < 2 ? slowMinSamples : 1 + Math.ceil((slowMinSamples - 1) * r / (rounds - 1))
+      const extra = a.ns[0] > slowSeconds * 1e9 ? target - cell.ns.length : per - 1
       if (extra < 1) continue
       a = await drivers[e].ask({ op: c.op, file: c.file, reps: extra, warm: 0 })
       if (a.err) { skip.add(key); cell.err = a.err } else cell.ns.push(...a.ns)
