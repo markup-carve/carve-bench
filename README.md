@@ -636,6 +636,28 @@ node perf/compare.mjs perf/.work/run.json --ref next2 --md perf/.work/report.md 
 node --test perf/test-gate.mjs
 ```
 
+Cells whose first call takes over 100 ms collect 7 samples over the rounds
+(`run.slowMinSamples`); faster cells take 3 per round.
+
+### bench-cells: gate cells against a local checkout
+
+`perf/cells.mjs` runs a subset of the gate against one local engine checkout
+instead of the `next2` head: same setup, drivers, warmup, rounds, sampling,
+baselines, limits and verdict (`perf/gate.mjs`, shared with `orch.mjs` and
+`compare.mjs`). Only the engine, the ops and the documents are narrowed.
+
+```bash
+node perf/cells.mjs --engine carve-rs --path ../carve-rs --command import,fmt --doc table,prose
+```
+
+`--command` takes ops from the list above, `--doc` takes a shape (`table`,
+`lists`, ...) or a real document (`conformance`); a shape runs at every size,
+so the 32 to 128 KB growth check is included. It prints one line per cell
+(ratio or growth, value, limit, PASS or FAIL) and exits 1 on any FAIL. An
+existing `node_modules` or `vendor` in the checkout is kept; carve-js is
+rebuilt unless `--no-build` is given. Wall-clock cells on a loaded machine
+are noisy: a ratio near the limit needs a rerun before it counts either way.
+
 After a release, move the baselines in `perf/config.json` to it (and set
 `api` to `0.2` once the baseline speaks the 0.2 API); limits and run sizes
 live there too.
