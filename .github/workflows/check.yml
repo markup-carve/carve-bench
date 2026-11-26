@@ -1,0 +1,36 @@
+name: check
+
+# Checks the harness scripts and that the committed tables and charts are what the committed results give.
+# It measures nothing: CI timings are noise, and the numbers come from `npm run bench` on one machine.
+on:
+  push:
+    branches: [main, next2]
+  pull_request:
+    branches: [main, next2]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Syntax
+        run: |
+          for f in scripts/*.mjs engines/js/*.mjs; do node --check "$f"; done
+          php -l engines/php/bench.php
+          for f in perf/*.mjs perf/drivers/*.mjs; do node --check "$f"; done
+          php -l perf/drivers/drv-php.php
+      - name: Tests
+        run: npm test
+      - name: Perf gate verdict tests
+        run: node --test perf/test-gate.mjs
+      - name: Tables and charts match the committed results
+        run: |
+          node scripts/report.mjs results
+          git diff --exit-code -- README.md results charts
