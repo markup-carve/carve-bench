@@ -261,7 +261,7 @@ The same in all three languages:
   load average at the start and end of the run and of every lane (`results/environment.json` and
   the `load` field of each lane file).
 
-Engines are pinned by commit in [`pins.json`](pins.json): Carve 0.2 at the `next2` heads of carve-js,
+Engines are pinned by commit in [`pins.json`](pins.json): Carve 0.2 at commits on `main` of carve-js,
 carve-rs and carve-php, Carve 0.1 at their latest 0.1 release tags. `scripts/fetch.mjs` checks them
 out into `.engines/` (not committed) and builds both JavaScript engines. The Rust lane takes Carve
 0.1 from crates.io (`carve-lang =0.1.14`, the release the pin names): two path dependencies with one
@@ -284,7 +284,7 @@ A full run takes about 20 minutes. Set `CARGO_TARGET_DIR` to reuse a Rust build 
 ## Perf gate
 
 `.github/workflows/perf-nightly.yml` measures carve-js, carve-php and carve-rs
-at an engine ref (default `next2`) against the release baselines pinned in
+at an engine ref (default `main`) against the release baselines pinned in
 `perf/config.json` (carve-js 0.1.17 from npm, carve-php 0.1.18 from Packagist,
 carve-lang 0.1.14 from crates.io). It runs nightly at 02:30 UTC and by hand
 from Actions > perf-nightly > Run workflow, which is how a release cut uses it.
@@ -323,7 +323,7 @@ Local run, with the three engines checked out side by side:
 ```bash
 node perf/setup.mjs --js ../carve-js --php ../carve-php --rs ../carve-rs
 node perf/orch.mjs perf/.work/run.json --rounds 3
-node perf/compare.mjs perf/.work/run.json --ref next2 --md perf/.work/report.md --json perf/.work/verdict.json
+node perf/compare.mjs perf/.work/run.json --ref main --md perf/.work/report.md --json perf/.work/verdict.json
 node --test perf/test-gate.mjs
 ```
 
@@ -333,7 +333,7 @@ and reach 7 by the last (`run.slowMinSamples`); faster cells take 3 per round.
 ### bench-cells: gate cells against a local checkout
 
 `perf/cells.mjs` runs a subset of the gate against one local engine checkout
-instead of the `next2` head: same setup, drivers, warmup, rounds, sampling,
+instead of the `main` head: same setup, drivers, warmup, rounds, sampling,
 baselines, limits and verdict (`perf/gate.mjs`, shared with `orch.mjs` and
 `compare.mjs`). Only the engine, the ops and the documents are narrowed.
 

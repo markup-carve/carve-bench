@@ -9,7 +9,7 @@ on:
     inputs:
       ref:
         description: Engine ref checked out in carve-js, carve-php and carve-rs
-        default: next2
+        default: main
       rounds:
         description: Interleaved measurement rounds
         default: '3'
@@ -29,7 +29,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || inputs.ref || 'next2' }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || inputs.ref || 'main' }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      REF: ${{ inputs.ref || 'next2' }}
+      REF: ${{ inputs.ref || 'main' }}
       ROUNDS: ${{ inputs.rounds || '3' }}
       WORK: perf/.work
       CARGO_BUILD_JOBS: 4
