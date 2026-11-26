@@ -1,10 +1,12 @@
-// node --test perf/test-gate.mjs: the verdict fails on each check it claims, and the issue step's dry run.
+// node --test perf/test-gate.mjs: the verdict fails on each check it claims, the issue step's dry run,
+// and bench-cells' subset selection and verdict.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { OPS, cells, shape, verdict } from './gate.mjs'
 const H = path.dirname(new URL(import.meta.url).pathname)
 const config = JSON.parse(fs.readFileSync(path.join(H, 'config.json'), 'utf8'))
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'perf-gate-test-'))
@@ -86,4 +88,38 @@ test('the issue dry run names the title and the engine commit range', () => {
   assert.match(out.stdout, /carve-rs: \[`eeeeeeee\.\.\.cccccccc`\]\(https:\/\/github\.com\/markup-carve\/carve-rs\/compare\/e{40}\.\.\.c{40}\)/)
   assert.match(out.stdout, /carve-js: `aaaaaaaa`, unchanged since the last green run/)
   assert.match(out.stdout, /\| ratio \| rs \| lint \| prose-32k \|/)
+})
+
+test('bench-cells selects the cells the nightly runs for the chosen ops and documents', () => {
+  const files = ['includes-2k.crv', 'real-conformance.crv', 'table-2k.crv', 'table-128k.crv', 'prose-2k.crv']
+  assert.deepEqual(cells(files, { ops: ['fmt', 'import', 'include'], docs: ['table', 'includes'] }).map(c => `${c.op}|${c.file}`),
+    ['include|includes-2k.crv', 'fmt|table-128k.crv', 'import|html/table-128k.html', 'fmt|table-2k.crv', 'import|html/table-2k.html'])
+  assert.deepEqual(cells(files, { docs: ['conformance'] }).map(c => c.op), OPS.filter(o => o !== 'include'))
+  assert.equal(cells(files).length, 2 + 4 * 7)
+})
+
+test('a subset run gets the full run\'s verdict for its cells', () => {
+  const files = ['table-2k.crv', 'table-32k.crv', 'table-128k.crv', 'nesting-32k.crv', 'nesting-128k.crv', 'prose-2k.crv', 'real-conformance.crv']
+  const full = {}
+  let i = 0
+  for (const c of cells(files)) for (const e of ['js', 'php', 'rs']) {
+    // Deterministic spread: some cells over the ratio limit, quiet 2 KB cells, superlinear growth, one crash.
+    const base = /128k/.test(c.src) ? 40 : /32k/.test(c.src) ? 10 : /-2k/.test(c.src) ? 0.3 : 3
+    const head = base * [0.9, 1.05, 1.3, 1.6][(i++) % 4] * (c.op === 'fix' && /128k/.test(c.src) ? 1.8 : 1)
+    full[`${c.op}|${c.src}|${e}-base`] = base
+    full[`${c.op}|${c.src}|${e}-head`] = c.op === 'lint' && e === 'php' && /conformance/.test(c.src) ? 'panic' : head
+  }
+  const all = JSON.parse(fs.readFileSync(runFile('full', full), 'utf8'))
+  const whole = verdict(all)
+  assert.ok(['ratio', 'growth', 'error'].every(k => whole.failures.some(f => f.check === k)))
+  const pick = [['js', ['fix', 'fmt'], ['nesting', 'table']], ['php', ['lint'], ['conformance', 'prose']], ['rs', undefined, ['table']], ['js', ['import'], undefined]]
+  for (const [engine, ops, docs] of pick) {
+    const keys = new Set(cells(files, { ops, docs }).map(c => `${c.op}|${c.src}|`))
+    const sub = { ...all, cells: Object.fromEntries(Object.entries(all.cells).filter(([k]) => keys.has(k.replace(/[^|]*$/, '')) && k.split('|')[2].startsWith(`${engine}-`))) }
+    const inSub = f => f.engine === engine && (!ops || ops.includes(f.op)) && (!docs || docs.includes(shape(f.doc.replace(/-\{32,128\}k$/, '-32k'))))
+    const got = verdict(sub)
+    assert.deepEqual(got.failures, whole.failures.filter(inSub), `${engine} ${ops} ${docs}`)
+    assert.ok(got.failures.length > 0, `${engine} ${ops} ${docs} exercises a failure`)
+    assert.equal(got.pass, got.failures.length === 0)
+  }
 })

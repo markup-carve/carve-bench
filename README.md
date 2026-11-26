@@ -285,7 +285,7 @@ A full run takes about 20 minutes. Set `CARGO_TARGET_DIR` to reuse a Rust build 
 
 `.github/workflows/perf-nightly.yml` measures carve-js, carve-php and carve-rs
 at an engine ref (default `next2`) against the release baselines pinned in
-`perf/config.json` (carve-js 0.1.17 from npm, carve-php 0.1.17 from Packagist,
+`perf/config.json` (carve-js 0.1.17 from npm, carve-php 0.1.18 from Packagist,
 carve-lang 0.1.14 from crates.io). It runs nightly at 02:30 UTC and by hand
 from Actions > perf-nightly > Run workflow, which is how a release cut uses it.
 
@@ -326,6 +326,30 @@ node perf/orch.mjs perf/.work/run.json --rounds 3
 node perf/compare.mjs perf/.work/run.json --ref next2 --md perf/.work/report.md --json perf/.work/verdict.json
 node --test perf/test-gate.mjs
 ```
+
+Cells whose first call takes over 100 ms take one sample in the first round
+and reach 7 by the last (`run.slowMinSamples`); faster cells take 3 per round.
+
+### bench-cells: gate cells against a local checkout
+
+`perf/cells.mjs` runs a subset of the gate against one local engine checkout
+instead of the `next2` head: same setup, drivers, warmup, rounds, sampling,
+baselines, limits and verdict (`perf/gate.mjs`, shared with `orch.mjs` and
+`compare.mjs`). Only the engine, the ops and the documents are narrowed.
+
+```bash
+node perf/cells.mjs --engine carve-rs --path ../carve-rs --command import,fmt --doc table,prose
+```
+
+`--command` takes ops from the list above, `--doc` takes a shape (`table`,
+`lists`, ...) or a real document (`conformance`); a shape runs at every size,
+so the 32 to 128 KB growth check is included. It prints one line per cell
+(ratio or growth, value, limit, PASS or FAIL) and exits 1 on any FAIL, or 2
+when no selected cell can be gated (the 0.1 baseline has no `fix`, `ext` or
+`include`, so those gate only on growth). An
+existing `node_modules` or `vendor` in the checkout is kept; carve-js is
+rebuilt unless `--no-build` is given. Wall-clock cells on a loaded machine
+are noisy: a ratio near the limit needs a rerun before it counts either way.
 
 After a release, move the baselines in `perf/config.json` to it (and set
 `api` to `0.2` once the baseline speaks the 0.2 API); limits and run sizes
