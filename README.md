@@ -378,14 +378,23 @@ live there too.
   parser that `carve::parse` tries first. It returns the same full tree.
 - **The committed results are the run of 16 November**, taken before the engines renamed their 0.2
   code to the package root. Its Carve 0.1 was the code outside `v2/` at the `next2` commits named in
-  `results/environment.json`. The pins now name the renamed `next2` heads and the 0.1 releases
-  (carve-js 0.1.17, carve-rs 0.1.14, carve-php 0.1.17); the next `npm run bench` measures those.
+  `results/environment.json`. The pins now name `main` heads of the three engines and the 0.1
+  releases (carve-js 0.1.17, carve-rs 0.1.14, carve-php 0.1.18); the next `npm run bench` measures
+  those.
 
 ## What this branch removed
 
 Everything of the 0.1 benchmark: the fast-path, borrowed-route and PHP tier rows and harnesses, the
 tier and history reports, `reports/`, the comparison and feature documents, the 0.1 corpus and
-charts, the HTML import comparison, and the benchmark site with its Pages workflow (it is fed by
-the 0.1 history files; rebuilding it on the new result files was not done). The 0.1 workflows are
-replaced by `check`, which measures nothing: it checks the scripts and that the committed tables and
-charts follow from the committed results.
+charts, and the HTML import comparison. The 0.1 workflows are replaced by `check`, which measures
+nothing: it checks the scripts and that the committed tables and charts follow from the committed
+results.
+
+## Benchmark site
+
+`node scripts/site/build.mjs` builds the site into `_site` from `results/` and `charts/`: Carve 0.2
+is the landing page, and the 0.1 site is kept as an archive under `0.1/`. The archive is built by
+the 0.1 site builder from a checkout of the `0.1` branch, taken from `CARVE_BENCH_ARCHIVE` or
+`.archive-0.1/`; without one, `0.1/` holds a page that links to the branch. See
+[`site/README.md`](site/README.md) for the browser tests. GitHub Pages still publishes the `0.1`
+branch until Carve 0.2.0 is released.
