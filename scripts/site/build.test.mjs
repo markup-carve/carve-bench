@@ -12,7 +12,9 @@ test('evidence carries every committed cell with the MB/s the report prints', ()
   const { lanes, evidence } = collect(root)
   assert.equal(evidence.lanes.length, lanes.length)
   for (const [index, lane] of evidence.lanes.entries()) {
-    assert.equal(lane.rows.length, lanes[index].data.cells.length)
+    const parseOnly = lanes[index].data.cells.filter((cell) => cell.phase === 'html' && cell.engine.endsWith('-parse-only')).length
+    assert.equal(lane.rows.length, lanes[index].data.cells.length - parseOnly)
+    assert.ok(!lane.rows.some((row) => row.phase === 'html' && row.engine.endsWith('-parse-only')))
     for (const row of lane.rows) assert.ok(row.mbps > 0 && Number.isFinite(row.medianUs))
     assert.ok(lane.ratios.every((item) => item.ratio > 0))
   }

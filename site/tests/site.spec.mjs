@@ -13,7 +13,7 @@ test('language, measure and document filters show the measured rows', async ({ p
       const name = lane.documents.at(-1)
       await page.getByLabel('Document').selectOption(name)
       const rows = lane.rows.filter(row => row.phase === phase && row.document === name)
-      await expect(page.locator('.bars li')).toHaveCount(lane.engines.length)
+      await expect(page.locator('.bars li')).toHaveCount(rows.length)
       for (const row of rows) await expect(page.locator('.bars')).toContainText(`${row.mbps.toFixed(1)} MB/s`)
     }
   }

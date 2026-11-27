@@ -18,6 +18,8 @@ const CHARTS = [
 ]
 
 export const escape = (text) => String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
+// A parse-only row renders with the same function as its full row, so it has no HTML measure of its own.
+const measured = (engine, phase) => phase !== 'html' || !engine.id.endsWith('-parse-only')
 const fixed = (value, digits = 1) => value.toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits })
 
 /** Every number the page shows, from the lane files; the committed RESULTS.md must agree with it. */
@@ -38,7 +40,7 @@ export function collect(root) {
       runtime: lane.data.runtime,
       documents: names(lane),
       engines: lane.data.engines.map(({ id, label, version }) => ({ id, label, version })),
-      rows: lane.data.engines.flatMap((engine) => names(lane).flatMap((document) => PHASES.map((phase) => {
+      rows: lane.data.engines.flatMap((engine) => names(lane).flatMap((document) => PHASES.filter((phase) => measured(engine, phase)).map((phase) => {
         const measured = cell(lane, engine.id, document, phase)
         assert.ok(measured, `Missing cell ${lane.id} ${engine.id} ${document} ${phase}`)
         return { engine: engine.id, document, phase, medianUs: measured.medianUs, mbps: Number(mbps(measured).toFixed(2)) }
@@ -67,7 +69,7 @@ function figure(root, name) {
 function throughputTable(lane, phase) {
   const documents = names(lane)
   const head = `<tr><th scope="col">${escape(`${lane.title}: ${PHASE_TITLE[phase]}, MB/s`)}</th>${documents.map((d) => `<th scope="col">${escape(d)}</th>`).join('')}</tr>`
-  const rows = lane.data.engines.map((engine) => `<tr${engine.id.startsWith('carve02') ? ' class="carve"' : ''}><th scope="row">${escape(engine.label)}</th>${documents.map((d) => `<td>${fixed(mbps(cell(lane, engine.id, d, phase)))}</td>`).join('')}</tr>`)
+  const rows = lane.data.engines.filter((engine) => measured(engine, phase)).map((engine) => `<tr${engine.id.startsWith('carve02') ? ' class="carve"' : ''}><th scope="row">${escape(engine.label)}</th>${documents.map((d) => `<td>${fixed(mbps(cell(lane, engine.id, d, phase)))}</td>`).join('')}</tr>`)
   return `<div class="table-scroll language-table" data-language="${escape(LANGUAGE[lane.id] ?? lane.title)}"><table><thead>${head}</thead><tbody>${rows.join('')}</tbody></table></div>`
 }
 
@@ -120,7 +122,7 @@ export function render(root, { lanes, environment }, revision) {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Carve 0.2 engine benchmarks against Carve 0.1 and peer libraries, with downloadable charts and raw samples."><title>Carve benchmarks</title><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>
 <body><a class="skip" href="#main">Skip to results</a><header><a class="brand" href="./">Carve / benchmarks</a><nav aria-label="Sections"><a href="#engines">Carve 0.2</a><a href="#versus">0.2 against 0.1</a><a href="#lanes">Per language</a><a href="#method">Method</a><a href="0.1/">0.1 archive</a></nav></header>
-<main id="main"><section class="intro"><p class="eyebrow">Carve 0.2 · normal path</p><h1>How fast is Carve 0.2?</h1><p>The three Carve 0.2 engines measured against their Carve 0.1 engines and against the peers of their own language. Every engine parses to its full tree and renders HTML from it; no fast path is measured.</p><p>Carve 0.2 is ${fixed(Math.min(...ratios), 1)}x to ${fixed(Math.max(...ratios), 1)}x as fast as Carve 0.1 across every lane, document and measure.</p><p class="run">Run of ${escape(day)} on ${escape(environment.cpu)} (${environment.cores} threads). Higher MB/s is better.</p></section>
+<main id="main"><section class="intro"><p class="eyebrow">Carve 0.2 · normal path</p><h1>How fast is Carve 0.2?</h1><p>The three Carve 0.2 engines measured against their Carve 0.1 engines and against the peers of their own language. Each Carve engine parses to its full tree and renders HTML from it; no Carve fast path is measured. Three peers build no tree (markdown-it, pulldown-cmark, jotdown); their labels say so.</p><p>Carve 0.2 is ${fixed(Math.min(...ratios), 1)}x to ${fixed(Math.max(...ratios), 1)}x as fast as Carve 0.1 across every lane, document and measure.</p><p class="run">Run of ${escape(day)} on ${escape(environment.cpu)} (${environment.cores} threads). Higher MB/s is better.</p></section>
 <section id="engines"><p class="eyebrow">Carve 0.2</p><h2>Throughput by language</h2><p>Pick a language, a measure and a document to compare Carve 0.2 with Carve 0.1 and the peers of that language. The chart under it sets the three Carve 0.2 engines side by side, parse plus HTML.</p>
 <div class="chart-controls" id="filter-controls" hidden><label>Language <select id="lane">${laneOptions}</select></label><label>Measure <select id="phase"><option value="html">${PHASE_TITLE.html}</option><option value="parse">${PHASE_TITLE.parse}</option></select></label><label>Document <select id="document">${documentOptions}</select></label></div>
 <p id="filter-status" class="visually-hidden" role="status"></p><div id="interactive-chart"></div>${figure(root, CHARTS[0][0])}</section>
